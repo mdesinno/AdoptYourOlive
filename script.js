@@ -292,6 +292,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // NUOVA LOGICA PER GESTIRE I FORM DI CONTATTO E NEWSLETTER CON NETLIFY
     // ===================================================================
     const handleNetlifyFormSubmit = async (event) => {
+         // ▼▼▼ AGGIUNGI QUESTA RIGA QUI ▼▼▼
+    document.getElementById('form-language').value = currentLang;
         event.preventDefault(); // Impedisce il ricaricamento della pagina
 
         const form = event.target;
