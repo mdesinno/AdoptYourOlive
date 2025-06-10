@@ -1445,6 +1445,24 @@ background-color: #f4f8f3;
     box-shadow: 0 6px 15px rgba(107, 142, 35, 0.3);
 }
 
+.form-success-message {
+    background-color: #e9f5e2;
+    color: #4a5a43;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+}
+
+.form-success-message.visible {
+    opacity: 1;
+    max-height: 100px;
+}
+
 .contact-details-container {
     display: flex;
     flex-direction: column;

@@ -88,7 +88,6 @@ async function setLanguage(lang) {
     checkFormValidity();
 }
 
-// ===== FUNZIONE AUTOCOMPLETE MODIFICATA =====
 function initAutocomplete() {
     const addressInput = document.getElementById('address');
     if (!addressInput) {
@@ -98,7 +97,7 @@ function initAutocomplete() {
 
     const options = {
         types: ['address'],
-        fields: ['address_components', 'name'] // Specifichiamo i campi che ci servono
+        fields: ['address_components', 'name']
     };
 
     try {
@@ -106,57 +105,34 @@ function initAutocomplete() {
 
         autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace();
+            if (!place.address_components) return;
 
-            if (!place.address_components) {
-                return;
-            }
-
-            // Pulisci i campi prima di riempirli di nuovo
             document.getElementById('city').value = '';
             document.getElementById('postal-code').value = '';
             document.getElementById('country').value = '';
-            addressInput.value = ''; // Pulisce anche l'input principale
+            addressInput.value = '';
 
-            // Variabili per memorizzare le parti dell'indirizzo
             let streetNumber = '';
             let route = '';
 
-            // Analizza i componenti dell'indirizzo
             for (const component of place.address_components) {
                 const componentType = component.types[0];
-
                 switch (componentType) {
-                    case "street_number":
-                        streetNumber = component.long_name;
-                        break;
-                    case "route": // Nome della via
-                        route = component.long_name;
-                        break;
-                    case "locality": // Città
-                        document.getElementById('city').value = component.long_name;
-                        break;
-                    case "postal_code": // CAP
-                        document.getElementById('postal-code').value = component.long_name;
-                        break;
-                    case "country": // Nazione
-                        document.getElementById('country').value = component.short_name; // Codice a 2 lettere (es. IT)
-                        break;
+                    case "street_number": streetNumber = component.long_name; break;
+                    case "route": route = component.long_name; break;
+                    case "locality": document.getElementById('city').value = component.long_name; break;
+                    case "postal_code": document.getElementById('postal-code').value = component.long_name; break;
+                    case "country": document.getElementById('country').value = component.short_name; break;
                 }
             }
-
-            // Popola il campo indirizzo principale solo con via e numero
             addressInput.value = `${route} ${streetNumber}`.trim();
-
-            // Mette il focus sul campo Indirizzo 2, il passo logico successivo
             document.getElementById('address-2').focus();
         });
 
     } catch (e) {
-        console.warn("Google Maps Autocomplete non ha potuto inizializzarsi. Problema con la chiave/API o test offline?", e);
+        console.warn("Google Maps Autocomplete non ha potuto inizializzarsi.", e);
     }
 }
-// ===== FINE FUNZIONE AUTOCOMPLETE MODIFICATA =====
-
 
 let selectedTreeType = '';
 let selectedPrice = 0;
@@ -298,34 +274,88 @@ function checkFormValidity() {
             allValid = false;
         }
     });
-    completeBtn.disabled = !allValid;
-    let buttonTextKey = allValid ? (selectedPrice > 0 ? 'formButtonCompletePay' : 'formButtonCompleteDefault') : 'formButtonCompleteFields';
-    let buttonText = currentTrans[buttonTextKey] || i18nData.en[buttonTextKey];
-    if (buttonTextKey === 'formButtonCompletePay') {
-        buttonText = buttonText.replace('{price}', selectedPrice);
+    if(completeBtn){
+        completeBtn.disabled = !allValid;
+        let buttonTextKey = allValid ? (selectedPrice > 0 ? 'formButtonCompletePay' : 'formButtonCompleteDefault') : 'formButtonCompleteFields';
+        let buttonText = currentTrans[buttonTextKey] || i18nData.en[buttonTextKey];
+        if (buttonTextKey === 'formButtonCompletePay') {
+            buttonText = buttonText.replace('{price}', selectedPrice);
+        }
+        completeBtn.textContent = buttonText;
     }
-    completeBtn.textContent = buttonText;
 }
 
+
 document.addEventListener('DOMContentLoaded', async () => {
+
+    // ===================================================================
+    // NUOVA LOGICA PER GESTIRE I FORM DI CONTATTO E NEWSLETTER CON NETLIFY
+    // ===================================================================
+    const handleNetlifyFormSubmit = async (event) => {
+        event.preventDefault(); // Impedisce il ricaricamento della pagina
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const successMessage = document.getElementById(form.id + '-success');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        if (submitButton) submitButton.disabled = true;
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(formData).toString()
+            });
+
+            if (response.ok) {
+                if (successMessage) successMessage.classList.add('visible');
+                form.reset();
+                setTimeout(() => {
+                    if (successMessage) successMessage.classList.remove('visible');
+                }, 5000);
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            alert('Si è verificato un errore, riprova.');
+        } finally {
+            if (submitButton) submitButton.disabled = false;
+        }
+    };
+
+    // Applica la logica ai form di contatto e newsletter
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', handleNetlifyFormSubmit);
+    }
+
+    const newsletterForm = document.getElementById('newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', handleNetlifyFormSubmit);
+    }
+    // ===================================================================
+    // FINE NUOVA LOGICA FORM
+    // ===================================================================
+
+
+    // --- Inizio del tuo codice originale ---
     const languageSelector = document.getElementById('language-selector');
     if (languageSelector) {
         languageSelector.value = currentLang;
         languageSelector.addEventListener('change', (event) => setLanguage(event.target.value));
     }
-    // --- Gestione Video di Sfondo Hero ---
+
     const heroBgVideo = document.getElementById('heroBgVideo');
     const videoBackgroundDiv = document.querySelector('.video-background');
 
     if (heroBgVideo && videoBackgroundDiv) {
-        // Questa funzione nasconde l'immagine di sfondo del div contenitore
-        // non appena il video è pronto per essere visualizzato,
-        // creando una transizione fluida.
         heroBgVideo.oncanplay = function() {
             videoBackgroundDiv.style.backgroundImage = 'none';
         };
     }
-    // --- Fine Gestione Video ---
+
     await setLanguage(currentLang);
     const storedTreeType = sessionStorage.getItem('selectedTree');
     if (storedTreeType) {
@@ -346,13 +376,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             input.addEventListener('input', updateCharCount);
         }
     });
+
     checkFormValidity();
+
     const adoptionForm = document.getElementById('adoption-form');
     if (adoptionForm) {
         adoptionForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const currentTrans = i18nData.current || i18nData.en;
-            checkFormValidity(); // Re-validate before submitting
+            checkFormValidity();
             if (document.getElementById('complete-adoption-btn').disabled) {
                 alert(currentTrans.alertCompleteFields);
                 return;
@@ -360,6 +392,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert(currentTrans.alertFormSubmitted);
         });
     }
+
     const nav = document.querySelector('.main-nav');
     if (nav) {
         window.addEventListener('scroll', () => {
@@ -379,6 +412,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
     }
+
     const navToggle = document.querySelector('.nav-toggle');
     const navLinks = document.querySelector('.nav-links');
     if (navToggle && navLinks) {
@@ -387,6 +421,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             navToggle.setAttribute('aria-expanded', String(isOpen));
         });
     }
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -402,6 +437,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     });
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -411,6 +447,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
     document.querySelectorAll('.faq-question').forEach(q => {
         q.addEventListener('click', () => {
             const answer = q.nextElementSibling;
@@ -425,22 +462,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     });
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert((i18nData.current || i18nData.en).alertMessageSent);
-            this.reset();
-        });
-    }
-    const newsletterForm = document.getElementById('newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert((i18nData.current || i18nData.en).alertSubscribed);
-            this.reset();
-        });
-    }
+    
     (function initSlideshow() {
         let slideIndex = 0;
         const slides = document.querySelectorAll("#gallery .slide");
@@ -457,6 +479,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.currentSlide = (n) => showSlides(n - 1);
         showSlides(slideIndex);
     })();
+
     const cookieBanner = document.getElementById('cookie-banner');
     if (cookieBanner && !localStorage.getItem('cookieConsentAyo')) {
         cookieBanner.style.display = 'block';
@@ -469,6 +492,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             cookieBanner.style.display = 'none';
         });
     }
+
     const exitIntentPopup = document.getElementById('exit-intent-popup');
     if (exitIntentPopup) {
         const showExitPopup = () => {
