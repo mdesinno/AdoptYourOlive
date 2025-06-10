@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n-key="pageTitle">Adopt Your Olive - Puglia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="AYO" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuEuFJhU6-xNeSVOWtkHHOrnbDPpVwmiw&libraries=places&callback=initAutocomplete" async defer></script>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-logo-container">
+    <a href="#hero">
+        <picture>
+            <source srcset="immagini/logo.webp" type="image/webp">
+            <source srcset="immagini/logo.png" type="image/png">
+            <img src="immagini/logo.png" alt="Adopt Your Olive Logo" class="nav-logo-image">
+        </picture>
+    </a>
+    <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
+</div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#products" data-i18n-key="navAdoptShort">Adopt</a></li>
+            <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
+            <li><a href="#our-story" data-i18n-key="navStoryShort">Story</a></li>
+            <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
+            <li><a href="#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>
+            <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
+            <li><a href="#contact" data-i18n-key="navContactShort">Contact</a></li>
+        </ul>
+        <div class="language-switcher">
+            <select id="language-selector">
+                <option value="it">Italiano</option>    <option value="en">English</option>     <option value="de">Deutsch</option>     <option value="fr">Français</option>    <option value="es">Español</option>     <option value="nl">Nederlands</option>  <option value="no">Norsk</option>       <option value="sv">Svenska</option>     <option value="da">Dansk</option>       <option value="fi">Suomi</option>       </select>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero">
+        <div class="video-background" style="background-image: url('immagini/hero-poster.jpg');">
+    <video autoplay loop muted playsinline poster="immagini/hero-poster.jpg" id="heroBgVideo">
+        <source src="video/hero-video.webm" type="video/webm">
+        <source src="video/hero-video.mp4" type="video/mp4">
+        Il tuo browser non supporta il tag video.
+    </video>
+</div>
+        <div class="hero-content">
+            <h1 data-i18n-key="heroTitle">Adotta un Raro Ulivo Peranzana: Olio EVO Pugliese con il Tuo Nome, Direttamente a Casa Tua.</h1>
+            <p class="hero-subtitle" data-i18n-key="heroSubtitle">
+                Vivi un legame autentico con la Puglia. Dalla nostra famiglia da 3 generazioni, olio extravergine Peranzana di qualità superiore in bottiglie personalizzate e aggiornamenti costanti dal tuo albero. Consegnato a casa tua, senza intermediari.
+            </p>
+            <div class="cta-buttons">
+                <a href="#products" class="btn btn-primary" data-i18n-key="heroCtaChoose">Choose Your Tree</a>
+                <a href="#faq" class="btn btn-secondary" data-i18n-key="heroCtaFAQ">Questions? FAQ</a>
+            </div>
+            <div class="trust-signals">
+                <div class="trust-item"><i class="fas fa-leaf"></i> <span data-i18n-key="trustSignalProducers">3rd Generation Puglian Producers</span></div>
+                <div class="trust-item"><i class="fas fa-truck"></i> <span data-i18n-key="trustSignalShipping">Free Shipping Included</span></div>
+                <div class="trust-item"><i class="fas fa-certificate"></i> <span data-i18n-key="trustSignalCertificate">Personalized Certificate & Packaging</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="product-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n-key="productsTitle">Choose Your Olive Tree & Receive Premium Oil</h2>
+                <p class="section-subtitle" data-i18n-key="productsSubtitle">Limited availability for our inaugural 2025 season</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card" data-tree-type="young" data-price="199">
+                    <img src="https://placehold.co/300x200/6B8E23/ffffff?text=Young+Olive+Tree" alt="Immagine di un giovane ulivo" class="product-image">
+                    <h3 class="product-title" data-i18n-key="productYoungTitle">Young Tree</h3>
+                    <div class="product-age">
+    <i class="fas fa-leaf"></i>
+    <span data-i18n-key="productYoungAge">40-70 Years</span>
+</div>
+                    <div class="price-container">
+                        <span class="original-price">€250</span>
+                        <span class="current-price">€199</span>
+                        <span class="discount-badge" data-i18n-key="productDiscount20">20% Launch Discount</span>
+                    </div>
+                    <ul class="benefits-list">
+                        <li data-i18n-key="productYoungBenefit1"><strong>5 liters</strong> premium Peranzana oil from Puglia</li>
+                        <li data-i18n-key="productYoungBenefit2">Personalized adoption certificate with your message</li>
+                        <li data-i18n-key="productYoungBenefit3"><strong>Custom packaging featuring your name</strong></li>
+                        <li data-i18n-key="productYoungBenefit4">Your tree updates & photos from the grove</li>
+                        <li data-i18n-key="productYoungBenefit5">Access to exclusive Puglian product offers</li>
+                    </ul>
+                    <p class="ideal-for" data-i18n-key="productYoungIdeal">Perfect for couples or small families</p>
+                    <button class="select-button" onclick="selectTree('young')" data-i18n-key="productYoungButton">Select Young Tree</button>
+                </div>
+                <div class="product-card" data-tree-type="mature" data-price="349">
+                    <div class="popular-badge" data-i18n-key="productPopularBadge">Most Popular</div>
+                    <img src="https://placehold.co/300x200/6B8E23/ffffff?text=Mature+Olive+Tree" alt="Immagine di un ulivo maturo" class="product-image">
+                    <h3 class="product-title" data-i18n-key="productMatureTitle">Mature Tree</h3>
+                    <div class="product-age">
+    <i class="fas fa-leaf"></i>
+    <span data-i18n-key="productMatureAge">70-100 Years</span>
+</div>
+                    <div class="price-container">
+                        <span class="original-price">€500</span>
+                        <span class="current-price">€349</span>
+                        <span class="discount-badge" data-i18n-key="productDiscount30">30% Launch Discount</span>
+                    </div>
+                    <ul class="benefits-list">
+                        <li data-i18n-key="productMatureBenefit1"><strong>10 liters</strong> premium Peranzana oil from Puglia</li>
+                        <li data-i18n-key="productMatureBenefit2">Personalized adoption certificate with your message</li>
+                        <li data-i18n-key="productMatureBenefit3"><strong>Custom packaging featuring your name</strong></li>
+                        <li data-i18n-key="productMatureBenefit4">Your tree updates & photos from the grove</li>
+                        <li data-i18n-key="productMatureBenefit5">Access to exclusive Puglian product offers</li>
+                    </ul>
+                    <p class="ideal-for" data-i18n-key="productMatureIdeal">Ideal for families or oil enthusiasts</p>
+                    <button class="select-button" onclick="selectTree('mature')" data-i18n-key="productMatureButton">Select Mature Tree</button>
+                </div>
+                <div class="product-card" data-tree-type="centenary" data-price="449">
+                    <img src="https://placehold.co/300x200/6B8E23/ffffff?text=Centenary+Olive+Tree" alt="Immagine di un ulivo secolare" class="product-image">
+                    <h3 class="product-title" data-i18n-key="productCentenaryTitle">Centenary Tree</h3>
+                    <div class="product-age">
+    <i class="fas fa-leaf"></i>
+    <span data-i18n-key="productCentenaryAge">100+ Years</span>
+</div>
+                    <div class="price-container">
+                        <span class="original-price">€750</span>
+                        <span class="current-price">€449</span>
+                        <span class="discount-badge" data-i18n-key="productDiscount40">40% Launch Discount</span>
+                    </div>
+                    <ul class="benefits-list">
+                        <li data-i18n-key="productCentenaryBenefit1"><strong>15 liters</strong> premium Peranzana oil from Puglia</li>
+                        <li data-i18n-key="productCentenaryBenefit2">Personalized adoption certificate with your message</li>
+                        <li data-i18n-key="productCentenaryBenefit3"><strong>Custom packaging featuring your name</strong></li>
+                        <li data-i18n-key="productCentenaryBenefit4">Your tree updates & photos from the grove</li>
+                        <li data-i18n-key="productCentenaryBenefit5">Access to exclusive Puglian product offers</li>
+                    </ul>
+                    <p class="ideal-for" data-i18n-key="productCentenaryIdeal">For true connoisseurs & gift-giving</p>
+                    <button class="select-button" onclick="selectTree('centenary')" data-i18n-key="productCentenaryButton">Select Centenary Tree</button>
+                </div>
+            </div>
+            <div class="shipping-note">
+                <strong data-i18n-key="shippingNoteLaunch">Launch discount valid for early adopters.</strong><br>
+                <span data-i18n-key="shippingNoteCountries">Free shipping included to Italy, UK, Germany, France, Spain, Switzerland, Netherlands, Norway, Sweden, Denmark, Austria, Belgium, Finland.</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="content-section"> <div class="content-wrapper animate-on-scroll"> </div> <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n-key="howItWorksTitle">From Puglia to Your Table</h2>
+            </div>
+            <div class="how-it-works-grid">
+                <div class="how-it-works-step">
+                    <i class="fas fa-mouse-pointer fa-3x step-icon"></i>
+                    <h3 data-i18n-key="howItWorksStep1Title">Choose & Adopt</h3>
+                    <p data-i18n-key="howItWorksStep1Text">Select your tree type and personalize your certificate.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <i class="fas fa-tag fa-3x step-icon"></i>
+                    <h3 data-i18n-key="howItWorksStep2Title">We Assign</h3>
+                    <p data-i18n-key="howItWorksStep2Text">Your specific tree in our Puglian grove gets tagged with your name.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <i class="fas fa-tractor fa-3x step-icon"></i>
+                    <h3 data-i18n-key="howItWorksStep3Title">We Harvest</h3>
+                    <p data-i18n-key="howItWorksStep3Text">Premium Peranzana olives harvested in November using modern methods.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <i class="fas fa-gift fa-3x step-icon"></i>
+                    <h3 data-i18n-key="howItWorksStep4Title">You Receive</h3>
+                    <p data-i18n-key="howItWorksStep4Text">Fresh oil delivered to your door by December with tracking included.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="our-story" class="content-section"> <div class="container story-layout">
+            <div class="story-image">
+                <img src="https://grottagliesitablog.wordpress.com/wp-content/uploads/2013/05/frantoiani-anni-50.jpg" alt="Uliveto Pugliese e tradizione familiare" style="width:100%; height:auto; object-fit:cover; box-shadow:0 0 10px rgba(0,0,0,0.2);">
+                </div>
+            <div class="story-text">
+                <h2 class="section-title" data-i18n-key="storytellingTitle">The Peranzana Story: Rare Puglian Excellence Since 1960s</h2>
+                <p data-i18n-key="storytellingPara1">For three generations, our family has cultivated the rare Peranzana olive in the heart of Puglia's ancient olive groves. The Peranzana olive is extraordinary - it produces an oil with perfect balance, delicate fruity notes, and exceptional quality that even olive oil experts struggle to find in specialty stores.</p>
+                <p data-i18n-key="storytellingPara2">When you adopt one of our trees, you're not just buying oil - you're joining our Puglian family tradition. Each tree in our grove is personally tended by skilled local farmers, and every bottle is crafted with modern techniques perfected over decades.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="why-peranzana" class="content-section">
+    <div class="content-wrapper animate-on-scroll">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n-key="whyPeranzanaTitle">Why Peranzana Oil from Puglia is Special</h2>
+            </div>
+            <div class="why-peranzana-grid">
+                <div class="why-peranzana-item">
+                    <i class="fas fa-gem fa-3x value-icon"></i>
+                    <h3 data-i18n-key="whyPeranzanaRarityTitle">Rarity</h3>
+                    <p data-i18n-key="whyPeranzanaRarityText">One of Puglia's rarest olive varieties.</p>
+                </div>
+                <div class="why-peranzana-item">
+                    <i class="fas fa-balance-scale fa-3x value-icon"></i>
+                    <h3 data-i18n-key="whyPeranzanaBalanceTitle">Balance</h3>
+                    <p data-i18n-key="whyPeranzanaBalanceText">Perfect harmony of flavors - not too strong, not too mild.</p>
+                </div>
+                <div class="why-peranzana-item">
+                    <i class="fas fa-cloud-sun fa-3x value-icon"></i>
+                    <h3 data-i18n-key="whyPeranzanaTerroirTitle">Terroir</h3>
+                    <p data-i18n-key="whyPeranzanaTerroirText">Puglia's unique climate creates exceptional flavor profiles.</p>
+                </div>
+                <div class="why-peranzana-item">
+                    <i class="fas fa-stopwatch fa-3x value-icon"></i>
+                    <h3 data-i18n-key="whyPeranzanaFreshnessTitle">Freshness</h3>
+                    <p data-i18n-key="whyPeranzanaFreshnessText">From our grove to your table in weeks, not months.</p>
+                </div>
+            </div>
+        </div>
+    </div> </section>
+
+   <section id="what-you-get" class="content-section what-you-get-section">
+        <div class="container" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div class="what-title">
+                <h2 class="section-title" data-i18n-key="whatYouGetTitle">Your Personalized Adoption Experience</h2>
+                <p class="section-subtitle" data-i18n-key="whatYouGetSubtitle">More Than Just Olive Oil</p>
+            </div>
+            <div class="what-content">
+                <p data-i18n-key="whatYouGetPara1">When you adopt an olive tree with us, you're not just receiving exceptional Peranzana olive oil; you're embracing a piece of Puglian tradition, delivered with a personal touch. Here’s what makes your adoption special:</p>
+                <ul>
+                    <li data-i18n-key="whatYouGetBenefitCert"><i class="fas fa-certificate" style="color: var(--primary-green); margin-right: 8px;"></i><strong>A Beautifully Personalized Certificate:</strong> Receive a high-quality adoption certificate, customized with your name (or the recipient's name if it's a gift) and a personal message of your choice. It's a wonderful keepsake that celebrates your connection to your tree.</li>
+                    <li data-i18n-key="whatYouGetBenefitPack"><i class="fas fa-box-open" style="color: var(--primary-green); margin-right: 8px;"></i><strong>Custom-Named Packaging:</strong> Your premium olive oil will arrive in elegantly designed packaging that is <strong>personalized with your name</strong>. This makes unboxing an experience in itself and highlights the unique bond you have with your adopted tree and its produce.</li>
+                    <li data-i18n-key="whatYouGetBenefitUpdates"><i class="fas fa-camera-retro" style="color: var(--primary-green); margin-right: 8px;"></i><strong>Updates from the Grove:</strong> Throughout the year, we'll send you photos and updates about your tree and life in our Puglian olive grove, so you can follow its journey from bloom to harvest.</li>
+                    <li data-i18n-key="whatYouGetBenefitDirect"><i class="fas fa-seedling" style="color: var(--primary-green); margin-right: 8px;"></i><strong>Direct from Our Family to Yours:</strong> This is a direct connection to our family's centuries-old farming practices and the rich terroir of Puglia.</li>
+                </ul>
+            </div>
+            <div class="what-you-get-highlight what-extra">
+                <p><strong data-i18n-key="whatYouGetImagineStrong">Imagine:</strong> <span data-i18n-key="whatYouGetImagineText">Your very own supply of exquisite olive oil, arriving in a package that proudly displays your name, a constant reminder of the beautiful Puglian tree you're helping to nurture. It's a unique gift for yourself or a loved one, blending tradition, quality, and a deeply personal connection.</span></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="personalization" class="personalization-section">
+        <div class="container">
+            <div class="personalization-layout">
+                <div class="certificate-preview animate-on-scroll">
+                    <h3 data-i18n-key="certPreviewTitle">Certificate Preview</h3>
+                    <div class="certificate-frame">
+                        <div class="certificate-content">
+    
+    <div class="certificate-logo-container">
+        <picture>
+            <source srcset="immagini/logo.webp" type="image/webp">
+            <source srcset="immagini/logo.png" type="image/png">
+            <img src="immagini/logo.png" alt="Adopt Your Olive Logo" class="certificate-logo">
+        </picture>
+    </div>
+    <div class="certificate-header">
+         <h4 data-i18n-key="certAdoptionTitle">🫒 CERTIFICATE OF ADOPTION 🫒</h4>
+        <p data-i18n-key="certGroves">Puglia Olive Groves</p>
+    </div>
+                             <div class="certificate-body">
+                                <p data-i18n-key="certCertifies">This certifies that</p>
+                                <div class="certificate-name" id="preview-name" data-i18n-key="certYourNamePlaceholder">Your Name</div>
+                                 <p data-i18n-key="certHasAdopted">has officially adopted a</p>
+                                <div class="certificate-tree" id="preview-tree" data-i18n-key="certTreeTypePlaceholder">Tree Type</div>
+                                 <p data-i18n-key="certInGrove">in our historic Puglian olive grove</p>
+                                <div class="certificate-message" id="preview-message" data-i18n-key="certMessagePlaceholder">
+                                    Your tree, Your oil, Your story
+                                 </div>
+                                <div class="certificate-footer">
+                                    <p data-i18n-key="certHarvestSeason">Harvest Season 2025</p>
+                                     <div class="signature" data-i18n-key="certSignature">Adopt Your Olive</div>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+                <div class="form-container animate-on-scroll">
+                    <h2 data-i18n-key="formTitlePersonalize">Personalize Your Adoption</h2>
+                     <form id="adoption-form" class="adoption-form">
+                        <div class="selected-tree-display">
+                            <h3 id="selected-tree-title" data-i18n-key="formSelectedTreeDefault">Select a tree above to continue</h3>
+                            <div id="selected-tree-price" class="price-display">€0</div>
+                        </div>
+                        <div class="personalization-content">
+                            <div>
+                                <div class="form-group">
+                                    <label for="tree-type" data-i18n-key="formLabelTreeType">Tree Type</label>
+                                    <select id="tree-type" name="tree-type" onchange="updateTreeSelectionFromForm()">
+                                         <option value="" data-i18n-key="formSelectTreeType">Select your tree type</option>
+                                        <option value="young" data-price="199" data-i18n-key="formTreeYoung">Young Tree - €199</option>
+                                         <option value="mature" data-price="349" data-i18n-key="formTreeMature">Mature Tree - €349</option>
+                                        <option value="centenary" data-price="449" data-i18n-key="formTreeCentenary">Centenary Tree - €449</option>
+                                     </select>
+                                </div>
+                                <div class="form-row">
+                                     <div class="form-group">
+                                        <label for="first-name" data-i18n-key="formLabelFirstName">First Name *</label>
+                                        <input type="text" id="first-name" name="first-name" required>
+                                     </div>
+                                    <div class="form-group">
+                                         <label for="last-name" data-i18n-key="formLabelLastName">Last Name *</label>
+                                        <input type="text" id="last-name" name="last-name" required>
+                                    </div>
+                                 </div>
+                                <div class="form-group">
+                                    <label for="email" data-i18n-key="formLabelEmail">Email Address *</label>
+                                     <input type="email" id="email" name="email" required>
+                                </div>
+                                 <div class="form-section">
+                                    <h4 data-i18n-key="formSectionCertPersonalization">Certificate Personalization</h4>
+                                    <div class="form-group">
+                                         <label for="certificate-name" data-i18n-key="formLabelCertName">Name for Certificate</label>
+                                        <input type="text" id="certificate-name" name="certificate-name"
+                                             placeholder="How should your name appear on the certificate?" data-i18n-placeholder-key="formPlaceholderCertName">
+                                    </div>
+                                    <div class="form-group">
+                                         <label for="certificate-message" data-i18n-key="formLabelCertMessage">Personal Message (Optional)</label>
+                                        <textarea id="certificate-message" name="certificate-message"
+                                               placeholder="Add a personal touch to your certificate..." data-i18n-placeholder-key="formPlaceholderCertMessage"
+                                                  maxlength="150"></textarea>
+                                         <small class="char-count" data-i18n-key="formCharCount">0/150 characters</small>
+                                    </div>
+                                </div>
+                             </div>
+                            <div>
+                                <div class="form-section">
+                                    <h4 data-i18n-key="formSectionShipping">Shipping Information</h4>
+                                    <div class="form-group">
+                                        <label for="address" data-i18n-key="formLabelAddress">Street Address *</label>
+                                        <input type="text" id="address" name="address" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="address-2" data-i18n-key="formLabelAddress2">Address 2 (e.g., Apartment, Suite)</label>
+                                        <input type="text" id="address-2" name="address-2" data-i18n-placeholder-key="formPlaceholderAddress2" placeholder="Apt, suite, c/o, etc.">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                        <label for="city" data-i18n-key="formLabelCity">City *</label>
+                                        <input type="text" id="city" name="city" required>
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="postal-code" data-i18n-key="formLabelPostalCode">Postal Code *</label>
+                                             <input type="text" id="postal-code" name="postal-code" required>
+                                        </div>
+                                     </div>
+                                    <div class="form-group">
+                                        <label for="country" data-i18n-key="formLabelCountry">Country *</label>
+                                         <select id="country" name="country" required>
+                                            <option value="" data-i18n-key="formSelectCountry">Select Country</option>
+                                             <option value="IT" data-i18n-key="formCountryIT">Italy</option>
+                                            <option value="UK" data-i18n-key="formCountryUK">United Kingdom</option>
+                                             <option value="DE" data-i18n-key="formCountryDE">Germany</option>
+                                            <option value="FR" data-i18n-key="formCountryFR">France</option>
+                                             <option value="ES" data-i18n-key="formCountryES">Spain</option>
+                                            <option value="CH" data-i18n-key="formCountryCH">Switzerland</option>
+                                             <option value="NL" data-i18n-key="formCountryNL">Netherlands</option>
+                                            <option value="NO" data-i18n-key="formCountryNO">Norway</option>
+                                            <option value="SE" data-i18n-key="formCountrySE">Sweden</option>
+                                             <option value="DK" data-i18n-key="formCountryDK">Denmark</option>
+                                            <option value="AT" data-i18n-key="formCountryAT">Austria</option>
+                                             <option value="BE" data-i18n-key="formCountryBE">Belgium</option>
+                                            <option value="FI" data-i18n-key="formCountryFI">Finland</option>
+                                         </select>
+                                    </div>
+                                </div>
+                                 <div class="order-summary">
+                                    <h4 data-i18n-key="formOrderSummaryTitle">Order Summary</h4>
+                                    <div class="summary-line">
+                                         <span id="summary-tree" data-i18n-key="formOrderSummaryNoTree">No tree selected</span>
+                                        <span id="summary-price">€0</span>
+                                     </div>
+                                    <div class="summary-line">
+                                        <span data-i18n-key="formOrderSummaryShipping">Shipping</span>
+                                         <span class="free" data-i18n-key="formOrderSummaryFree">FREE</span>
+                                    </div>
+                                     <div class="summary-total">
+                                        <span data-i18n-key="formOrderSummaryTotal">Total</span>
+                                        <span id="total-price">€0</span>
+                                     </div>
+                                </div>
+                            </div>
+                         </div>
+                        <button type="submit" class="btn btn-complete" id="complete-adoption-btn" disabled data-i18n-key="formButtonCompleteDefault">
+                            Complete Adoption - Proceed to Payment
+                        </button>
+                     </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="content-section animate-on-scroll">
+         <div class="slideshow-container">
+            <div class="slide active">
+                 <img src="https://placehold.co/1920x1080/5D7C3F/ffffff?text=Uliveto+Pugliese+1" alt="Immagine di un uliveto pugliese con il sole che splende tra le foglie">
+            </div>
+            <div class="slide">
+                <img src="https://placehold.co/1920x1080/8FBC8F/333333?text=Raccolta+Olive+2" alt="Immagine ravvicinata di mani che raccolgono olive">
+            </div>
+            <div class="slide">
+                 <img src="https://placehold.co/1920x1080/A0A0A0/ffffff?text=Olio+Fresco+3" alt="Immagine di olio d'oliva appena spremuto che viene imbottigliato">
+            </div>
+            <div class="slide">
+                <img src="https://placehold.co/1920x1080/D4AF37/333333?text=Packaging+Personalizzato+4" alt="Esempio di packaging personalizzato per l'olio d'oliva">
+            </div>
+            <a class="prev-slide" onclick="plusSlides(-1)">❮</a>
+             <a class="next-slide" onclick="plusSlides(1)">❯</a>
+        </div>
+        <div class="section-header gallery-header-overlay">
+            <h2 class="section-title" data-i18n-key="galleryTitle">From Grove to Table</h2>
+            <p class="section-subtitle" data-i18n-key="gallerySubtitle">A Glimpse into Our World</p>
+        </div>
+        <div class="slide-dots gallery-dots-overlay">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+             <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+        </div>
+    </section>
+
+    <section id="customer-reviews" class="content-section animate-on-scroll">
+         <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n-key="reviewsTitle">What Our Adopters Say</h2>
+                 <p class="section-subtitle" data-i18n-key="reviewsSubtitle">Coming Soon - Real Stories from Our Community</p>
+            </div>
+            <p style="text-align:center; font-style:italic;" data-i18n-key="reviewsComingSoon">We're excited to share reviews from our first adopters soon!</p>
+        </div>
+    </section>
+
+    <section id="team" class="content-section animate-on-scroll">
+         <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n-key="teamTitle">Meet the Family</h2>
+                <p class="section-subtitle" data-i18n-key="teamSubtitle">The Heart Behind Adopt Your Olive</p>
+             </div>
+            <div class="team-grid">
+                 <div class="team-member">
+                    <img src="https://placehold.co/300x300/2c3e50/white?text=Giovanni" alt="Foto di Giovanni Pugliese">
+                    <h4 data-i18n-key="teamMember1Name">Giovanni Pugliese</h4>
+                     <p data-i18n-key="teamMember1Role">Founder & Master Olive Grower</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://placehold.co/300x300/2c3e50/white?text=Maria" alt="Foto di Maria Rossi">
+                    <h4 data-i18n-key="teamMember2Name">Maria Rossi</h4>
+                     <p data-i18n-key="teamMember2Role">Customer Relations & Traditions</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://placehold.co/300x300/2c3e50/white?text=Luca" alt="Foto di Luca Verdi">
+                    <h4 data-i18n-key="teamMember3Name">Luca Verdi</h4>
+                     <p data-i18n-key="teamMember3Role">Agronomist Expert & Sustainability</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section"> <div class="container">
+            <div class="section-header">
+                 <h2 class="section-title" data-i18n-key="faqTitle">Frequently Asked Questions</h2>
+                <p class="section-subtitle" data-i18n-key="faqSubtitle">Find answers to common questions about adopting an olive tree.</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                         <span data-i18n-key="faqServiceTitle">What is the "Adopt Your Olive" service?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqServiceAnswer">"Adopt Your Olive" offers you the unique opportunity to symbolically adopt an authentic Peranzana olive tree from our family-run farm in San Severo, Puglia. With your adoption, you support our sustainable farming practices and receive a share of the precious extra virgin olive oil produced, along with other exclusive benefits that connect you to our land and tradition.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                     <div class="faq-question">
+                        <span data-i18n-key="faqAdoptionMeaningTitle">What does "adopting an olive tree" exactly mean?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                         <p data-i18n-key="faqAdoptionMeaningAnswerNew">Adopting an olive tree means creating a special bond with a specific tree in our grove for one year. You don't become the legal owner of the tree, but you symbolically contribute to its care and cultivation. Each adopted tree gets a personalized tag with your name, and we'll send you photos of your specific tree. In return, we recognize you as an 'adoptive parent' with a personalized certificate, updates, and, most importantly, the oil produced (or equivalent from our Peranzana production).</p>
+                    </div>
+                </div>
+                 <div class="faq-item">
+                    <div class="faq-question">
+                        <span data-i18n-key="faqTreeTypeOilTitle">What kind of olive tree can I adopt and what is the oil variety?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                         <p data-i18n-key="faqTreeTypeOilAnswer">You can choose between different types of olive trees, such as 'Young', 'Mature', or 'Centenary', each with a different amount of oil included in the adoption package. All our trees are of the prized Peranzana variety, native to our region, which produces an extra virgin olive oil with a medium fruitiness, hints of tomato and almond, and a pleasant, slightly spicy and bitter aftertaste, indicative of high quality and richness in polyphenols.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                     <div class="faq-question">
+                        <span data-i18n-key="faqWhatReceiveTitle">What exactly do I receive with the adoption?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                         <p data-i18n-key="faqWhatReceiveAnswer">Depending on the package chosen (Young, Mature, or Centenary Olive Tree), you will receive a specific quantity of Peranzana extra virgin olive oil (5, 10, or 15 liters) in elegant, personalized packaging with your name. Additionally, you will get an official adoption certificate with your name and an optional message, periodic updates with photos and news from our olive grove (including your tagged tree), and invitations to participate in exclusive events like the olive harvest (when possible).</p>
+                    </div>
+                </div>
+                 <div class="faq-item">
+                     <div class="faq-question">
+                        <span data-i18n-key="faqCostTitle">How much does it cost to adopt an olive tree?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                         <p data-i18n-key="faqCostAnswer">We offer different adoption plans to suit all needs. Prices vary based on the type of tree and the amount of oil included. You can find all the details and updated prices in our <a href="#products">'Adopt an Olive Tree'</a> section. Remember that shipping to many European countries is included in the price!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                         <span data-i18n-key="faqOrganicTitle">Is the olive oil I will receive organic?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqOrganicAnswer">Our family cultivates olive trees using traditional and sustainable methods, with full respect for nature and the land. Although we do not yet have official organic certification for all plots, our agricultural practices aim to minimize environmental impact and ensure a genuine, high-quality product. We are committed to a path of continuous improvement towards increasingly eco-compatible practices.</p>
+                    </div>
+                </div>
+                <div class="faq-item"> <div class="faq-question">
+                         <span data-i18n-key="faqPeranzanaSpecialTitleNew">What makes Peranzana olives special and is the oil really fresh?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqPeranzanaSpecialAnswerNew">Peranzana is one of Puglia's rarest varieties, producing oil with exceptional balance - not too intense, not too mild, perfect for daily use and special occasions. It's a monovarietal oil with an elegant fruitiness and distinct notes of green tomato, artichoke, and almond. And yes, the oil is incredibly fresh! We harvest in November and ship your oil by December. This means you receive oil that's weeks old, not months or even years like some store-bought imports.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                         <span data-i18n-key="faqShippingTitleNew">How long does shipping take and is it included?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqShippingAnswerNew">Yes, shipping is free and included in the adoption cost for the following countries: Italy, United Kingdom, Germany, France, Spain, Switzerland, Netherlands, Norway, Sweden, Denmark, Austria, Belgium, and Finland. We provide tracking numbers so you can monitor your shipment. If your country is not on this list, please contact us for a personalized shipping quote.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                         <span data-i18n-key="faqGiftTitle">Can I gift an olive tree adoption to someone else?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqGiftAnswer">Absolutely! Adopting an olive tree is a wonderful, original, and meaningful gift. During the personalization process, you can enter the recipient's name for the adoption certificate and add a personal message. The oil and all benefits will be sent to the shipping address you provide.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                         <span data-i18n-key="faqUpdatesTitle">How and how often will I receive updates about my tree?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqUpdatesAnswer">We will send you periodic updates via email (about 3-4 times a year) with photographs of your tree (or the olive grove in general) and news about the various seasonal phases: from flowering to olive growth, up to the harvest. We want you to feel involved in the life of our olive grove.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                         <span data-i18n-key="faqVisitTitle">Can I visit my tree?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqVisitAnswerNew">Absolutely! We welcome adopters to visit our Puglian grove, especially during harvest season (advance notice is required so we can arrange to meet you). You'll receive invitations and information about any special events.</p>
+                    </div>
+                </div>
+                 <div class="faq-item">
+                    <div class="faq-question">
+                         <span data-i18n-key="faqLearnMoreTitle">How can I learn more about the farming process and your company?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                         <p data-i18n-key="faqLearnMoreAnswer">We share our passion and information about olive cultivation and oil production through the 'Our Story' section on this website, via periodic updates sent to adopters, and on our social media channels. Furthermore, participating in our harvest events is a great way to learn directly in the field!</p>
+                    </div>
+                </div>
+                <div class="faq-item"> <div class="faq-question">
+                        <span data-i18n-key="faqQualityConcernsTitle">What if I have quality concerns?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqQualityConcernsAnswer">We stand behind our oil quality. Our family has been producing exceptional Puglian oil for decades, and we're committed to your satisfaction. If you have any concerns upon receiving your oil, please contact us immediately.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                         <span data-i18n-key="faqMoreQuestionsTitle">I have other questions, how can I contact you?</span> <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n-key="faqMoreQuestionsAnswer">We are always available to answer any of your questions! You can send us a message using the form in our <a href="#contact">Contact</a> section, or write to us directly at the email address indicated. We will reply as soon as possible.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="final-cta" class="content-section animate-on-scroll"> <div class="container">
+            <h2 class="section-title" data-i18n-key="finalCtaTitleNew" style="color: var(--white); text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">Start Your Puglian Olive Oil Journey Today</h2>
+            <p class="hero-subtitle" data-i18n-key="finalCtaSubtitleNew" style="color: #f0f0f0; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
+                Limited availability for our 2025 inaugural season. Join our family tradition and taste the difference.
+            </p>
+            <div class="cta-buttons">
+                <a href="#products" class="btn btn-primary" data-i18n-key="finalCtaAdoptNew" style="background: var(--white); color: var(--primary-green); border: 2px solid var(--white); box-shadow: 0 8px 25px rgba(0,0,0,0.2);">Adopt Your Tree Now</a>
+                <a href="#contact" class="btn btn-secondary" data-i18n-key="finalCtaContactNew" style="border: 2px solid var(--white); color: var(--white);">Questions? Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section animate-on-scroll">
+         <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n-key="contactTitle">Get in Touch</h2>
+                <p class="section-subtitle" data-i18n-key="contactSubtitle">We'd Love to Hear From You</p>
+             </div>
+            <div class="contact-grid">
+                <div class="contact-grid-top">
+                    <div class="contact-form-container">
+                        <h3 data-i18n-key="contactFormTitle">Send Us a Message</h3>
+                         <form id="contact-form" data-netlify="true">
+                            <div class="form-group">
+                                <label for="contact-name" data-i18n-key="contactLabelName">Name</label>
+                                 <input type="text" id="contact-name" name="contact-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email" data-i18n-key="contactLabelEmail">Email</label>
+                                <input type="email" id="contact-email" name="contact-email" required>
+                            </div>
+                            <div class="form-group">
+                                 <label for="contact-subject" data-i18n-key="contactLabelSubject">Subject</label>
+                                <input type="text" id="contact-subject" name="contact-subject">
+                            </div>
+                             <div class="form-group">
+                                <label for="contact-message" data-i18n-key="contactLabelMessage">Message</label>
+                                <textarea id="contact-message" name="contact-message" rows="5" required></textarea>
+                             </div>
+                            <button type="submit" class="btn" data-i18n-key="contactButtonSend">Send Message</button>
+                        </form>
+                    </div>
+                     <div class="contact-details-container">
+                        <div class="contact-info-text">
+                            <h3 data-i18n-key="contactFindUsTitle">Dove Trovarci</h3>
+                            <p><i class="fas fa-map-marker-alt"></i> <span data-i18n-key="contactAddressCity">71016 San Severo (FG), Puglia, Italia</span></p>
+                            <p><i class="fas fa-envelope"></i> <a href="mailto:info@adoptiourolive.com" data-i18n-key="contactEmail">info@adoptiourolive.com</a></p>
+                            <p><i class="fas fa-phone"></i> <a href="tel:+390123456789" data-i18n-key="contactPhone">+39 0123 456789</a></p>
+                        </div>
+                         <div class="map-container-wrapper">
+                            <div class="map-container">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23837.81104356283!2d15.362213639862347!3d41.68325240411226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133742c02653aca7%3A0xbff108fac9918be4!2s71016%20San%20Severo%20FG!5e0!3m2!1sit!2sit!4v1749200705868!5m2!1sit!2sit" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="newsletter-container">
+                    <h3 data-i18n-key="newsletterTitle">Subscribe to Our Newsletter</h3>
+                    <p data-i18n-key="newsletterText">Receive updates from the grove, special offers, and Puglian recipes.</p>
+                    <form id="newsletter-form" data-netlify="true">
+                         <div class="form-group">
+                            <label for="newsletter-email" data-i18n-key="newsletterLabelEmail">Email Address</label>
+                            <input type="email" id="newsletter-email" name="newsletter-email" required placeholder="your.email@example.com" data-i18n-placeholder-key="newsletterPlaceholderEmail">
+                        </div>
+                         <button type="submit" class="btn" data-i18n-key="newsletterButtonSubscribe">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+             <div class="footer-content">
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerAboutTitle">About Us</h4>
+                    <p data-i18n-key="footerAboutText">Adopt Your Olive connects you directly to the heart of Puglia, offering a unique way to support sustainable olive farming and enjoy authentic Italian olive oil with personalized packaging.</p>
+                 </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerLinksTitle">Quick Links</h4>
+                    <ul>
+                        <li><a href="#products" data-i18n-key="navAdoptShort">Adopt</a></li>
+                        <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
+                        <li><a href="#our-story" data-i18n-key="navStoryShort">Story</a></li>
+                        <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
+                        <li><a href="#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>
+                        <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
+                        <li><a href="#contact" data-i18n-key="navContactShort">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerLegalTitle">Legal</h4>
+                    <ul>
+                         <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Terms of Service</a></li>
+                        <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Shipping & Returns</a></li>
+                     </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerFollowTitle">Follow Us</h4>
+                    <p data-i18n-key="footerFollowText">Follow us on social media for updates from the groves!</p>
+                     <div class="social-links">
+                        <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                 </div>
+            </div>
+            <div class="footer-bottom">
+                <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
+                <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cookie-banner">
+        <p data-i18n-key="cookieBannerText">Questo sito utilizza cookie per migliorare l'esperienza dell'utente. Scorrendo questa pagina o cliccando qualunque suo elemento acconsenti all’uso dei cookie. <a href="privacy-policy.html" data-i18n-key="cookieBannerLink">Leggi la nostra privacy policy</a>.</p>
+        <button id="accept-cookies" class="btn btn-primary" data-i18n-key="cookieBannerAccept">Accetta</button>
+        <button id="decline-cookies" class="btn btn-secondary" data-i18n-key="cookieBannerDecline">Rifiuta</button>
+    </div>
+
+    <div id="exit-intent-popup">
+        <div class="exit-intent-content">
+            <button id="close-exit-popup">×</button>
+            <h3 data-i18n-key="exitPopupTitle">Non Andare Via!</h3>
+            <p data-i18n-key="exitPopupSubtitle">Unisciti alla nostra famiglia! Adotta un ulivo o iscriviti alla newsletter per rimanere aggiornato sulle novità dalla Puglia e ricevere offerte esclusive.</p>
+            <div class="exit-intent-buttons">
+                <a href="#products" class="btn btn-primary" data-i18n-key="exitPopupAdopt">Adotta un Ulivo</a>
+                <a href="#contact" class="btn btn-secondary" data-i18n-key="exitPopupNewsletter">Iscriviti alla Newsletter</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
