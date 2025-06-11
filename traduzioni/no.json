@@ -252,5 +252,7 @@
 "modalMessage": "Meldingen din har blitt sendt.",
 "modalCloseBtn": "Lukk",
 "faqDeliveryTitle": "Jeg har ikke mottatt e-posten deres, hva kan jeg gjøre?",
-"faqDeliveryAnswer": "Noen ganger kan automatiserte e-poster havne i mappene 'Kampanjer' eller 'Søppelpost'. Vennligst sjekk disse mappene i innboksen din. For å sikre at du alltid mottar vår kommunikasjon, anbefaler vi at du legger til e-postadressen vår i kontaktene dine."
+"faqDeliveryAnswer": "Noen ganger kan automatiserte e-poster havne i mappene 'Kampanjer' eller 'Søppelpost'. Vennligst sjekk disse mappene i innboksen din. For å sikre at du alltid mottar vår kommunikasjon, anbefaler vi at du legger til e-postadressen vår i kontaktene dine.",
+"error404Message": "Ops! Siden du leter etter finnes ikke.",
+"error404Button": "Tilbake til forsiden"
 }

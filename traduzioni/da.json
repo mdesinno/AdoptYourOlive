@@ -248,5 +248,7 @@
 "modalMessage": "Din besked er blevet sendt med succes.",
 "modalCloseBtn": "Luk",
 "faqDeliveryTitle": "Jeg har ikke modtaget jeres e-mail, hvad kan jeg gøre?",
-"faqDeliveryAnswer": "Nogle gange kan automatiske e-mails havne i mapperne 'Kampagner' eller 'Spam'. Tjek venligst disse mapper i din indbakke. For at sikre, at du altid modtager vores kommunikation, anbefaler vi, at du tilføjer vores e-mailadresse til dine kontakter."
+"faqDeliveryAnswer": "Nogle gange kan automatiske e-mails havne i mapperne 'Kampagner' eller 'Spam'. Tjek venligst disse mapper i din indbakke. For at sikre, at du altid modtager vores kommunikation, anbefaler vi, at du tilføjer vores e-mailadresse til dine kontakter.",
+"error404Message": "Ups! Siden, du leder efter, findes ikke.",
+"error404Button": "Tilbage til forsiden"
 }

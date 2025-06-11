@@ -252,5 +252,7 @@
   "modalMessage": "Ihre Nachricht wurde erfolgreich gesendet.",
   "modalCloseBtn": "Schließen",
   "faqDeliveryTitle": "Ich habe Ihre E-Mail nicht erhalten, was kann ich tun?",
-  "faqDeliveryAnswer": "Manchmal können automatisierte E-Mails in den Ordnern 'Werbung' oder 'Spam' landen. Bitte überprüfen Sie diese Ordner in Ihrem Postfach. Um sicherzustellen, dass Sie unsere Mitteilungen immer erhalten, empfehlen wir Ihnen, unsere E-Mail-Adresse zu Ihren Kontakten hinzuzufügen."
+  "faqDeliveryAnswer": "Manchmal können automatisierte E-Mails in den Ordnern 'Werbung' oder 'Spam' landen. Bitte überprüfen Sie diese Ordner in Ihrem Postfach. Um sicherzustellen, dass Sie unsere Mitteilungen immer erhalten, empfehlen wir Ihnen, unsere E-Mail-Adresse zu Ihren Kontakten hinzuzufügen.",
+  "error404Message": "Hoppla! Die von Ihnen gesuchte Seite existiert nicht.",
+"error404Button": "Zurück zur Startseite"
 }

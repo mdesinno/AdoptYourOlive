@@ -252,5 +252,7 @@
 "modalMessage": "Ditt meddelande har skickats framgångsrikt.",
 "modalCloseBtn": "Stäng",
 "faqDeliveryTitle": "Jag har inte fått ert e-postmeddelande, vad kan jag göra?",
-"faqDeliveryAnswer": "Ibland kan automatiska e-postmeddelanden hamna i mapparna 'Kampanjer' eller 'Skräppost'. Kontrollera dessa mappar i din inkorg. För att säkerställa att du alltid får våra meddelanden rekommenderar vi att du lägger till vår e-postadress i dina kontakter."
+"faqDeliveryAnswer": "Ibland kan automatiska e-postmeddelanden hamna i mapparna 'Kampanjer' eller 'Skräppost'. Kontrollera dessa mappar i din inkorg. För att säkerställa att du alltid får våra meddelanden rekommenderar vi att du lägger till vår e-postadress i dina kontakter.",
+"error404Message": "Hoppsan! Sidan du letar efter finns inte.",
+"error404Button": "Tillbaka till startsidan"
 }

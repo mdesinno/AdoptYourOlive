@@ -252,5 +252,7 @@
 "modalMessage": "Votre message a été envoyé avec succès.",
 "modalCloseBtn": "Fermer",
 "faqDeliveryTitle": "Je n'ai pas reçu votre email, que puis-je faire ?",
-"faqDeliveryAnswer": "Parfois, les emails automatisés peuvent atterrir dans les dossiers 'Promotions' ou 'Spam'. Veuillez vérifier ces dossiers dans votre boîte de réception. Pour vous assurer de toujours recevoir nos communications, nous vous recommandons d'ajouter notre adresse email à vos contacts."
+"faqDeliveryAnswer": "Parfois, les emails automatisés peuvent atterrir dans les dossiers 'Promotions' ou 'Spam'. Veuillez vérifier ces dossiers dans votre boîte de réception. Pour vous assurer de toujours recevoir nos communications, nous vous recommandons d'ajouter notre adresse email à vos contacts.",
+"error404Message": "Oups ! La page que vous recherchez n'existe pas.",
+"error404Button": "Retour à l'accueil"
 }

@@ -252,6 +252,7 @@
   "modalMessage": "Your message has been sent successfully.",
   "modalCloseBtn": "Close",
   "faqDeliveryTitle": "I haven't received your email, what can I do?",
-  "faqDeliveryAnswer": "Sometimes automated emails can land in the 'Promotions' or 'Spam' folders. Please check these folders in your mailbox. To ensure you always receive our communications, we recommend adding our email address to your contacts."
-
+  "faqDeliveryAnswer": "Sometimes automated emails can land in the 'Promotions' or 'Spam' folders. Please check these folders in your mailbox. To ensure you always receive our communications, we recommend adding our email address to your contacts.",
+  "error404Message": "Oops! The page you are looking for does not exist.",
+"error404Button": "Back to Home"
 }

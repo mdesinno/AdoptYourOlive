@@ -252,5 +252,7 @@
 "modalMessage": "Il tuo messaggio è stato inviato con successo.",
 "modalCloseBtn": "Chiudi",
 "faqDeliveryTitle": "Non ho ricevuto la vostra email, cosa posso fare?",
-"faqDeliveryAnswer": "A volte le email automatiche possono finire nelle cartelle 'Promozioni' o 'Spam'. Controlla queste cartelle nella tua casella di posta. Per assicurarti di ricevere sempre le nostre comunicazioni, ti consigliamo di aggiungere il nostro indirizzo email ai tuoi contatti."
+"faqDeliveryAnswer": "A volte le email automatiche possono finire nelle cartelle 'Promozioni' o 'Spam'. Controlla queste cartelle nella tua casella di posta. Per assicurarti di ricevere sempre le nostre comunicazioni, ti consigliamo di aggiungere il nostro indirizzo email ai tuoi contatti.",
+"error404Message": "Oops! La pagina che stai cercando non esiste.",
+"error404Button": "Torna alla Home"
 }

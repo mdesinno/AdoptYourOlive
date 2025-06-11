@@ -252,5 +252,7 @@
 "modalMessage": "Je bericht is succesvol verzonden.",
 "modalCloseBtn": "Sluiten",
 "faqDeliveryTitle": "Ik heb jullie e-mail niet ontvangen, wat kan ik doen?",
-"faqDeliveryAnswer": "Soms kunnen geautomatiseerde e-mails in de mappen 'Promoties' of 'Spam' terechtkomen. Controleer deze mappen in je inbox. Om er zeker van te zijn dat je onze communicatie altijd ontvangt, raden we aan om ons e-mailadres toe te voegen aan je contacten."
+"faqDeliveryAnswer": "Soms kunnen geautomatiseerde e-mails in de mappen 'Promoties' of 'Spam' terechtkomen. Controleer deze mappen in je inbox. Om er zeker van te zijn dat je onze communicatie altijd ontvangt, raden we aan om ons e-mailadres toe te voegen aan je contacten.",
+"error404Message": "Oeps! De pagina die u zoekt, bestaat niet.",
+"error404Button": "Terug naar home"
 }

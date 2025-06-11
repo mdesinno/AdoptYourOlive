@@ -252,5 +252,7 @@
 "modalMessage": "Tu mensaje ha sido enviado con éxito.",
 "modalCloseBtn": "Cerrar",
 "faqDeliveryTitle": "No he recibido su correo electrónico, ¿qué puedo hacer?",
-"faqDeliveryAnswer": "A veces, los correos electrónicos automatizados pueden llegar a las carpetas de 'Promociones' o 'Spam'. Por favor, revisa estas carpetas en tu bandeja de entrada. Para asegurarte de recibir siempre nuestras comunicaciones, te recomendamos agregar nuestra dirección de correo electrónico a tus contactos."
+"faqDeliveryAnswer": "A veces, los correos electrónicos automatizados pueden llegar a las carpetas de 'Promociones' o 'Spam'. Por favor, revisa estas carpetas en tu bandeja de entrada. Para asegurarte de recibir siempre nuestras comunicaciones, te recomendamos agregar nuestra dirección de correo electrónico a tus contactos.",
+"error404Message": "¡Vaya! La página que estás buscando no existe.",
+"error404Button": "Volver al inicio"
 }
