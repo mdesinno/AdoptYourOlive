@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina non Trovata - Adopt Your Olive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Stili specifici per centrare il contenuto della pagina 404 */
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 20px;
+        }
+        .error-container h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            color: var(--primary-green);
+            margin: 0;
+        }
+        .error-container p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="nav-logo-container">
+            <a href="/">
+                <picture>
+                    <source srcset="/immagini/logo.webp" type="image/webp">
+                    <source srcset="/immagini/logo.png" type="image/png">
+                    <img src="/immagini/logo.png" alt="Adopt Your Olive Logo" class="nav-logo-image">
+                </picture>
+            </a>
+            <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="/#products" data-i18n-key="navAdoptShort">Adopt</a></li>
+            <li><a href="/#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
+            <li><a href="/#our-story" data-i18n-key="navStoryShort">Story</a></li>
+            <li><a href="/#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
+            <li><a href="/#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>
+            <li><a href="/#faq" data-i18n-key="navFAQShort">FAQ</a></li>
+            <li><a href="/#contact" data-i18n-key="navContactShort">Contact</a></li>
+        </ul>
+        <div class="language-switcher">
+            <select id="language-selector">
+                <option value="it">Italiano</option>
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="fr">Français</option>
+                <option value="es">Español</option>
+                <option value="nl">Nederlands</option>
+                <option value="no">Norsk</option>
+                <option value="sv">Svenska</option>
+                <option value="da">Dansk</option>
+                <option value="fi">Suomi</option>
+            </select>
+        </div>
+    </nav>
+
+    <main class="error-container">
+        <h1>404</h1>
+        <p data-i18n-key="error404Message">Oops! La pagina che stai cercando non esiste.</p>
+        <a href="/" class="btn btn-primary" data-i18n-key="error404Button">Torna alla Home</a>
+    </main>
+    
+    <script src="/script.js"></script>
+    <script>
+        // Piccolo script per assicurare che le traduzioni vengano caricate anche su questa pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            const lang = localStorage.getItem('language') || 'it';
+            if (window.setLanguage) {
+                window.setLanguage(lang);
+            }
+        });
+    </script>
+
+</body>
+</html>
