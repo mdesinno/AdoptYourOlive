@@ -1,15 +1,16 @@
-// Contenuto completo e corretto per script.js
-
+// Funzione per caricare la chiave e lo script di Google Maps
 async function loadGoogleMapsScript() {
     try {
+        // Chiamiamo la Netlify Function per ottenere la chiave in modo sicuro
         const response = await fetch('/.netlify/functions/get-maps-key');
+        if (!response.ok) throw new Error("Errore nel fetch della chiave API");
+        
         const data = await response.json();
         const apiKey = data.apiKey;
 
-        if (!apiKey) {
-            throw new Error("Chiave API di Google Maps non trovata.");
-        }
+        if (!apiKey) throw new Error("Chiave API di Google Maps non trovata.");
 
+        // Creiamo un nuovo tag <script> e lo aggiungiamo alla pagina
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initAutocomplete`;
         script.async = true;
@@ -20,22 +21,63 @@ async function loadGoogleMapsScript() {
     }
 }
 
-// Esegui la funzione all'avvio della pagina
-loadGoogleMapsScript();
+// ===================================================================
+// La funzione initAutocomplete ora deve essere definita a livello globale
+// perché viene chiamata dallo script di Google Maps.
+// ===================================================================
+function initAutocomplete() {
+    const addressInput = document.getElementById('address');
+    if (!addressInput) return;
+
+    const options = {
+        types: ['address'],
+        fields: ['address_components', 'name']
+    };
+
+    const autocomplete = new google.maps.places.Autocomplete(addressInput, options);
+    autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (!place.address_components) return;
+
+        document.getElementById('city').value = '';
+        document.getElementById('postal-code').value = '';
+        document.getElementById('country').value = '';
+        addressInput.value = '';
+
+        let streetNumber = '';
+        let route = '';
+
+        for (const component of place.address_components) {
+            const componentType = component.types[0];
+            switch (componentType) {
+                case "street_number": streetNumber = component.long_name; break;
+                case "route": route = component.long_name; break;
+                case "locality": document.getElementById('city').value = component.long_name; break;
+                case "postal_code": document.getElementById('postal-code').value = component.long_name; break;
+                case "country": document.getElementById('country').value = component.short_name; break;
+            }
+        }
+        addressInput.value = `${route} ${streetNumber}`.trim();
+        document.getElementById('address-2').focus();
+    });
+}
+// La rendiamo globale per essere accessibile dal callback di Google
+window.initAutocomplete = initAutocomplete;
+
+
+// ===== Inizio del resto del codice =====
 
 // Variabili globali per le traduzioni caricate
 let i18nData = {
-    en: {}, // Conterrà sempre le traduzioni inglesi come fallback
-    current: {} // Conterrà le traduzioni della lingua corrente
+    en: {},
+    current: {}
 };
-let currentLang = localStorage.getItem('language') || 'it'; // Default a Italiano
+let currentLang = localStorage.getItem('language') || 'it';
 
 async function fetchTranslations(lang) {
     try {
         const response = await fetch(`traduzioni/${lang}.json`);
-        if (!response.ok) {
-            throw new Error(`Non ho potuto caricare ${lang}.json: ${response.statusText}`);
-        }
+        if (!response.ok) throw new Error(`Non ho potuto caricare ${lang}.json: ${response.statusText}`);
         return await response.json();
     } catch (error) {
         console.error(error);
@@ -50,42 +92,32 @@ async function setLanguage(lang) {
 
     if (Object.keys(i18nData.en).length === 0) {
         const enTranslations = await fetchTranslations('en');
-        if (enTranslations) {
-            i18nData.en = enTranslations;
-        } else {
-            console.error("Non sono riuscito a caricare le traduzioni di fallback in Inglese. Il sito potrebbe non funzionare correttamente.");
-            return; 
+        if (enTranslations) i18nData.en = enTranslations;
+        else {
+            console.error("Non sono riuscito a caricare le traduzioni di fallback in Inglese.");
+            return;
         }
     }
-
     i18nData.current = (lang === 'en') ? i18nData.en : (await fetchTranslations(lang) || i18nData.en);
     
     document.querySelectorAll('[data-i18n-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-key');
         let translation = i18nData.current[key] || i18nData.en[key];
-
         if (key === 'formButtonCompletePay' && selectedPrice > 0) {
             const payButtonText = i18nData.current.formButtonCompletePay || i18nData.en.formButtonCompletePay || "Complete Adoption - Pay €{price}";
             translation = payButtonText.replace('{price}', selectedPrice);
         } else if (key === 'formButtonCompletePay' && selectedPrice === 0) {
              translation = i18nData.current.formButtonCompleteDefault || i18nData.en.formButtonCompleteDefault;
         }
-        
-        if (element.tagName === 'LI' && key.includes('Benefit')) {
-             element.innerHTML = translation || '';
-        } else if (element.tagName === 'P' && (key.includes('Answer') || key.includes('whatYouGetImagineText'))) {
-             element.innerHTML = translation || '';
-        } else {
-            element.textContent = translation || '';
-        }
+        if (element.tagName === 'LI' && key.includes('Benefit')) element.innerHTML = translation || '';
+        else if (element.tagName === 'P' && (key.includes('Answer') || key.includes('whatYouGetImagineText'))) element.innerHTML = translation || '';
+        else element.textContent = translation || '';
     });
-
     document.querySelectorAll('[data-i18n-placeholder-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-placeholder-key');
         const placeholderTranslation = i18nData.current[key] || i18nData.en[key];
         element.placeholder = placeholderTranslation || '';
     });
-
     const treeTypeSelect = document.getElementById('tree-type');
     if (treeTypeSelect) {
         treeTypeSelect.querySelector('option[value=""]').textContent = i18nData.current.formSelectTreeType || i18nData.en.formSelectTreeType;
@@ -99,62 +131,13 @@ async function setLanguage(lang) {
         const countries = ["IT", "UK", "DE", "CH", "NO", "SE", "DK", "FR", "ES", "NL", "AT", "BE", "FI"];
         countries.forEach(countryCode => {
             const option = countrySelect.querySelector(`option[value="${countryCode}"]`);
-            if (option) {
-                option.textContent = i18nData.current[`formCountry${countryCode}`] || i18nData.en[`formCountry${countryCode}`];
-            }
+            if (option) option.textContent = i18nData.current[`formCountry${countryCode}`] || i18nData.en[`formCountry${countryCode}`];
         });
     }
-    
     updateTreeSelectionDisplay();
     updateMostPopular();
     updateCharCount();
     checkFormValidity();
-}
-
-function initAutocomplete() {
-    const addressInput = document.getElementById('address');
-    if (!addressInput) {
-        console.warn("Campo Indirizzo non trovato per Autocomplete.");
-        return;
-    }
-
-    const options = {
-        types: ['address'],
-        fields: ['address_components', 'name']
-    };
-
-    try {
-        const autocomplete = new google.maps.places.Autocomplete(addressInput, options);
-
-        autocomplete.addListener('place_changed', () => {
-            const place = autocomplete.getPlace();
-            if (!place.address_components) return;
-
-            document.getElementById('city').value = '';
-            document.getElementById('postal-code').value = '';
-            document.getElementById('country').value = '';
-            addressInput.value = '';
-
-            let streetNumber = '';
-            let route = '';
-
-            for (const component of place.address_components) {
-                const componentType = component.types[0];
-                switch (componentType) {
-                    case "street_number": streetNumber = component.long_name; break;
-                    case "route": route = component.long_name; break;
-                    case "locality": document.getElementById('city').value = component.long_name; break;
-                    case "postal_code": document.getElementById('postal-code').value = component.long_name; break;
-                    case "country": document.getElementById('country').value = component.short_name; break;
-                }
-            }
-            addressInput.value = `${route} ${streetNumber}`.trim();
-            document.getElementById('address-2').focus();
-        });
-
-    } catch (e) {
-        console.warn("Google Maps Autocomplete non ha potuto inizializzarsi.", e);
-    }
 }
 
 let selectedTreeType = '';
@@ -202,10 +185,7 @@ function selectTree(treeType) {
         const navHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
         const elementPosition = formSection.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - navHeight - 20;
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
 }
 
@@ -236,9 +216,7 @@ function updateTreeSelectionFromForm() {
 
 function updateTreeSelectionDisplay() {
     const currentTrans = (i18nData.current && Object.keys(i18nData.current).length > 0) ? i18nData.current : i18nData.en;
-    if (!currentTrans || Object.keys(currentTrans).length === 0) {
-        return; 
-    }
+    if (!currentTrans || Object.keys(currentTrans).length === 0) return;
     const treeNames = {
         'young': (currentTrans.formTreeYoung || "").split(' - ')[0],
         'mature': (currentTrans.formTreeMature || "").split(' - ')[0],
@@ -263,11 +241,8 @@ function updateCertificatePreview() {
     const lastName = document.getElementById('last-name').value.trim();
     const certificateNameInput = document.getElementById('certificate-name').value.trim();
     let displayCertificateName = currentTrans.certYourNamePlaceholder;
-    if (certificateNameInput) {
-        displayCertificateName = certificateNameInput;
-    } else if (firstName || lastName) {
-        displayCertificateName = `${firstName} ${lastName}`.trim();
-    }
+    if (certificateNameInput) displayCertificateName = certificateNameInput;
+    else if (firstName || lastName) displayCertificateName = `${firstName} ${lastName}`.trim();
     const message = document.getElementById('certificate-message').value.trim() || currentTrans.certMessagePlaceholder;
     const previewNameEl = document.getElementById('preview-name');
     const previewMessageEl = document.getElementById('preview-message');
@@ -293,55 +268,40 @@ function checkFormValidity() {
     const completeBtn = document.getElementById('complete-adoption-btn');
     let allValid = selectedTreeType !== '';
     requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-            allValid = false;
-        }
+        if (!field.value.trim()) allValid = false;
     });
     if(completeBtn){
         completeBtn.disabled = !allValid;
         let buttonTextKey = allValid ? (selectedPrice > 0 ? 'formButtonCompletePay' : 'formButtonCompleteDefault') : 'formButtonCompleteFields';
         let buttonText = currentTrans[buttonTextKey] || i18nData.en[buttonTextKey];
-        if (buttonTextKey === 'formButtonCompletePay') {
-            buttonText = buttonText.replace('{price}', selectedPrice);
-        }
+        if (buttonTextKey === 'formButtonCompletePay') buttonText = buttonText.replace('{price}', selectedPrice);
         completeBtn.textContent = buttonText;
     }
 }
 
-
 document.addEventListener('DOMContentLoaded', async () => {
+    // La mappa viene caricata all'avvio
+    loadGoogleMapsScript();
 
-    // ===================================================================
-    // NUOVA LOGICA PER GESTIRE I FORM DI CONTATTO E NEWSLETTER CON NETLIFY
-    // ===================================================================
     const handleNetlifyFormSubmit = async (event) => {
-         // ▼▼▼ AGGIUNGI QUESTA RIGA QUI ▼▼▼
-    document.getElementById('form-language').value = currentLang;
-        event.preventDefault(); // Impedisce il ricaricamento della pagina
-
+        event.preventDefault();
+        document.getElementById('form-language').value = currentLang;
         const form = event.target;
         const formData = new FormData(form);
         const successMessage = document.getElementById(form.id + '-success');
         const submitButton = form.querySelector('button[type="submit"]');
-
         if (submitButton) submitButton.disabled = true;
-
         try {
             const response = await fetch('/', {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams(formData).toString()
             });
-
             if (response.ok) {
                 if (successMessage) successMessage.classList.add('visible');
                 form.reset();
-                setTimeout(() => {
-                    if (successMessage) successMessage.classList.remove('visible');
-                }, 5000);
-            } else {
-                throw new Error('Network response was not ok.');
-            }
+                setTimeout(() => { if (successMessage) successMessage.classList.remove('visible'); }, 5000);
+            } else { throw new Error('Network response was not ok.'); }
         } catch (error) {
             console.error('Form submission error:', error);
             alert('Si è verificato un errore, riprova.');
@@ -349,21 +309,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (submitButton) submitButton.disabled = false;
         }
     };
-
-    // Applica la logica ai form di contatto e newsletter
     const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', handleNetlifyFormSubmit);
-    }
-
+    if (contactForm) contactForm.addEventListener('submit', handleNetlifyFormSubmit);
     const newsletterForm = document.getElementById('newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', handleNetlifyFormSubmit);
-    }
-    // ===================================================================
-    // FINE NUOVA LOGICA FORM
-    // ===================================================================
-
+    if (newsletterForm) newsletterForm.addEventListener('submit', handleNetlifyFormSubmit);
 
     // --- Inizio del tuo codice originale ---
     const languageSelector = document.getElementById('language-selector');
@@ -371,16 +320,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         languageSelector.value = currentLang;
         languageSelector.addEventListener('change', (event) => setLanguage(event.target.value));
     }
-
     const heroBgVideo = document.getElementById('heroBgVideo');
     const videoBackgroundDiv = document.querySelector('.video-background');
-
     if (heroBgVideo && videoBackgroundDiv) {
-        heroBgVideo.oncanplay = function() {
-            videoBackgroundDiv.style.backgroundImage = 'none';
-        };
+        heroBgVideo.oncanplay = function() { videoBackgroundDiv.style.backgroundImage = 'none'; };
     }
-
     await setLanguage(currentLang);
     const storedTreeType = sessionStorage.getItem('selectedTree');
     if (storedTreeType) {
@@ -397,13 +341,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (input.id === 'certificate-name' || input.id === 'certificate-message' || input.id === 'first-name' || input.id === 'last-name') {
             input.addEventListener('input', updateCertificatePreview);
         }
-        if (input.id === 'certificate-message') {
-            input.addEventListener('input', updateCharCount);
-        }
+        if (input.id === 'certificate-message') input.addEventListener('input', updateCharCount);
     });
-
     checkFormValidity();
-
     const adoptionForm = document.getElementById('adoption-form');
     if (adoptionForm) {
         adoptionForm.addEventListener('submit', (e) => {
@@ -417,27 +357,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert(currentTrans.alertFormSubmitted);
         });
     }
-
     const nav = document.querySelector('.main-nav');
     if (nav) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) nav.classList.add('scrolled');
             else nav.classList.remove('scrolled');
-            
             let currentSectionId = 'hero';
             const navHeight = nav.offsetHeight || 0;
             document.querySelectorAll('section[id]').forEach(section => {
                 const sectionTop = section.offsetTop - navHeight - 20;
-                if (pageYOffset >= sectionTop) {
-                    currentSectionId = section.getAttribute('id');
-                }
+                if (pageYOffset >= sectionTop) currentSectionId = section.getAttribute('id');
             });
             document.querySelectorAll('.nav-links li a').forEach(link => {
                 link.classList.toggle('active-link', link.getAttribute('href') === `#${currentSectionId}`);
             });
         });
     }
-
     const navToggle = document.querySelector('.nav-toggle');
     const navLinks = document.querySelector('.nav-links');
     if (navToggle && navLinks) {
@@ -446,7 +381,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             navToggle.setAttribute('aria-expanded', String(isOpen));
         });
     }
-
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -462,7 +396,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     });
-
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -472,7 +405,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
     document.querySelectorAll('.faq-question').forEach(q => {
         q.addEventListener('click', () => {
             const answer = q.nextElementSibling;
@@ -487,7 +419,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     });
-    
     (function initSlideshow() {
         let slideIndex = 0;
         const slides = document.querySelectorAll("#gallery .slide");
@@ -504,7 +435,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.currentSlide = (n) => showSlides(n - 1);
         showSlides(slideIndex);
     })();
-
     const cookieBanner = document.getElementById('cookie-banner');
     if (cookieBanner && !localStorage.getItem('cookieConsentAyo')) {
         cookieBanner.style.display = 'block';
@@ -517,7 +447,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             cookieBanner.style.display = 'none';
         });
     }
-
     const exitIntentPopup = document.getElementById('exit-intent-popup');
     if (exitIntentPopup) {
         const showExitPopup = () => {
