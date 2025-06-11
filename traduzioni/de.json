@@ -247,5 +247,10 @@
     "finalCtaTitleNew": "Beginnen Sie noch heute Ihre apulische Olivenöl-Reise",
     "finalCtaSubtitleNew": "Begrenzte Verfügbarkeit für unsere erste Saison 2025. Treten Sie unserer Familientradition bei und schmecken Sie den Unterschied.",
     "finalCtaAdoptNew": "Adoptieren Sie jetzt Ihren Baum",
-    "finalCtaContactNew": "Fragen? Kontaktieren Sie uns"
+    "finalCtaContactNew": "Fragen? Kontaktieren Sie uns",
+    "modalTitle": "Vielen Dank!",
+  "modalMessage": "Ihre Nachricht wurde erfolgreich gesendet.",
+  "modalCloseBtn": "Schließen",
+  "faqDeliveryTitle": "Ich habe Ihre E-Mail nicht erhalten, was kann ich tun?",
+  "faqDeliveryAnswer": "Manchmal können automatisierte E-Mails in den Ordnern 'Werbung' oder 'Spam' landen. Bitte überprüfen Sie diese Ordner in Ihrem Postfach. Um sicherzustellen, dass Sie unsere Mitteilungen immer erhalten, empfehlen wir Ihnen, unsere E-Mail-Adresse zu Ihren Kontakten hinzuzufügen."
 }

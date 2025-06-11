@@ -243,5 +243,10 @@
     "finalCtaTitleNew": "Start Din Puglisiske Olivenolie",
     "finalCtaSubtitleNew": "Begrænset tilgængelighed for vores indledende sæson 2025. Bliv en del af vores familietradition og smag forskellen.",
     "finalCtaAdoptNew": "Adoptér Dit Træ Nu",
-    "finalCtaContactNew": "Spørgsmål? Kontakt Os"
+    "finalCtaContactNew": "Spørgsmål? Kontakt Os",
+    "modalTitle": "Tak!",
+"modalMessage": "Din besked er blevet sendt med succes.",
+"modalCloseBtn": "Luk",
+"faqDeliveryTitle": "Jeg har ikke modtaget jeres e-mail, hvad kan jeg gøre?",
+"faqDeliveryAnswer": "Nogle gange kan automatiske e-mails havne i mapperne 'Kampagner' eller 'Spam'. Tjek venligst disse mapper i din indbakke. For at sikre, at du altid modtager vores kommunikation, anbefaler vi, at du tilføjer vores e-mailadresse til dine kontakter."
 }

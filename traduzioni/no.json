@@ -247,5 +247,10 @@
     "finalCtaTitleNew": "Start Din Pugliske Olivenolje Reise I Dag",
     "finalCtaSubtitleNew": "Begrenset tilgjengelighet for vår innledende sesong 2025. Bli med i vår familietradisjon og smak forskjellen.",
     "finalCtaAdoptNew": "Adopter Treet Ditt Nå",
-    "finalCtaContactNew": "Spørsmål? Kontakt Oss"
+    "finalCtaContactNew": "Spørsmål? Kontakt Oss",
+    "modalTitle": "Takk!",
+"modalMessage": "Meldingen din har blitt sendt.",
+"modalCloseBtn": "Lukk",
+"faqDeliveryTitle": "Jeg har ikke mottatt e-posten deres, hva kan jeg gjøre?",
+"faqDeliveryAnswer": "Noen ganger kan automatiserte e-poster havne i mappene 'Kampanjer' eller 'Søppelpost'. Vennligst sjekk disse mappene i innboksen din. For å sikre at du alltid mottar vår kommunikasjon, anbefaler vi at du legger til e-postadressen vår i kontaktene dine."
 }

@@ -247,5 +247,10 @@
     "finalCtaTitleNew": "Begin Vandaag Uw Pugliese Olijfolie Reis",
     "finalCtaSubtitleNew": "Beperkte beschikbaarheid voor ons inaugurele seizoen 2025. Sluit u aan bij onze familietraditie en proef het verschil.",
     "finalCtaAdoptNew": "Adopteer Nu Uw Boom",
-    "finalCtaContactNew": "Vragen? Neem Contact Met Ons Op"
+    "finalCtaContactNew": "Vragen? Neem Contact Met Ons Op",
+    "modalTitle": "Bedankt!",
+"modalMessage": "Je bericht is succesvol verzonden.",
+"modalCloseBtn": "Sluiten",
+"faqDeliveryTitle": "Ik heb jullie e-mail niet ontvangen, wat kan ik doen?",
+"faqDeliveryAnswer": "Soms kunnen geautomatiseerde e-mails in de mappen 'Promoties' of 'Spam' terechtkomen. Controleer deze mappen in je inbox. Om er zeker van te zijn dat je onze communicatie altijd ontvangt, raden we aan om ons e-mailadres toe te voegen aan je contacten."
 }

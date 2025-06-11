@@ -1,7 +1,6 @@
 // Funzione per caricare la chiave e lo script di Google Maps in modo sicuro
 async function loadGoogleMapsScript() {
     try {
-        // Chiamiamo la Netlify Function per ottenere la chiave API
         const response = await fetch('/.netlify/functions/get-maps-key');
         if (!response.ok) throw new Error("Errore nel fetch della chiave API");
         
@@ -10,7 +9,6 @@ async function loadGoogleMapsScript() {
 
         if (!apiKey) throw new Error("Chiave API di Google Maps non trovata.");
 
-        // Creiamo il tag <script> e lo aggiungiamo alla pagina
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initAutocomplete`;
         script.async = true;
@@ -25,52 +23,43 @@ async function loadGoogleMapsScript() {
 // Deve essere globale per essere trovata.
 function initAutocomplete() {
     const addressInput = document.getElementById('address');
-    if (!addressInput) return;
-
-    const options = {
-        types: ['address'],
-        fields: ['address_components', 'name']
-    };
-
-    const autocomplete = new google.maps.places.Autocomplete(addressInput, options);
-    autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        if (!place.address_components) return;
-
-        // Pulisce i campi prima di riempirli
-        document.getElementById('city').value = '';
-        document.getElementById('postal-code').value = '';
-        document.getElementById('country').value = '';
-        addressInput.value = '';
-
-        let streetNumber = '';
-        let route = '';
-
-        for (const component of place.address_components) {
-            const componentType = component.types[0];
-            switch (componentType) {
-                case "street_number": streetNumber = component.long_name; break;
-                case "route": route = component.long_name; break;
-                case "locality": document.getElementById('city').value = component.long_name; break;
-                case "postal_code": document.getElementById('postal-code').value = component.long_name; break;
-                case "country": document.getElementById('country').value = component.short_name; break;
+    if (!addressInput) {
+        console.warn("Campo Indirizzo non trovato per Autocomplete.");
+        return;
+    }
+    const options = { types: ['address'], fields: ['address_components', 'name'] };
+    try {
+        const autocomplete = new google.maps.places.Autocomplete(addressInput, options);
+        autocomplete.addListener('place_changed', () => {
+            const place = autocomplete.getPlace();
+            if (!place.address_components) return;
+            document.getElementById('city').value = '';
+            document.getElementById('postal-code').value = '';
+            document.getElementById('country').value = '';
+            addressInput.value = '';
+            let streetNumber = '', route = '';
+            for (const component of place.address_components) {
+                const componentType = component.types[0];
+                switch (componentType) {
+                    case "street_number": streetNumber = component.long_name; break;
+                    case "route": route = component.long_name; break;
+                    case "locality": document.getElementById('city').value = component.long_name; break;
+                    case "postal_code": document.getElementById('postal-code').value = component.long_name; break;
+                    case "country": document.getElementById('country').value = component.short_name; break;
+                }
             }
-        }
-        addressInput.value = `${route} ${streetNumber}`.trim();
-        document.getElementById('address-2').focus();
-    });
+            addressInput.value = `${route} ${streetNumber}`.trim();
+            document.getElementById('address-2').focus();
+        });
+    } catch (e) {
+        console.warn("Google Maps Autocomplete non ha potuto inizializzarsi.", e);
+    }
 }
 // La rendiamo esplicitamente globale
 window.initAutocomplete = initAutocomplete;
 
-
-// ===== Inizio del resto del codice =====
-
-// Variabili globali per le traduzioni caricate
-let i18nData = {
-    en: {},
-    current: {}
-};
+// Variabili globali e funzioni di traduzione
+let i18nData = { en: {}, current: {} };
 let currentLang = localStorage.getItem('language') || 'it';
 
 async function fetchTranslations(lang) {
@@ -88,34 +77,28 @@ async function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('language', lang);
     document.documentElement.lang = lang;
-
     if (Object.keys(i18nData.en).length === 0) {
         const enTranslations = await fetchTranslations('en');
         if (enTranslations) i18nData.en = enTranslations;
-        else {
-            console.error("Non sono riuscito a caricare le traduzioni di fallback in Inglese.");
-            return;
-        }
+        else { console.error("Non sono riuscito a caricare le traduzioni di fallback in Inglese."); return; }
     }
     i18nData.current = (lang === 'en') ? i18nData.en : (await fetchTranslations(lang) || i18nData.en);
-    
     document.querySelectorAll('[data-i18n-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-key');
-        let translation = i18nData.current[key] || i18nData.en[key];
+        let translation = i18nData.current[key] || i18nData.en[key] || '';
         if (key === 'formButtonCompletePay' && selectedPrice > 0) {
             const payButtonText = i18nData.current.formButtonCompletePay || i18nData.en.formButtonCompletePay || "Complete Adoption - Pay €{price}";
             translation = payButtonText.replace('{price}', selectedPrice);
         } else if (key === 'formButtonCompletePay' && selectedPrice === 0) {
-             translation = i18nData.current.formButtonCompleteDefault || i18nData.en.formButtonCompleteDefault;
+            translation = i18nData.current.formButtonCompleteDefault || i18nData.en.formButtonCompleteDefault;
         }
-        if (element.tagName === 'LI' && key.includes('Benefit')) element.innerHTML = translation || '';
-        else if (element.tagName === 'P' && (key.includes('Answer') || key.includes('whatYouGetImagineText'))) element.innerHTML = translation || '';
-        else element.textContent = translation || '';
+        if (element.tagName === 'LI' && key.includes('Benefit')) element.innerHTML = translation;
+        else if (element.tagName === 'P' && (key.includes('Answer') || key.includes('whatYouGetImagineText'))) element.innerHTML = translation;
+        else element.textContent = translation;
     });
     document.querySelectorAll('[data-i18n-placeholder-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-placeholder-key');
-        const placeholderTranslation = i18nData.current[key] || i18nData.en[key];
-        element.placeholder = placeholderTranslation || '';
+        element.placeholder = i18nData.current[key] || i18nData.en[key] || '';
     });
     const treeTypeSelect = document.getElementById('tree-type');
     if (treeTypeSelect) {
@@ -139,6 +122,7 @@ async function setLanguage(lang) {
     checkFormValidity();
 }
 
+// Logica di selezione dell'albero e altre funzioni
 let selectedTreeType = '';
 let selectedPrice = 0;
 const clickTracker = {
@@ -255,8 +239,8 @@ function updateCharCount() {
     const textarea = document.getElementById('certificate-message');
     const counter = textarea.parentElement.querySelector('.char-count');
     if (counter) {
-         const charCountText = currentTrans.formCharCount;
-         counter.textContent = charCountText.replace(/\d+\//, `${textarea.value.length}/`);
+        const charCountText = currentTrans.formCharCount;
+        counter.textContent = charCountText.replace(/\d+\//, `${textarea.value.length}/`);
     }
 }
 
@@ -265,33 +249,32 @@ function checkFormValidity() {
     if (!currentTrans || Object.keys(currentTrans).length === 0) return;
     const requiredFields = document.querySelectorAll('#adoption-form input[required], #adoption-form select[required]');
     const completeBtn = document.getElementById('complete-adoption-btn');
+    if (!completeBtn) return;
     let allValid = selectedTreeType !== '';
     requiredFields.forEach(field => {
         if (!field.value.trim()) allValid = false;
     });
-    if(completeBtn){
-        completeBtn.disabled = !allValid;
-        let buttonTextKey = allValid ? (selectedPrice > 0 ? 'formButtonCompletePay' : 'formButtonCompleteDefault') : 'formButtonCompleteFields';
-        let buttonText = currentTrans[buttonTextKey] || i18nData.en[buttonTextKey];
-        if (buttonTextKey === 'formButtonCompletePay') buttonText = buttonText.replace('{price}', selectedPrice);
-        completeBtn.textContent = buttonText;
-    }
+    completeBtn.disabled = !allValid;
+    let buttonTextKey = allValid ? (selectedPrice > 0 ? 'formButtonCompletePay' : 'formButtonCompleteDefault') : 'formButtonCompleteFields';
+    let buttonText = currentTrans[buttonTextKey] || i18nData.en[buttonTextKey];
+    if (buttonTextKey === 'formButtonCompletePay') buttonText = buttonText.replace('{price}', selectedPrice);
+    completeBtn.textContent = buttonText;
 }
 
-// Esegui la funzione per caricare lo script di Google Maps all'avvio
+// Codice che viene eseguito all'avvio e dopo il caricamento della pagina
 loadGoogleMapsScript();
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-    // Funzione per gestire l'invio AJAX dei form a Netlify
     const handleNetlifyFormSubmit = async (event) => {
         event.preventDefault();
-        document.getElementById('form-language').value = currentLang; // Aggiunge la lingua al form
-        
+        const langField = document.getElementById('form-language');
+        if (langField) langField.value = currentLang;
+
         const form = event.target;
         const formData = new FormData(form);
-        const successMessage = document.getElementById(form.id + '-success');
         const submitButton = form.querySelector('button[type="submit"]');
+        const modal = document.getElementById('success-modal');
 
         if (submitButton) submitButton.disabled = true;
 
@@ -301,11 +284,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams(formData).toString()
             });
-
             if (response.ok) {
-                if (successMessage) successMessage.classList.add('visible');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    setTimeout(() => modal.classList.add('visible'), 10);
+                }
                 form.reset();
-                setTimeout(() => { if (successMessage) successMessage.classList.remove('visible'); }, 5000);
             } else { throw new Error('Network response was not ok.'); }
         } catch (error) {
             console.error('Form submission error:', error);
@@ -315,14 +299,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    // Applica la logica ai form di contatto e newsletter
+    const modal = document.getElementById('success-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    function closeModal() {
+        if (modal) {
+            modal.classList.remove('visible');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+    }
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    if (modal) modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
     const contactForm = document.getElementById('contact-form');
     if (contactForm) contactForm.addEventListener('submit', handleNetlifyFormSubmit);
-
+    
     const newsletterForm = document.getElementById('newsletter-form');
     if (newsletterForm) newsletterForm.addEventListener('submit', handleNetlifyFormSubmit);
 
-    // --- Inizio del tuo codice originale ---
+    // Esecuzione di tutto il resto del tuo codice originale
     const languageSelector = document.getElementById('language-selector');
     if (languageSelector) {
         languageSelector.value = currentLang;
@@ -346,7 +342,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     formInputs.forEach(input => {
         const eventType = (input.tagName === 'SELECT' || input.type === 'checkbox') ? 'change' : 'input';
         input.addEventListener(eventType, checkFormValidity);
-        if (input.id === 'certificate-name' || input.id === 'certificate-message' || input.id === 'first-name' || input.id === 'last-name') {
+        if (['certificate-name', 'certificate-message', 'first-name', 'last-name'].includes(input.id)) {
             input.addEventListener('input', updateCertificatePreview);
         }
         if (input.id === 'certificate-message') input.addEventListener('input', updateCharCount);
@@ -477,7 +473,7 @@ function resetClickCounters() {
     localStorage.removeItem('clicks_mature');
     localStorage.removeItem('clicks_centenary');
     clickTracker.young = 0;
-    clickTracker.mature = 5; 
+    clickTracker.mature = 5;
     clickTracker.centenary = 0;
     updateMostPopular();
     sessionStorage.removeItem('selectedTree');

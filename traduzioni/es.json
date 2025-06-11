@@ -247,5 +247,10 @@
     "finalCtaTitleNew": "Comienza Tu Viaje con el Aceite de Oliva de Apulia Hoy",
     "finalCtaSubtitleNew": "Disponibilidad limitada para nuestra temporada inaugural 2025. Únete a nuestra tradición familiar y prueba la diferencia.",
     "finalCtaAdoptNew": "Adopta Tu Árbol Ahora",
-    "finalCtaContactNew": "¿Preguntas? Contáctanos"
+    "finalCtaContactNew": "¿Preguntas? Contáctanos",
+    "modalTitle": "¡Gracias!",
+"modalMessage": "Tu mensaje ha sido enviado con éxito.",
+"modalCloseBtn": "Cerrar",
+"faqDeliveryTitle": "No he recibido su correo electrónico, ¿qué puedo hacer?",
+"faqDeliveryAnswer": "A veces, los correos electrónicos automatizados pueden llegar a las carpetas de 'Promociones' o 'Spam'. Por favor, revisa estas carpetas en tu bandeja de entrada. Para asegurarte de recibir siempre nuestras comunicaciones, te recomendamos agregar nuestra dirección de correo electrónico a tus contactos."
 }

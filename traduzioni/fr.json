@@ -247,5 +247,10 @@
     "finalCtaTitleNew": "Commencez Votre Voyage avec l'Huile d'Olive des Pouilles Aujourd'hui",
     "finalCtaSubtitleNew": "Disponibilité limitée pour notre saison inaugurale 2025. Rejoignez notre tradition familiale et goûtez la différence.",
     "finalCtaAdoptNew": "Adoptez Votre Arbre Maintenant",
-    "finalCtaContactNew": "Des Questions ? Contactez-Nous"
+    "finalCtaContactNew": "Des Questions ? Contactez-Nous",
+    "modalTitle": "Merci !",
+"modalMessage": "Votre message a été envoyé avec succès.",
+"modalCloseBtn": "Fermer",
+"faqDeliveryTitle": "Je n'ai pas reçu votre email, que puis-je faire ?",
+"faqDeliveryAnswer": "Parfois, les emails automatisés peuvent atterrir dans les dossiers 'Promotions' ou 'Spam'. Veuillez vérifier ces dossiers dans votre boîte de réception. Pour vous assurer de toujours recevoir nos communications, nous vous recommandons d'ajouter notre adresse email à vos contacts."
 }

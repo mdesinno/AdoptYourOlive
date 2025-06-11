@@ -247,5 +247,10 @@
     "finalCtaTitleNew": "Aloita Puglian oliiviöljyseikkailusi tänään",
     "finalCtaSubtitleNew": "Rajoitettu saatavuus avajaiskaudellemme 2025. Liity perheperinteeseemme ja maista ero.",
     "finalCtaAdoptNew": "Adoptoi puusi nyt",
-    "finalCtaContactNew": "Kysymyksiä? Ota yhteyttä"
+    "finalCtaContactNew": "Kysymyksiä? Ota yhteyttä",
+    "modalTitle": "Kiitos!",
+"modalMessage": "Viestisi on lähetetty onnistuneesti.",
+"modalCloseBtn": "Sulje",
+"faqDeliveryTitle": "En ole saanut sähköpostianne, mitä voin tehdä?",
+"faqDeliveryAnswer": "Joskus automaattiset sähköpostit voivat päätyä 'Tarjoukset'- tai 'Roskaposti'-kansioihin. Tarkista nämä kansiot postilaatikostasi. Jotta saat aina viestimme, suosittelemme lisäämään sähköpostiosoitteemme yhteystietoihisi."
 }

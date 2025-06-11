@@ -247,5 +247,10 @@
     "finalCtaTitleNew": "Inizia Oggi il Tuo Viaggio nell'Olio d'Oliva Pugliese",
     "finalCtaSubtitleNew": "Disponibilità limitata per la nostra stagione inaugurale 2025. Unisciti alla tradizione della nostra famiglia e assapora la differenza.",
     "finalCtaAdoptNew": "Adotta Ora il Tuo Ulivo",
-    "finalCtaContactNew": "Domande? Contattaci"
+    "finalCtaContactNew": "Domande? Contattaci",
+    "modalTitle": "Grazie!",
+"modalMessage": "Il tuo messaggio è stato inviato con successo.",
+"modalCloseBtn": "Chiudi",
+"faqDeliveryTitle": "Non ho ricevuto la vostra email, cosa posso fare?",
+"faqDeliveryAnswer": "A volte le email automatiche possono finire nelle cartelle 'Promozioni' o 'Spam'. Controlla queste cartelle nella tua casella di posta. Per assicurarti di ricevere sempre le nostre comunicazioni, ti consigliamo di aggiungere il nostro indirizzo email ai tuoi contatti."
 }

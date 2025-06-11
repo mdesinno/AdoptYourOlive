@@ -247,5 +247,10 @@
     "finalCtaTitleNew": "Börja Din Pugliesiska Olivoljeresa Idag",
     "finalCtaSubtitleNew": "Begränsad tillgänglighet för vår första säsong 2025. Gå med i vår familjetradition och smaka skillnaden.",
     "finalCtaAdoptNew": "Adoptera Ditt Träd Nu",
-    "finalCtaContactNew": "Frågor? Kontakta Oss"
+    "finalCtaContactNew": "Frågor? Kontakta Oss",
+    "modalTitle": "Tack!",
+"modalMessage": "Ditt meddelande har skickats framgångsrikt.",
+"modalCloseBtn": "Stäng",
+"faqDeliveryTitle": "Jag har inte fått ert e-postmeddelande, vad kan jag göra?",
+"faqDeliveryAnswer": "Ibland kan automatiska e-postmeddelanden hamna i mapparna 'Kampanjer' eller 'Skräppost'. Kontrollera dessa mappar i din inkorg. För att säkerställa att du alltid får våra meddelanden rekommenderar vi att du lägger till vår e-postadress i dina kontakter."
 }
