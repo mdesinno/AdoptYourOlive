@@ -267,37 +267,45 @@ loadGoogleMapsScript();
 document.addEventListener('DOMContentLoaded', async () => {
 
     const handleNetlifyFormSubmit = async (event) => {
-        event.preventDefault();
-        const langField = document.getElementById('form-language');
-        if (langField) langField.value = currentLang;
+    event.preventDefault(); // Impedisce il ricaricamento della pagina
 
-        const form = event.target;
-        const formData = new FormData(form);
-        const submitButton = form.querySelector('button[type="submit"]');
-        const modal = document.getElementById('success-modal');
+    const form = event.target;
+    
+    // CORREZIONE: Cerca il campo lingua all'interno del form specifico che ha generato l'evento
+    const langField = form.querySelector('input[name="language"]');
+    if (langField) {
+        langField.value = currentLang;
+    }
 
-        if (submitButton) submitButton.disabled = true;
+    const formData = new FormData(form);
+    const submitButton = form.querySelector('button[type="submit"]');
+    const modal = document.getElementById('success-modal');
 
-        try {
-            const response = await fetch('/', {
-                method: 'POST',
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(formData).toString()
-            });
-            if (response.ok) {
-                if (modal) {
-                    modal.style.display = 'flex';
-                    setTimeout(() => modal.classList.add('visible'), 10);
-                }
-                form.reset();
-            } else { throw new Error('Network response was not ok.'); }
-        } catch (error) {
-            console.error('Form submission error:', error);
-            alert('Si è verificato un errore, riprova.');
-        } finally {
-            if (submitButton) submitButton.disabled = false;
+    if (submitButton) submitButton.disabled = true;
+
+    try {
+        const response = await fetch('/', {
+            method: 'POST',
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString()
+        });
+
+        if (response.ok) {
+            if (modal) {
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('visible'), 10);
+            }
+            form.reset();
+        } else { 
+            throw new Error('Network response was not ok.'); 
         }
-    };
+    } catch (error) {
+        console.error('Form submission error:', error);
+        alert('Si è verificato un errore, riprova.');
+    } finally {
+        if (submitButton) submitButton.disabled = false;
+    }
+};
 
     const modal = document.getElementById('success-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');
