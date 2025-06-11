@@ -1,5 +1,28 @@
 // Contenuto completo e corretto per script.js
 
+async function loadGoogleMapsScript() {
+    try {
+        const response = await fetch('/.netlify/functions/get-maps-key');
+        const data = await response.json();
+        const apiKey = data.apiKey;
+
+        if (!apiKey) {
+            throw new Error("Chiave API di Google Maps non trovata.");
+        }
+
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initAutocomplete`;
+        script.async = true;
+        document.head.appendChild(script);
+
+    } catch (error) {
+        console.error("Impossibile caricare lo script di Google Maps:", error);
+    }
+}
+
+// Esegui la funzione all'avvio della pagina
+loadGoogleMapsScript();
+
 // Variabili globali per le traduzioni caricate
 let i18nData = {
     en: {}, // Conterrà sempre le traduzioni inglesi come fallback
