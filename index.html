@@ -284,7 +284,8 @@
                 </div>
                 <div class="form-container animate-on-scroll">
                     <h2 data-i18n-key="formTitlePersonalize">Personalize Your Adoption</h2>
-                     <form id="adoption-form" class="adoption-form">
+                     <form id="adoption-form" data-netlify="true" class="adoption-form">
+                        <input type="hidden" name="language" id="form-language-adoption">
                         <div class="selected-tree-display">
                             <h3 id="selected-tree-title" data-i18n-key="formSelectedTreeDefault">Select a tree above to continue</h3>
                             <div id="selected-tree-price" class="price-display">€0</div>

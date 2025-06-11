@@ -357,18 +357,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     checkFormValidity();
     const adoptionForm = document.getElementById('adoption-form');
-    if (adoptionForm) {
-        adoptionForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const currentTrans = i18nData.current || i18nData.en;
-            checkFormValidity();
-            if (document.getElementById('complete-adoption-btn').disabled) {
-                alert(currentTrans.alertCompleteFields);
-                return;
-            }
-            alert(currentTrans.alertFormSubmitted);
-        });
-    }
+if (adoptionForm) {
+    adoptionForm.addEventListener('submit', (e) => {
+        // Popola il campo lingua nascosto un attimo prima dell'invio
+        const langField = document.getElementById('form-language-adoption');
+        if (langField) {
+            langField.value = currentLang;
+        }
+
+        // NON usiamo e.preventDefault() qui.
+        // Questo permette al form di essere inviato normalmente attraverso il browser,
+        // in modo che Netlify possa intercettarlo e salvarne i dati.
+        // La validazione che impedisce l'invio con campi vuoti è già gestita 
+        // dalla funzione che abilita/disabilita il pulsante di completamento.
+    });
+}
     const nav = document.querySelector('.main-nav');
     if (nav) {
         window.addEventListener('scroll', () => {
