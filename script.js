@@ -1,7 +1,7 @@
-// Funzione per caricare la chiave e lo script di Google Maps
+// Funzione per caricare la chiave e lo script di Google Maps in modo sicuro
 async function loadGoogleMapsScript() {
     try {
-        // Chiamiamo la Netlify Function per ottenere la chiave in modo sicuro
+        // Chiamiamo la Netlify Function per ottenere la chiave API
         const response = await fetch('/.netlify/functions/get-maps-key');
         if (!response.ok) throw new Error("Errore nel fetch della chiave API");
         
@@ -10,7 +10,7 @@ async function loadGoogleMapsScript() {
 
         if (!apiKey) throw new Error("Chiave API di Google Maps non trovata.");
 
-        // Creiamo un nuovo tag <script> e lo aggiungiamo alla pagina
+        // Creiamo il tag <script> e lo aggiungiamo alla pagina
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initAutocomplete`;
         script.async = true;
@@ -21,10 +21,8 @@ async function loadGoogleMapsScript() {
     }
 }
 
-// ===================================================================
-// La funzione initAutocomplete ora deve essere definita a livello globale
-// perché viene chiamata dallo script di Google Maps.
-// ===================================================================
+// Questa funzione viene chiamata dallo script di Google Maps una volta caricato.
+// Deve essere globale per essere trovata.
 function initAutocomplete() {
     const addressInput = document.getElementById('address');
     if (!addressInput) return;
@@ -39,6 +37,7 @@ function initAutocomplete() {
         const place = autocomplete.getPlace();
         if (!place.address_components) return;
 
+        // Pulisce i campi prima di riempirli
         document.getElementById('city').value = '';
         document.getElementById('postal-code').value = '';
         document.getElementById('country').value = '';
@@ -61,7 +60,7 @@ function initAutocomplete() {
         document.getElementById('address-2').focus();
     });
 }
-// La rendiamo globale per essere accessibile dal callback di Google
+// La rendiamo esplicitamente globale
 window.initAutocomplete = initAutocomplete;
 
 
@@ -279,24 +278,30 @@ function checkFormValidity() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // La mappa viene caricata all'avvio
-    loadGoogleMapsScript();
+// Esegui la funzione per caricare lo script di Google Maps all'avvio
+loadGoogleMapsScript();
 
+document.addEventListener('DOMContentLoaded', async () => {
+
+    // Funzione per gestire l'invio AJAX dei form a Netlify
     const handleNetlifyFormSubmit = async (event) => {
         event.preventDefault();
-        document.getElementById('form-language').value = currentLang;
+        document.getElementById('form-language').value = currentLang; // Aggiunge la lingua al form
+        
         const form = event.target;
         const formData = new FormData(form);
         const successMessage = document.getElementById(form.id + '-success');
         const submitButton = form.querySelector('button[type="submit"]');
+
         if (submitButton) submitButton.disabled = true;
+
         try {
             const response = await fetch('/', {
                 method: 'POST',
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams(formData).toString()
             });
+
             if (response.ok) {
                 if (successMessage) successMessage.classList.add('visible');
                 form.reset();
@@ -309,8 +314,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (submitButton) submitButton.disabled = false;
         }
     };
+
+    // Applica la logica ai form di contatto e newsletter
     const contactForm = document.getElementById('contact-form');
     if (contactForm) contactForm.addEventListener('submit', handleNetlifyFormSubmit);
+
     const newsletterForm = document.getElementById('newsletter-form');
     if (newsletterForm) newsletterForm.addEventListener('submit', handleNetlifyFormSubmit);
 
