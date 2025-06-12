@@ -478,22 +478,3 @@ if (adoptionForm) {
         });
     }
 }); 
-
-function resetClickCounters() {
-    localStorage.removeItem('clicks_young');
-    localStorage.removeItem('clicks_mature');
-    localStorage.removeItem('clicks_centenary');
-    clickTracker.young = 0;
-    clickTracker.mature = 5;
-    clickTracker.centenary = 0;
-    updateMostPopular();
-    sessionStorage.removeItem('selectedTree');
-    const treeTypeSelect = document.getElementById('tree-type');
-    if(treeTypeSelect) treeTypeSelect.value = '';
-    document.querySelectorAll('.product-card').forEach(card => card.classList.remove('selected'));
-    selectedTreeType = '';
-    selectedPrice = 0;
-    updateTreeSelectionDisplay();
-    console.log("Click counters and selection reset.");
-}
-window.resetClickCounters = resetClickCounters;
