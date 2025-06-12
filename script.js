@@ -450,18 +450,43 @@ if (adoptionForm) {
         window.currentSlide = (n) => showSlides(n - 1);
         showSlides(slideIndex);
     })();
-    const cookieBanner = document.getElementById('cookie-banner');
-    if (cookieBanner && !localStorage.getItem('cookieConsentAyo')) {
+   // Sostituisci il vecchio blocco del cookie banner con questo
+const cookieBanner = document.getElementById('cookie-banner');
+const googleAnalyticsID = 'G-FE1BSWKNP8'; // <-- INSERISCI QUI IL TUO ID REALE
+
+// Funzione che fa partire il tracciamento
+function activateAnalytics() {
+    // Verifica che l'ID sia valido e che la funzione gtag esista
+    if (!googleAnalyticsID.startsWith('G-') || typeof gtag !== 'function') return;
+
+    gtag('config', googleAnalyticsID);
+    console.log('Google Analytics attivato.'); // Messaggio per te, per verificare
+}
+
+if (cookieBanner) {
+    const consent = localStorage.getItem('cookieConsentAyo');
+
+    if (consent === 'accepted') {
+        // Se l'utente aveva già accettato in passato, attiva subito Analytics
+        activateAnalytics();
+    } else if (!consent) {
+        // Se non è stata fatta nessuna scelta, mostra il banner
         cookieBanner.style.display = 'block';
-        document.getElementById('accept-cookies').addEventListener('click', () => {
-            localStorage.setItem('cookieConsentAyo', 'accepted');
-            cookieBanner.style.display = 'none';
-        });
-        document.getElementById('decline-cookies').addEventListener('click', () => {
-            localStorage.setItem('cookieConsentAyo', 'declined');
-            cookieBanner.style.display = 'none';
-        });
     }
+    // Se il consenso è 'declined', non facciamo nulla e non mostriamo il banner.
+
+    document.getElementById('accept-cookies').addEventListener('click', () => {
+        localStorage.setItem('cookieConsentAyo', 'accepted');
+        cookieBanner.style.display = 'none';
+        // Attiva Analytics SOLO ORA, dopo aver cliccato "Accetta"
+        activateAnalytics();
+    });
+
+    document.getElementById('decline-cookies').addEventListener('click', () => {
+        localStorage.setItem('cookieConsentAyo', 'declined');
+        cookieBanner.style.display = 'none';
+    });
+}
     const exitIntentPopup = document.getElementById('exit-intent-popup');
     if (exitIntentPopup) {
         const showExitPopup = () => {
