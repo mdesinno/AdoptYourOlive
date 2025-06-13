@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina non Trovata - Adopt Your Olive</title>
+    <title>Cookie Policy - Adopt Your Olive</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -14,30 +14,10 @@
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/style.css">
     <style>
-        body { 
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            padding-top: 80px; 
-        }
-        .error-container {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-        .error-container h1 {
-            font-size: clamp(3rem, 10vw, 6rem);
-            color: var(--primary-green);
-            margin: 0;
-        }
-        .error-container p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
+        body { padding-top: 80px; }
+        .legal-container { max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+        .legal-container h1, .legal-container h2, .legal-container h3 { margin-bottom: 1rem; margin-top: 2rem; color: var(--dark-text); }
+        .legal-container a { color: var(--primary-green); text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -67,25 +47,51 @@
         </ul>
         <div class="language-switcher">
             <select id="language-selector">
-                <option value="it">Italiano</option>
-                <option value="en">English</option>
-                <option value="de">Deutsch</option>
-                <option value="fr">Français</option>
-                <option value="es">Español</option>
-                <option value="nl">Nederlands</option>
-                <option value="no">Norsk</option>
-                <option value="sv">Svenska</option>
-                <option value="da">Dansk</option>
-                <option value="fi">Suomi</option>
+                <option value="it">Italiano</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="es">Español</option><option value="nl">Nederlands</option><option value="no">Norsk</option><option value="sv">Svenska</option><option value="da">Dansk</option><option value="fi">Suomi</option>
             </select>
         </div>
     </nav>
 
-    <main class="error-container">
-        <h1>404</h1>
-        <p data-i18n-key="error404Message">Oops! La pagina che stai cercando non esiste.</p>
-        <a href="/" class="btn btn-primary" data-i18n-key="error404Button">Torna alla Home</a>
-    </main>
+    <main class="legal-container">
+    <h1 data-i18n-key="cookieTitle">Cookie Policy</h1>
+    <p><em data-i18n-key="legalLastUpdated">Ultimo aggiornamento: 13 giugno 2025</em></p>
+
+    <h2 data-i18n-key="cookieWhatAreTitle">Cosa Sono i Cookie</h2>
+    <p data-i18n-key="cookieWhatAreText">I cookie sono piccoli file di testo che i siti visitati dall'utente inviano e registrano sul suo computer o dispositivo mobile, per essere poi ritrasmessi agli stessi siti alla successiva visita. Questo sito utilizza cookie per garantire la migliore esperienza di navigazione.</p>
+
+    <h2 data-i18n-key="cookieTypesTitle">Tipi di Cookie Utilizzati da Questo Sito</h2>
+    <ul>
+        <li>
+            <h3 data-i18n-key="cookieTechnicalTitle">Cookie Tecnici o Necessari</h3>
+            <p data-i18n-key="cookieTechnicalText">Questi cookie sono essenziali per il corretto funzionamento del sito e non richiedono il consenso dell'utente. Vengono utilizzati per ricordare le tue preferenze e ottimizzare la navigazione.</p>
+            <ul>
+                <li data-i18n-key="cookieTechConsent"><strong>cookieConsentAyo:</strong> Salva la tua scelta (accetta/rifiuta) riguardo l'utilizzo dei cookie per non chiedertelo di nuovo.</li>
+                <li data-i18n-key="cookieTechLang"><strong>language:</strong> Ricorda la lingua che hai selezionato per la navigazione del sito.</li>
+                <li data-i18n-key="cookieTechTree"><strong>selectedTree:</strong> Ricorda l'albero che hai selezionato durante la sessione di navigazione per facilitare il processo di adozione.</li>
+            </ul>
+        </li>
+        <li>
+            <h3 data-i18n-key="cookieAnalyticsTitle">Cookie di Analisi di Terze Parti (previo consenso)</h3>
+            <p data-i18n-key="cookieAnalyticsText">Questi cookie ci aiutano a capire come gli utenti interagiscono con il sito, fornendo informazioni in forma aggregata e anonima. Vengono attivati solo dopo il tuo consenso esplicito tramite il banner.</p>
+            <ul>
+                <li data-i18n-key="cookieAnalyticsGA"><strong>Google Analytics:</strong> Utilizziamo questo servizio per analizzare il traffico del sito. Per proteggere la tua privacy, abbiamo attivato l'anonimizzazione dell'indirizzo IP. Per maggiori informazioni, consulta la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">privacy policy di Google</a>.</li>
+            </ul>
+        </li>
+        <li>
+            <h3 data-i18n-key="cookieFunctionalityTitle">Cookie di Terze Parti per Funzionalità (previo consenso)</h3>
+            <p data-i18n-key="cookieFunctionalityText">Questi cookie sono impostati da servizi esterni per fornire funzionalità aggiuntive e vengono attivati solo dopo il tuo consenso.</p>
+            <ul>
+                <li data-i18n-key="cookieFunctionalityGM"><strong>Google Maps:</strong> Il servizio di autocompletamento dell'indirizzo nel nostro form di adozione è fornito da Google Maps, che potrebbe installare propri cookie per il suo funzionamento. Per maggiori informazioni, consulta la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">privacy policy di Google</a>.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2 data-i18n-key="cookieManageTitle">Come Gestire le Preferenze sui Cookie</h2>
+    <p data-i18n-key="cookieManageText">Puoi gestire le tue preferenze relative ai cookie in qualsiasi momento tramite il nostro cookie banner o modificando le impostazioni del tuo browser. La disattivazione di alcuni cookie potrebbe influire sulla tua esperienza di navigazione.</p>
+    
+    <h2 data-i18n-key="privacyHolderTitle">Titolare del Trattamento</h2>
+    <p data-i18n-key="cookieHolderText">Il Titolare del Trattamento è Michele Ezio de Sinno. Per qualsiasi domanda, puoi contattarci all'indirizzo: info@adoptyourolive.com.</p>
+</main>
 
     <footer class="footer">
         <div class="container">
@@ -129,10 +135,9 @@
             </div>
         </div>
     </footer>
-    
+
     <script src="/script.js"></script>
     <script>
-        // Piccolo script per assicurare che le traduzioni vengano caricate anche su questa pagina
         document.addEventListener('DOMContentLoaded', () => {
             if (window.setLanguage) {
                 const lang = localStorage.getItem('language') || 'it';
