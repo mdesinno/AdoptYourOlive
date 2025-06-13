@@ -1660,6 +1660,87 @@ background-color: #f4f8f3;
     margin: 5px;
 }
 
+/* Stili per la modale delle preferenze cookie */
+#cookie-preferences-modal .modal-content {
+    max-width: 550px;
+}
+.cookie-options {
+    margin: 25px 0;
+    text-align: left;
+}
+.cookie-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--medium-grey);
+}
+.cookie-option:last-child {
+    border-bottom: none;
+}
+.cookie-option label {
+    color: var(--light-text);
+    font-weight: 600;
+}
+
+/* Stili per gli interruttori (toggle switch) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: var(--primary-green);
+}
+input:disabled + .slider {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--primary-green);
+}
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+#cookie-banner .btn-tertiary {
+    background: transparent;
+    color: var(--light-text);
+    border: none;
+    text-decoration: underline;
+}
+
 /* --- Exit Intent Popup --- */
 #exit-intent-popup {
     display: none;

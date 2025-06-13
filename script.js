@@ -261,9 +261,6 @@ function checkFormValidity() {
     completeBtn.textContent = buttonText;
 }
 
-// Codice che viene eseguito all'avvio e dopo il caricamento della pagina
-loadGoogleMapsScript();
-
 document.addEventListener('DOMContentLoaded', async () => {
 
     const handleNetlifyFormSubmit = async (event) => {
@@ -450,43 +447,86 @@ if (adoptionForm) {
         window.currentSlide = (n) => showSlides(n - 1);
         showSlides(slideIndex);
     })();
-   // Sostituisci il vecchio blocco del cookie banner con questo
-const cookieBanner = document.getElementById('cookie-banner');
-const googleAnalyticsID = 'G-FE1BSWKNP8'; // <-- INSERISCI QUI IL TUO ID REALE
+ // NUOVO GESTORE CONSENSO COOKIE
 
-// Funzione che fa partire il tracciamento
-function activateAnalytics() {
-    // Verifica che l'ID sia valido e che la funzione gtag esista
-    if (!googleAnalyticsID.startsWith('G-') || typeof gtag !== 'function') return;
+    const googleAnalyticsID = 'G-FE1BSWKNP8'; // <-- INSERISCI QUI IL TUO ID REALE
 
-    gtag('config', googleAnalyticsID);
-    console.log('Google Analytics attivato.'); // Messaggio per te, per verificare
-}
+    const consentManager = {
+        banner: document.getElementById('cookie-banner'),
+        preferencesModal: document.getElementById('cookie-preferences-modal'),
+        
+        init() {
+            if (!this.banner) return;
+            const consent = this.getConsent();
 
-if (cookieBanner) {
-    const consent = localStorage.getItem('cookieConsentAyo');
+            if (consent) {
+                this.executeConsentedScripts(consent);
+            } else {
+                this.showBanner();
+            }
+            this.addEventListeners();
+        },
 
-    if (consent === 'accepted') {
-        // Se l'utente aveva già accettato in passato, attiva subito Analytics
-        activateAnalytics();
-    } else if (!consent) {
-        // Se non è stata fatta nessuna scelta, mostra il banner
-        cookieBanner.style.display = 'block';
-    }
-    // Se il consenso è 'declined', non facciamo nulla e non mostriamo il banner.
+        getConsent() {
+            const consentJSON = localStorage.getItem('cookieConsentAyo');
+            return consentJSON ? JSON.parse(consentJSON) : null;
+        },
 
-    document.getElementById('accept-cookies').addEventListener('click', () => {
-        localStorage.setItem('cookieConsentAyo', 'accepted');
-        cookieBanner.style.display = 'none';
-        // Attiva Analytics SOLO ORA, dopo aver cliccato "Accetta"
-        activateAnalytics();
-    });
+        saveConsent(consent) {
+            localStorage.setItem('cookieConsentAyo', JSON.stringify(consent));
+            this.hideAll();
+            this.executeConsentedScripts(consent);
+        },
 
-    document.getElementById('decline-cookies').addEventListener('click', () => {
-        localStorage.setItem('cookieConsentAyo', 'declined');
-        cookieBanner.style.display = 'none';
-    });
-}
+        executeConsentedScripts(consent) {
+            if (consent.analytics) this.activateAnalytics();
+            if (consent.functional) window.loadGoogleMapsScript(); // Chiama la funzione globale
+        },
+
+        activateAnalytics() {
+            if (!googleAnalyticsID.startsWith('G-') || typeof gtag !== 'function') return;
+            gtag('config', googleAnalyticsID);
+            console.log('Google Analytics attivato.');
+        },
+
+        showBanner() {
+            this.banner.style.display = 'block';
+        },
+        
+        showPreferences() {
+            this.banner.style.display = 'none';
+            this.preferencesModal.style.display = 'flex';
+            setTimeout(() => this.preferencesModal.classList.add('visible'), 10);
+        },
+
+        hideAll() {
+            if (this.banner) this.banner.style.display = 'none';
+            if (this.preferencesModal) {
+                this.preferencesModal.classList.remove('visible');
+                setTimeout(() => this.preferencesModal.style.display = 'none', 300);
+            }
+        },
+
+        addEventListeners() {
+            document.getElementById('accept-cookies-all-btn')?.addEventListener('click', () => {
+                this.saveConsent({ necessary: true, analytics: true, functional: true });
+            });
+            document.getElementById('decline-cookies-all-btn')?.addEventListener('click', () => {
+                this.saveConsent({ necessary: true, analytics: false, functional: false });
+            });
+            document.getElementById('customize-cookies-btn')?.addEventListener('click', () => {
+                this.showPreferences();
+            });
+            document.getElementById('save-preferences-btn')?.addEventListener('click', () => {
+                const analyticsConsent = document.getElementById('consent-analytics').checked;
+                const functionalConsent = document.getElementById('consent-functional').checked;
+                this.saveConsent({ necessary: true, analytics: analyticsConsent, functional: functionalConsent });
+            });
+        }
+    };
+
+    consentManager.init();
+
     const exitIntentPopup = document.getElementById('exit-intent-popup');
     if (exitIntentPopup) {
         const showExitPopup = () => {
