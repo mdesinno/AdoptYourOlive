@@ -136,6 +136,43 @@
         </div>
     </footer>
 
+        <div id="cookie-banner">
+    <div class="cookie-banner-content">
+        <p>
+            <span data-i18n-key="cookieBannerText">Questo sito utilizza cookie per migliorare l'esperienza.</span>
+            <a href="/privacy-policy.html" data-i18n-key="cookieBannerLink">Leggi la nostra privacy policy</a>.
+        </p>
+        <div class="cookie-banner-buttons">
+            <button id="customize-cookies-btn" class="btn btn-tertiary" data-i18n-key="cookieBannerCustomize">Personalizza</button>
+            <button id="decline-cookies-all-btn" class="btn btn-secondary" data-i18n-key="cookieBannerDecline">Rifiuta Tutti</button>
+            <button id="accept-cookies-all-btn" class="btn btn-primary" data-i18n-key="cookieBannerAccept">Accetta Tutti</button>
+        </div>
+    </div>
+    <button id="close-cookie-banner-btn" aria-label="Chiudi banner cookie">&times;</button>
+</div>
+
+<div id="cookie-preferences-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <h3 data-i18n-key="cookieModalTitle">Preferenze Cookie</h3>
+        <p data-i18n-key="cookieModalText">Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.</p>
+        <div class="cookie-options">
+            <div class="cookie-option">
+                <label for="consent-necessary" data-i18n-key="cookieModalNecessary">Cookie Necessari</label>
+                <label class="switch"><input type="checkbox" id="consent-necessary" checked disabled><span class="slider round"></span></label>
+            </div>
+            <div class="cookie-option">
+                <label for="consent-analytics" data-i18n-key="cookieModalAnalytics">Cookie di Analisi</label>
+                <label class="switch"><input type="checkbox" id="consent-analytics"><span class="slider round"></span></label>
+            </div>
+            <div class="cookie-option">
+                <label for="consent-functional" data-i18n-key="cookieModalFunctional">Cookie Funzionali</label>
+                <label class="switch"><input type="checkbox" id="consent-functional"><span class="slider round"></span></label>
+            </div>
+        </div>
+        <button id="save-preferences-btn" class="btn btn-primary" data-i18n-key="cookieModalSave">Salva Preferenze</button>
+    </div>
+</div>
+
     <script src="/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

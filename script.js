@@ -508,6 +508,9 @@ if (adoptionForm) {
         },
 
         addEventListeners() {
+             document.getElementById('close-cookie-banner-btn')?.addEventListener('click', () => {
+        this.saveConsent({ necessary: true, analytics: false, functional: false });
+    });
             document.getElementById('accept-cookies-all-btn')?.addEventListener('click', () => {
                 this.saveConsent({ necessary: true, analytics: true, functional: true });
             });

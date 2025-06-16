@@ -1634,10 +1634,9 @@ background-color: #f4f8f3;
 }
 
 /* ======================================= */
-/* === CSS FINALE E CORRETTO COOKIE CONSENT === */
+/* === CSS RESPONSIVE DEFINITIVO BANNER  === */
 /* ======================================= */
 
-/* --- Stile Banner Principale --- */
 #cookie-banner {
     position: fixed;
     bottom: 0;
@@ -1645,68 +1644,81 @@ background-color: #f4f8f3;
     width: 100%;
     background-color: var(--dark-text);
     color: var(--white);
-    padding: 15px 25px;
+    padding: 1rem 1.5rem;
     z-index: 2000;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-    display: flex;
-    justify-content: center;
+
+    /* Layout a Griglia per controllo totale */
+    display: grid;
+    grid-template-columns: 1fr auto; /* Colonna flessibile per il contenuto, colonna fissa per la X */
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    gap: 1rem;
 }
 
-#cookie-banner p {
-    margin-right: auto; /* Spinge i bottoni a destra */
-}
-
-#cookie-banner a {
-    color: var(--secondary-green);
-    font-weight: bold;
-}
-
-/* --- Contenitore dei bottoni nel banner --- */
-#cookie-banner .cookie-banner-buttons {
+/* Contenitore del testo e dei bottoni */
+.cookie-banner-content {
     display: flex;
-    gap: 10px;
     align-items: center;
+    justify-content: flex-start; /* Allinea a sinistra */
+    gap: 1.5rem;
+    flex-wrap: wrap; /* Permette di andare a capo se lo spazio non basta */
 }
 
-/* --- Stili specifici per i 3 bottoni nel banner --- */
-#cookie-banner .btn {
+.cookie-banner-content p {
     margin: 0;
-    border: 2px solid transparent; /* Aggiunge bordo per coerenza dimensionale */
+    flex-grow: 1; /* Permette al testo di occupare lo spazio disponibile */
 }
 
-/* FIX per il pulsante "Personalizza" */
-#cookie-banner .btn-tertiary {
-    background: transparent;
-    border-color: var(--secondary-green); /* Bordo verde chiaro visibile */
-    color: var(--white) !important; /* Testo bianco, forzato! */
-    text-decoration: none; /* Rimuoviamo la sottolineatura */
-}
-#cookie-banner .btn-tertiary:hover {
-    background-color: var(--secondary-green);
-    color: var(--dark-text) !important;
+.cookie-banner-buttons {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-shrink: 0; /* Impedisce ai bottoni di rimpicciolirsi */
 }
 
-#cookie-banner .btn-secondary {
-    background-color: transparent;
-    border-color: var(--white);
-    color: var(--white);
-}
-#cookie-banner .btn-secondary:hover {
-    background-color: var(--white);
-    color: var(--dark-text);
+/* Stile e Posizionamento della X */
+#close-cookie-banner-btn {
+    background: none;
+    border: none;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: white;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
 }
 
-#cookie-banner .btn-primary {
-    background-color: var(--primary-green);
-    border-color: var(--primary-green);
-    color: var(--white);
+#close-cookie-banner-btn:hover {
+    opacity: 1;
 }
-#cookie-banner .btn-primary:hover {
-    background-color: var(--secondary-green);
-    border-color: var(--secondary-green);
+
+/* --- Media Query per la Responsività --- */
+@media (max-width: 950px) {
+    #cookie-banner {
+        /* Su schermi medi, impiliamo il contenuto e la X */
+        grid-template-columns: 1fr; /* Una sola colonna per tutto */
+        padding: 1rem;
+        padding-right: 3rem; /* Lascia spazio a destra per la X */
+    }
+    
+    .cookie-banner-content {
+        flex-direction: column; /* Impila testo e bottoni */
+        align-items: flex-start; /* Allinea tutto a sinistra */
+        gap: 1rem;
+    }
+
+    .cookie-banner-buttons {
+    flex-wrap: wrap; /* Permette ai bottoni di andare a capo */
+}
+
+    #close-cookie-banner-btn {
+        /* Posizioniamo la X in modo assoluto solo su schermi piccoli */
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
 }
 
 
