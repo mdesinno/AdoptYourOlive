@@ -204,10 +204,6 @@
     "alertFormSubmitted": "Modulo inviato! Prossimamente integrazione Stripe...",
     "alertMessageSent": "Grazie per il tuo messaggio! Ti risponderemo al più presto.",
     "alertSubscribed": "Grazie per esserti iscritto alla nostra newsletter!",
-    "cookieBannerText": "Questo sito utilizza cookie per migliorare l'esperienza dell'utente. Scorrendo questa pagina o cliccando qualunque suo elemento acconsenti all’uso dei cookie.",
-    "cookieBannerLink": "Leggi la nostra privacy policy",
-    "cookieBannerAccept": "Accetta",
-    "cookieBannerDecline": "Rifiuta",
     "exitPopupTitle": "Non Andare Via!",
     "exitPopupSubtitle": "Unisciti alla nostra famiglia! Adotta un ulivo o iscriviti alla newsletter per rimanere aggiornato sulle novità dalla Puglia e ricevere offerte esclusive.",
     "exitPopupAdopt": "Adotta un Ulivo",
@@ -340,5 +336,16 @@
 "shippingDamagedReq1": "Il numero del tuo ordine (o l'email con cui è stato effettuato).",
 "shippingDamagedReq2": "Una descrizione chiara del problema.",
 "shippingDamagedReq3": "Una o più fotografie che mostrino il danno al packaging e/o al prodotto.",
-"shippingDamagedText3": "Una volta valutata la richiesta, se approvata, provvederemo a una nuova spedizione sostitutiva senza costi aggiuntivi."
+"shippingDamagedText3": "Una volta valutata la richiesta, se approvata, provvederemo a una nuova spedizione sostitutiva senza costi aggiuntivi.",
+  "cookieBannerText": "Questo sito utilizza cookie per migliorare l'esperienza.",
+  "cookieBannerLink": "Leggi la nostra privacy policy",
+  "cookieBannerCustomize": "Personalizza",
+  "cookieBannerDecline": "Rifiuta Tutti",
+  "cookieBannerAccept": "Accetta Tutti",
+  "cookieModalTitle": "Preferenze Cookie",
+  "cookieModalText": "Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.",
+  "cookieModalNecessary": "Cookie Necessari",
+  "cookieModalAnalytics": "Cookie di Analisi",
+  "cookieModalFunctional": "Cookie Funzionali",
+  "cookieModalSave": "Salva Preferenze"
 }

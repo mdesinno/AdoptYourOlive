@@ -204,10 +204,6 @@
     "alertFormSubmitted": "Formulaire soumis ! Intégration Stripe à venir...",
     "alertMessageSent": "Merci pour votre message ! Nous vous répondrons bientôt.",
     "alertSubscribed": "Merci de vous être abonné à notre newsletter !",
-    "cookieBannerText": "Ce site utilise des cookies pour améliorer l'expérience utilisateur. En faisant défiler cette page ou en cliquant sur l'un de ses éléments, vous consentez à l'utilisation des cookies.",
-    "cookieBannerLink": "Lire notre politique de confidentialité",
-    "cookieBannerAccept": "Accepter",
-    "cookieBannerDecline": "Refuser",
     "exitPopupTitle": "Ne Partez Pas Encore !",
     "exitPopupSubtitle": "Rejoignez notre famille ! Adoptez un olivier ou abonnez-vous à notre newsletter pour rester informé des nouvelles des Pouilles et recevoir des offres exclusives.",
     "exitPopupAdopt": "Adopter un Olivier",
@@ -341,5 +337,16 @@
 "shippingDamagedReq1": "Votre numéro de commande (ou l'e-mail avec lequel elle a été passée).",
 "shippingDamagedReq2": "Une description claire du problème.",
 "shippingDamagedReq3": "Une ou plusieurs photographies montrant clairement les dommages sur l'emballage et/ou le produit.",
-"shippingDamagedText3": "Une fois la demande évaluée, si elle est approuvée, nous organiserons une nouvelle expédition de remplacement sans frais supplémentaires."
+"shippingDamagedText3": "Une fois la demande évaluée, si elle est approuvée, nous organiserons une nouvelle expédition de remplacement sans frais supplémentaires.",
+  "cookieBannerText": "Ce site utilise des cookies pour améliorer l'expérience.",
+  "cookieBannerLink": "Lisez notre politique de confidentialité",
+  "cookieBannerCustomize": "Personnaliser",
+  "cookieBannerDecline": "Tout refuser",
+  "cookieBannerAccept": "Tout accepter",
+  "cookieModalTitle": "Préférences en matière de cookies",
+  "cookieModalText": "Sélectionnez les types de cookies que vous consentez à utiliser. Les cookies nécessaires ne peuvent pas être désactivés.",
+  "cookieModalNecessary": "Cookies nécessaires",
+  "cookieModalAnalytics": "Cookies d'analyse",
+  "cookieModalFunctional": "Cookies fonctionnels",
+  "cookieModalSave": "Enregistrer les préférences"
 }

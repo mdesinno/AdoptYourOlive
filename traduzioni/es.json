@@ -204,10 +204,6 @@
     "alertFormSubmitted": "¡Formulario enviado! Integración con Stripe próximamente...",
     "alertMessageSent": "¡Gracias por tu mensaje! Te responderemos pronto.",
     "alertSubscribed": "¡Gracias por suscribirte a nuestro boletín!",
-    "cookieBannerText": "Este sitio utiliza cookies para mejorar la experiencia del usuario. Al desplazarte por esta página o hacer clic en cualquiera de sus elementos, aceptas el uso de cookies.",
-    "cookieBannerLink": "Lee nuestra política de privacidad",
-    "cookieBannerAccept": "Aceptar",
-    "cookieBannerDecline": "Rechazar",
     "exitPopupTitle": "¡No Te Vayas Todavía!",
     "exitPopupSubtitle": "¡Únete a nuestra familia! Adopta un olivo o suscríbete a nuestro boletín para mantenerte informado sobre noticias de Apulia y recibir ofertas exclusivas.",
     "exitPopupAdopt": "Adoptar un Olivo",
@@ -341,5 +337,16 @@
 "shippingDamagedReq1": "Su número de pedido (o el correo electrónico con el que se realizó).",
 "shippingDamagedReq2": "Una descripción clara del problema.",
 "shippingDamagedReq3": "Una o más fotografías que muestren claramente el daño en el embalaje y/o el producto.",
-"shippingDamagedText3": "Una vez evaluada la solicitud, si se aprueba, procederemos a un nuevo envío de reemplazo sin costes adicionales."
+"shippingDamagedText3": "Una vez evaluada la solicitud, si se aprueba, procederemos a un nuevo envío de reemplazo sin costes adicionales.",
+  "cookieBannerText": "Este sitio web utiliza cookies para mejorar la experiencia.",
+  "cookieBannerLink": "Lea nuestra política de privacidad",
+  "cookieBannerCustomize": "Personalizar",
+  "cookieBannerDecline": "Rechazar todo",
+  "cookieBannerAccept": "Aceptar todo",
+  "cookieModalTitle": "Preferencias de cookies",
+  "cookieModalText": "Seleccione qué tipos de cookies consiente en utilizar. Las cookies necesarias no se pueden desactivar.",
+  "cookieModalNecessary": "Cookies necesarias",
+  "cookieModalAnalytics": "Cookies de análisis",
+  "cookieModalFunctional": "Cookies funcionales",
+  "cookieModalSave": "Guardar preferencias"
 }

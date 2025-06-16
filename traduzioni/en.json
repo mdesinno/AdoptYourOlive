@@ -204,10 +204,6 @@
     "alertFormSubmitted": "Form submitted! Stripe integration coming next...",
     "alertMessageSent": "Thank you for your message! We will get back to you soon.",
     "alertSubscribed": "Thank you for subscribing to our newsletter!",
-    "cookieBannerText": "This site uses cookies to enhance the user experience. By scrolling this page or clicking any of its elements, you consent to the use of cookies.",
-    "cookieBannerLink": "Read our privacy policy",
-    "cookieBannerAccept": "Accept",
-    "cookieBannerDecline": "Decline",
     "exitPopupTitle": "Don't Go Yet!",
     "exitPopupSubtitle": "Join our family! Adopt an olive tree or subscribe to our newsletter to stay updated on news from Puglia and receive exclusive offers.",
     "exitPopupAdopt": "Adopt an Olive Tree",
@@ -340,5 +336,16 @@
 "shippingDamagedReq1": "Your order number (or the email with which it was placed).",
 "shippingDamagedReq2": "A clear description of the problem.",
 "shippingDamagedReq3": "One or more photographs clearly showing the damage to the packaging and/or product.",
-"shippingDamagedText3": "Once the request has been evaluated, if approved, we will arrange for a new replacement shipment at no additional cost."
+"shippingDamagedText3": "Once the request has been evaluated, if approved, we will arrange for a new replacement shipment at no additional cost.",
+  "cookieBannerText": "Questo sito utilizza cookie per migliorare l'esperienza.",
+  "cookieBannerLink": "Leggi la nostra privacy policy",
+  "cookieBannerCustomize": "Personalizza",
+  "cookieBannerDecline": "Rifiuta Tutti",
+  "cookieBannerAccept": "Accetta Tutti",
+  "cookieModalTitle": "Preferenze Cookie",
+  "cookieModalText": "Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.",
+  "cookieModalNecessary": "Cookie Necessari",
+  "cookieModalAnalytics": "Cookie di Analisi",
+  "cookieModalFunctional": "Cookie Funzionali",
+  "cookieModalSave": "Salva Preferenze"
 }

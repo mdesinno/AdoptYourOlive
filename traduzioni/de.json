@@ -204,10 +204,6 @@
     "alertFormSubmitted": "Formular eingereicht! Stripe-Integration folgt als Nächstes...",
     "alertMessageSent": "Vielen Dank für Ihre Nachricht! Wir melden uns bald bei Ihnen.",
     "alertSubscribed": "Vielen Dank, dass Sie unseren Newsletter abonniert haben!",
-    "cookieBannerText": "Diese Website verwendet Cookies, um die Benutzererfahrung zu verbessern. Durch das Scrollen dieser Seite oder das Klicken auf eines ihrer Elemente stimmen Sie der Verwendung von Cookies zu.",
-    "cookieBannerLink": "Lesen Sie unsere Datenschutzrichtlinie",
-    "cookieBannerAccept": "Akzeptieren",
-    "cookieBannerDecline": "Ablehnen",
     "exitPopupTitle": "Noch nicht gehen!",
     "exitPopupSubtitle": "Werden Sie Teil unserer Familie! Adoptieren Sie einen Olivenbaum oder abonnieren Sie unseren Newsletter, um über Neuigkeiten aus Apulien und exklusive Angebote informiert zu bleiben.",
     "exitPopupAdopt": "Einen Olivenbaum adoptieren",
@@ -340,5 +336,16 @@
 "shippingDamagedReq1": "Ihre Bestellnummer (oder die E-Mail, mit der sie getätigt wurde).",
 "shippingDamagedReq2": "Eine klare Beschreibung des Problems.",
 "shippingDamagedReq3": "Ein oder mehrere Fotos, die den Schaden an der Verpackung und/oder am Produkt deutlich zeigen.",
-"shippingDamagedText3": "Nach Prüfung der Anfrage werden wir, falls genehmigt, eine neue Ersatzlieferung ohne zusätzliche Kosten veranlassen."
+"shippingDamagedText3": "Nach Prüfung der Anfrage werden wir, falls genehmigt, eine neue Ersatzlieferung ohne zusätzliche Kosten veranlassen.",
+  "cookieBannerText": "Diese Website verwendet Cookies, um die Nutzererfahrung zu verbessern.",
+  "cookieBannerLink": "Lesen Sie unsere Datenschutzrichtlinie",
+  "cookieBannerCustomize": "Anpassen",
+  "cookieBannerDecline": "Alle ablehnen",
+  "cookieBannerAccept": "Alle akzeptieren",
+  "cookieModalTitle": "Cookie-Einstellungen",
+  "cookieModalText": "Wählen Sie aus, welche Arten von Cookies Sie verwenden möchten. Notwendige Cookies können nicht deaktiviert werden.",
+  "cookieModalNecessary": "Notwendige Cookies",
+  "cookieModalAnalytics": "Analyse-Cookies",
+  "cookieModalFunctional": "Funktionale Cookies",
+  "cookieModalSave": "Einstellungen speichern"
 }

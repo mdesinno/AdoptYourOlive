@@ -489,9 +489,9 @@ if (adoptionForm) {
             console.log('Google Analytics attivato.');
         },
 
-        showBanner() {
-            this.banner.style.display = 'block';
-        },
+      showBanner() {
+    this.banner.classList.add('visible');
+},
         
         showPreferences() {
             this.banner.style.display = 'none';

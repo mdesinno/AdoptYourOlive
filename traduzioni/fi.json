@@ -204,10 +204,6 @@
     "alertFormSubmitted": "Lomake lähetetty! Stripe-integraatio tulossa seuraavaksi...",
     "alertMessageSent": "Kiitos viestistäsi! Otamme sinuun pian yhteyttä.",
     "alertSubscribed": "Kiitos uutiskirjeen tilaamisesta!",
-    "cookieBannerText": "Tämä sivusto käyttää evästeitä käyttäjäkokemuksen parantamiseksi. Selaamalla tätä sivua tai klikkaamalla sen elementtejä annat suostumuksesi evästeiden käyttöön.",
-    "cookieBannerLink": "Lue tietosuojakäytäntömme",
-    "cookieBannerAccept": "Hyväksy",
-    "cookieBannerDecline": "Hylkää",
     "exitPopupTitle": "Älä vielä lähde!",
     "exitPopupSubtitle": "Liity perheeseemme! Adoptoi oliivipuu tai tilaa uutiskirjeemme pysyäksesi ajan tasalla Puglian uutisista ja saadaksesi eksklusiivisia tarjouksia.",
     "exitPopupAdopt": "Adoptoi oliivipuu",
@@ -341,5 +337,16 @@
 "shippingDamagedReq1": "Tilausnumerosi (tai sähköpostiosoitteen, jolla tilaus tehtiin).",
 "shippingDamagedReq2": "Selkeän kuvauksen ongelmasta.",
 "shippingDamagedReq3": "Yhden tai useamman valokuvan, jotka osoittavat selvästi pakkauksen ja/tai tuotteen vaurion.",
-"shippingDamagedText3": "Kun pyyntö on arvioitu ja hyväksytty, järjestämme uuden korvaavan lähetyksen ilman lisäkustannuksia."
+"shippingDamagedText3": "Kun pyyntö on arvioitu ja hyväksytty, järjestämme uuden korvaavan lähetyksen ilman lisäkustannuksia.",
+  "cookieBannerText": "Tämä sivusto käyttää evästeitä parantaakseen käyttökokemusta.",
+  "cookieBannerLink": "Lue tietosuojakäytäntömme",
+  "cookieBannerCustomize": "Mukauta",
+  "cookieBannerDecline": "Hylkää kaikki",
+  "cookieBannerAccept": "Hyväksy kaikki",
+  "cookieModalTitle": "Evästeasetukset",
+  "cookieModalText": "Valitse, minkä tyyppisten evästeiden käyttöön suostut. Välttämättömiä evästeitä ei voi poistaa käytöstä.",
+  "cookieModalNecessary": "Välttämättömät evästeet",
+  "cookieModalAnalytics": "Analytiikkaevästeet",
+  "cookieModalFunctional": "Toiminnalliset evästeet",
+  "cookieModalSave": "Tallenna asetukset"
 }

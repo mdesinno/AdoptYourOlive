@@ -204,10 +204,6 @@
     "alertFormSubmitted": "Formulier ingediend! Stripe-integratie komt eraan...",
     "alertMessageSent": "Bedankt voor uw bericht! We nemen spoedig contact met u op.",
     "alertSubscribed": "Bedankt voor het abonneren op onze nieuwsbrief!",
-    "cookieBannerText": "Deze site gebruikt cookies om de gebruikerservaring te verbeteren. Door op deze pagina te scrollen of op een van de elementen te klikken, stemt u in met het gebruik van cookies.",
-    "cookieBannerLink": "Lees ons privacybeleid",
-    "cookieBannerAccept": "Accepteren",
-    "cookieBannerDecline": "Weigeren",
     "exitPopupTitle": "Nog Niet Weggaan!",
     "exitPopupSubtitle": "Word deel van onze familie! Adopteer een olijfboom of abonneer op onze nieuwsbrief om op de hoogte te blijven van nieuws uit Puglia en exclusieve aanbiedingen te ontvangen.",
     "exitPopupAdopt": "Adopteer een Olijfboom",
@@ -341,5 +337,16 @@
 "shippingDamagedReq1": "Uw bestelnummer (of de e-mail waarmee het is geplaatst).",
 "shippingDamagedReq2": "Een duidelijke beschrijving van het probleem.",
 "shippingDamagedReq3": "Een of meer foto's die de schade aan de verpakking en/of het product duidelijk tonen.",
-"shippingDamagedText3": "Zodra het verzoek is beoordeeld en goedgekeurd, zullen wij zorgen voor een nieuwe vervangende zending zonder extra kosten."
+"shippingDamagedText3": "Zodra het verzoek is beoordeeld en goedgekeurd, zullen wij zorgen voor een nieuwe vervangende zending zonder extra kosten.",
+  "cookieBannerText": "Deze site gebruikt cookies om de ervaring te verbeteren.",
+  "cookieBannerLink": "Lees ons privacybeleid",
+  "cookieBannerCustomize": "Aanpassen",
+  "cookieBannerDecline": "Alles weigeren",
+  "cookieBannerAccept": "Alles accepteren",
+  "cookieModalTitle": "Cookievoorkeuren",
+  "cookieModalText": "Selecteer welke soorten cookies u wilt gebruiken. Noodzakelijke cookies kunnen niet worden uitgeschakeld.",
+  "cookieModalNecessary": "Noodzakelijke cookies",
+  "cookieModalAnalytics": "Analysecookies",
+  "cookieModalFunctional": "Functionele cookies",
+  "cookieModalSave": "Voorkeuren opslaan"
 }

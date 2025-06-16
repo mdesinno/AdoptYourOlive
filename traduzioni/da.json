@@ -200,10 +200,6 @@
     "alertFormSubmitted": "Formular indsendt! Stripe-integration kommer snart...",
     "alertMessageSent": "Tak for din besked! Vi vender tilbage snart.",
     "alertSubscribed": "Tak for at abonnere på vores nyhedsbrev!",
-    "cookieBannerText": "Denne hjemmeside bruger cookies for at forbedre brugeroplevelsen. Ved at scrolle på denne side eller klikke på et af dens elementer giver du samtykke til brugen af cookies.",
-    "cookieBannerLink": "Læs vores privatlivspolitik",
-    "cookieBannerAccept": "Accepter",
-    "cookieBannerDecline": "Afvis",
     "exitPopupTitle": "Gå Ikke Endnu!",
     "exitPopupSubtitle": "Bliv en del af vores familie! Adoptér et oliventræ eller abonnér på vores nyhedsbrev for at holde dig opdateret om nyheder fra Puglia og modtage eksklusive tilbud.",
     "exitPopupAdopt": "Adoptér et Oliventræ",
@@ -337,5 +333,16 @@
 "shippingDamagedReq1": "Dit ordrenummer (eller den e-mail, det blev placeret med).",
 "shippingDamagedReq2": "En klar beskrivelse af problemet.",
 "shippingDamagedReq3": "Et eller flere fotografier, der tydeligt viser skaden på emballagen og/eller produktet.",
-"shippingDamagedText3": "Når anmodningen er blevet vurderet, hvis den godkendes, vil vi sørge for en ny erstatningsforsendelse uden yderligere omkostninger."
+"shippingDamagedText3": "Når anmodningen er blevet vurderet, hvis den godkendes, vil vi sørge for en ny erstatningsforsendelse uden yderligere omkostninger.",
+  "cookieBannerText": "Dette websted bruger cookies for at forbedre oplevelsen.",
+  "cookieBannerLink": "Læs vores privatlivspolitik",
+  "cookieBannerCustomize": "Tilpas",
+  "cookieBannerDecline": "Afvis alle",
+  "cookieBannerAccept": "Accepter alle",
+  "cookieModalTitle": "Cookie-præferencer",
+  "cookieModalText": "Vælg, hvilke typer cookies du giver samtykke til at bruge. Nødvendige cookies kan ikke deaktiveres.",
+  "cookieModalNecessary": "Nødvendige cookies",
+  "cookieModalAnalytics": "Analyse-cookies",
+  "cookieModalFunctional": "Funktionelle cookies",
+  "cookieModalSave": "Gem præferencer"
 }

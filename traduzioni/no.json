@@ -204,10 +204,6 @@
     "alertFormSubmitted": "Skjema sendt! Stripe-integrasjon kommer neste...",
     "alertMessageSent": "Takk for meldingen din! Vi tar kontakt snart.",
     "alertSubscribed": "Takk for at du abonnerer på vårt nyhetsbrev!",
-    "cookieBannerText": "Dette nettstedet bruker informasjonskapsler for å forbedre brukeropplevelsen. Ved å bla på denne siden eller klikke på noen av elementene, samtykker du til bruk av informasjonskapsler.",
-    "cookieBannerLink": "Les vår personvernerklæring",
-    "cookieBannerAccept": "Godta",
-    "cookieBannerDecline": "Avslå",
     "exitPopupTitle": "Ikke Gå Ennå!",
     "exitPopupSubtitle": "Bli med i familien vår! Adopter et oliventre eller abonner på vårt nyhetsbrev for å holde deg oppdatert på nyheter fra Puglia og motta eksklusive tilbud.",
     "exitPopupAdopt": "Adopter et Oliventre",
@@ -341,5 +337,16 @@
 "shippingDamagedReq1": "Ditt ordrenummer (eller e-posten det ble plassert med).",
 "shippingDamagedReq2": "En klar beskrivelse av problemet.",
 "shippingDamagedReq3": "Ett eller flere fotografier som tydelig viser skaden på emballasjen og/eller produktet.",
-"shippingDamagedText3": "Når forespørselen er vurdert, hvis den blir godkjent, vil vi arrangere en ny erstatningssending uten ekstra kostnad."
+"shippingDamagedText3": "Når forespørselen er vurdert, hvis den blir godkjent, vil vi arrangere en ny erstatningssending uten ekstra kostnad.",
+ "cookieBannerText": "Dette nettstedet bruker informasjonskapsler for å forbedre opplevelsen.",
+  "cookieBannerLink": "Les vår personvernerklæring",
+  "cookieBannerCustomize": "Tilpass",
+  "cookieBannerDecline": "Avvis alle",
+  "cookieBannerAccept": "Godta alle",
+  "cookieModalTitle": "Innstillinger for informasjonskapsler",
+  "cookieModalText": "Velg hvilke typer informasjonskapsler du samtykker i å bruke. Nødvendige informasjonskapsler kan ikke deaktiveres.",
+  "cookieModalNecessary": "Nødvendige informasjonskapsler",
+  "cookieModalAnalytics": "Analyseinformasjonskapsler",
+  "cookieModalFunctional": "Funksjonelle informasjonskapsler",
+  "cookieModalSave": "Lagre innstillinger"
 }

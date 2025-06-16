@@ -1633,7 +1633,11 @@ background-color: #f4f8f3;
     color: #bdc3c7;
 }
 
-/* --- Cookie Banner --- */
+/* ======================================= */
+/* === CSS FINALE E CORRETTO COOKIE CONSENT === */
+/* ======================================= */
+
+/* --- Stile Banner Principale --- */
 #cookie-banner {
     position: fixed;
     bottom: 0;
@@ -1641,105 +1645,106 @@ background-color: #f4f8f3;
     width: 100%;
     background-color: var(--dark-text);
     color: var(--white);
-    padding: 20px;
-    text-align: center;
+    padding: 15px 25px;
     z-index: 2000;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-    display: none;
-}
-#cookie-banner p {
-    margin: 0 0 15px 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-#cookie-banner a {
-    color: var(--secondary-green);
-    text-decoration: underline;
-}
-#cookie-banner .btn {
-    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-/* Stili per la modale delle preferenze cookie */
+#cookie-banner p {
+    margin-right: auto; /* Spinge i bottoni a destra */
+}
+
+#cookie-banner a {
+    color: var(--secondary-green);
+    font-weight: bold;
+}
+
+/* --- Contenitore dei bottoni nel banner --- */
+#cookie-banner .cookie-banner-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* --- Stili specifici per i 3 bottoni nel banner --- */
+#cookie-banner .btn {
+    margin: 0;
+    border: 2px solid transparent; /* Aggiunge bordo per coerenza dimensionale */
+}
+
+/* FIX per il pulsante "Personalizza" */
+#cookie-banner .btn-tertiary {
+    background: transparent;
+    border-color: var(--secondary-green); /* Bordo verde chiaro visibile */
+    color: var(--white) !important; /* Testo bianco, forzato! */
+    text-decoration: none; /* Rimuoviamo la sottolineatura */
+}
+#cookie-banner .btn-tertiary:hover {
+    background-color: var(--secondary-green);
+    color: var(--dark-text) !important;
+}
+
+#cookie-banner .btn-secondary {
+    background-color: transparent;
+    border-color: var(--white);
+    color: var(--white);
+}
+#cookie-banner .btn-secondary:hover {
+    background-color: var(--white);
+    color: var(--dark-text);
+}
+
+#cookie-banner .btn-primary {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: var(--white);
+}
+#cookie-banner .btn-primary:hover {
+    background-color: var(--secondary-green);
+    border-color: var(--secondary-green);
+}
+
+
+/* --- Stili Modale Preferenze --- */
+#cookie-preferences-modal {
+    display: none; /* Inizia nascosta */
+}
+#cookie-preferences-modal.visible {
+    display: flex !important; /* Mostra la modale quando ha la classe .visible */
+}
+
 #cookie-preferences-modal .modal-content {
     max-width: 550px;
 }
-.cookie-options {
-    margin: 25px 0;
-    text-align: left;
-}
-.cookie-option {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--medium-grey);
-}
-.cookie-option:last-child {
-    border-bottom: none;
-}
-.cookie-option label {
-    color: var(--light-text);
-    font-weight: 600;
+
+/* FIX per il pulsante "Salva Preferenze" nella modale */
+#save-preferences-btn {
+    color: var(--white) !important; /* Assicura che il testo sia bianco */
+    min-width: 180px; /* Gli dà una larghezza minima per essere sempre visibile */
+    background-color: var(--primary-green);
+    border: none;
 }
 
-/* Stili per gli interruttori (toggle switch) */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 28px;
-}
-.switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-}
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-}
-input:checked + .slider {
-    background-color: var(--primary-green);
-}
-input:disabled + .slider {
-    background-color: #a0a0a0;
-    cursor: not-allowed;
-}
-input:focus + .slider {
-    box-shadow: 0 0 1px var(--primary-green);
-}
-input:checked + .slider:before {
-    transform: translateX(22px);
-}
-.slider.round {
-    border-radius: 34px;
-}
-.slider.round:before {
-    border-radius: 50%;
-}
-#cookie-banner .btn-tertiary {
-    background: transparent;
-    color: var(--light-text);
-    border: none;
-    text-decoration: underline;
-}
+/* Il resto degli stili per la modale */
+.cookie-options { margin: 25px 0; text-align: left; }
+.cookie-option { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--medium-grey); }
+.cookie-option:last-child { border-bottom: none; }
+.cookie-option label { color: var(--light-text); font-weight: 600; }
+.switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; }
+input:checked + .slider { background-color: var(--primary-green); }
+input:disabled + .slider { background-color: #a0a0a0; cursor: not-allowed; }
+input:focus + .slider { box-shadow: 0 0 1px var(--primary-green); }
+input:checked + .slider:before { transform: translateX(22px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
 
 /* --- Exit Intent Popup --- */
 #exit-intent-popup {

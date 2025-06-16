@@ -204,10 +204,6 @@
     "alertFormSubmitted": "Formulär inskickat! Stripe-integration kommer snart...",
     "alertMessageSent": "Tack för ditt meddelande! Vi återkommer snart.",
     "alertSubscribed": "Tack för att du prenumererar på vårt nyhetsbrev!",
-    "cookieBannerText": "Denna webbplats använder cookies för att förbättra användarupplevelsen. Genom att bläddra på denna sida eller klicka på något av dess element samtycker du till användningen av cookies.",
-    "cookieBannerLink": "Läs vår integritetspolicy",
-    "cookieBannerAccept": "Acceptera",
-    "cookieBannerDecline": "Avböj",
     "exitPopupTitle": "Gå Inte Än!",
     "exitPopupSubtitle": "Gå med i vår familj! Adoptera ett olivträd eller prenumerera på vårt nyhetsbrev för att hålla dig uppdaterad om nyheter från Puglia och få exklusiva erbjudanden.",
     "exitPopupAdopt": "Adoptera ett Olivträd",
@@ -341,5 +337,16 @@
 "shippingDamagedReq1": "Ditt ordernummer (eller den e-postadress som användes vid beställningen).",
 "shippingDamagedReq2": "En tydlig beskrivning av problemet.",
 "shippingDamagedReq3": "Ett eller flera fotografier som tydligt visar skadan på förpackningen och/eller produkten.",
-"shippingDamagedText3": "När begäran har utvärderats, om den godkänns, kommer vi att ordna en ny ersättningsleverans utan extra kostnad."
+"shippingDamagedText3": "När begäran har utvärderats, om den godkänns, kommer vi att ordna en ny ersättningsleverans utan extra kostnad.",
+  "cookieBannerText": "Denna webbplats använder cookies för att förbättra upplevelsen.",
+  "cookieBannerLink": "Läs vår integritetspolicy",
+  "cookieBannerCustomize": "Anpassa",
+  "cookieBannerDecline": "Avvisa alla",
+  "cookieBannerAccept": "Acceptera alla",
+  "cookieModalTitle": "Cookie-inställningar",
+  "cookieModalText": "Välj vilka typer av cookies du samtycker till att använda. Nödvändiga cookies kan inte inaktiveras.",
+  "cookieModalNecessary": "Nödvändiga cookies",
+  "cookieModalAnalytics": "Analyscookies",
+  "cookieModalFunctional": "Funktionella cookies",
+  "cookieModalSave": "Spara inställningar"
 }
