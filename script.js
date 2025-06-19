@@ -451,84 +451,135 @@ if (adoptionForm) {
 
     const googleAnalyticsID = 'G-FE1BSWKNP8'; // <-- INSERISCI QUI IL TUO ID REALE
 
-    const consentManager = {
-        banner: document.getElementById('cookie-banner'),
-        preferencesModal: document.getElementById('cookie-preferences-modal'),
+    // =======================================
+// === CONSENT MANAGER - VERSIONE FINALE ===
+// =======================================
+
+const consentManager = {
+    // Riferimenti agli elementi del DOM
+    banner: document.getElementById('cookie-banner'),
+    preferencesModal: document.getElementById('cookie-preferences-modal'),
+
+    // Funzione di avvio principale
+    init() {
+        if (!this.banner || !this.preferencesModal) {
+            console.error('Elementi del banner o della modale non trovati.');
+            return;
+        }
         
-        init() {
-            if (!this.banner) return;
-            const consent = this.getConsent();
+        const consent = this.getConsent();
 
-            if (consent) {
-                this.executeConsentedScripts(consent);
-            } else {
-                this.showBanner();
-            }
-            this.addEventListeners();
-        },
-
-        getConsent() {
-            const consentJSON = localStorage.getItem('cookieConsentAyo');
-            return consentJSON ? JSON.parse(consentJSON) : null;
-        },
-
-        saveConsent(consent) {
-            localStorage.setItem('cookieConsentAyo', JSON.stringify(consent));
-            this.hideAll();
+        if (consent) {
+            // Se l'utente ha già dato il consenso, esegui gli script corrispondenti
             this.executeConsentedScripts(consent);
-        },
+        } else {
+            // Altrimenti, mostra il banner per chiedere il consenso
+            this.showBanner();
+        }
+        
+        // Aggiungi gli ascoltatori di eventi a tutti i pulsanti
+        this.addEventListeners();
+    },
 
-        executeConsentedScripts(consent) {
-            if (consent.analytics) this.activateAnalytics();
-            if (consent.functional) window.loadGoogleMapsScript(); // Chiama la funzione globale
-        },
+    // Recupera il consenso salvato dal localStorage
+    getConsent() {
+        const consentJSON = localStorage.getItem('cookieConsentAyo');
+        return consentJSON ? JSON.parse(consentJSON) : null;
+    },
 
-        activateAnalytics() {
-            if (!googleAnalyticsID.startsWith('G-') || typeof gtag !== 'function') return;
+    // Salva il consenso nel localStorage e agisce di conseguenza
+    saveConsent(consent) {
+        localStorage.setItem('cookieConsentAyo', JSON.stringify(consent));
+        this.hideAll();
+        this.executeConsentedScripts(consent);
+    },
+
+    // Esegue gli script basati sul consenso dato
+    executeConsentedScripts(consent) {
+        if (consent.analytics) {
+            this.activateAnalytics();
+        }
+        if (consent.functional) {
+            // Assicurati che la funzione esista prima di chiamarla
+            if (typeof window.loadGoogleMapsScript === 'function') {
+                window.loadGoogleMapsScript();
+            }
+        }
+    },
+
+    // Attiva Google Analytics (se configurato)
+    activateAnalytics() {
+        // La variabile 'googleAnalyticsID' deve essere definita fuori da questo oggetto
+        if (typeof googleAnalyticsID !== 'undefined' && googleAnalyticsID.startsWith('G-') && typeof gtag === 'function') {
             gtag('config', googleAnalyticsID);
             console.log('Google Analytics attivato.');
-        },
-
-      showBanner() {
-    this.banner.classList.add('visible');
-},
-        
-        showPreferences() {
-            this.banner.style.display = 'none';
-            this.preferencesModal.style.display = 'flex';
-            setTimeout(() => this.preferencesModal.classList.add('visible'), 10);
-        },
-
-        hideAll() {
-            if (this.banner) this.banner.style.display = 'none';
-            if (this.preferencesModal) {
-                this.preferencesModal.classList.remove('visible');
-                setTimeout(() => this.preferencesModal.style.display = 'none', 300);
-            }
-        },
-
-        addEventListeners() {
-             document.getElementById('close-cookie-banner-btn')?.addEventListener('click', () => {
-        this.saveConsent({ necessary: true, analytics: false, functional: false });
-    });
-            document.getElementById('accept-cookies-all-btn')?.addEventListener('click', () => {
-                this.saveConsent({ necessary: true, analytics: true, functional: true });
-            });
-            document.getElementById('decline-cookies-all-btn')?.addEventListener('click', () => {
-                this.saveConsent({ necessary: true, analytics: false, functional: false });
-            });
-            document.getElementById('customize-cookies-btn')?.addEventListener('click', () => {
-                this.showPreferences();
-            });
-            document.getElementById('save-preferences-btn')?.addEventListener('click', () => {
-                const analyticsConsent = document.getElementById('consent-analytics').checked;
-                const functionalConsent = document.getElementById('consent-functional').checked;
-                this.saveConsent({ necessary: true, analytics: analyticsConsent, functional: functionalConsent });
-            });
         }
-    };
+    },
 
-    consentManager.init();
+    // Mostra il banner principale con un'animazione
+    showBanner() {
+        // La visibilità è gestita aggiungendo una classe, per coerenza con il CSS
+        this.banner.classList.add('visible');
+    },
+
+    // Mostra la modale delle preferenze
+    showPreferences() {
+        this.hideAll(); // Nasconde altri elementi prima di mostrare la modale
+
+        // Legge le preferenze attuali e imposta gli interruttori di conseguenza
+        const currentConsent = this.getConsent() || { analytics: false, functional: false };
+        document.getElementById('consent-analytics').checked = currentConsent.analytics;
+        document.getElementById('consent-functional').checked = currentConsent.functional;
+
+        // Mostra la modale aggiungendo la classe .visible
+        this.preferencesModal.classList.add('visible');
+    },
+
+    // Nasconde tutti gli elementi del consenso
+    hideAll() {
+        if (this.banner) this.banner.classList.remove('visible');
+        if (this.preferencesModal) this.preferencesModal.classList.remove('visible');
+    },
+
+    // Aggiunge tutti gli ascoltatori di eventi
+    addEventListeners() {
+        // Pulsante "Accetta Tutti"
+        document.getElementById('accept-cookies-all-btn')?.addEventListener('click', () => {
+            this.saveConsent({ necessary: true, analytics: true, functional: true });
+        });
+
+        // Pulsante "Rifiuta Tutti"
+        document.getElementById('decline-cookies-all-btn')?.addEventListener('click', () => {
+            this.saveConsent({ necessary: true, analytics: false, functional: false });
+        });
+        
+        // Pulsante di chiusura "X" sul banner
+        document.getElementById('close-cookie-banner-btn')?.addEventListener('click', () => {
+            this.saveConsent({ necessary: true, analytics: false, functional: false });
+        });
+
+        // Pulsante "Personalizza" che apre la modale
+        document.getElementById('customize-cookies-btn')?.addEventListener('click', () => {
+            this.showPreferences();
+        });
+
+        // Pulsante "Salva Preferenze" nella modale
+        document.getElementById('save-preferences-btn')?.addEventListener('click', () => {
+            const analyticsConsent = document.getElementById('consent-analytics').checked;
+            const functionalConsent = document.getElementById('consent-functional').checked;
+            this.saveConsent({ necessary: true, analytics: analyticsConsent, functional: functionalConsent });
+        });
+        
+        // Link "Modifica Preferenze Cookie" nel footer
+        document.getElementById('modify-cookie-preferences-link')?.addEventListener('click', (event) => {
+            event.preventDefault(); // Impedisce al link di far saltare la pagina
+            this.showPreferences();
+        });
+    }
+};
+
+// Avvia il gestore del consenso non appena la pagina è pronta
+consentManager.init();
 
     const exitIntentPopup = document.getElementById('exit-intent-popup');
     if (exitIntentPopup) {

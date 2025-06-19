@@ -1637,6 +1637,7 @@ background-color: #f4f8f3;
 /* === CSS RESPONSIVE DEFINITIVO BANNER  === */
 /* ======================================= */
 
+/* Regole CSS corrette */
 #cookie-banner {
     position: fixed;
     bottom: 0;
@@ -1647,12 +1648,18 @@ background-color: #f4f8f3;
     padding: 1rem 1.5rem;
     z-index: 2000;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    
+    /* Aggiunto per nascondere il banner di default */
+    display: none; 
 
-    /* Layout a Griglia per controllo totale */
-    display: grid;
-    grid-template-columns: 1fr auto; /* Colonna flessibile per il contenuto, colonna fissa per la X */
+    grid-template-columns: 1fr auto;
     align-items: center;
     gap: 1rem;
+}
+
+#cookie-banner.visible {
+    /* Aggiunto per mostrare il banner quando necessario */
+    display: grid;
 }
 
 /* Contenitore del testo e dei bottoni */
