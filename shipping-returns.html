@@ -3,134 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spedizioni e Resi - Adopt Your Olive</title>
+    <title data-i18n-key="shippingPageTitle">Spedizioni e Resi - Adopt Your Olive</title>
+    <meta name="description" content="" data-i18n-key="shippingMetaDescription">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="style.css">
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="AYO" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="stylesheet" href="/style.css">
+
     <style>
         body { padding-top: 80px; }
-        .legal-container { max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-        .legal-container h1, .legal-container h2, .legal-container h3 { margin-bottom: 1rem; margin-top: 2rem; color: var(--dark-text); }
-        .legal-container a { color: var(--primary-green); text-decoration: underline; }
+        .legal-page { max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: var(--shadow-light); }
+        .legal-page h1 { font-size: 2.5rem; margin-bottom: 20px; }
+        .legal-page h2 { font-size: 1.8rem; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid var(--primary-green); padding-bottom: 5px;}
+        .legal-page p, .legal-page li { line-height: 1.7; }
+        .main-nav { position: fixed; } /* Mantiene la nav fissa */
     </style>
 </head>
 <body>
 
     <nav class="main-nav">
         <div class="nav-logo-container">
-            <a href="/"><picture><source srcset="/immagini/logo.webp" type="image/webp"><source srcset="/immagini/logo.png" type="image/png"><img src="/immagini/logo.png" alt="Adopt Your Olive Logo" class="nav-logo-image"></picture></a>
+            <a href="#hero">
+                <img src="immagini/logo.svg" alt="Adopt Your Olive Logo" class="nav-logo-image">
+            </a>
             <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
         </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"><i class="fas fa-bars"></i></button>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
         <ul class="nav-links">
-            <li><a href="/#products" data-i18n-key="navAdoptShort">Adopt</a></li>
-            <li><a href="/#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
-            <li><a href="/#our-story" data-i18n-key="navStoryShort">Story</a></li>
-            <li><a href="/#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
-            <li><a href="/#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>
-            <li><a href="/#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-            <li><a href="/#contact" data-i18n-key="navContactShort">Contact</a></li>
+            <li><a href="#products" data-i18n-key="navAdoptShort">Adopt</a></li>
+            <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
+            <li><a href="#our-story" data-i18n-key="navStoryShort">Story</a></li>
+            <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
+            <li><a href="#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>
+            <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
+            <li><a href="#contact" data-i18n-key="navContactShort">Contact</a></li>
         </ul>
         <div class="language-switcher">
             <select id="language-selector">
-                <option value="it">Italiano</option><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="es">Español</option><option value="nl">Nederlands</option><option value="no">Norsk</option><option value="sv">Svenska</option><option value="da">Dansk</option><option value="fi">Suomi</option>
-            </select>
+    <option value="it">Italiano</option>
+    <option value="en">English</option>
+    <option value="de">Deutsch</option>
+    <option value="nl">Nederlands</option>
+    <option value="no">Norsk</option>
+    <option value="fr">Français</option>
+</select>
         </div>
     </nav>
 
-    <main class="legal-container">
-        <h1 data-i18n-key="shippingTitle">Politica di Spedizione e Resi</h1>
-        <p><em data-i18n-key="legalLastUpdated">Ultimo aggiornamento: 13 giugno 2025</em></p>
+<main class="container legal-page">
+    <h1 data-i18n-key="shippingTitle">Spedizioni e Resi</h1>
+<p data-i18n-key="legalLastUpdatedLine"><strong>Ultimo aggiornamento:</strong> 23 giugno 2025</p>
+    <h2 data-i18n-key="shippingS1_title">1. Zone e Costi di Spedizione</h2>
+    <p data-i18n-key="shippingS1_p1">1.1. Offriamo la spedizione gratuita in tutta l'UE, Regno Unito e Svizzera. Escluse alcune isole e aree remote.</p>
+    <p data-i18n-key="shippingS1_p2">1.2. Per altri paesi, contatta info@adoptyourolive.com per una quotazione personalizzata.</p>
+    <p data-i18n-key="shippingS1_p3">1.3. Le spese di spedizione sono incluse nel prezzo del pacchetto, salvo diversa indicazione nella scheda prodotto.</p>
 
-        <h2 data-i18n-key="shippingZonesTitle">Zone e Costi di Spedizione</h2>
-        <p data-i18n-key="shippingZonesText1">Come promozione di lancio, la spedizione è gratuita e inclusa nel costo dell'adozione per i seguenti paesi: Italia, Regno Unito, Germania, Francia, Spagna, Svizzera, Paesi Bassi, Norvegia, Svezia, Danimarca, Austria, Belgio e Finlandia.</p>
-        <p data-i18n-key="shippingZonesText2">Per spedizioni in altri paesi, vi preghiamo di contattarci prima di effettuare l'ordine per una quotazione personalizzata.</p>
+    <h2 data-i18n-key="shippingS2_title">2. Tempi di Elaborazione e Consegna</h2>
+    <p data-i18n-key="shippingS2_p1">2.1. L’olio extra vergine di oliva Peranzana è prodotto a Novembre e spedito a Dicembre di ogni anno per garantire la massima freschezza.</p>
+    <p data-i18n-key="shippingS2_p2">2.2. Tempi di consegna stimati (dalla spedizione):</p>
+    <ul>
+        <li data-i18n-key="shippingS2_l1">Italia: 2-4 giorni lavorativi.</li>
+        <li data-i18n-key="shippingS2_l2">Europa (UE, Svizzera): 5-10 giorni lavorativi.</li>
+        <li data-i18n-key="shippingS2_l3">Regno Unito: 7-12 giorni lavorativi, soggetti a controlli doganali.</li>
+    </ul>
+    <p data-i18n-key="shippingS2_p3">2.3. Riceverai un’email di conferma con il numero di tracciamento entro 24 ore dalla spedizione.</p>
+    <p data-i18n-key="shippingS2_p4">2.4. I tempi possono variare per cause esterne (es. festività, ritardi doganali). In caso di ritardi significativi, ti contatteremo.</p>
 
-        <h2 data-i18n-key="shippingTimesTitle">Tempi di Elaborazione e Consegna</h2>
-        <p data-i18n-key="shippingTimesText1">Il nostro olio viene prodotto una volta all'anno, durante il raccolto che avviene tipicamente a Novembre. Tutti gli ordini di adozione ricevuti durante l'anno verranno elaborati e spediti dopo la produzione dell'olio nuovo per garantirne la massima freschezza.</p>
-        <ul>
-            <li data-i18n-key="shippingTimesText2"><strong>Periodo di spedizione:</strong> Spediamo tutti i pacchi di adozione entro il mese di Dicembre di ogni anno.</li>
-            <li data-i18n-key="shippingTimesText3"><strong>Tempi di consegna stimati dalla spedizione:</strong> 2-4 giorni lavorativi per l'Italia, 5-10 giorni lavorativi per il resto d'Europa.</li>
-        </ul>
-        <p data-i18n-key="shippingTimesText4">Questi tempi sono stime e possono variare. Forniremo un'email di notifica con il numero di tracciamento non appena il tuo pacco verrà spedito.</p>
+    <h2 data-i18n-key="shippingS3_title">3. Diritto di Recesso</h2>
+    <p data-i18n-key="shippingS3_p1">3.1. Ai sensi dell’Art. 59 del Codice del Consumo italiano e della Direttiva UE 2011/83/EU, il diritto di recesso è escluso per:</p>
+    <ul>
+        <li data-i18n-key="shippingS3_l1"><strong>Beni personalizzati:</strong> Certificati di adozione, targhe e etichette personalizzate sull’olio.</li>
+        <li data-i18n-key="shippingS3_l2"><strong>Beni sigillati aperti dopo la consegna:</strong> Olio extra vergine di oliva, per motivi igienici e di salute.</li>
+        <li data-i18n-key="shippingS3_l3"><strong>Servizi la cui esecuzione è già iniziata:</strong> L’adozione simbolica e gli aggiornamenti periodici iniziano subito dopo l’ordine.</li>
+    </ul>
 
-        <h2 data-i18n-key="shippingReturnsTitle">Politica di Reso e Rimborsi</h2>
-        <h3 data-i18n-key="shippingWithdrawalTitle">Diritto di Recesso</h3>
-        <p data-i18n-key="shippingWithdrawalText">Ai sensi della legislazione vigente, il diritto di recesso è escluso per i prodotti alimentari sigillati che sono stati aperti dopo la consegna o che rischiano di deteriorarsi o scadere rapidamente.</p>
-        <h3 data-i18n-key="shippingDamagedTitle">Prodotti Danneggiati o Non Conformi</h3>
-        <p data-i18n-key="shippingDamagedText1">La tua soddisfazione è la nostra priorità. Se dovessi ricevere un prodotto danneggiato durante il trasporto, ti preghiamo di contattarci entro 7 giorni dalla ricezione all'indirizzo <strong>info@adoptyourolive.com</strong>.</p>
-        <p data-i18n-key="shippingDamagedText2">Per elaborare la richiesta, ti chiederemo di fornirci:</p>
-        <ul>
-            <li data-i18n-key="shippingDamagedReq1">Il numero del tuo ordine (o l'email con cui è stato effettuato).</li>
-            <li data-i18n-key="shippingDamagedReq2">Una descrizione chiara del problema.</li>
-            <li data-i18n-key="shippingDamagedReq3">Una o più fotografie che mostrino il danno al packaging e/o al prodotto.</li>
-        </ul>
-        <p data-i18n-key="shippingDamagedText3">Una volta valutata la richiesta, se approvata, provvederemo a una nuova spedizione sostitutiva senza costi aggiuntivi.</p>
-    </main>
+    <h2 data-i18n-key="shippingS4_title">4. Prodotti Danneggiati o Difettosi</h2>
+    <p data-i18n-key="shippingS4_p1"><strong>4.1. Prodotti Danneggiati durante il Trasporto</strong><br>Se ricevi un prodotto visibilmente danneggiato durante il trasporto (es. bottiglia o latta rotta), contattaci tempestivamente e comunque **entro 7 giorni** dalla ricezione a info@adoptyourolive.com, allegando:</p>
+    <ul>
+        <li data-i18n-key="shippingS4_l1">Numero d’ordine o email usata per l’acquisto.</li>
+        <li data-i18n-key="shippingS4_l2">Descrizione chiara del problema.</li>
+        <li data-i18n-key="shippingS4_l3">Foto del danno al prodotto e all'imballaggio.</li>
+    </ul>
+    <p data-i18n-key="shippingS4_p2">Se il danno è imputabile al corriere, provvederemo a una sostituzione gratuita, ove possibile.</p>
+    <p data-i18n-key="shippingS4_p3"><strong>4.2. Difetti di Conformità del Prodotto</strong><br>Per qualsiasi difetto di conformità del prodotto non legato a danni da trasporto (es. problemi di qualità dell'olio), si applicano i termini della **Garanzia Legale di Conformità** descritti nei nostri <a href="terms-of-service.html">Termini e Condizioni di Vendita</a>, che prevedono la possibilità di segnalare il difetto entro 2 mesi dalla scoperta.</p>
+
+    <h2 data-i18n-key="shippingS5_title">5. Contatti</h2>
+    <p data-i18n-key="shippingS5_p1">Per domande su spedizioni o resi:<br>Adopt Your Olive<br>Via Morgagni, 84, 71016 San Severo (FG), Italia<br>Email: info@adoptyourolive.com</p>
+</main>
     
     <footer class="footer">
         <div class="container">
              <div class="footer-content">
-                <div class="footer-col"><h4 data-i18n-key="footerAboutTitle">About Us</h4><p data-i18n-key="footerAboutText">Adopt Your Olive connects you directly to the heart of Puglia, offering a unique way to support sustainable olive farming and enjoy authentic Italian olive oil with personalized packaging.</p></div>
-                <div class="footer-col"><h4 data-i18n-key="footerLinksTitle">Quick Links</h4><ul><li><a href="/#products" data-i18n-key="navAdoptShort">Adopt</a></li><li><a href="/#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li><li><a href="/#our-story" data-i18n-key="navStoryShort">Story</a></li><li><a href="/#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li><li><a href="/#gallery" data-i18n-key="navGalleryShort">Gallery</a></li><li><a href="/#faq" data-i18n-key="navFAQShort">FAQ</a></li><li><a href="/#contact" data-i18n-key="navContactShort">Contact</a></li></ul></div>
-                <div class="footer-col"><h4 data-i18n-key="footerLegalTitle">Legal</h4><ul><li><a href="/privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li><li><a href="/terms-of-service.html" data-i18n-key="footerTerms">Terms of Service</a></li><li><a href="/shipping-returns.html" data-i18n-key="footerShippingReturns">Shipping & Returns</a></li></ul></div>
-                <div class="footer-col"><h4 data-i18n-key="footerFollowTitle">Follow Us</h4><p data-i18n-key="footerFollowText">Follow us on social media for updates from the groves!</p><div class="social-links"><a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></div></div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerAboutTitle">Chi Siamo</h4>
+                    <p data-i18n-key="footerAboutText">Adopt Your Olive ti connette direttamente al cuore della Puglia, offrendo un modo unico per sostenere l'olivicoltura sostenibile e gustare l'autentico olio d'oliva italiano con packaging personalizzato.</p>
+                 </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
+                    <ul>
+                        <li><a href="#products" data-i18n-key="navAdoptShort">Adotta</a></li>
+                        <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
+                        <li><a href="#our-story" data-i18n-key="navStoryShort">Storia</a></li>
+                        <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Perché Peranzana</a></li>
+                        <li><a href="#gallery" data-i18n-key="navGalleryShort">Galleria</a></li>
+                        <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
+                        <li><a href="#contact" data-i18n-key="navContactShort">Contatti</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerLegalTitle">Legale</h4>
+                    <ul>
+                         <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Termini di Servizio</a></li>
+                        <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Spedizioni & Resi</a></li>
+                        <li><a href="#" id="modify-cookie-preferences-link" data-i18n-key="footerCookiePrefs">Modifica Preferenze Cookie</a></li>
+                     </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerFollowTitle">Seguici</h4>
+                    <p data-i18n-key="footerFollowText">Seguici sui social per aggiornamenti dagli uliveti!</p>
+                     <div class="social-links">
+                        <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                 </div>
             </div>
-            <div class="footer-bottom"><span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span><span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span></div>
+            <div class="footer-bottom">
+                <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
+                <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
+                <div class="footer-legal-info">
+                    <p>
+                        <span data-i18n-key="footerLegalCompanyName">Adopt Your Olive</span><br>
+                        <span data-i18n-key="footerLegalAddress">Via Morgagni, 84 - 71016 San Severo (FG)</span><br>
+                        <span data-i18n-key="footerLegalVatNumber">P.IVA: </span> | <span data-i18n-key="footerLegalContactEmail">Email: info@adoptyourolive.com</span>
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
 
         <div id="cookie-banner">
-    <div class="cookie-banner-content">
-        <p>
-            <span data-i18n-key="cookieBannerText">Questo sito utilizza cookie per migliorare l'esperienza.</span>
-            <a href="/privacy-policy.html" data-i18n-key="cookieBannerLink">Leggi la nostra privacy policy</a>.
-        </p>
-        <div class="cookie-banner-buttons">
-            <button id="customize-cookies-btn" class="btn btn-tertiary" data-i18n-key="cookieBannerCustomize">Personalizza</button>
-            <button id="decline-cookies-all-btn" class="btn btn-secondary" data-i18n-key="cookieBannerDecline">Rifiuta Tutti</button>
-            <button id="accept-cookies-all-btn" class="btn btn-primary" data-i18n-key="cookieBannerAccept">Accetta Tutti</button>
-        </div>
-    </div>
-    <button id="close-cookie-banner-btn" aria-label="Chiudi banner cookie">&times;</button>
-</div>
-
-<div id="cookie-preferences-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-        <h3 data-i18n-key="cookieModalTitle">Preferenze Cookie</h3>
-        <p data-i18n-key="cookieModalText">Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.</p>
-        <div class="cookie-options">
-            <div class="cookie-option">
-                <label for="consent-necessary" data-i18n-key="cookieModalNecessary">Cookie Necessari</label>
-                <label class="switch"><input type="checkbox" id="consent-necessary" checked disabled><span class="slider round"></span></label>
-            </div>
-            <div class="cookie-option">
-                <label for="consent-analytics" data-i18n-key="cookieModalAnalytics">Cookie di Analisi</label>
-                <label class="switch"><input type="checkbox" id="consent-analytics"><span class="slider round"></span></label>
-            </div>
-            <div class="cookie-option">
-                <label for="consent-functional" data-i18n-key="cookieModalFunctional">Cookie Funzionali</label>
-                <label class="switch"><input type="checkbox" id="consent-functional"><span class="slider round"></span></label>
+        <div class="cookie-banner-content">
+            <p>
+                <span data-i18n-key="cookieBannerText">Questo sito utilizza cookie per migliorare l'esperienza.</span>
+                <a href="/privacy-policy.html" data-i18n-key="cookieBannerLink">Leggi la nostra privacy policy</a>.
+            </p>
+            <div class="cookie-banner-buttons">
+                <button id="customize-cookies-btn" class="btn btn-tertiary" data-i18n-key="cookieBannerCustomize">Personalizza</button>
+                <button id="decline-cookies-all-btn" class="btn btn-secondary" data-i18n-key="cookieBannerDecline">Rifiuta Tutti</button>
+                <button id="accept-cookies-all-btn" class="btn btn-primary" data-i18n-key="cookieBannerAccept">Accetta Tutti</button>
             </div>
         </div>
-        <button id="save-preferences-btn" class="btn btn-primary" data-i18n-key="cookieModalSave">Salva Preferenze</button>
+        <button id="close-cookie-banner-btn" aria-label="Chiudi banner cookie">×</button>
     </div>
-</div>
 
-    <script src="/script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.setLanguage) {
-                const lang = localStorage.getItem('language') || 'it';
-                window.setLanguage(lang);
-            }
-        });
-    </script>
+    <div id="cookie-preferences-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 data-i18n-key="cookieModalTitle">Preferenze Cookie</h3>
+            <p data-i18n-key="cookieModalText">Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.</p>
+            <div class="cookie-options">
+                <div class="cookie-option">
+                    <label for="consent-necessary" data-i18n-key="cookieModalNecessary">Cookie Necessari</label>
+                    <label class="switch"><input type="checkbox" id="consent-necessary" checked disabled><span class="slider round"></span></label>
+                </div>
+                <div class="cookie-option">
+                    <label for="consent-analytics" data-i18n-key="cookieModalAnalytics">Cookie di Analisi</label>
+                    <label class="switch"><input type="checkbox" id="consent-analytics"><span class="slider round"></span></label>
+                </div>
+                <div class="cookie-option">
+                    <label for="consent-functional" data-i18n-key="cookieModalFunctional">Cookie Funzionali</label>
+                    <label class="switch"><input type="checkbox" id="consent-functional"><span class="slider round"></span></label>
+                </div>
+            </div>
+            <button id="save-preferences-btn" class="btn btn-primary" data-i18n-key="cookieModalSave">Salva Preferenze</button>
+        </div>
+    </div>
+
+    <div id="exit-intent-popup">
+        <div class="exit-intent-content">
+            <button id="close-exit-popup">×</button>
+            <h3 data-i18n-key="exitPopupTitle">Non Andare Via!</h3>
+            <p data-i18n-key="exitPopupSubtitle">Unisciti alla nostra famiglia! Adotta un ulivo o iscriviti alla newsletter per rimanere aggiornato sulle novità dalla Puglia e ricevere offerte esclusive.</p>
+            <div class="exit-intent-buttons">
+                <a href="#products" class="btn btn-primary" data-i18n-key="exitPopupAdopt">Adotta un Ulivo</a>
+                <a href="#contact" class="btn btn-secondary" data-i18n-key="exitPopupNewsletter">Iscriviti alla Newsletter</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>

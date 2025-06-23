@@ -3,40 +3,33 @@ async function loadGoogleMapsScript() {
     try {
         const response = await fetch('/.netlify/functions/get-maps-key');
         if (!response.ok) throw new Error("Errore nel fetch della chiave API");
-        
         const data = await response.json();
         const apiKey = data.apiKey;
-
         if (!apiKey) throw new Error("Chiave API di Google Maps non trovata.");
-
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initAutocomplete`;
         script.async = true;
         document.head.appendChild(script);
-
     } catch (error) {
         console.error("Impossibile caricare lo script di Google Maps:", error);
     }
 }
 
-// Questa funzione viene chiamata dallo script di Google Maps una volta caricato.
-// Deve essere globale per essere trovata.
 function initAutocomplete() {
     const addressInput = document.getElementById('address');
-    if (!addressInput) {
-        console.warn("Campo Indirizzo non trovato per Autocomplete.");
-        return;
-    }
+    if (!addressInput) return;
     const options = { types: ['address'], fields: ['address_components', 'name'] };
     try {
         const autocomplete = new google.maps.places.Autocomplete(addressInput, options);
         autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace();
             if (!place.address_components) return;
+            // Pulisci i campi prima di popolarli
             document.getElementById('city').value = '';
             document.getElementById('postal-code').value = '';
             document.getElementById('country').value = '';
             addressInput.value = '';
+            
             let streetNumber = '', route = '';
             for (const component of place.address_components) {
                 const componentType = component.types[0];
@@ -55,120 +48,109 @@ function initAutocomplete() {
         console.warn("Google Maps Autocomplete non ha potuto inizializzarsi.", e);
     }
 }
-// La rendiamo esplicitamente globale
 window.initAutocomplete = initAutocomplete;
 
-// Variabili globali e funzioni di traduzione
+// --- FUNZIONI DI INTERNAZIONALIZZAZIONE (i18n) ---
 let i18nData = { en: {}, current: {} };
 let currentLang = localStorage.getItem('language') || 'it';
 
 async function fetchTranslations(lang) {
     try {
-        const response = await fetch(`traduzioni/${lang}.json`);
-        if (!response.ok) throw new Error(`Non ho potuto caricare ${lang}.json: ${response.statusText}`);
+        const response = await fetch(`/traduzioni/${lang}.json`);
+        if (!response.ok) throw new Error(`Non ho potuto caricare ${lang}.json`);
         return await response.json();
     } catch (error) {
         console.error(error);
-        return null;
+        return i18nData.en; // Fallback all'inglese
     }
+}
+
+function getTranslation(key, replacements = {}) {
+    const fallbackLang = i18nData.en || {};
+    const currentLangData = i18nData.current || fallbackLang;
+    let text = currentLangData[key] || fallbackLang[key] || '';
+    for (const placeholder in replacements) {
+        text = text.replace(`{${placeholder}}`, replacements[placeholder]);
+    }
+    return text;
 }
 
 async function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('language', lang);
     document.documentElement.lang = lang;
+
     if (Object.keys(i18nData.en).length === 0) {
-        const enTranslations = await fetchTranslations('en');
-        if (enTranslations) i18nData.en = enTranslations;
-        else { console.error("Non sono riuscito a caricare le traduzioni di fallback in Inglese."); return; }
+        i18nData.en = await fetchTranslations('en');
     }
-    i18nData.current = (lang === 'en') ? i18nData.en : (await fetchTranslations(lang) || i18nData.en);
+    i18nData.current = (lang === 'en') ? i18nData.en : (await fetchTranslations(lang));
+
     document.querySelectorAll('[data-i18n-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-key');
-        let translation = i18nData.current[key] || i18nData.en[key] || '';
-        if (key === 'formButtonCompletePay' && selectedPrice > 0) {
-            const payButtonText = i18nData.current.formButtonCompletePay || i18nData.en.formButtonCompletePay || "Complete Adoption - Pay €{price}";
-            translation = payButtonText.replace('{price}', selectedPrice);
-        } else if (key === 'formButtonCompletePay' && selectedPrice === 0) {
-            translation = i18nData.current.formButtonCompleteDefault || i18nData.en.formButtonCompleteDefault;
+        if (element.innerHTML.includes('<')) { // Mantiene i tag interni come <strong>
+            element.innerHTML = getTranslation(key);
+        } else {
+            element.textContent = getTranslation(key);
         }
-        if (element.tagName === 'LI' && key.includes('Benefit')) element.innerHTML = translation;
-        else if (element.tagName === 'P' && (key.includes('Answer') || key.includes('whatYouGetImagineText'))) element.innerHTML = translation;
-        else element.textContent = translation;
     });
+
     document.querySelectorAll('[data-i18n-placeholder-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-placeholder-key');
-        element.placeholder = i18nData.current[key] || i18nData.en[key] || '';
+        element.placeholder = getTranslation(key);
     });
-    const treeTypeSelect = document.getElementById('tree-type');
-    if (treeTypeSelect) {
-        treeTypeSelect.querySelector('option[value=""]').textContent = i18nData.current.formSelectTreeType || i18nData.en.formSelectTreeType;
-        treeTypeSelect.querySelector('option[value="young"]').textContent = i18nData.current.formTreeYoung || i18nData.en.formTreeYoung;
-        treeTypeSelect.querySelector('option[value="mature"]').textContent = i18nData.current.formTreeMature || i18nData.en.formTreeMature;
-        treeTypeSelect.querySelector('option[value="centenary"]').textContent = i18nData.current.formTreeCentenary || i18nData.en.formTreeCentenary;
-    }
-    const countrySelect = document.getElementById('country');
-    if (countrySelect) {
-        countrySelect.querySelector('option[value=""]').textContent = i18nData.current.formSelectCountry || i18nData.en.formSelectCountry;
-        const countries = ["IT", "UK", "DE", "CH", "NO", "SE", "DK", "FR", "ES", "NL", "AT", "BE", "FI"];
-        countries.forEach(countryCode => {
-            const option = countrySelect.querySelector(`option[value="${countryCode}"]`);
-            if (option) option.textContent = i18nData.current[`formCountry${countryCode}`] || i18nData.en[`formCountry${countryCode}`];
-        });
-    }
-    updateTreeSelectionDisplay();
-    updateMostPopular();
-    updateCharCount();
-    checkFormValidity();
 }
 
-// Logica di selezione dell'albero e altre funzioni
+
+// --- FUNZIONI SPECIFICHE PER LA PAGINA PRINCIPALE ---
 let selectedTreeType = '';
-let selectedPrice = 0;
+let selectedPrice = 0.0;
 const clickTracker = {
+    digital: parseInt(localStorage.getItem('clicks_digital') || '0'),
     young: parseInt(localStorage.getItem('clicks_young') || '0'),
-    mature: parseInt(localStorage.getItem('clicks_mature') || '5'),
+    mature: parseInt(localStorage.getItem('clicks_mature') || '0'),
     centenary: parseInt(localStorage.getItem('clicks_centenary') || '0')
 };
 
 function updateMostPopular() {
-    document.querySelectorAll('.popular-badge').forEach(badge => badge.remove());
+    document.querySelectorAll('.popular-badge').forEach(badge => badge.style.display = 'none');
     document.querySelectorAll('.product-card.popular').forEach(card => card.classList.remove('popular'));
     const mostPopularType = Object.keys(clickTracker).reduce((a, b) => clickTracker[a] > clickTracker[b] ? a : b);
-    const mostPopularCard = document.querySelector(`.product-card[data-tree-type="${mostPopularType}"]`);
+    const mostPopularCard = document.querySelector(`.product-card[data-tree-type="${mostPopularType}"] .popular-badge`);
     if (mostPopularCard) {
-        mostPopularCard.classList.add('popular');
-        const badge = document.createElement('div');
-        badge.className = 'popular-badge';
-        badge.textContent = (i18nData.current && i18nData.current.productPopularBadge) || (i18nData.en && i18nData.en.productPopularBadge) || "Most Popular";
-        mostPopularCard.insertBefore(badge, mostPopularCard.firstChild);
+        mostPopularCard.style.display = 'block';
+        mostPopularCard.parentElement.classList.add('popular');
     }
 }
 
+function updatePriceUI(price) {
+    const priceString = `€${price.toFixed(2).replace('.', ',')}`;
+    document.getElementById('selected-tree-price').textContent = priceString;
+    document.getElementById('summary-price').textContent = priceString;
+    document.getElementById('total-price').textContent = priceString;
+}
+
 function selectTree(treeType) {
-    clickTracker[treeType]++;
-    localStorage.setItem(`clicks_${treeType}`, clickTracker[treeType].toString());
+    if(clickTracker.hasOwnProperty(treeType)) {
+        clickTracker[treeType]++;
+        localStorage.setItem(`clicks_${treeType}`, clickTracker[treeType].toString());
+    }
     updateMostPopular();
     document.querySelectorAll('.product-card').forEach(card => card.classList.remove('selected'));
     const selectedCardElement = document.querySelector(`.product-card[data-tree-type="${treeType}"]`);
     if (selectedCardElement) {
         selectedCardElement.classList.add('selected');
-        selectedPrice = parseInt(selectedCardElement.dataset.price);
+        selectedPrice = parseFloat(selectedCardElement.dataset.price);
         selectedTreeType = treeType;
         sessionStorage.setItem('selectedTree', treeType);
     }
-    const treeSelect = document.getElementById('tree-type');
-    treeSelect.value = treeType;
-    document.getElementById('selected-tree-price').textContent = `€${selectedPrice}`;
-    document.getElementById('summary-price').textContent = `€${selectedPrice}`;
-    document.getElementById('total-price').textContent = `€${selectedPrice}`;
+    document.getElementById('tree-type').value = treeType;
+    updatePriceUI(selectedPrice);
     updateTreeSelectionDisplay();
     const formSection = document.getElementById('personalization');
     if (formSection) {
         const navHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
-        const elementPosition = formSection.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - navHeight - 20;
-        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        const elementPosition = formSection.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
     }
 }
 
@@ -176,238 +158,145 @@ function updateTreeSelectionFromForm() {
     const treeSelect = document.getElementById('tree-type');
     const selectedOption = treeSelect.options[treeSelect.selectedIndex];
     if (selectedOption && selectedOption.value) {
-        selectedTreeType = selectedOption.value;
-        selectedPrice = parseInt(selectedOption.dataset.price);
-        sessionStorage.setItem('selectedTree', selectedTreeType);
-        document.querySelectorAll('.product-card').forEach(card => card.classList.remove('selected'));
-        const selectedCardElement = document.querySelector(`.product-card[data-tree-type="${selectedTreeType}"]`);
-        if (selectedCardElement) selectedCardElement.classList.add('selected');
-        document.getElementById('selected-tree-price').textContent = `€${selectedPrice}`;
-        document.getElementById('summary-price').textContent = `€${selectedPrice}`;
-        document.getElementById('total-price').textContent = `€${selectedPrice}`;
+        selectTree(selectedOption.value);
     } else {
         selectedTreeType = '';
         selectedPrice = 0;
         sessionStorage.removeItem('selectedTree');
         document.querySelectorAll('.product-card').forEach(card => card.classList.remove('selected'));
-        document.getElementById('selected-tree-price').textContent = '€0';
-        document.getElementById('summary-price').textContent = '€0';
-        document.getElementById('total-price').textContent = '€0';
+        updatePriceUI(0);
+        updateTreeSelectionDisplay();
     }
-    updateTreeSelectionDisplay();
 }
 
 function updateTreeSelectionDisplay() {
-    const currentTrans = (i18nData.current && Object.keys(i18nData.current).length > 0) ? i18nData.current : i18nData.en;
-    if (!currentTrans || Object.keys(currentTrans).length === 0) return;
+    if (!document.getElementById('selected-tree-title')) return; // Esce se non è nella pagina principale
+    
     const treeNames = {
-        'young': (currentTrans.formTreeYoung || "").split(' - ')[0],
-        'mature': (currentTrans.formTreeMature || "").split(' - ')[0],
-        'centenary': (currentTrans.formTreeCentenary || "").split(' - ')[0]
+        'digital': getTranslation('formTreeDigital').split(' - ')[0],
+        'young': getTranslation('formTreeYoung').split(' - ')[0],
+        'mature': getTranslation('formTreeMature').split(' - ')[0],
+        'centenary': getTranslation('formTreeCentenary').split(' - ')[0]
     };
-    const selectedTreeTitleEl = document.getElementById('selected-tree-title');
-    const summaryTreeEl = document.getElementById('summary-tree');
-    const previewTreeEl = document.getElementById('preview-tree');
-    const treeName = selectedTreeType ? treeNames[selectedTreeType] : currentTrans.formSelectedTreeDefault;
-    const treeNameForPreview = selectedTreeType ? treeNames[selectedTreeType] : currentTrans.certTreeTypePlaceholder;
-    if (selectedTreeTitleEl) selectedTreeTitleEl.textContent = treeName;
-    if (summaryTreeEl) summaryTreeEl.textContent = treeName;
-    if (previewTreeEl) previewTreeEl.textContent = treeNameForPreview;
+    const defaultText = getTranslation('formSelectedTreeDefault');
+    const treeName = selectedTreeType ? treeNames[selectedTreeType] : defaultText;
+    document.getElementById('selected-tree-title').textContent = treeName;
+    document.getElementById('summary-tree').textContent = treeName;
+    document.getElementById('preview-tree').textContent = selectedTreeType ? treeNames[selectedTreeType] : getTranslation('certTreeTypePlaceholder');
     updateCertificatePreview();
     checkFormValidity();
 }
 
 function updateCertificatePreview() {
-    const currentTrans = (i18nData.current && Object.keys(i18nData.current).length > 0) ? i18nData.current : i18nData.en;
-    if (!currentTrans || Object.keys(currentTrans).length === 0) return;
-    const firstName = document.getElementById('first-name').value.trim();
-    const lastName = document.getElementById('last-name').value.trim();
-    const certificateNameInput = document.getElementById('certificate-name').value.trim();
-    let displayCertificateName = currentTrans.certYourNamePlaceholder;
-    if (certificateNameInput) displayCertificateName = certificateNameInput;
-    else if (firstName || lastName) displayCertificateName = `${firstName} ${lastName}`.trim();
-    const message = document.getElementById('certificate-message').value.trim() || currentTrans.certMessagePlaceholder;
-    const previewNameEl = document.getElementById('preview-name');
-    const previewMessageEl = document.getElementById('preview-message');
-    if (previewNameEl) previewNameEl.textContent = displayCertificateName;
-    if (previewMessageEl) previewMessageEl.textContent = message;
+    if (!document.getElementById('preview-name')) return; // Esce se non è nella pagina principale
+    const certName = document.getElementById('certificate-name').value.trim() || `${document.getElementById('first-name').value.trim()} ${document.getElementById('last-name').value.trim()}`.trim() || getTranslation('certYourNamePlaceholder');
+    document.getElementById('preview-name').textContent = certName;
+    document.getElementById('preview-message').textContent = document.getElementById('certificate-message').value.trim() || getTranslation('certMessagePlaceholder');
 }
 
 function updateCharCount() {
-    const currentTrans = (i18nData.current && Object.keys(i18nData.current).length > 0) ? i18nData.current : i18nData.en;
-    if (!currentTrans || Object.keys(currentTrans).length === 0) return;
     const textarea = document.getElementById('certificate-message');
+    if (!textarea) return; // Esce se non è nella pagina principale
     const counter = textarea.parentElement.querySelector('.char-count');
-    if (counter) {
-        const charCountText = currentTrans.formCharCount;
-        counter.textContent = charCountText.replace(/\d+\//, `${textarea.value.length}/`);
+    if(counter) {
+        counter.textContent = getTranslation('formCharCount', { length: textarea.value.length });
     }
 }
 
 function checkFormValidity() {
-    const currentTrans = (i18nData.current && Object.keys(i18nData.current).length > 0) ? i18nData.current : i18nData.en;
-    if (!currentTrans || Object.keys(currentTrans).length === 0) return;
-    const requiredFields = document.querySelectorAll('#adoption-form input[required], #adoption-form select[required]');
     const completeBtn = document.getElementById('complete-adoption-btn');
-    if (!completeBtn) return;
+    if (!completeBtn) return; // Esce se non è nella pagina principale
+
+    const requiredFields = document.querySelectorAll('#adoption-form [required]');
     let allValid = selectedTreeType !== '';
     requiredFields.forEach(field => {
         if (!field.value.trim()) allValid = false;
     });
     completeBtn.disabled = !allValid;
-    let buttonTextKey = allValid ? (selectedPrice > 0 ? 'formButtonCompletePay' : 'formButtonCompleteDefault') : 'formButtonCompleteFields';
-    let buttonText = currentTrans[buttonTextKey] || i18nData.en[buttonTextKey];
-    if (buttonTextKey === 'formButtonCompletePay') buttonText = buttonText.replace('{price}', selectedPrice);
-    completeBtn.textContent = buttonText;
+    let buttonTextKey = 'formButtonCompleteFields';
+    if(allValid) {
+        buttonTextKey = selectedPrice > 0 ? 'formButtonCompletePay' : 'formButtonCompleteDefault';
+    }
+    completeBtn.textContent = getTranslation(buttonTextKey, { price: selectedPrice.toFixed(2).replace('.', ',') });
 }
 
+
+// --- PUNTO DI INGRESSO PRINCIPALE ---
 document.addEventListener('DOMContentLoaded', async () => {
 
-    const handleNetlifyFormSubmit = async (event) => {
-    event.preventDefault(); // Impedisce il ricaricamento della pagina
+    // --- LOGICA GLOBALE (per tutte le pagine) ---
+    await setLanguage(currentLang);
 
-    const form = event.target;
-    
-    // CORREZIONE: Cerca il campo lingua all'interno del form specifico che ha generato l'evento
-    const langField = form.querySelector('input[name="language"]');
-    if (langField) {
-        langField.value = currentLang;
-    }
-
-    const formData = new FormData(form);
-    const submitButton = form.querySelector('button[type="submit"]');
-    const modal = document.getElementById('success-modal');
-
-    if (submitButton) submitButton.disabled = true;
-
-    try {
-        const response = await fetch('/', {
-            method: 'POST',
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(formData).toString()
-        });
-
-        if (response.ok) {
-            if (modal) {
-                modal.style.display = 'flex';
-                setTimeout(() => modal.classList.add('visible'), 10);
-            }
-            form.reset();
-        } else { 
-            throw new Error('Network response was not ok.'); 
-        }
-    } catch (error) {
-        console.error('Form submission error:', error);
-        alert('Si è verificato un errore, riprova.');
-    } finally {
-        if (submitButton) submitButton.disabled = false;
-    }
-};
-
-    const modal = document.getElementById('success-modal');
-    const closeModalBtn = document.getElementById('close-modal-btn');
-    function closeModal() {
-        if (modal) {
-            modal.classList.remove('visible');
-            setTimeout(() => modal.style.display = 'none', 300);
-        }
-    }
-    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-    if (modal) modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) contactForm.addEventListener('submit', handleNetlifyFormSubmit);
-    
-    const newsletterForm = document.getElementById('newsletter-form');
-    if (newsletterForm) newsletterForm.addEventListener('submit', handleNetlifyFormSubmit);
-
-    // Esecuzione di tutto il resto del tuo codice originale
     const languageSelector = document.getElementById('language-selector');
     if (languageSelector) {
         languageSelector.value = currentLang;
-        languageSelector.addEventListener('change', (event) => setLanguage(event.target.value));
+        languageSelector.addEventListener('change', (event) => setLanguage(event.target.value).then(() => {
+             // Aggiorna la UI della pagina principale se ci troviamo lì
+            if (document.getElementById('adoption-form')) {
+                updateTreeSelectionDisplay();
+                updateMostPopular();
+                updateCharCount();
+                checkFormValidity();
+            }
+        }));
     }
-    const heroBgVideo = document.getElementById('heroBgVideo');
-    const videoBackgroundDiv = document.querySelector('.video-background');
-    if (heroBgVideo && videoBackgroundDiv) {
-        heroBgVideo.oncanplay = function() { videoBackgroundDiv.style.backgroundImage = 'none'; };
-    }
-    await setLanguage(currentLang);
-    const storedTreeType = sessionStorage.getItem('selectedTree');
-    if (storedTreeType) {
-        const treeSelect = document.getElementById('tree-type');
-        treeSelect.value = storedTreeType;
-        updateTreeSelectionFromForm();
-    } else {
-        updateTreeSelectionDisplay();
-    }
-    const formInputs = document.querySelectorAll('#adoption-form input, #adoption-form select, #adoption-form textarea');
-    formInputs.forEach(input => {
-        const eventType = (input.tagName === 'SELECT' || input.type === 'checkbox') ? 'change' : 'input';
-        input.addEventListener(eventType, checkFormValidity);
-        if (['certificate-name', 'certificate-message', 'first-name', 'last-name'].includes(input.id)) {
-            input.addEventListener('input', updateCertificatePreview);
+    
+    const handleNetlifyFormSubmit = async (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('button[type="submit"]');
+        const modal = document.getElementById('success-modal');
+        form.querySelector('input[name="language"]').value = currentLang;
+        if (submitButton) submitButton.disabled = true;
+        try {
+            await fetch('/', {
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(formData).toString()
+            });
+            if (modal) modal.classList.add('visible');
+            form.reset();
+        } catch (error) {
+            alert('Si è verificato un errore, riprova.');
+        } finally {
+            if (submitButton) submitButton.disabled = false;
         }
-        if (input.id === 'certificate-message') input.addEventListener('input', updateCharCount);
-    });
-    checkFormValidity();
-    const adoptionForm = document.getElementById('adoption-form');
-if (adoptionForm) {
-    adoptionForm.addEventListener('submit', (e) => {
-        // Popola il campo lingua nascosto un attimo prima dell'invio
-        const langField = document.getElementById('form-language-adoption');
-        if (langField) {
-            langField.value = currentLang;
-        }
+    };
+    document.getElementById('contact-form')?.addEventListener('submit', handleNetlifyFormSubmit);
+    document.getElementById('newsletter-form')?.addEventListener('submit', handleNetlifyFormSubmit);
 
-        // NON usiamo e.preventDefault() qui.
-        // Questo permette al form di essere inviato normalmente attraverso il browser,
-        // in modo che Netlify possa intercettarlo e salvarne i dati.
-        // La validazione che impedisce l'invio con campi vuoti è già gestita 
-        // dalla funzione che abilita/disabilita il pulsante di completamento.
-    });
-}
+    document.getElementById('close-modal-btn')?.addEventListener('click', () => document.getElementById('success-modal').classList.remove('visible'));
+    document.getElementById('success-modal')?.addEventListener('click', (e) => { if (e.target.id === 'success-modal') e.target.classList.remove('visible'); });
+    
     const nav = document.querySelector('.main-nav');
-    if (nav) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
-            let currentSectionId = 'hero';
-            const navHeight = nav.offsetHeight || 0;
-            document.querySelectorAll('section[id]').forEach(section => {
-                const sectionTop = section.offsetTop - navHeight - 20;
-                if (pageYOffset >= sectionTop) currentSectionId = section.getAttribute('id');
-            });
-            document.querySelectorAll('.nav-links li a').forEach(link => {
-                link.classList.toggle('active-link', link.getAttribute('href') === `#${currentSectionId}`);
-            });
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 50);
+        let currentSectionId = document.body.id === 'index-body' ? 'hero' : ''; // Default section
+        document.querySelectorAll('section[id]').forEach(section => {
+            if (window.pageYOffset >= section.offsetTop - nav.offsetHeight) currentSectionId = section.id;
         });
-    }
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.classList.toggle('active-link', link.getAttribute('href') === `#${currentSectionId}`);
+        });
+    });
+    
     const navToggle = document.querySelector('.nav-toggle');
     const navLinks = document.querySelector('.nav-links');
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            const isOpen = navLinks.classList.toggle('open');
-            navToggle.setAttribute('aria-expanded', String(isOpen));
-        });
-    }
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const targetElement = document.querySelector(this.getAttribute('href'));
             if (targetElement) {
-                const navHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight;
                 window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-                if (navLinks && navLinks.classList.contains('open')) {
-                    navLinks.classList.remove('open');
-                    if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
-                }
+                if (navLinks.classList.contains('open')) navLinks.classList.remove('open');
             }
         });
     });
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -415,185 +304,208 @@ if (adoptionForm) {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
     document.querySelectorAll('.faq-question').forEach(q => {
         q.addEventListener('click', () => {
-            const answer = q.nextElementSibling;
             const wasActive = q.classList.contains('active');
-            document.querySelectorAll('.faq-question').forEach(otherQ => {
-                otherQ.classList.remove('active');
-                if (otherQ.nextElementSibling) otherQ.nextElementSibling.classList.remove('open');
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.querySelector('.faq-question').classList.remove('active');
+                item.querySelector('.faq-answer').classList.remove('open');
             });
             if (!wasActive) {
                 q.classList.add('active');
-                if (answer) answer.classList.add('open');
+                q.nextElementSibling.classList.add('open');
             }
         });
     });
-    (function initSlideshow() {
+
+    const consentManager = {
+        banner: document.getElementById('cookie-banner'),
+        preferencesModal: document.getElementById('cookie-preferences-modal'),
+        init() {
+            if (!this.banner || !this.preferencesModal) return;
+            const consent = this.getConsent();
+            if (consent) {
+                this.executeConsentedScripts(consent);
+            } else {
+                this.showBanner();
+            }
+            this.addEventListeners();
+        },
+        getConsent: () => JSON.parse(localStorage.getItem('cookieConsentAyo')),
+        saveConsent(consent) {
+            localStorage.setItem('cookieConsentAyo', JSON.stringify(consent));
+            this.hideAll();
+            this.executeConsentedScripts(consent);
+        },
+        executeConsentedScripts(consent) {
+            if (consent.functional && typeof window.loadGoogleMapsScript === 'function') {
+                if (document.getElementById('adoption-form')) window.loadGoogleMapsScript();
+            }
+        },
+        showBanner() { this.banner.classList.add('visible'); },
+        showPreferences() {
+            this.hideAll();
+            const currentConsent = this.getConsent() || { analytics: false, functional: false };
+            document.getElementById('consent-analytics').checked = currentConsent.analytics;
+            document.getElementById('consent-functional').checked = currentConsent.functional;
+            this.preferencesModal.classList.add('visible');
+        },
+        hideAll() {
+            this.banner.classList.remove('visible');
+            this.preferencesModal.classList.remove('visible');
+        },
+        addEventListeners() {
+            document.getElementById('accept-cookies-all-btn')?.addEventListener('click', () => this.saveConsent({ necessary: true, analytics: true, functional: true }));
+            document.getElementById('decline-cookies-all-btn')?.addEventListener('click', () => this.saveConsent({ necessary: true, analytics: false, functional: false }));
+            document.getElementById('close-cookie-banner-btn')?.addEventListener('click', () => this.saveConsent({ necessary: true, analytics: false, functional: false }));
+            document.getElementById('customize-cookies-btn')?.addEventListener('click', () => this.showPreferences());
+            document.getElementById('save-preferences-btn')?.addEventListener('click', () => {
+                this.saveConsent({
+                    necessary: true,
+                    analytics: document.getElementById('consent-analytics').checked,
+                    functional: document.getElementById('consent-functional').checked
+                });
+            });
+            document.getElementById('modify-cookie-preferences-link')?.addEventListener('click', (e) => { e.preventDefault(); this.showPreferences(); });
+        }
+    };
+    consentManager.init();
+
+
+    // --- LOGICA SOLO PER LA PAGINA PRINCIPALE ---
+    // Controlliamo se esiste un elemento chiave della pagina principale.
+    if (document.getElementById('adoption-form')) {
+        let appliedDiscountRate = 0;
+        const discountCodeInput = document.getElementById('discount-code');
+        const applyDiscountBtn = document.getElementById('apply-discount-btn');
+        const discountFeedbackEl = document.getElementById('discount-feedback');
+        const hiddenRefInput = document.getElementById('referral-code-input');
+
+        const applyCode = async (code) => {
+            if (!code) return;
+            discountCodeInput.value = code;
+            if(selectedPrice > 0) {
+               applyDiscountBtn.click();
+            }
+        };
+        
+        applyDiscountBtn.addEventListener('click', async () => {
+            const code = discountCodeInput.value.trim().toUpperCase();
+            if (!code || selectedPrice === 0) {
+                discountFeedbackEl.textContent = getTranslation('feedbackErrorNoCodeOrProduct');
+                discountFeedbackEl.className = 'discount-feedback error';
+                return;
+            }
+            try {
+                const response = await fetch('/.netlify/functions/validate-code', {
+                    method: 'POST', body: JSON.stringify({ code })
+                });
+                const data = await response.json();
+                if (data.valid) {
+                    appliedDiscountRate = data.rate;
+                    const discountedPrice = selectedPrice * (1 - appliedDiscountRate);
+                    updatePriceUI(discountedPrice);
+                    discountFeedbackEl.textContent = getTranslation('feedbackSuccess', { rate: appliedDiscountRate * 100 });
+                    discountFeedbackEl.className = 'discount-feedback success';
+                    discountCodeInput.disabled = true;
+                    applyDiscountBtn.disabled = true;
+                    if(hiddenRefInput) hiddenRefInput.value = code;
+                } else {
+                    discountFeedbackEl.textContent = getTranslation('feedbackErrorInvalidCode');
+                    discountFeedbackEl.className = 'discount-feedback error';
+                    appliedDiscountRate = 0;
+                }
+            } catch (error) {
+                discountFeedbackEl.textContent = getTranslation('feedbackErrorServer');
+                discountFeedbackEl.className = 'discount-feedback error';
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCodeFromUrl = urlParams.get('ref');
+        if (refCodeFromUrl) {
+            applyCode(refCodeFromUrl);
+        }
+        
+        const adoptionForm = document.getElementById('adoption-form');
+        adoptionForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const submitButton = adoptionForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Creazione pagamento...';
+            
+            const formData = new FormData(adoptionForm);
+            const data = Object.fromEntries(formData.entries());
+            data.price = selectedPrice;
+            if(hiddenRefInput) data['referral-code'] = hiddenRefInput.value;
+            
+            try {
+                const response = await fetch('/.netlify/functions/create-payment-link', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!response.ok) throw new Error('Errore di rete durante la creazione del pagamento.');
+                
+                const responseData = await response.json();
+                if (responseData.paymentUrl) {
+                    window.location.href = responseData.paymentUrl;
+                } else {
+                    throw new Error('URL di pagamento non ricevuto dal server.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Si è verificato un errore durante la creazione del pagamento. Riprova più tardi.');
+                submitButton.disabled = false;
+                checkFormValidity();
+            }
+        });
+        
+        const storedTreeType = sessionStorage.getItem('selectedTree');
+        if (storedTreeType) {
+            selectTree(storedTreeType);
+        } else {
+            updateTreeSelectionDisplay();
+        }
+
+        document.querySelectorAll('#adoption-form input, #adoption-form select, #adoption-form textarea').forEach(input => {
+            if(input.id !== 'discount-code'){
+                input.addEventListener((input.tagName === 'SELECT' ? 'change' : 'input'), checkFormValidity);
+            }
+            if (['certificate-name', 'certificate-message', 'first-name', 'last-name'].includes(input.id)) {
+                input.addEventListener('input', updateCertificatePreview);
+            }
+            if (input.id === 'certificate-message') input.addEventListener('input', updateCharCount);
+        });
+
         let slideIndex = 0;
         const slides = document.querySelectorAll("#gallery .slide");
         const dots = document.querySelectorAll("#gallery .dot");
-        if (slides.length === 0) return;
         function showSlides(n) {
+            if (slides.length === 0) return;
             slideIndex = (n + slides.length) % slides.length;
-            slides.forEach(slide => slide.style.display = "none");
+            slides.forEach(slide => slide.classList.remove("active"));
             dots.forEach(dot => dot.classList.remove("active"));
-            slides[slideIndex].style.display = "block";
+            slides[slideIndex].classList.add("active");
             dots[slideIndex].classList.add("active");
         }
         window.plusSlides = (n) => showSlides(slideIndex + n);
         window.currentSlide = (n) => showSlides(n - 1);
         showSlides(slideIndex);
-    })();
- // NUOVO GESTORE CONSENSO COOKIE
-
-    const googleAnalyticsID = 'G-FE1BSWKNP8'; // <-- INSERISCI QUI IL TUO ID REALE
-
-    // =======================================
-// === CONSENT MANAGER - VERSIONE FINALE ===
-// =======================================
-
-const consentManager = {
-    // Riferimenti agli elementi del DOM
-    banner: document.getElementById('cookie-banner'),
-    preferencesModal: document.getElementById('cookie-preferences-modal'),
-
-    // Funzione di avvio principale
-    init() {
-        if (!this.banner || !this.preferencesModal) {
-            console.error('Elementi del banner o della modale non trovati.');
-            return;
-        }
         
-        const consent = this.getConsent();
-
-        if (consent) {
-            // Se l'utente ha già dato il consenso, esegui gli script corrispondenti
-            this.executeConsentedScripts(consent);
-        } else {
-            // Altrimenti, mostra il banner per chiedere il consenso
-            this.showBanner();
+        const exitIntentPopup = document.getElementById('exit-intent-popup');
+        if (exitIntentPopup) {
+            const showExitPopup = () => {
+                if (!sessionStorage.getItem('exitIntentShownAyo')) {
+                    exitIntentPopup.style.display = 'flex';
+                    sessionStorage.setItem('exitIntentShownAyo', 'true');
+                }
+            };
+            document.addEventListener('mouseout', e => { if (e.clientY < 0 && !e.relatedTarget && !e.toElement) showExitPopup(); });
+            document.getElementById('close-exit-popup').addEventListener('click', () => { exitIntentPopup.style.display = 'none'; });
         }
-        
-        // Aggiungi gli ascoltatori di eventi a tutti i pulsanti
-        this.addEventListeners();
-    },
-
-    // Recupera il consenso salvato dal localStorage
-    getConsent() {
-        const consentJSON = localStorage.getItem('cookieConsentAyo');
-        return consentJSON ? JSON.parse(consentJSON) : null;
-    },
-
-    // Salva il consenso nel localStorage e agisce di conseguenza
-    saveConsent(consent) {
-        localStorage.setItem('cookieConsentAyo', JSON.stringify(consent));
-        this.hideAll();
-        this.executeConsentedScripts(consent);
-    },
-
-    // Esegue gli script basati sul consenso dato
-    executeConsentedScripts(consent) {
-        if (consent.analytics) {
-            this.activateAnalytics();
-        }
-        if (consent.functional) {
-            // Assicurati che la funzione esista prima di chiamarla
-            if (typeof window.loadGoogleMapsScript === 'function') {
-                window.loadGoogleMapsScript();
-            }
-        }
-    },
-
-    // Attiva Google Analytics (se configurato)
-    activateAnalytics() {
-        // La variabile 'googleAnalyticsID' deve essere definita fuori da questo oggetto
-        if (typeof googleAnalyticsID !== 'undefined' && googleAnalyticsID.startsWith('G-') && typeof gtag === 'function') {
-            gtag('config', googleAnalyticsID);
-            console.log('Google Analytics attivato.');
-        }
-    },
-
-    // Mostra il banner principale con un'animazione
-    showBanner() {
-        // La visibilità è gestita aggiungendo una classe, per coerenza con il CSS
-        this.banner.classList.add('visible');
-    },
-
-    // Mostra la modale delle preferenze
-    showPreferences() {
-        this.hideAll(); // Nasconde altri elementi prima di mostrare la modale
-
-        // Legge le preferenze attuali e imposta gli interruttori di conseguenza
-        const currentConsent = this.getConsent() || { analytics: false, functional: false };
-        document.getElementById('consent-analytics').checked = currentConsent.analytics;
-        document.getElementById('consent-functional').checked = currentConsent.functional;
-
-        // Mostra la modale aggiungendo la classe .visible
-        this.preferencesModal.classList.add('visible');
-    },
-
-    // Nasconde tutti gli elementi del consenso
-    hideAll() {
-        if (this.banner) this.banner.classList.remove('visible');
-        if (this.preferencesModal) this.preferencesModal.classList.remove('visible');
-    },
-
-    // Aggiunge tutti gli ascoltatori di eventi
-    addEventListeners() {
-        // Pulsante "Accetta Tutti"
-        document.getElementById('accept-cookies-all-btn')?.addEventListener('click', () => {
-            this.saveConsent({ necessary: true, analytics: true, functional: true });
-        });
-
-        // Pulsante "Rifiuta Tutti"
-        document.getElementById('decline-cookies-all-btn')?.addEventListener('click', () => {
-            this.saveConsent({ necessary: true, analytics: false, functional: false });
-        });
-        
-        // Pulsante di chiusura "X" sul banner
-        document.getElementById('close-cookie-banner-btn')?.addEventListener('click', () => {
-            this.saveConsent({ necessary: true, analytics: false, functional: false });
-        });
-
-        // Pulsante "Personalizza" che apre la modale
-        document.getElementById('customize-cookies-btn')?.addEventListener('click', () => {
-            this.showPreferences();
-        });
-
-        // Pulsante "Salva Preferenze" nella modale
-        document.getElementById('save-preferences-btn')?.addEventListener('click', () => {
-            const analyticsConsent = document.getElementById('consent-analytics').checked;
-            const functionalConsent = document.getElementById('consent-functional').checked;
-            this.saveConsent({ necessary: true, analytics: analyticsConsent, functional: functionalConsent });
-        });
-        
-        // Link "Modifica Preferenze Cookie" nel footer
-        document.getElementById('modify-cookie-preferences-link')?.addEventListener('click', (event) => {
-            event.preventDefault(); // Impedisce al link di far saltare la pagina
-            this.showPreferences();
-        });
-    }
-};
-
-// Avvia il gestore del consenso non appena la pagina è pronta
-consentManager.init();
-
-    const exitIntentPopup = document.getElementById('exit-intent-popup');
-    if (exitIntentPopup) {
-        const showExitPopup = () => {
-            if (!sessionStorage.getItem('exitIntentShownAyo')) {
-                exitIntentPopup.style.display = 'flex';
-                sessionStorage.setItem('exitIntentShownAyo', 'true');
-            }
-        };
-        document.addEventListener('mouseout', e => {
-            if (e.clientY < 0 && !e.relatedTarget && !e.toElement) showExitPopup();
-        });
-        document.getElementById('close-exit-popup').addEventListener('click', () => {
-            exitIntentPopup.style.display = 'none';
-        });
-    }
-}); 
+    } // --- FINE BLOCCO IF per la pagina principale
+});
