@@ -85,14 +85,18 @@ async function setLanguage(lang) {
     }
     i18nData.current = (lang === 'en') ? i18nData.en : (await fetchTranslations(lang));
 
-    document.querySelectorAll('[data-i18n-key]').forEach(element => {
-        const key = element.getAttribute('data-i18n-key');
-        if (element.innerHTML.includes('<')) { // Mantiene i tag interni come <strong>
-            element.innerHTML = getTranslation(key);
-        } else {
-            element.textContent = getTranslation(key);
-        }
-    });
+   // Questo è il blocco CORRETTO
+document.querySelectorAll('[data-i18n-key]').forEach(element => {
+    const key = element.getAttribute('data-i18n-key');
+    const translation = getTranslation(key); // Prendi la traduzione PRIMA
+
+    // Controlla se la TRADUZIONE stessa contiene HTML
+    if (translation.includes('<')) { 
+        element.innerHTML = translation;
+    } else {
+        element.textContent = translation;
+    }
+});
 
     document.querySelectorAll('[data-i18n-placeholder-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-placeholder-key');
