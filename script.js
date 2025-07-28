@@ -224,37 +224,6 @@ function checkFormValidity() {
     completeBtn.textContent = getTranslation(buttonTextKey, { price: selectedPrice.toFixed(2).replace('.', ',') });
 }
 
-async function handleReferralLink() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const refCodeFromUrl = urlParams.get('ref');
-    if (!refCodeFromUrl) return; // Se non c'è 'ref' nell'URL, non fa nulla.
-
-    const discountFeedbackEl = document.getElementById('discount-feedback');
-    const discountInputGroup = document.querySelector('.discount-input-group');
-
-    try {
-        const response = await fetch('/.netlify/functions/validate-code', {
-            method: 'POST',
-            body: JSON.stringify({ code: refCodeFromUrl })
-        });
-        const data = await response.json();
-
-        if (data.valid) {
-            // Se il codice è valido, memorizza lo sconto e aggiorna l'interfaccia
-            appliedDiscountRate = data.rate;
-            discountFeedbackEl.textContent = getTranslation('feedbackSuccess', { rate: data.rate * 100 });
-            discountFeedbackEl.className = 'discount-feedback success';
-            
-            // Nasconde il campo di inserimento del codice
-            if (discountInputGroup) {
-                discountInputGroup.style.display = 'none';
-            }
-        }
-    } catch (error) {
-        console.error('Errore durante la validazione del codice referral:', error);
-    }
-}
-
 
 // --- PUNTO DI INGRESSO PRINCIPALE ---
 document.addEventListener('DOMContentLoaded', async () => {
@@ -413,7 +382,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- LOGICA SOLO PER LA PAGINA PRINCIPALE ---
     // Controlliamo se esiste un elemento chiave della pagina principale.
     if (document.getElementById('adoption-form')) {
-        handleReferralLink(); // <== AGGIUNGI QUESTA RIGA
         let appliedDiscountRate = 0;
         const discountCodeInput = document.getElementById('discount-code');
         const applyDiscountBtn = document.getElementById('apply-discount-btn');
@@ -472,6 +440,11 @@ refreshDiscountBtn.addEventListener('click', async () => {
     await applyDiscountBtn.click();
 });
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCodeFromUrl = urlParams.get('ref');
+        if (refCodeFromUrl) {
+            applyCode(refCodeFromUrl);
+        }
         
         const adoptionForm = document.getElementById('adoption-form');
 adoptionForm.addEventListener('submit', (event) => {
