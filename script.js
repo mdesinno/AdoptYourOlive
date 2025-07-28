@@ -128,24 +128,12 @@ function updateMostPopular() {
 }
 
 function updatePriceUI(basePrice) {
-    // Calcola il prezzo finale applicando lo sconto memorizzato
     const finalPrice = basePrice * (1 - appliedDiscountRate);
-
     const priceString = `€${finalPrice.toFixed(2).replace('.', ',')}`;
-    document.getElementById('selected-tree-price').textContent = priceString;
-    document.getElementById('summary-price').textContent = `€${basePrice.toFixed(2).replace('.', ',')}`; // Mostra il prezzo base nel riepilogo
-    
-    // Aggiorna la riga dello sconto se applicato
-    const discountLine = document.getElementById('summary-discount-line');
-    const discountValueEl = document.getElementById('summary-discount-value');
-    if (appliedDiscountRate > 0) {
-        const discountAmount = basePrice * appliedDiscountRate;
-        discountValueEl.textContent = `- €${discountAmount.toFixed(2).replace('.', ',')}`;
-        discountLine.style.display = 'flex';
-    } else {
-        discountLine.style.display = 'none';
-    }
 
+    // Aggiorna tutti i prezzi con il valore finale (scontato o meno)
+    document.getElementById('selected-tree-price').textContent = priceString;
+    document.getElementById('summary-price').textContent = priceString; 
     document.getElementById('total-price').textContent = priceString;
 }
 
@@ -425,21 +413,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         const data = await response.json();
         if (data.valid) {
-            // Memorizza il tasso di sconto
+            // 1. Memorizza lo sconto
             appliedDiscountRate = data.rate;
-            
-            // Aggiorna l'interfaccia con il nuovo prezzo scontato
+            // 2. Aggiorna l'interfaccia con il prezzo ricalcolato
             updatePriceUI(selectedPrice);
+            // 3. Aggiorna il feedback e il pulsante di pagamento
+            checkFormValidity();
 
             discountFeedbackEl.textContent = getTranslation('feedbackSuccess', { rate: appliedDiscountRate * 100 });
             discountFeedbackEl.className = 'discount-feedback success';
+            
+            // 4. Disabilita il campo e il pulsante
             discountCodeInput.disabled = true;
             applyDiscountBtn.disabled = true;
+
             if(hiddenRefInput) hiddenRefInput.value = code;
         } else {
+            appliedDiscountRate = 0; // Resetta in caso di codice non valido
+            updatePriceUI(selectedPrice); // Riporta il prezzo a quello base
+            checkFormValidity();
             discountFeedbackEl.textContent = getTranslation('feedbackErrorInvalidCode');
             discountFeedbackEl.className = 'discount-feedback error';
-            appliedDiscountRate = 0; // Resetta in caso di codice non valido
         }
     } catch (error) {
         discountFeedbackEl.textContent = getTranslation('feedbackErrorServer');
