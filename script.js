@@ -447,38 +447,56 @@ refreshDiscountBtn.addEventListener('click', async () => {
         }
         
         const adoptionForm = document.getElementById('adoption-form');
-        adoptionForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const submitButton = adoptionForm.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Creazione pagamento...';
+adoptionForm.addEventListener('submit', (event) => {
+    event.preventDefault(); // Impedisce l'invio immediato del form
+
+    const submitButton = adoptionForm.querySelector('button[type="submit"]');
+    
+    // Funzione che gestisce l'invio dei dati DOPO che reCAPTCHA ha dato l'ok
+    const handleFormSubmit = async () => {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Creazione pagamento...';
+        
+        const formData = new FormData(adoptionForm);
+        const data = Object.fromEntries(formData.entries());
+        data.price = selectedPrice; // Invia sempre il prezzo base
+        if(hiddenRefInput) data['referral-code'] = hiddenRefInput.value;
+        
+        try {
+            const response = await fetch('/.netlify/functions/create-payment-link', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) throw new Error('Errore di rete durante la creazione del pagamento.');
             
-            const formData = new FormData(adoptionForm);
-            const data = Object.fromEntries(formData.entries());
-            data.price = selectedPrice;
-            if(hiddenRefInput) data['referral-code'] = hiddenRefInput.value;
-            
-            try {
-                const response = await fetch('/.netlify/functions/create-payment-link', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                if (!response.ok) throw new Error('Errore di rete durante la creazione del pagamento.');
-                
-                const responseData = await response.json();
-                if (responseData.paymentUrl) {
-                    window.location.href = responseData.paymentUrl;
-                } else {
-                    throw new Error('URL di pagamento non ricevuto dal server.');
-                }
-            } catch (error) {
-                console.error(error);
-                alert('Si è verificato un errore durante la creazione del pagamento. Riprova più tardi.');
-                submitButton.disabled = false;
-                checkFormValidity();
+            const responseData = await response.json();
+            if (responseData.paymentUrl) {
+                window.location.href = responseData.paymentUrl;
+            } else {
+                throw new Error('URL di pagamento non ricevuto dal server.');
             }
-        });
+        } catch (error) {
+            console.error(error);
+            alert('Si è verificato un errore durante la creazione del pagamento. Riprova più tardi.');
+            submitButton.disabled = false;
+            checkFormValidity();
+        }
+    };
+
+    // Netlify gestisce il reCAPTCHA invisibile in background.
+    // Quando il form viene inviato, Netlify aggiunge un campo nascosto 'g-recaptcha-response'.
+    // Noi dobbiamo solo inviare il form. Se il campo non è valido, l'invio del form a Netlify fallirà.
+    // Per questo, invece di complicare con callback, possiamo semplicemente inviare il form a Netlify.
+    
+    // A differenza di prima, non chiamiamo handleFormSubmit direttamente,
+    // ma lasciamo che Netlify processi il submit dopo il nostro preventDefault().
+    // La nostra funzione di backend Netlify NON verrà chiamata se il reCAPTCHA fallisce.
+    
+    // Per inviare il form programmaticamente in modo che Netlify lo processi:
+    adoptionForm.submit();
+
+});
         
         const storedTreeType = sessionStorage.getItem('selectedTree');
         if (storedTreeType) {
