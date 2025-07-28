@@ -108,7 +108,6 @@ document.querySelectorAll('[data-i18n-key]').forEach(element => {
 // --- FUNZIONI SPECIFICHE PER LA PAGINA PRINCIPALE ---
 let selectedTreeType = '';
 let selectedPrice = 0.0;
-let appliedDiscountRate = 0;
 const clickTracker = {
     digital: parseInt(localStorage.getItem('clicks_digital') || '0'),
     young: parseInt(localStorage.getItem('clicks_young') || '0'),
@@ -127,13 +126,10 @@ function updateMostPopular() {
     }
 }
 
-function updatePriceUI(basePrice) {
-    const finalPrice = basePrice * (1 - appliedDiscountRate);
-    const priceString = `€${finalPrice.toFixed(2).replace('.', ',')}`;
-
-    // Aggiorna tutti i prezzi con il valore finale (scontato o meno)
+function updatePriceUI(price) {
+    const priceString = `€${price.toFixed(2).replace('.', ',')}`;
     document.getElementById('selected-tree-price').textContent = priceString;
-    document.getElementById('summary-price').textContent = priceString; 
+    document.getElementById('summary-price').textContent = priceString;
     document.getElementById('total-price').textContent = priceString;
 }
 
@@ -401,45 +397,36 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         
         applyDiscountBtn.addEventListener('click', async () => {
-    const code = discountCodeInput.value.trim().toUpperCase();
-    if (!code || selectedPrice === 0) {
-        discountFeedbackEl.textContent = getTranslation('feedbackErrorNoCodeOrProduct');
-        discountFeedbackEl.className = 'discount-feedback error';
-        return;
-    }
-    try {
-        const response = await fetch('/.netlify/functions/validate-code', {
-            method: 'POST', body: JSON.stringify({ code })
+            const code = discountCodeInput.value.trim().toUpperCase();
+            if (!code || selectedPrice === 0) {
+                discountFeedbackEl.textContent = getTranslation('feedbackErrorNoCodeOrProduct');
+                discountFeedbackEl.className = 'discount-feedback error';
+                return;
+            }
+            try {
+                const response = await fetch('/.netlify/functions/validate-code', {
+                    method: 'POST', body: JSON.stringify({ code })
+                });
+                const data = await response.json();
+                if (data.valid) {
+                    appliedDiscountRate = data.rate;
+                    const discountedPrice = selectedPrice * (1 - appliedDiscountRate);
+                    updatePriceUI(discountedPrice);
+                    discountFeedbackEl.textContent = getTranslation('feedbackSuccess', { rate: appliedDiscountRate * 100 });
+                    discountFeedbackEl.className = 'discount-feedback success';
+                    discountCodeInput.disabled = true;
+                    applyDiscountBtn.disabled = true;
+                    if(hiddenRefInput) hiddenRefInput.value = code;
+                } else {
+                    discountFeedbackEl.textContent = getTranslation('feedbackErrorInvalidCode');
+                    discountFeedbackEl.className = 'discount-feedback error';
+                    appliedDiscountRate = 0;
+                }
+            } catch (error) {
+                discountFeedbackEl.textContent = getTranslation('feedbackErrorServer');
+                discountFeedbackEl.className = 'discount-feedback error';
+            }
         });
-        const data = await response.json();
-        if (data.valid) {
-            // 1. Memorizza lo sconto
-            appliedDiscountRate = data.rate;
-            // 2. Aggiorna l'interfaccia con il prezzo ricalcolato
-            updatePriceUI(selectedPrice);
-            // 3. Aggiorna il feedback e il pulsante di pagamento
-            checkFormValidity();
-
-            discountFeedbackEl.textContent = getTranslation('feedbackSuccess', { rate: appliedDiscountRate * 100 });
-            discountFeedbackEl.className = 'discount-feedback success';
-            
-            // 4. Disabilita il campo e il pulsante
-            discountCodeInput.disabled = true;
-            applyDiscountBtn.disabled = true;
-
-            if(hiddenRefInput) hiddenRefInput.value = code;
-        } else {
-            appliedDiscountRate = 0; // Resetta in caso di codice non valido
-            updatePriceUI(selectedPrice); // Riporta il prezzo a quello base
-            checkFormValidity();
-            discountFeedbackEl.textContent = getTranslation('feedbackErrorInvalidCode');
-            discountFeedbackEl.className = 'discount-feedback error';
-        }
-    } catch (error) {
-        discountFeedbackEl.textContent = getTranslation('feedbackErrorServer');
-        discountFeedbackEl.className = 'discount-feedback error';
-    }
-});
 
         const urlParams = new URLSearchParams(window.location.search);
         const refCodeFromUrl = urlParams.get('ref');
