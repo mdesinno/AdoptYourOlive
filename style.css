@@ -428,6 +428,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
 .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
 .team-member { background: var(--white); padding: 25px; border-radius: var(--border-radius-md); box-shadow: var(--shadow-light); flex: 1 1 300px; text-align: center; }
 .team-member img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; box-shadow: 0 0 0 5px var(--white), 0 0 0 7px var(--secondary-green); }
+.faq-section { margin-top: 100px}
 .faq-item { background: var(--white); border-radius: var(--border-radius-md); margin-bottom: 15px; overflow: hidden; }
 .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; cursor: pointer; font-weight: 600; }
 .faq-question i { transition: transform 0.3s ease; }
