@@ -561,8 +561,11 @@
 
             <div class="form-container animate-on-scroll">
                 <h2 data-i18n-key="formTitlePersonalize">Personalizza la Tua Adozione</h2>
-                <form id="adoption-form" data-netlify="true" data-netlify-recaptcha="true" class="adoption-form">
+                <form id="adoption-form" data-netlify="true" class="adoption-form">
                     <input type="hidden" name="form-name" value="adoption-form">
+                    <p class="honeypot-field" style="display:none;">
+    <label>Lascia questo campo vuoto se sei umano: <input name="bot-field" /></label>
+</p>
                     <input type="hidden" name="language" id="form-language-adoption">
                     
                     <div class="selected-tree-display">
@@ -755,8 +758,11 @@
                 <div class="contact-grid-top">
                     <div class="contact-form-container">
                         <h3 data-i18n-key="contactFormTitle">Inviaci un Messaggio</h3>
-                         <form id="contact-form" data-netlify="true">
+                         <form id="contact-form" data-netlify="true" netlify-honeypot="bot-field">
                             <input type="hidden" name="form-name" value="contact-form">
+                            <p style="display:none;">
+    <label>Non compilare questo campo: <input name="bot-field" /></label>
+</p>
                             <input type="hidden" name="language" id="form-language-contact">
                             <div class="form-group">
                                 <label for="contact-name" data-i18n-key="contactLabelName">Nome</label>
@@ -794,8 +800,11 @@
                  <div class="newsletter-container">
                     <h3 data-i18n-key="newsletterTitle">Iscriviti alla Nostra Newsletter</h3>
                     <p data-i18n-key="newsletterText">Ricevi aggiornamenti dall'uliveto, offerte speciali e ricette pugliesi.</p>
-                    <form id="newsletter-form" data-netlify="true">
+                    <form id="newsletter-form" data-netlify="true" netlify-honeypot="bot-field">
                         <input type="hidden" name="form-name" value="newsletter-form">
+                        <p style="display:none;">
+    <label>Non compilare questo campo: <input name="bot-field" /></label>
+</p>
                         <input type="hidden" name="language" id="form-language-newsletter">
                          <div class="form-group">
                             <label for="newsletter-email" data-i18n-key="newsletterLabelEmail">Indirizzo Email</label>

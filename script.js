@@ -494,8 +494,7 @@ adoptionForm.addEventListener('submit', (event) => {
     // La nostra funzione di backend Netlify NON verrà chiamata se il reCAPTCHA fallisce.
     
     // Per inviare il form programmaticamente in modo che Netlify lo processi:
-    adoptionForm.submit();
-
+handleFormSubmit();
 });
         
         const storedTreeType = sessionStorage.getItem('selectedTree');

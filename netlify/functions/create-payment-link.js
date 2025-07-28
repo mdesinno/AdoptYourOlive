@@ -13,6 +13,13 @@ exports.handler = async (event) => {
 
     try {
         const data = JSON.parse(event.body);
+         // ==> INSERISCI QUESTO BLOCCO DI CONTROLLO QUI <==
+        if (data['bot-field']) {
+            // Se questo campo ha un valore, è un bot.
+            console.log('Honeypot field filled, likely a bot.');
+            return { statusCode: 400, body: 'Spam detected' };
+        }
+        // ===============================================
         let finalPrice = parseFloat(data.price);
         const referralCode = data['referral-code'] ? data['referral-code'].toUpperCase() : null;
 
