@@ -459,5 +459,6 @@
     "error404PageTitle": "Seite nicht gefunden - Adopt Your Olive",
     "error404MetaDescription": "Die von Ihnen gesuchte Seite existiert nicht. Kehren Sie zur Startseite von Adopt Your Olive zurück.",
     "error404Message": "Hoppla! Die von Ihnen gesuchte Seite existiert nicht.",
-    "error404Button": "Zurück zur Startseite"
+    "error404Button": "Zurück zur Startseite",
+    "formOrderSummaryDiscount": "Rabatt"
 }

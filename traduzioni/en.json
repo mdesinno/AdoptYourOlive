@@ -450,5 +450,6 @@
     "error404PageTitle": "Page Not Found - Adopt Your Olive",
     "error404MetaDescription": "The page you are looking for does not exist. Return to the Adopt Your Olive home page.",
     "error404Message": "Oops! The page you are looking for does not exist.",
-    "error404Button": "Back to Home"
+    "error404Button": "Back to Home",
+    "formOrderSummaryDiscount": "Discount"
 }

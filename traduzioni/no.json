@@ -450,5 +450,6 @@
     "error404PageTitle": "Side Ikke Funnet - Adopt Your Olive",
     "error404MetaDescription": "Siden du leter etter, finnes ikke. Gå tilbake til Adopt Your Olive-hjemmesiden.",
     "error404Message": "Oisann! Siden du leter etter, finnes ikke.",
-    "error404Button": "Tilbake til Hjemmesiden"
+    "error404Button": "Tilbake til Hjemmesiden",
+    "formOrderSummaryDiscount": "Rabatt"
 }
