@@ -387,6 +387,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const applyDiscountBtn = document.getElementById('apply-discount-btn');
         const discountFeedbackEl = document.getElementById('discount-feedback');
         const hiddenRefInput = document.getElementById('referral-code-input');
+        const refreshDiscountBtn = document.getElementById('refresh-discount-btn');
+const discountWarning = document.getElementById('discount-warning');
 
         const applyCode = async (code) => {
             if (!code) return;
@@ -397,36 +399,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         
         applyDiscountBtn.addEventListener('click', async () => {
-            const code = discountCodeInput.value.trim().toUpperCase();
-            if (!code || selectedPrice === 0) {
-                discountFeedbackEl.textContent = getTranslation('feedbackErrorNoCodeOrProduct');
-                discountFeedbackEl.className = 'discount-feedback error';
-                return;
-            }
-            try {
-                const response = await fetch('/.netlify/functions/validate-code', {
-                    method: 'POST', body: JSON.stringify({ code })
-                });
-                const data = await response.json();
-                if (data.valid) {
-                    appliedDiscountRate = data.rate;
-                    const discountedPrice = selectedPrice * (1 - appliedDiscountRate);
-                    updatePriceUI(discountedPrice);
-                    discountFeedbackEl.textContent = getTranslation('feedbackSuccess', { rate: appliedDiscountRate * 100 });
-                    discountFeedbackEl.className = 'discount-feedback success';
-                    discountCodeInput.disabled = true;
-                    applyDiscountBtn.disabled = true;
-                    if(hiddenRefInput) hiddenRefInput.value = code;
-                } else {
-                    discountFeedbackEl.textContent = getTranslation('feedbackErrorInvalidCode');
-                    discountFeedbackEl.className = 'discount-feedback error';
-                    appliedDiscountRate = 0;
-                }
-            } catch (error) {
-                discountFeedbackEl.textContent = getTranslation('feedbackErrorServer');
-                discountFeedbackEl.className = 'discount-feedback error';
-            }
+    const code = discountCodeInput.value.trim().toUpperCase();
+    if (!code || selectedPrice === 0) {
+        discountFeedbackEl.textContent = getTranslation('feedbackErrorNoCodeOrProduct');
+        discountFeedbackEl.className = 'discount-feedback error';
+        return;
+    }
+    try {
+        const response = await fetch('/.netlify/functions/validate-code', {
+            method: 'POST', body: JSON.stringify({ code })
         });
+        const data = await response.json();
+        if (data.valid) {
+            const discountedPrice = selectedPrice * (1 - data.rate);
+            updatePriceUI(discountedPrice);
+            checkFormValidity();
+            discountFeedbackEl.textContent = getTranslation('feedbackSuccess', { rate: data.rate * 100 });
+            discountFeedbackEl.className = 'discount-feedback success';
+            
+            // Logica per mostrare/nascondere i pulsanti
+            discountCodeInput.disabled = true;
+            applyDiscountBtn.style.display = 'none';
+            refreshDiscountBtn.style.display = 'inline-block';
+            discountWarning.style.display = 'block';
+
+            if(hiddenRefInput) hiddenRefInput.value = code;
+        } else {
+            discountFeedbackEl.textContent = getTranslation('feedbackErrorInvalidCode');
+            discountFeedbackEl.className = 'discount-feedback error';
+        }
+    } catch (error) {
+        discountFeedbackEl.textContent = getTranslation('feedbackErrorServer');
+        discountFeedbackEl.className = 'discount-feedback error';
+    }
+});
+
+refreshDiscountBtn.addEventListener('click', async () => {
+    // Il pulsante Ricalcola funziona come Applica, ma con il campo già bloccato.
+    // Usiamo direttamente il gestore di applyDiscountBtn per non duplicare il codice.
+    await applyDiscountBtn.click();
+});
 
         const urlParams = new URLSearchParams(window.location.search);
         const refCodeFromUrl = urlParams.get('ref');

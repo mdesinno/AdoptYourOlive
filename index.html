@@ -666,13 +666,15 @@
                                 </div>
                             </div>
                             <div class="form-section discount-section">
-                                <label for="discount-code" data-i18n-key="formLabelDiscount">Codice Sconto / Referral</label>
-                                <div class="discount-input-group">
-                                    <input type="text" id="discount-code" name="discount-code-visible">
-                                    <button type="button" id="apply-discount-btn" data-i18n-key="formButtonApply">Applica</button>
-                                </div>
-                                <small id="discount-feedback" class="discount-feedback"></small>
-                            </div>
+    <label for="discount-code" data-i18n-key="formLabelDiscount">Codice Sconto / Referral</label>
+    <div class="discount-input-group">
+        <input type="text" id="discount-code" name="discount-code-visible">
+        <button type="button" id="apply-discount-btn" data-i18n-key="formButtonApply">Applica</button>
+        <button type="button" id="refresh-discount-btn" data-i18n-key="formButtonRefresh" style="display: none;">Ricalcola</button>
+    </div>
+    <small id="discount-feedback" class="discount-feedback"></small>
+    <small id="discount-warning" class="discount-warning" style="display: none;" data-i18n-key="formDiscountWarning"></small>
+</div>
                             <div class="order-summary">
                                 <h4 data-i18n-key="formOrderSummaryTitle">Riepilogo Ordine</h4>
                                 <div class="summary-line">
