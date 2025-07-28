@@ -452,5 +452,6 @@
     "error404MetaDescription": "De pagina die u zoekt, bestaat niet. Ga terug naar de startpagina van Adopt Your Olive.",
     "error404Message": "Oeps! De pagina die u zoekt, bestaat niet.",
     "error404Button": "Terug naar Home",
-    "formOrderSummaryDiscount": "Korting"
+    "formButtonRefresh": "Herberekenen",
+"formDiscountWarning": "Product gewijzigd? Klik op 'Herberekenen' om de korting bij te werken."
 }

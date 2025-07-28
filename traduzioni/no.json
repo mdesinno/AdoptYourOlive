@@ -451,5 +451,6 @@
     "error404MetaDescription": "Siden du leter etter, finnes ikke. Gå tilbake til Adopt Your Olive-hjemmesiden.",
     "error404Message": "Oisann! Siden du leter etter, finnes ikke.",
     "error404Button": "Tilbake til Hjemmesiden",
-    "formOrderSummaryDiscount": "Rabatt"
+    "formButtonRefresh": "Beregn på nytt",
+"formDiscountWarning": "Endret du produkt? Klikk 'Beregn på nytt' for å oppdatere rabatten."
 }

@@ -451,5 +451,6 @@
     "error404MetaDescription": "La page que vous recherchez n'existe pas. Retournez à la page d'accueil d'Adopt Your Olive.",
     "error404Message": "Oups ! La page que vous recherchez n'existe pas.",
     "error404Button": "Retour à l'accueil",
-    "formOrderSummaryDiscount": "Remise"
+    "formButtonRefresh": "Recalculer",
+"formDiscountWarning": "Produit modifié ? Cliquez sur 'Recalculer' pour mettre à jour la remise."
 }
