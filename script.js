@@ -80,23 +80,39 @@ async function setLanguage(lang) {
     localStorage.setItem('language', lang);
     document.documentElement.lang = lang;
 
+    // ==> INIZIO BLOCCO HREFLANG <==
+    // Rimuovi i vecchi tag hreflang per evitare duplicati
+    document.querySelectorAll('link[rel="alternate"]').forEach(el => el.remove());
+
+    const languages = ['it', 'en', 'de', 'nl', 'no', 'fr'];
+    const baseUrl = 'https://www.adoptyourolive.com/'; // Assicurati che l'URL sia corretto
+
+    languages.forEach(langCode => {
+        const link = document.createElement('link');
+        link.rel = 'alternate';
+        link.hreflang = langCode;
+        link.href = baseUrl;
+        document.head.appendChild(link);
+    });
+    // ==> FINE BLOCCO HREFLANG <==
+
     if (Object.keys(i18nData.en).length === 0) {
         i18nData.en = await fetchTranslations('en');
     }
     i18nData.current = (lang === 'en') ? i18nData.en : (await fetchTranslations(lang));
 
-   // Questo è il blocco CORRETTO
-document.querySelectorAll('[data-i18n-key]').forEach(element => {
-    const key = element.getAttribute('data-i18n-key');
-    const translation = getTranslation(key); // Prendi la traduzione PRIMA
+    // Questo è il blocco CORRETTO
+    document.querySelectorAll('[data-i18n-key]').forEach(element => {
+        const key = element.getAttribute('data-i18n-key');
+        const translation = getTranslation(key); // Prendi la traduzione PRIMA
 
-    // Controlla se la TRADUZIONE stessa contiene HTML
-    if (translation.includes('<')) { 
-        element.innerHTML = translation;
-    } else {
-        element.textContent = translation;
-    }
-});
+        // Controlla se la TRADUZIONE stessa contiene HTML
+        if (translation.includes('<')) { 
+            element.innerHTML = translation;
+        } else {
+            element.textContent = translation;
+        }
+    });
 
     document.querySelectorAll('[data-i18n-placeholder-key]').forEach(element => {
         const key = element.getAttribute('data-i18n-placeholder-key');
