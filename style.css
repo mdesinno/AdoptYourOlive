@@ -90,10 +90,10 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
 .benefits-list { list-style: none; margin-bottom: 25px; text-align: left; flex-grow: 1; }
 .benefits-list li { margin-bottom: 10px; font-size: 0.9rem; line-height: 1.5; position: relative; padding-left: 28px; }
 .benefits-list li::before { content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--primary-green); font-size: 1rem; }
-.ideal-for { font-style: italic; color: #7f8c8d; font-size: 0.85rem; margin-bottom: 20px; border-top: 1px solid var(--medium-grey); padding-top: 12px; }
+.ideal-for { font-style: italic; color: var(--light-text); font-size: 0.85rem; margin-bottom: 20px; border-top: 1px solid var(--medium-grey); padding-top: 12px; }
 .select-button { width: 100%; background: linear-gradient(45deg, var(--primary-green), #5a6b4f); color: var(--white); border: none; padding: 14px 22px; border-radius: var(--border-radius-lg); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition-speed); text-transform: uppercase; letter-spacing: 1px; margin-top: auto; }
 .select-button:hover { background: linear-gradient(45deg, #5a6b4f, #4a5a43); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(107, 124, 91, 0.4); }
-.shipping-note { text-align: center; margin-top: 50px; padding: 20px; background: rgba(107, 124, 91, 0.1); border-radius: var(--border-radius-md); color: var(--primary-green); font-size: 0.95rem; font-style: italic; border: 1px dashed var(--primary-green); }
+.shipping-note { text-align: center; margin-top: 50px; padding: 20px; background: rgba(107, 124, 91, 0.1); border-radius: var(--border-radius-md); color: var(--dark-text); font-size: 0.95rem; font-style: italic; border: 1px dashed var(--primary-green); }
 
 /* --- Parallax Sections --- */
 #how-it-works, #why-peranzana { position: relative; padding: 80px 0; background-image: linear-gradient(rgba(42, 49, 34, 0.7), rgba(42, 49, 34, 0.7)), url('immagini/sfondo-uliveto.jpg'); background-attachment: fixed; background-position: center center; background-repeat: no-repeat; background-size: cover; color: var(--white); }
@@ -464,6 +464,11 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
 .cookie-banner-content { display: flex; align-items: center; justify-content: flex-start; gap: 1.5rem; flex-wrap: wrap; }
 .cookie-banner-buttons { display: flex; gap: 0.75rem; }
 #close-cookie-banner-btn { background: none; border: none; font-size: 2.2rem; color: white; cursor: pointer; }
+/* Aggiungi questo nuovo selettore */
+#cookie-banner a {
+    color: var(--white);
+    text-decoration: underline;
+}
 #cookie-preferences-modal .modal-content { max-width: 550px; }
 .cookie-options { margin: 25px 0; text-align: left; }
 .cookie-option { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--medium-grey); }
