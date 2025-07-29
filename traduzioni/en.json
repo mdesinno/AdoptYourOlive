@@ -452,5 +452,8 @@
     "error404Message": "Oops! The page you are looking for does not exist.",
     "error404Button": "Back to Home",
     "formButtonRefresh": "Recalculate",
-"formDiscountWarning": "Changed product? Click 'Recalculate' to update the discount."
+"formDiscountWarning": "Changed product? Click 'Recalculate' to update the discount.",
+"cookieThirdPartyFonts": "<strong>Font and Icon Providers (Google Fonts, Font Awesome):</strong> To correctly display the site, we use external services that may collect data such as your browser's IP address to deliver the font and icon files.",
+"privacySection4_list_item7": "<strong>Google Fonts:</strong> For providing the site's typography. This service may collect your IP address and browser data to optimize file delivery.",
+"privacySection4_list_item8": "<strong>Cloudflare (for Font Awesome):</strong> For providing the icons used on the site. This CDN (Content Delivery Network) service collects access data for security and performance reasons."
 }

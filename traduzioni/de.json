@@ -461,5 +461,8 @@
     "error404Message": "Hoppla! Die von Ihnen gesuchte Seite existiert nicht.",
     "error404Button": "Zurück zur Startseite",
     "formButtonRefresh": "Neu berechnen",
-"formDiscountWarning": "Produkt geändert? Klicken Sie auf 'Neu berechnen', um den Rabatt zu aktualisieren."
+"formDiscountWarning": "Produkt geändert? Klicken Sie auf 'Neu berechnen', um den Rabatt zu aktualisieren.",
+"cookieThirdPartyFonts": "<strong>Anbieter von Schriftarten und Symbolen (Google Fonts, Font Awesome):</strong> Um die Website korrekt anzuzeigen, verwenden wir externe Dienste, die Daten wie die IP-Adresse Ihres Browsers erfassen können, um die Schriftart- und Symboldateien bereitzustellen.",
+"privacySection4_list_item7": "<strong>Google Fonts:</strong> Zur Bereitstellung der Schriftarten der Website. Dieser Dienst kann Ihre IP-Adresse und Ihre Browserdaten erfassen, um die Dateibereitstellung zu optimieren.",
+"privacySection4_list_item8": "<strong>Cloudflare (für Font Awesome):</strong> Zur Bereitstellung der auf der Website verwendeten Symbole. Dieser CDN-Dienst (Content Delivery Network) erfasst Zugriffsdaten aus Sicherheits- und Leistungsgründen."
 }

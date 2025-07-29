@@ -452,5 +452,8 @@
     "error404Message": "Oisann! Siden du leter etter, finnes ikke.",
     "error404Button": "Tilbake til Hjemmesiden",
     "formButtonRefresh": "Beregn på nytt",
-"formDiscountWarning": "Endret du produkt? Klikk 'Beregn på nytt' for å oppdatere rabatten."
+"formDiscountWarning": "Endret du produkt? Klikk 'Beregn på nytt' for å oppdatere rabatten.",
+"cookieThirdPartyFonts": "<strong>Leverandører av Skrifttyper og Ikoner (Google Fonts, Font Awesome):</strong> For å vise nettstedet korrekt, bruker vi eksterne tjenester som kan samle inn data som nettleserens IP-adresse for å levere skrifttype- og ikonfilene.",
+"privacySection4_list_item7": "<strong>Google Fonts:</strong> For å levere nettstedets typografi. Denne tjenesten kan samle inn din IP-adresse og nettleserdata for å optimalisere filleveransen.",
+"privacySection4_list_item8": "<strong>Cloudflare (for Font Awesome):</strong> For å levere ikonene som brukes på nettstedet. Denne CDN-tjenesten (Content Delivery Network) samler inn tilgangsdata av sikkerhets- og ytelsesgrunner."
 }

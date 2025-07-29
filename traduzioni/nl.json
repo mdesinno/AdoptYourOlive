@@ -453,5 +453,8 @@
     "error404Message": "Oeps! De pagina die u zoekt, bestaat niet.",
     "error404Button": "Terug naar Home",
     "formButtonRefresh": "Herberekenen",
-"formDiscountWarning": "Product gewijzigd? Klik op 'Herberekenen' om de korting bij te werken."
+"formDiscountWarning": "Product gewijzigd? Klik op 'Herberekenen' om de korting bij te werken.",
+"cookieThirdPartyFonts": "<strong>Leveranciers van Lettertypen en Iconen (Google Fonts, Font Awesome):</strong> Om de site correct weer te geven, gebruiken we externe services die gegevens zoals het IP-adres van uw browser kunnen verzamelen om de lettertype- en icoonbestanden te leveren.",
+"privacySection4_list_item7": "<strong>Google Fonts:</strong> Voor het leveren van de typografie van de site. Deze service kan uw IP-adres en browsergegevens verzamelen om de levering van bestanden te optimaliseren.",
+"privacySection4_list_item8": "<strong>Cloudflare (voor Font Awesome):</strong> Voor het leveren van de iconen die op de site worden gebruikt. Deze CDN-service (Content Delivery Network) verzamelt toegangsgegevens om veiligheids- en prestatieredenen."
 }
