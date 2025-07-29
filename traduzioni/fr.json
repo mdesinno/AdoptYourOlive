@@ -455,5 +455,6 @@
 "formDiscountWarning": "Produit modifié ? Cliquez sur 'Recalculer' pour mettre à jour la remise.",
 "cookieThirdPartyFonts": "<strong>Fournisseurs de Polices et d'Icônes (Google Fonts, Font Awesome) :</strong> Pour afficher correctement le site, nous utilisons des services externes qui peuvent collecter des données telles que l'adresse IP de votre navigateur pour fournir les fichiers de polices et d'icônes.",
 "privacySection4_list_item7": "<strong>Google Fonts :</strong> Pour la fourniture des polices typographiques du site. Ce service peut collecter votre adresse IP et les données de votre navigateur pour optimiser la livraison des fichiers.",
-"privacySection4_list_item8": "<strong>Cloudflare (pour Font Awesome) :</strong> Pour la fourniture des icônes utilisées sur le site. Ce service de CDN (Content Delivery Network) collecte des données d'accès pour des raisons de sécurité et de performance."
+"privacySection4_list_item8": "<strong>Cloudflare (pour Font Awesome) :</strong> Pour la fourniture des icônes utilisées sur le site. Ce service de CDN (Content Delivery Network) collecte des données d'accès pour des raisons de sécurité et de performance.",
+"privacySection4_list_item9": "<strong>Google Tag Manager :</strong> Nous utilisons ce service pour gérer et déployer des scripts de marketing et d'analyse de manière centralisée. Google Tag Manager ne collecte pas de données personnelles lui-même, mais il facilite l'exécution d'autres scripts (comme Google Analytics) qui pourraient le faire."
 }

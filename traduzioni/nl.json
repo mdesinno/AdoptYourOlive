@@ -456,5 +456,6 @@
 "formDiscountWarning": "Product gewijzigd? Klik op 'Herberekenen' om de korting bij te werken.",
 "cookieThirdPartyFonts": "<strong>Leveranciers van Lettertypen en Iconen (Google Fonts, Font Awesome):</strong> Om de site correct weer te geven, gebruiken we externe services die gegevens zoals het IP-adres van uw browser kunnen verzamelen om de lettertype- en icoonbestanden te leveren.",
 "privacySection4_list_item7": "<strong>Google Fonts:</strong> Voor het leveren van de typografie van de site. Deze service kan uw IP-adres en browsergegevens verzamelen om de levering van bestanden te optimaliseren.",
-"privacySection4_list_item8": "<strong>Cloudflare (voor Font Awesome):</strong> Voor het leveren van de iconen die op de site worden gebruikt. Deze CDN-service (Content Delivery Network) verzamelt toegangsgegevens om veiligheids- en prestatieredenen."
+"privacySection4_list_item8": "<strong>Cloudflare (voor Font Awesome):</strong> Voor het leveren van de iconen die op de site worden gebruikt. Deze CDN-service (Content Delivery Network) verzamelt toegangsgegevens om veiligheids- en prestatieredenen.",
+"privacySection4_list_item9": "<strong>Google Tag Manager:</strong> We gebruiken deze service om marketing- en analysescripts op een gecentraliseerde manier te beheren en te implementeren. Google Tag Manager verzamelt zelf geen persoonlijke gegevens, maar vergemakkelijkt de uitvoering van andere scripts (zoals Google Analytics) die dat wel kunnen doen."
 }

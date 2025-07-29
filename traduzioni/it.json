@@ -455,5 +455,6 @@
 "formDiscountWarning": "Hai cambiato prodotto? Clicca 'Ricalcola' per aggiornare lo sconto.",
 "cookieThirdPartyFonts": "<strong>Fornitori di Caratteri e Icone (Google Fonts, Font Awesome):</strong> Per visualizzare correttamente il sito, utilizziamo servizi esterni che potrebbero raccogliere dati come l'indirizzo IP del tuo browser per fornire i file dei caratteri e delle icone.",
 "privacySection4_list_item7": "<strong>Google Fonts:</strong> Per la fornitura dei caratteri tipografici del sito. Questo servizio potrebbe raccogliere il tuo indirizzo IP e i dati del tuo browser per ottimizzare la consegna dei file.",
-"privacySection4_list_item8": "<strong>Cloudflare (per Font Awesome):</strong> Per la fornitura delle icone utilizzate nel sito. Questo servizio di CDN (Content Delivery Network) raccoglie dati di accesso per motivi di sicurezza e performance."
+"privacySection4_list_item8": "<strong>Cloudflare (per Font Awesome):</strong> Per la fornitura delle icone utilizzate nel sito. Questo servizio di CDN (Content Delivery Network) raccoglie dati di accesso per motivi di sicurezza e performance.",
+"privacySection4_list_item9": "<strong>Google Tag Manager:</strong> Utilizziamo questo servizio per gestire e implementare script di marketing e analisi in modo centralizzato. Google Tag Manager non raccoglie dati personali di per sé, ma facilita l'esecuzione di altri script (come Google Analytics) che potrebbero farlo."
 }

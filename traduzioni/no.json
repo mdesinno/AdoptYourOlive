@@ -455,5 +455,6 @@
 "formDiscountWarning": "Endret du produkt? Klikk 'Beregn på nytt' for å oppdatere rabatten.",
 "cookieThirdPartyFonts": "<strong>Leverandører av Skrifttyper og Ikoner (Google Fonts, Font Awesome):</strong> For å vise nettstedet korrekt, bruker vi eksterne tjenester som kan samle inn data som nettleserens IP-adresse for å levere skrifttype- og ikonfilene.",
 "privacySection4_list_item7": "<strong>Google Fonts:</strong> For å levere nettstedets typografi. Denne tjenesten kan samle inn din IP-adresse og nettleserdata for å optimalisere filleveransen.",
-"privacySection4_list_item8": "<strong>Cloudflare (for Font Awesome):</strong> For å levere ikonene som brukes på nettstedet. Denne CDN-tjenesten (Content Delivery Network) samler inn tilgangsdata av sikkerhets- og ytelsesgrunner."
+"privacySection4_list_item8": "<strong>Cloudflare (for Font Awesome):</strong> For å levere ikonene som brukes på nettstedet. Denne CDN-tjenesten (Content Delivery Network) samler inn tilgangsdata av sikkerhets- og ytelsesgrunner.",
+"privacySection4_list_item9": "<strong>Google Tag Manager:</strong> Vi bruker denne tjenesten til å administrere og distribuere markedsførings- og analyseskript på en sentralisert måte. Google Tag Manager samler ikke inn personopplysninger selv, men den legger til rette for kjøring av andre skript (som Google Analytics) som kan gjøre det."
 }
