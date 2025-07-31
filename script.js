@@ -168,6 +168,16 @@ function selectTree(treeType) {
     updatePriceUI(selectedPrice);
     updateTreeSelectionDisplay();
 
+    // ==> BLOCCO AGGIUNTO CHE RISOLVE IL PROBLEMA <==
+    // Dopo aver selezionato un prodotto, controlla se c'è un codice in attesa (dall'URL)
+    // e se il pulsante "Applica" è ancora attivo. Se sì, lo clicca per l'utente.
+    const discountCodeInput = document.getElementById('discount-code');
+    const applyDiscountBtn = document.getElementById('apply-discount-btn');
+    if (discountCodeInput.value && !discountCodeInput.disabled) {
+        applyDiscountBtn.click();
+    }
+    // ==> FINE BLOCCO AGGIUNTO <==
+
     const formSection = document.getElementById('personalization');
     if (formSection) {
         const navHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
