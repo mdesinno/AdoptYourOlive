@@ -149,6 +149,7 @@ function updatePriceUI(price) {
     document.getElementById('total-price').textContent = priceString;
 }
 
+// Assicurati che la tua funzione selectTree sia questa
 function selectTree(treeType) {
     if(clickTracker.hasOwnProperty(treeType)) {
         clickTracker[treeType]++;
@@ -166,6 +167,7 @@ function selectTree(treeType) {
     document.getElementById('tree-type').value = treeType;
     updatePriceUI(selectedPrice);
     updateTreeSelectionDisplay();
+
     const formSection = document.getElementById('personalization');
     if (formSection) {
         const navHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
@@ -405,14 +407,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const hiddenRefInput = document.getElementById('referral-code-input');
         const refreshDiscountBtn = document.getElementById('refresh-discount-btn');
 const discountWarning = document.getElementById('discount-warning');
-
-        const applyCode = async (code) => {
-            if (!code) return;
-            discountCodeInput.value = code;
-            if(selectedPrice > 0) {
-               applyDiscountBtn.click();
-            }
-        };
         
         applyDiscountBtn.addEventListener('click', async () => {
     const code = discountCodeInput.value.trim().toUpperCase();
@@ -456,24 +450,37 @@ refreshDiscountBtn.addEventListener('click', async () => {
     await applyDiscountBtn.click();
 });
 
-// Incolla questo blocco unificato
+// Questo nuovo blocco gestisce tutto: prodotto e referral da URL, e selezione da sessione
 const urlParams = new URLSearchParams(window.location.search);
 const productFromUrl = urlParams.get('product');
 const refCodeFromUrl = urlParams.get('ref');
 const storedTreeType = sessionStorage.getItem('selectedTree');
 
-// Gestisce la priorità di selezione del prodotto: URL > Sessione > Default
+if (refCodeFromUrl) {
+    // Se c'è un codice nell'URL, lo validiamo subito in background
+    (async () => {
+        try {
+            const response = await fetch('/.netlify/functions/validate-code', {
+                method: 'POST', body: JSON.stringify({ code: refCodeFromUrl })
+            });
+            const data = await response.json();
+            if (data.valid) {
+                // SOLO SE è valido, lo scriviamo nel campo e lo applichiamo
+                document.getElementById('discount-code').value = refCodeFromUrl;
+                document.getElementById('apply-discount-btn').click();
+            }
+        } catch (error) {
+            console.error("Errore validazione codice da URL:", error);
+        }
+    })();
+}
+
 if (productFromUrl) {
     selectTree(productFromUrl);
 } else if (storedTreeType) {
     selectTree(storedTreeType);
 } else {
     updateTreeSelectionDisplay();
-}
-
-// Gestisce il codice referral dall'URL, se presente
-if (refCodeFromUrl) {
-    applyCode(refCodeFromUrl);
 }
         
         const adoptionForm = document.getElementById('adoption-form');
