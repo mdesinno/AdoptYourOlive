@@ -456,11 +456,25 @@ refreshDiscountBtn.addEventListener('click', async () => {
     await applyDiscountBtn.click();
 });
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const refCodeFromUrl = urlParams.get('ref');
-        if (refCodeFromUrl) {
-            applyCode(refCodeFromUrl);
-        }
+// Incolla questo blocco unificato
+const urlParams = new URLSearchParams(window.location.search);
+const productFromUrl = urlParams.get('product');
+const refCodeFromUrl = urlParams.get('ref');
+const storedTreeType = sessionStorage.getItem('selectedTree');
+
+// Gestisce la priorità di selezione del prodotto: URL > Sessione > Default
+if (productFromUrl) {
+    selectTree(productFromUrl);
+} else if (storedTreeType) {
+    selectTree(storedTreeType);
+} else {
+    updateTreeSelectionDisplay();
+}
+
+// Gestisce il codice referral dall'URL, se presente
+if (refCodeFromUrl) {
+    applyCode(refCodeFromUrl);
+}
         
         const adoptionForm = document.getElementById('adoption-form');
 adoptionForm.addEventListener('submit', (event) => {
@@ -512,13 +526,6 @@ adoptionForm.addEventListener('submit', (event) => {
     // Per inviare il form programmaticamente in modo che Netlify lo processi:
 handleFormSubmit();
 });
-        
-        const storedTreeType = sessionStorage.getItem('selectedTree');
-        if (storedTreeType) {
-            selectTree(storedTreeType);
-        } else {
-            updateTreeSelectionDisplay();
-        }
 
         document.querySelectorAll('#adoption-form input, #adoption-form select, #adoption-form textarea').forEach(input => {
             if(input.id !== 'discount-code'){
