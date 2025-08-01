@@ -666,3 +666,87 @@ input:checked + .slider:before { transform: translateX(22px); }
 .guide-highlight-box ul li, .guide-section ul li {
     margin-bottom: 10px;
 }
+
+/* --- STILI PER LO SLIDER DELLE RICETTE --- */
+
+/* Contenitore principale dello slider, necessario per posizionare i pulsanti */
+.recipe-slider-container {
+    position: relative;
+}
+
+/* La "pista" che scorre orizzontalmente */
+.recipe-slider-track {
+    display: flex;
+    overflow-x: auto; /* Abilita lo scorrimento orizzontale */
+    scroll-snap-type: x mandatory; /* Fa "agganciare" le card quando si scorre */
+    -webkit-overflow-scrolling: touch; /* Migliora lo scorrimento su iOS */
+    scrollbar-width: none; /* Nasconde la barra di scorrimento per Firefox */
+    padding-bottom: 20px; /* Spazio per l'ombra delle card */
+}
+
+/* Nasconde la barra di scorrimento per Chrome/Safari */
+.recipe-slider-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Stile delle card all'interno dello slider */
+.recipe-slider-track .club-card {
+    flex: 0 0 90%; /* Ogni card occupa il 90% della larghezza */
+    max-width: 340px; /* Larghezza massima per schermi grandi */
+    scroll-snap-align: start; /* Punto di "aggancio" dello scroll */
+    margin: 10px 15px; /* Spaziatura tra le card */
+}
+
+@media (min-width: 768px) {
+    .recipe-slider-track .club-card {
+        flex-basis: 45%; /* Due card visibili su tablet */
+    }
+}
+
+@media (min-width: 992px) {
+    .recipe-slider-track .club-card {
+        flex-basis: 30%; /* Tre card visibili su desktop */
+    }
+}
+
+/* Stile dei pulsanti di navigazione */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--dark-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.slider-btn:hover {
+    background-color: var(--white);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slider-btn.prev {
+    left: -20px;
+}
+
+.slider-btn.next {
+    right: -20px;
+}
+
+/* Nasconde i pulsanti su schermi molto piccoli dove si usa solo il tocco */
+@media (max-width: 576px) {
+    .slider-btn {
+        display: none;
+    }
+}

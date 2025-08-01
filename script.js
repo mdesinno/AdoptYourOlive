@@ -615,4 +615,30 @@ handleFormSubmit();
             document.getElementById('close-exit-popup').addEventListener('click', () => { exitIntentPopup.style.display = 'none'; });
         }
     } // --- FINE BLOCCO IF per la pagina principale
+
+    // --- Gestione Slider Ricette ---
+document.addEventListener('DOMContentLoaded', () => {
+    const track = document.querySelector('.recipe-slider-track');
+    const prevBtn = document.getElementById('recipe-prev-btn');
+    const nextBtn = document.getElementById('recipe-next-btn');
+
+    if (track && prevBtn && nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const card = track.querySelector('.club-card');
+            if (card) {
+                // Calcola quanto scorrere: larghezza della card + margine
+                const scrollAmount = card.offsetWidth + 30; // 30px è il margine (15px a dx + 15px a sx)
+                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            const card = track.querySelector('.club-card');
+            if (card) {
+                const scrollAmount = card.offsetWidth + 30;
+                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            }
+        });
+    }
+});
 });

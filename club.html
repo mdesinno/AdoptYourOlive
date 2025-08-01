@@ -92,36 +92,41 @@
                 </div>
             </section>
             
-            <section id="club-recipes" class="content-section">
+<section id="club-recipes" class="content-section">
     <div class="container">
         <div class="section-header">
             <h2 class="section-title" data-i18n-key="clubRecipesTitle">Ricette dalla Puglia</h2>
         </div>
-        <div class="club-grid">
-            <div class="club-card">
-                <img src="immagini/ricetta-bruschetta.webp" alt="Bruschetta con olio d'oliva" class="club-card-image" loading="lazy">
-                <h3 class="club-card-title" data-i18n-key="clubRecipe1Title">La Bruschetta Perfetta</h3>
-                <p class="club-card-text" data-i18n-key="clubRecipe1Text">Scopri il segreto per esaltare il sapore del nostro olio con il piatto più semplice e amato.</p>
-                <a href="ricette.html#bruschetta" class="btn btn-secondary" style="margin-top: auto;" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
+
+        <div class="recipe-slider-container">
+            <div class="recipe-slider-track">
+                <div class="club-card">
+                    <img src="immagini/ricetta-bruschetta.webp" alt="Bruschetta con olio d'oliva" class="club-card-image" loading="lazy">
+                    <h3 class="club-card-title" data-i18n-key="clubRecipe1Title">La Bruschetta Perfetta</h3>
+                    <p class="club-card-text" data-i18n-key="clubRecipe1Text">Scopri il segreto per esaltare il sapore del nostro olio con il piatto più semplice e amato.</p>
+                    <a href="ricette.html#bruschetta" class="btn btn-secondary" style="margin-top: auto;" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
+                </div>
+                <div class="club-card">
+                    <img src="immagini/ricetta-orecchiette.webp" alt="Orecchiette con cime di rapa" class="club-card-image" loading="lazy">
+                    <h3 class="club-card-title" data-i18n-key="clubRecipe2Title">Orecchiette alle Cime di Rapa</h3>
+                    <p class="club-card-text" data-i18n-key="clubRecipe2Text">Il piatto simbolo della Puglia. La leggera amarezza delle cime di rapa si sposa perfettamente con il fruttato del nostro olio Peranzana.</p>
+                    <a href="ricette.html#orecchiette" class="btn btn-secondary" style="margin-top: auto;" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
+                </div>
+                <div class="club-card">
+                    <img src="immagini/ricetta-fave.webp" alt="Purè di fave e cicoria" class="club-card-image" loading="lazy">
+                    <h3 class="club-card-title" data-i18n-key="clubRecipe3Title">Purè di Fave e Cicoria</h3>
+                    <p class="club-card-text" data-i18n-key="clubRecipe3Text">Un piatto povero della tradizione contadina, ma ricco di sapore. La dolcezza cremosa del purè di fave viene esaltata da un filo del nostro olio a crudo.</p>
+                    <a href="ricette.html#fave" class="btn btn-secondary" style="margin-top: auto;" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
+                </div>
+                <div class="club-card">
+                     <img src="immagini/ricetta-coming-soon.webp" alt="Prossimamente" class="club-card-image" loading="lazy">
+                    <h3 class="club-card-title" data-i18n-key="clubRecipeSoonTitle">Nuova Ricetta in Arrivo</h3>
+                    <p class="club-card-text" data-i18n-key="clubRecipeSoonText">Stiamo preparando un altro delizioso piatto della tradizione pugliese da condividere con te. Torna presto a trovarci!</p>
+                    <a href="#" class="btn btn-secondary disabled" style="margin-top: auto; cursor: not-allowed;" data-i18n-key="clubRecipeSoonBtn">Prossimamente</a>
+                </div>
             </div>
-            <div class="club-card">
-                <img src="immagini/ricetta-orecchiette.webp" alt="Orecchiette con cime di rapa" class="club-card-image" loading="lazy">
-                <h3 class="club-card-title" data-i18n-key="clubRecipe2Title">Orecchiette alle Cime di Rapa</h3>
-                <p class="club-card-text" data-i18n-key="clubRecipe2Text">Il piatto simbolo della Puglia. La leggera amarezza delle cime di rapa si sposa perfettamente con il fruttato del nostro olio Peranzana.</p>
-                <a href="ricette.html#orecchiette" class="btn btn-secondary" style="margin-top: auto;" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
-            </div>
-            <div class="club-card">
-                <img src="immagini/ricetta-fave.webp" alt="Purè di fave e cicoria" class="club-card-image" loading="lazy">
-                <h3 class="club-card-title" data-i18n-key="clubRecipe3Title">Purè di Fave e Cicoria</h3>
-                <p class="club-card-text" data-i18n-key="clubRecipe3Text">Un piatto povero della tradizione contadina, ma ricco di sapore. La dolcezza cremosa del purè di fave viene esaltata da un filo del nostro olio a crudo.</p>
-                <a href="ricette.html#fave" class="btn btn-secondary" style="margin-top: auto;" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
-            </div>
-            <div class="club-card">
-                 <img src="immagini/ricetta-coming-soon.webp" alt="Prossimamente" class="club-card-image" loading="lazy">
-                <h3 class="club-card-title" data-i18n-key="clubRecipeSoonTitle">Nuova Ricetta in Arrivo</h3>
-                <p class="club-card-text" data-i18n-key="clubRecipeSoonText">Stiamo preparando un altro delizioso piatto della tradizione pugliese da condividere con te. Torna presto a trovarci!</p>
-                <a href="#" class="btn btn-secondary disabled" style="margin-top: auto; cursor: not-allowed;" data-i18n-key="clubRecipeSoonBtn">Prossimamente</a>
-            </div>
+            <button class="slider-btn prev" id="recipe-prev-btn" aria-label="Ricetta precedente">❮</button>
+            <button class="slider-btn next" id="recipe-next-btn" aria-label="Ricetta successiva">❯</button>
         </div>
     </div>
 </section>
