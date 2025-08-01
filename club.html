@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYO Adopters Club - Adopt Your Olive</title>
+    <meta name="robots" content="noindex, nofollow"> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="nav-logo-container">
+            <a href="#hero">
+                <img src="immagini/logo.svg" alt="Adopt Your Olive Logo" class="nav-logo-image">
+            </a>
+            <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#products" data-i18n-key="navAdoptShort">Adopt</a></li>
+            <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
+            <li><a href="#our-story" data-i18n-key="navStoryShort">Story</a></li>
+            <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
+            <!--<li><a href="#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
+            <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
+            <li><a href="#contact" data-i18n-key="navContactShort">Contact</a></li>
+        </ul>
+        <div class="language-switcher">
+            <select id="language-selector" aria-label="Selettore della lingua">
+    <option value="it">Italiano</option>
+    <option value="en">English</option>
+    <option value="de">Deutsch</option>
+    <option value="nl">Nederlands</option>
+    <option value="no">Norsk</option>
+    <option value="fr">Français</option>
+</select>
+        </div>
+    </nav>
+
+    <div id="loading-indicator" class="container legal-page" style="text-align: center; padding: 60px 20px;">
+        <h2 data-i18n-key="clubLoadingText">Verifica in corso...</h2>
+    </div>
+
+    <div id="club-content" style="display: none;">
+        <main class="container legal-page club-page">
+            <h1 data-i18n-key="clubTitle">Benvenuto nell'AYO Adopters Club</h1>
+            
+            <section id="club-welcome" class="club-section">
+                <h2 data-i18n-key="clubWelcomeTitle">Un Benvenuto Speciale</h2>
+                <p data-i18n-key="clubWelcomeText">Grazie per essere entrato a far parte della nostra famiglia. L'adozione del tuo albero non è solo un acquisto, è un gesto che ci aiuta a portare avanti una tradizione. Quest'area è il nostro modo per ringraziarti, con contenuti e offerte che non troverai da nessun'altra parte. - Michele & Laura</p>
+            </section>
+
+            <section id="club-kit" class="club-section">
+                <h2 data-i18n-key="clubKitTitle">Il Tuo Kit dell'Adottante</h2>
+                <div class="club-grid">
+                    <div class="club-item">
+                        <i class="fas fa-certificate"></i>
+                        <h3 data-i18n-key="clubKitCertTitle">Certificato Digitale</h3>
+                        <p data-i18n-key="clubKitCertText">Scarica una versione in alta risoluzione del tuo certificato di adozione.</p>
+                        <a href="#" class="btn btn-primary" data-i18n-key="clubKitCertBtn">Download</a>
+                    </div>
+                    <div class="club-item">
+                        <i class="fas fa-book-open"></i>
+                        <h3 data-i18n-key="clubKitGuideTitle">Guida alla Degustazione</h3>
+                        <p data-i18n-key="clubKitGuideText">Impara a degustare e conservare al meglio il tuo olio EVO Peranzana.</p>
+                        <a href="#" class="btn btn-primary" data-i18n-key="clubKitGuideBtn">Leggi la Guida</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="club-offers" class="club-section">
+                <h2 data-i18n-key="clubOffersTitle">Offerte Stagionali Esclusive</h2>
+                <p data-i18n-key="clubOffersText">Le nostre esclusive box stagionali stanno arrivando! I membri del club avranno accesso anticipato e uno sconto speciale sulla Box Primaverile, disponibile da Marzo. Torna a trovarci per i dettagli!</p>
+            </section>
+
+            <section id="club-recipes" class="club-section">
+                <h2 data-i18n-key="clubRecipesTitle">Ricette dalla Puglia</h2>
+                <div class="club-grid">
+                     <div class="club-item">
+                        <h3 data-i18n-key="clubRecipe1Title">La Bruschetta Perfetta</h3>
+                        <p data-i18n-key="clubRecipe1Text">Scopri il segreto per esaltare il sapore del nostro olio con il piatto più semplice e amato.</p>
+                        <a href="#" class="btn btn-secondary" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="access-denied" class="container legal-page" style="display: none; text-align: center; padding: 60px 20px;">
+        <h1 data-i18n-key="clubAccessDeniedTitle">Accesso Negato</h1>
+        <p data-i18n-key="clubAccessDeniedText">Il link utilizzato non è valido o è scaduto. Per accedere al club, utilizza il QR code che hai ricevuto sulla tua card di adozione.</p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+             <div class="footer-content">
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerAboutTitle">Chi Siamo</h4>
+                    <p data-i18n-key="footerAboutText">Adopt Your Olive ti connette direttamente al cuore della Puglia, offrendo un modo unico per sostenere l'olivicoltura sostenibile e gustare l'autentico olio d'oliva italiano con packaging personalizzato.</p>
+                 </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
+                    <ul>
+                        <li><a href="#products" data-i18n-key="navAdoptShort">Adotta</a></li>
+                        <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
+                        <li><a href="#our-story" data-i18n-key="navStoryShort">Storia</a></li>
+                        <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Perché Peranzana</a></li>
+                        <!--<li><a href="#gallery" data-i18n-key="navGalleryShort">Galleria</a></li>-->
+                        <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
+                        <li><a href="#contact" data-i18n-key="navContactShort">Contatti</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerLegalTitle">Legale</h4>
+                    <ul>
+                         <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Termini di Servizio</a></li>
+                        <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Spedizioni & Resi</a></li>
+                        <li><a href="#" id="modify-cookie-preferences-link" data-i18n-key="footerCookiePrefs">Modifica Preferenze Cookie</a></li>
+                     </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerFollowTitle">Seguici</h4>
+                    <p data-i18n-key="footerFollowText">Seguici sui social per aggiornamenti dagli uliveti!</p>
+                     <div class="social-links">
+                        <a href="https://www.instagram.com/adoptyourolive/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                 </div>
+            </div>
+            <div class="footer-bottom">
+                <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
+                <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
+                <div class="footer-legal-info">
+                    <p>
+                        <span data-i18n-key="footerLegalCompanyName">Adopt Your Olive</span><br>
+                        <span data-i18n-key="footerLegalAddress">Via Morgagni, 84 - 71016 San Severo (FG)</span><br>
+                        <span data-i18n-key="footerLegalVatNumber">P.IVA: </span> | <span data-i18n-key="footerLegalContactEmail">Email: info@adoptyourolive.com</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Script per validare il token di accesso al club
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            
+            const clubContent = document.getElementById('club-content');
+            const accessDenied = document.getElementById('access-denied');
+            const loadingIndicator = document.getElementById('loading-indicator');
+
+            if (!token) {
+                loadingIndicator.style.display = 'none';
+                accessDenied.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch('/.netlify/functions/validate-club-token', {
+                    method: 'POST',
+                    body: JSON.stringify({ token: token })
+                });
+                const data = await response.json();
+
+                loadingIndicator.style.display = 'none';
+                if (data.valid) {
+                    clubContent.style.display = 'block';
+                } else {
+                    accessDenied.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Errore di validazione:', error);
+                loadingIndicator.style.display = 'none';
+                accessDenied.style.display = 'block';
+            }
+        });
+    </script>
+    <script src="script.js" defer></script>
+</body>
+</html>
