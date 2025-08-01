@@ -523,5 +523,8 @@
 "navGuideOlfactory": "Olfactory",
 "navGuideGustatory": "Gustatory",
 "navGuideStorage": "Storage",
-"modalInfoTitle": "Reserved Access"
+"modalInfoTitle": "Reserved Access",
+"navClubOffers": "Offers",
+"navClubRecipes": "Recipes",
+"navTastingGuide": "Guide"
 }
