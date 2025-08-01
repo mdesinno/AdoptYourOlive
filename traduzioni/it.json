@@ -4,7 +4,6 @@
     "navLogoText": "Adopt Your Olive",
     "navAdoptShort": "Adotta",
     "navHowItWorksShort": "Come Funziona",
-    "navStoryShort": "Storia",
     "navWhyPeranzanaShort": "Perché Peranzana",
     "navGalleryShort": "Galleria",
     "navFAQShort": "FAQ",
@@ -478,5 +477,14 @@
   "clubAccessDeniedText": "Il link utilizzato non è valido o è scaduto. Per accedere al club, utilizza il QR code che hai ricevuto sulla tua card di adozione.",
   "termsS1_l4_new": "L'accesso a una pagina web riservata (\"AYO Adopters Club\") tramite un link con token univoco fornito sulla card di adozione, contenente contenuti esclusivi, e la possibilità di iscriversi a un canale Telegram opzionale per ricevere aggiornamenti e offerte.",
 "privacySection3b_title": "3-bis. Dati Relativi all'AYO Adopters Club",
-"privacySection3b_text": "L'accesso all'area riservata del nostro sito, denominata \"AYO Adopters Club\", avviene tramite un link contenente un token di autenticazione. Quando utilizzi questo link, il nostro sistema verifica la validità del token per garantirti l'accesso. Non colleghiamo questo token ad altri tuoi dati personali. All'interno dell'area club, ti verrà offerta la possibilità di iscriverti al nostro canale sulla piattaforma di terze parti Telegram. La tua eventuale iscrizione e interazione con Telegram sono soggette esclusivamente all'informativa sulla privacy di Telegram stessa."
+"privacySection3b_text": "L'accesso all'area riservata del nostro sito, denominata \"AYO Adopters Club\", avviene tramite un link contenente un token di autenticazione. Quando utilizzi questo link, il nostro sistema verifica la validità del token per garantirti l'accesso. Non colleghiamo questo token ad altri tuoi dati personali. All'interno dell'area club, ti verrà offerta la possibilità di iscriverti al nostro canale sulla piattaforma di terze parti Telegram. La tua eventuale iscrizione e interazione con Telegram sono soggette esclusivamente all'informativa sulla privacy di Telegram stessa.",
+"clubRecipeSoonTitle": "Nuova Ricetta in Arrivo",
+"clubRecipeSoonText": "Stiamo preparando un altro delizioso piatto della tradizione pugliese da condividere con te. Torna presto a trovarci!",
+"clubRecipeSoonBtn": "Prossimamente",
+"clubAccessAlert": "L'accesso all'AYO Adopters Club è riservato agli adottanti. Usa il link QR che hai ricevuto con il tuo certificato per entrare.",
+"clubTelegramTitle": "Rimani Aggiornato in Tempo Reale",
+"clubTelegramText": "Unisciti al nostro canale Telegram esclusivo per gli adottanti. Riceverai notifiche istantanee per nuove ricette, offerte speciali e aggiornamenti importanti direttamente sul tuo telefono.",
+"clubTelegramBtn": "Unisciti al Canale Telegram",
+"navHome": "Home",
+"navPersonalize": "Personalizza"
 }

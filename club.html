@@ -26,8 +26,8 @@
             <i class="fas fa-bars"></i>
         </button>
         <ul class="nav-links">
-            <li><a href="index.html#products" data-i18n-key="navAdoptShort">Adotta</a></li>
-            <li><a href="#club-guide" data-i18n-key="clubKitGuideTitle">Guida</a></li>
+    <li><a href="index.html" data-i18n-key="navHome">Home</a></li>
+                <li><a href="#club-guide" data-i18n-key="clubKitGuideTitle">Guida</a></li>
             <li><a href="#club-offers" data-i18n-key="clubOffersTitle">Offerte</a></li>
             <li><a href="#club-recipes" data-i18n-key="clubRecipesTitle">Ricette</a></li>
             <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
@@ -60,22 +60,26 @@
             <div class="hero-content">
                 <h1 data-i18n-key="clubTitle">Benvenuto nell'AYO Adopters Club</h1>
                 <p class="hero-subtitle" data-i18n-key="clubWelcomeText">Grazie per essere entrato a far parte della nostra famiglia. L'adozione del tuo albero non è solo un acquisto, è un gesto che ci aiuta a portare avanti una tradizione. Quest'area è il nostro modo per ringraziarti, con contenuti e offerte che non troverai da nessun'altra parte. - Michele & Laura</p>
+                <div class="club-telegram-cta" style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 30px; max-width: 600px;">
+    <h3 data-i18n-key="clubTelegramTitle" style="color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 600;">Rimani Aggiornato in Tempo Reale</h3>
+    <p data-i18n-key="clubTelegramText" style="font-size: 0.95rem; margin-bottom: 20px;">Unisciti al nostro canale Telegram esclusivo per gli adottanti. Riceverai notifiche istantanee per nuove ricette, offerte speciali e aggiornamenti importanti direttamente sul tuo telefono.</p>
+    <a href="#" target="_blank" class="btn btn-secondary" data-i18n-key="clubTelegramBtn">
+        <i class="fab fa-telegram-plane" style="margin-right: 8px;"></i> Unisciti al Canale Telegram
+    </a>
+</div>
             </div>
         </header>
 
         <main>
                         <section id="club-guide" class="content-section" style="background-color: var(--white);">
-                 <div class="container story-layout">
-                    <div class="story-image">
-                        <img src="immagini/guida-olio.webp" alt="Guida alla degustazione dell'olio" style="width:100%; height:auto; border-radius: var(--border-radius-md);" loading="lazy">
-                    </div>
-                    <div class="story-text">
-                        <h2 class="section-title" data-i18n-key="clubKitGuideTitle">Guida alla Degustazione</h2>
-                        <p data-i18n-key="clubKitGuideText">Impara a degustare e conservare al meglio il tuo olio EVO Peranzana per apprezzarne ogni singola sfumatura. Scopri i segreti per riconoscere un olio di qualità e gli abbinamenti perfetti per esaltare i tuoi piatti.</p>
-                        <a href="#" class="btn btn-primary" style="margin-top: 20px;" data-i18n-key="clubKitGuideBtn">Leggi la Guida</a>
-                    </div>
-                </div>
-            </section>
+     <div class="container" style="text-align: center; max-width: 800px;">
+        <div class="section-header">
+            <h2 class="section-title" data-i18n-key="clubKitGuideTitle">Guida alla Degustazione</h2>
+        </div>
+        <p data-i18n-key="clubKitGuideText" style="font-size: 1.1rem; margin-bottom: 30px;">Impara a degustare e conservare al meglio il tuo olio EVO Peranzana per apprezzarne ogni singola sfumatura. Scopri i segreti per riconoscere un olio di qualità e gli abbinamenti perfetti per esaltare i tuoi piatti.</p>
+        <a href="#" class="btn btn-primary" data-i18n-key="clubKitGuideBtn">Leggi la Guida</a>
+    </div>
+</section>
 
             <section id="club-offers" class="content-section club-parallax">
                 <div class="container">
@@ -101,17 +105,17 @@
                             <a href="#" class="btn btn-secondary" style="margin-top: auto;" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
                         </div>
                         <div class="club-card">
-                             <img src="immagini/ricetta-coming-soon.webp" alt="Prossimamente" class="club-card-image" loading="lazy">
-                            <h3 class="club-card-title">Nuova Ricetta in Arrivo</h3>
-                            <p class="club-card-text">Stiamo preparando un altro delizioso piatto della tradizione pugliese da condividere con te. Torna presto a trovarci!</p>
-                            <a href="#" class="btn btn-secondary disabled" style="margin-top: auto; cursor: not-allowed;">Prossimamente</a>
-                        </div>
-                         <div class="club-card">
-                             <img src="immagini/ricetta-coming-soon.webp" alt="Prossimamente" class="club-card-image" loading="lazy">
-                            <h3 class="club-card-title">Nuova Ricetta in Arrivo</h3>
-                            <p class="club-card-text">Stiamo preparando un altro delizioso piatto della tradizione pugliese da condividere con te. Torna presto a trovarci!</p>
-                            <a href="#" class="btn btn-secondary disabled" style="margin-top: auto; cursor: not-allowed;">Prossimamente</a>
-                        </div>
+    <img src="immagini/ricetta-coming-soon.webp" alt="Prossimamente" class="club-card-image" loading="lazy">
+    <h3 class="club-card-title" data-i18n-key="clubRecipeSoonTitle">Nuova Ricetta in Arrivo</h3>
+    <p class="club-card-text" data-i18n-key="clubRecipeSoonText">Stiamo preparando un altro delizioso piatto della tradizione pugliese da condividere con te. Torna presto a trovarci!</p>
+    <a href="#" class="btn btn-secondary disabled" style="margin-top: auto; cursor: not-allowed;" data-i18n-key="clubRecipeSoonBtn">Prossimamente</a>
+</div>
+<div class="club-card">
+    <img src="immagini/ricetta-coming-soon.webp" alt="Prossimamente" class="club-card-image" loading="lazy">
+    <h3 class="club-card-title" data-i18n-key="clubRecipeSoonTitle">Nuova Ricetta in Arrivo</h3>
+    <p class="club-card-text" data-i18n-key="clubRecipeSoonText">Stiamo preparando un altro delizioso piatto della tradizione pugliese da condividere con te. Torna presto a trovarci!</p>
+    <a href="#" class="btn btn-secondary disabled" style="margin-top: auto; cursor: not-allowed;" data-i18n-key="clubRecipeSoonBtn">Prossimamente</a>
+</div>
                     </div>
                 </div>
             </section>
@@ -133,13 +137,13 @@
              </div>
             <div class="footer-col">
                 <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
-                <ul>
-                    <li><a href="index.html#products" data-i18n-key="navAdoptShort">Adotta</a></li>
-                    <li><a href="index.html#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
-                    <li><a href="index.html#our-story" data-i18n-key="navStoryShort">Storia</a></li>
-                    <li><a href="index.html#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-                    <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
-                </ul>
+                 <ul>
+    <li><a href="index.html" data-i18n-key="navHome">Home</a></li>
+                <li><a href="#club-guide" data-i18n-key="clubKitGuideTitle">Guida</a></li>
+            <li><a href="#club-offers" data-i18n-key="clubOffersTitle">Offerte</a></li>
+            <li><a href="#club-recipes" data-i18n-key="clubRecipesTitle">Ricette</a></li>
+            <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
+        </ul>
             </div>
             <div class="footer-col">
                 <h4 data-i18n-key="footerLegalTitle">Legale</h4>
@@ -197,6 +201,9 @@
                 loadingIndicator.style.display = 'none';
                 if (data.valid) {
                     clubContent.style.display = 'block';
+                     // ===== RIGA DA AGGIUNGERE =====
+    sessionStorage.setItem('ayoClubToken', token); 
+    // =============================
                 } else {
                     accessDenied.style.display = 'block';
                 }

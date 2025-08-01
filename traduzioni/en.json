@@ -4,7 +4,6 @@
     "navLogoText": "Adopt Your Olive",
     "navAdoptShort": "Adopt",
     "navHowItWorksShort": "How it Works",
-    "navStoryShort": "Story",
     "navWhyPeranzanaShort": "Why Peranzana",
     "navGalleryShort": "Gallery",
     "navFAQShort": "FAQ",
@@ -478,5 +477,14 @@
   "clubAccessDeniedText": "The link you used is invalid or has expired. To access the club, please use the QR code you received on your adoption card.",
   "termsS1_l4_new": "Access to a private web page ('AYO Adopters Club') via a link with a unique token provided on the adoption card, containing exclusive content, and the option to join an optional Telegram channel to receive updates and offers.",
 "privacySection3b_title": "3-bis. Data Relating to the AYO Adopters Club",
-"privacySection3b_text": "Access to the private area of our site, called the 'AYO Adopters Club', is granted via a link containing an authentication token. When you use this link, our system verifies the token's validity to grant you access. We do not link this token to your other personal data. Within the club area, you will be offered the opportunity to subscribe to our channel on the third-party platform Telegram. Your potential subscription and interaction with Telegram are exclusively subject to Telegram's own privacy policy."
+"privacySection3b_text": "Access to the private area of our site, called the 'AYO Adopters Club', is granted via a link containing an authentication token. When you use this link, our system verifies the token's validity to grant you access. We do not link this token to your other personal data. Within the club area, you will be offered the opportunity to subscribe to our channel on the third-party platform Telegram. Your potential subscription and interaction with Telegram are exclusively subject to Telegram's own privacy policy.",
+"clubRecipeSoonTitle": "New Recipe Coming Soon",
+"clubRecipeSoonText": "We're preparing another delicious traditional Puglian dish to share with you. Check back soon!",
+"clubRecipeSoonBtn": "Coming Soon",
+"clubAccessAlert": "Access to the AYO Adopters Club is reserved for adopters. Please use the QR link you received with your certificate to enter.",
+"clubTelegramTitle": "Stay Updated in Real Time",
+"clubTelegramText": "Join our exclusive Telegram channel for adopters. You'll receive instant notifications for new recipes, special offers, and important updates directly on your phone.",
+"clubTelegramBtn": "Join the Telegram Channel",
+"navHome": "Home",
+"navPersonalize": "Personalize"
 }

@@ -15,6 +15,23 @@ async function loadGoogleMapsScript() {
     }
 }
 
+// Funzione per gestire il click sul link del Club
+function handleClubLinkClick(event) {
+    event.preventDefault(); // Impedisce al link di navigare immediatamente
+
+    const token = sessionStorage.getItem('ayoClubToken');
+    
+    if (token) {
+        // Se abbiamo un token salvato, andiamo alla pagina club con quel token
+        window.location.href = `club.html?token=${token}`;
+    } else {
+        // Se non c'è un token, informiamo l'utente
+        // Usiamo la funzione di traduzione per il messaggio
+        const alertMessage = getTranslation('clubAccessAlert') || 'L\'accesso all\'AYO Adopters Club è riservato agli adottanti. Usa il link QR che hai ricevuto con il tuo certificato per entrare.';
+        alert(alertMessage);
+    }
+}
+
 function initAutocomplete() {
     const addressInput = document.getElementById('address');
     if (!addressInput) return;

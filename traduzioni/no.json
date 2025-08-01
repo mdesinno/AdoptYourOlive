@@ -478,5 +478,14 @@
   "clubAccessDeniedText": "Lenken du brukte er ugyldig eller har utløpt. For å få tilgang til klubben, vennligst bruk QR-koden du mottok på adopsjonskortet ditt.",
   "termsS1_l4_new": "Tilgang til en privat nettside ('AYO Adopters Club') via en lenke med en unik token som følger med adopsjonskortet, som inneholder eksklusivt innhold, og muligheten til å bli med i en valgfri Telegram-kanal for å motta oppdateringer og tilbud.",
 "privacySection3b_title": "3-bis. Data knyttet til AYO Adopters Club",
-"privacySection3b_text": "Tilgang til det private området på nettstedet vårt, kalt 'AYO Adopters Club', gis via en lenke som inneholder en autentiseringstoken. Når du bruker denne lenken, verifiserer systemet vårt gyldigheten av tokenet for å gi deg tilgang. Vi kobler ikke dette tokenet til dine andre personopplysninger. Innenfor klubbområdet vil du bli tilbudt muligheten til å abonnere på kanalen vår på tredjepartsplattformen Telegram. Ditt eventuelle abonnement og interaksjon med Telegram er utelukkende underlagt Telegrams egen personvernpolicy."
+"privacySection3b_text": "Tilgang til det private området på nettstedet vårt, kalt 'AYO Adopters Club', gis via en lenke som inneholder en autentiseringstoken. Når du bruker denne lenken, verifiserer systemet vårt gyldigheten av tokenet for å gi deg tilgang. Vi kobler ikke dette tokenet til dine andre personopplysninger. Innenfor klubbområdet vil du bli tilbudt muligheten til å abonnere på kanalen vår på tredjepartsplattformen Telegram. Ditt eventuelle abonnement og interaksjon med Telegram er utelukkende underlagt Telegrams egen personvernpolicy.",
+"clubRecipeSoonTitle": "Ny Oppskrift Kommer Snart",
+"clubRecipeSoonText": "Vi forbereder en annen deilig tradisjonell rett fra Puglia for å dele med deg. Kom snart tilbake!",
+"clubRecipeSoonBtn": "Kommer Snart",
+"clubAccessAlert": "Tilgang til AYO Adopters Club er forbeholdt adoptivforeldre. Bruk QR-koden du mottok med sertifikatet ditt for å få tilgang.",
+"clubTelegramTitle": "Hold Deg Oppdatert i Sanntid",
+"clubTelegramText": "Bli med i vår eksklusive Telegram-kanal for adoptivforeldre. Du vil motta umiddelbare varsler om nye oppskrifter, spesialtilbud og viktige oppdateringer direkte på telefonen din.",
+"clubTelegramBtn": "Bli med i Telegram-kanalen",
+"navHome": "Hjem",
+"navPersonalize": "Tilpass"
 }

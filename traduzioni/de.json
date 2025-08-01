@@ -487,5 +487,14 @@
   "clubAccessDeniedText": "Der von Ihnen verwendete Link ist ungültig oder abgelaufen. Um dem Club beizutreten, verwenden Sie bitte den QR-Code auf Ihrer Adoptionskarte.",
   "termsS1_l4_new": "Zugang zu einer privaten Webseite ('AYO Adopters Club') über einen Link mit einem einzigartigen Token, der auf der Adoptionskarte bereitgestellt wird, mit exklusiven Inhalten und der Möglichkeit, einem optionalen Telegram-Kanal beizutreten, um Updates und Angebote zu erhalten.",
 "privacySection3b_title": "3-bis. Daten im Zusammenhang mit dem AYO Adopters Club",
-"privacySection3b_text": "Der Zugang zum privaten Bereich unserer Website, dem 'AYO Adopters Club', erfolgt über einen Link, der ein Authentifizierungstoken enthält. Wenn Sie diesen Link verwenden, überprüft unser System die Gültigkeit des Tokens, um Ihnen den Zugang zu gewähren. Wir verknüpfen dieses Token nicht mit Ihren anderen personenbezogenen Daten. Innerhalb des Clubbereichs wird Ihnen die Möglichkeit geboten, unseren Kanal auf der Drittanbieter-Plattform Telegram zu abonnieren. Ihr mögliches Abonnement und Ihre Interaktion mit Telegram unterliegen ausschließlich der Datenschutzrichtlinie von Telegram selbst."
+"privacySection3b_text": "Der Zugang zum privaten Bereich unserer Website, dem 'AYO Adopters Club', erfolgt über einen Link, der ein Authentifizierungstoken enthält. Wenn Sie diesen Link verwenden, überprüft unser System die Gültigkeit des Tokens, um Ihnen den Zugang zu gewähren. Wir verknüpfen dieses Token nicht mit Ihren anderen personenbezogenen Daten. Innerhalb des Clubbereichs wird Ihnen die Möglichkeit geboten, unseren Kanal auf der Drittanbieter-Plattform Telegram zu abonnieren. Ihr mögliches Abonnement und Ihre Interaktion mit Telegram unterliegen ausschließlich der Datenschutzrichtlinie von Telegram selbst.",
+"clubRecipeSoonTitle": "Neues Rezept kommt bald",
+"clubRecipeSoonText": "Wir bereiten ein weiteres köstliches traditionelles Gericht aus Apulien vor, um es mit Ihnen zu teilen. Schauen Sie bald wieder vorbei!",
+"clubRecipeSoonBtn": "Demnächst",
+"clubAccessAlert": "Der Zugang zum AYO Adopters Club ist nur für Adoptiveltern reserviert. Bitte benutzen Sie den QR-Code, den Sie mit Ihrem Zertifikat erhalten haben, um beizutreten.",
+"clubTelegramTitle": "Bleiben Sie in Echtzeit auf dem Laufenden",
+"clubTelegramText": "Treten Sie unserem exklusiven Telegram-Kanal für Adoptiveltern bei. Sie erhalten sofortige Benachrichtigungen über neue Rezepte, Sonderangebote und wichtige Neuigkeiten direkt auf Ihr Handy.",
+"clubTelegramBtn": "Telegram-Kanal beitreten",
+"navHome": "Home",
+"navPersonalize": "Personalisieren"
 }

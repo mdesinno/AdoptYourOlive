@@ -479,5 +479,14 @@
   "clubAccessDeniedText": "De link die u gebruikte is ongeldig of verlopen. Gebruik de QR-code op uw adoptiekaart om toegang te krijgen tot de club.",
   "termsS1_l4_new": "Toegang tot een besloten webpagina ('AYO Adopters Club') via een link met een unieke token die op de adoptiekaart staat, met exclusieve content, en de mogelijkheid om lid te worden van een optioneel Telegram-kanaal om updates en aanbiedingen te ontvangen.",
 "privacySection3b_title": "3-bis. Gegevens met betrekking tot de AYO Adopters Club",
-"privacySection3b_text": "Toegang tot het besloten gedeelte van onze site, de 'AYO Adopters Club', wordt verleend via een link met een authenticatietoken. Wanneer u deze link gebruikt, verifieert ons systeem de geldigheid van de token om u toegang te verlenen. We koppelen deze token niet aan uw andere persoonlijke gegevens. Binnen het clubgedeelte krijgt u de mogelijkheid om u te abonneren op ons kanaal op het externe platform Telegram. Uw eventuele abonnement en interactie met Telegram zijn uitsluitend onderworpen aan het privacybeleid van Telegram zelf."
+"privacySection3b_text": "Toegang tot het besloten gedeelte van onze site, de 'AYO Adopters Club', wordt verleend via een link met een authenticatietoken. Wanneer u deze link gebruikt, verifieert ons systeem de geldigheid van de token om u toegang te verlenen. We koppelen deze token niet aan uw andere persoonlijke gegevens. Binnen het clubgedeelte krijgt u de mogelijkheid om u te abonneren op ons kanaal op het externe platform Telegram. Uw eventuele abonnement en interactie met Telegram zijn uitsluitend onderworpen aan het privacybeleid van Telegram zelf.",
+"clubRecipeSoonTitle": "Nieuw Recept Binnenkort Beschikbaar",
+"clubRecipeSoonText": "We bereiden nog een heerlijk traditioneel gerecht uit Puglia om met u te delen. Kom snel terug!",
+"clubRecipeSoonBtn": "Binnenkort",
+"clubAccessAlert": "Toegang tot de AYO Adopters Club is voorbehouden aan adoptanten. Gebruik de QR-code die u bij uw certificaat hebt ontvangen om toegang te krijgen.",
+"clubTelegramTitle": "Blijf in Realtime op de Hoogte",
+"clubTelegramText": "Word lid van ons exclusieve Telegram-kanaal voor adoptanten. U ontvangt direct meldingen voor nieuwe recepten, speciale aanbiedingen en belangrijke updates rechtstreeks op uw telefoon.",
+"clubTelegramBtn": "Word Lid van het Telegram-kanaal",
+"navHome": "Home",
+"navPersonalize": "Personaliseren"
 }
