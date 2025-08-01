@@ -616,9 +616,7 @@ handleFormSubmit();
         }
     } // --- FINE BLOCCO IF per la pagina principale
 
-    // --- Gestione Slider Ricette ---
-document.addEventListener('DOMContentLoaded', () => {
-    const track = document.querySelector('.recipe-slider-track');
+     const track = document.querySelector('.recipe-slider-track');
     const prevBtn = document.getElementById('recipe-prev-btn');
     const nextBtn = document.getElementById('recipe-next-btn');
 
@@ -640,5 +638,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
 });
