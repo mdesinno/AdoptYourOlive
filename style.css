@@ -537,3 +537,104 @@ input:checked + .slider:before { transform: translateX(22px); }
   }
 }
 
+/* --- STILI AGGIUNTIVI PER LA PAGINA CLUB --- */
+
+/* Stile per la sezione parallax */
+.club-parallax {
+    position: relative;
+    padding: 100px 0;
+    background-image: linear-gradient(rgba(42, 49, 34, 0.8), rgba(42, 49, 34, 0.8)), url('immagini/sfondo-uliveto.webp');
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: var(--white);
+}
+
+.club-parallax .section-title, 
+.club-parallax p {
+    color: var(--white);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.club-offer-box {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Stile per la griglia delle ricette */
+.club-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(20px, 3vw, 30px);
+    align-items: stretch;
+}
+
+/* Stile per le card delle ricette (basato su .product-card) */
+.club-card {
+    background: var(--white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-medium);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    overflow: hidden;
+}
+
+.club-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-strong);
+}
+
+.club-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.club-card-title {
+    font-size: 1.6rem;
+    margin: 20px 20px 10px 20px;
+}
+
+.club-card-text {
+    font-size: 0.95rem;
+    padding: 0 20px;
+    margin-bottom: 25px;
+    flex-grow: 1; /* Fa in modo che il testo occupi lo spazio disponibile */
+}
+
+.club-card .btn-secondary {
+    background-color: transparent;
+    color: var(--primary-green);
+    border: 2px solid var(--primary-green);
+    margin: 0 20px 20px 20px; /* Spazio per il pulsante */
+}
+
+.club-card .btn-secondary:hover {
+    background-color: var(--primary-green);
+    color: var(--white);
+    transform: none; /* Rimuove il transform ereditato da .btn */
+}
+
+.club-card .btn.disabled {
+    background-color: var(--medium-grey);
+    border-color: var(--medium-grey);
+    color: var(--light-text);
+    opacity: 0.7;
+}
+
+/* Aggiunta per le immagini nelle sezioni "story-layout" */
+.story-layout .story-image img {
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-light);
+}
+
