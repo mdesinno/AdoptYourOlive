@@ -148,10 +148,10 @@ async function setLanguage(lang) {
 let selectedTreeType = '';
 let selectedPrice = 0.0;
 const clickTracker = {
-    digital: parseInt(localStorage.getItem('clicks_digital') || '0'),
     young: parseInt(localStorage.getItem('clicks_young') || '0'),
     mature: parseInt(localStorage.getItem('clicks_mature') || '0'),
-    centenary: parseInt(localStorage.getItem('clicks_centenary') || '0')
+    ancient: parseInt(localStorage.getItem('clicks_ancient') || '0'),
+    historic: parseInt(localStorage.getItem('clicks_historic') || '0')
 };
 
 function updateMostPopular() {
@@ -227,12 +227,12 @@ function updateTreeSelectionFromForm() {
 function updateTreeSelectionDisplay() {
     if (!document.getElementById('selected-tree-title')) return; // Esce se non è nella pagina principale
     
-    const treeNames = {
-        'digital': getTranslation('formTreeDigital').split(' - ')[0],
-        'young': getTranslation('formTreeYoung').split(' - ')[0],
-        'mature': getTranslation('formTreeMature').split(' - ')[0],
-        'centenary': getTranslation('formTreeCentenary').split(' - ')[0]
-    };
+const treeNames = {
+    'young': getTranslation('formTreeYoung').split(' - ')[0],
+    'mature': getTranslation('formTreeMature').split(' - ')[0],
+    'ancient': getTranslation('formTreeAncient').split(' - ')[0],
+    'historic': getTranslation('formTreeHistoric').split(' - ')[0]
+};
     const defaultText = getTranslation('formSelectedTreeDefault');
     const treeName = selectedTreeType ? treeNames[selectedTreeType] : defaultText;
     document.getElementById('selected-tree-title').textContent = treeName;
