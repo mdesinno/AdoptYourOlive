@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n-key="guidePageTitle">Guida alla Degustazione - Adopt Your Olive</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="nav-logo-container">
+            <a href="index.html">
+                <img src="immagini/logo.svg" alt="Adopt Your Olive Logo" class="nav-logo-image">
+            </a>
+            <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+        <li><a href="index.html" data-i18n-key="navHome">Home</a></li>
+        <li><a href="#guide-visual" data-i18n-key="navGuideVisual">Visiva</a></li>
+        <li><a href="#guide-olfactory" data-i18n-key="navGuideOlfactory">Olfattiva</a></li>
+        <li><a href="#guide-gustatory" data-i18n-key="navGuideGustatory">Gustativa</a></li>
+        <li><a href="#guide-storage" data-i18n-key="navGuideStorage">Conservazione</a></li>
+        <li><a href="club.html" onclick="handleClubLinkClick(event)">Club</a></li>
+    </ul>
+        <div class="language-switcher">
+            <select id="language-selector" aria-label="Selettore della lingua">
+                <option value="it">Italiano</option>
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="nl">Nederlands</option>
+                <option value="no">Norsk</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+    </nav>
+
+    <main class="container legal-page" style="padding-top: 40px; padding-bottom: 60px;">
+        <div class="section-header">
+            <h1 class="section-title" data-i18n-key="guideHeaderTitle">Guida alla Degustazione dell'Olio EVO</h1>
+            <p class="section-subtitle" data-i18n-key="guideHeaderSubtitle">Impara a riconoscere e apprezzare il tuo Olio Peranzana</p>
+        </div>
+
+        <section id="guide-intro" class="guide-section">
+            <h2 data-i18n-key="guideIntroTitle">Un'Esperienza per i Sensi</h2>
+            <p data-i18n-key="guideIntroText">Benvenuto in questo viaggio alla scoperta del tuo olio. Degustare l'olio extra vergine d'oliva è un'arte che coinvolge tutti i sensi e ti connette profondamente con la terra da cui proviene. Questa guida ti insegnerà le basi per riconoscere le qualità del nostro Peranzana, un olio prezioso ed equilibrato. Preparati a stupirti. - Michele & Laura</p>
+        </section>
+        
+        <section id="guide-phases" class="guide-section">
+            <h2 data-i18n-key="guidePhasesTitle">Le 3 Fasi della Degustazione Professionale</h2>
+            <p data-i18n-key="guidePhasesText">La degustazione professionale dell'olio segue un protocollo preciso che si divide in tre momenti fondamentali. Analizzeremo ciascuno di essi per darti gli strumenti per diventare un vero intenditore.</p>
+            <div class="why-peranzana-grid" style="margin-top: 20px;">
+                <div class="why-peranzana-item"><i class="fas fa-eye value-icon"></i><h3 data-i18n-key="guidePhase1">Analisi Visiva</h3></div>
+                <div class="why-peranzana-item"><i class="fas fa-wind value-icon"></i><h3 data-i18n-key="guidePhase2">Analisi Olfattiva</h3></div>
+                <div class="why-peranzana-item"><i class="fas fa-mouth-guard value-icon"></i><h3 data-i18n-key="guidePhase3">Analisi Gustativa</h3></div>
+            </div>
+        </section>
+
+        <section id="guide-visual" class="guide-section">
+            <h2 data-i18n-key="guideVisualTitle">Fase 1: L'Esame Visivo</h2>
+            <p data-i18n-key="guideVisualText1">Versa circa 15ml di olio (un cucchiaio) in un bicchierino. Osservane la fluidità e il colore. Il colore, che può variare dal giallo dorato al verde intenso, dipende dalla varietà di oliva e dal suo grado di maturazione, ma attenzione: <strong data-i18n-key="guideVisualStrong">non è un indicatore di qualità</strong>. I degustatori professionisti usano infatti un bicchiere blu per non farsi influenzare.</p>
+        </section>
+
+        <section id="guide-olfactory" class="guide-section">
+            <h2 data-i18n-key="guideOlfactoryTitle">Fase 2: L'Esame Olfattivo</h2>
+            <p data-i18n-key="guideOlfactoryText1">Scalda leggermente il bicchiere con il palmo della mano e ruotalo per liberare gli aromi. Avvicina il naso e inspira profondamente. Cerca di riconoscere i profumi: un buon olio deve sapere di "fresco" e "vegetale".</p>
+            <p data-i18n-key="guideOlfactoryText2">Nel nostro Peranzana, dovresti riconoscere sentori di <strong>pomodoro verde, mandorla e un leggero profumo di erba tagliata</strong>. I difetti da evitare sono odori di rancido, muffa o metallico.</p>
+            </section>
+
+        <section id="guide-gustatory" class="guide-section">
+            <h2 data-i18n-key="guideGustatoryTitle">Fase 3: L'Esame Gustativo</h2>
+            <p data-i18n-key="guideGustatoryText1">Prendi un piccolo sorso di olio e distribuiscilo in tutta la bocca. A denti stretti, inspira aria velocemente e con forza per un paio di volte. Questa tecnica, chiamata <strong>"strippaggio"</strong>, vaporizza l'olio e ne amplifica le sensazioni.</p>
+            <p data-i18n-key="guideGustatoryText2">Le due sensazioni chiave da cercare in gola sono l'<strong>amaro</strong> e il <strong>piccante</strong>. Non sono difetti! Anzi, sono la prova della presenza di polifenoli, i preziosi antiossidanti che fanno bene alla salute. Un olio di qualità deve avere un equilibrio tra queste sensazioni, proprio come il nostro Peranzana.</p>
+             </section>
+        
+        <section id="guide-storage" class="guide-section guide-highlight-box">
+            <h2 data-i18n-key="guideStorageTitle">La Conservazione Perfetta</h2>
+            <p data-i18n-key="guideStorageText1">L'olio d'oliva ha tre grandi nemici: <strong>luce, calore e ossigeno</strong>. Per preservare la sua freschezza e le sue proprietà:</p>
+            <ul>
+                <li data-i18n-key="guideStoragePoint1">Conserva la latta o la bottiglia in un luogo fresco e buio, lontano dai fornelli. La temperatura ideale è tra 14°C e 18°C.</li>
+                <li data-i18n-key="guideStoragePoint2">Tieni il contenitore sempre ben chiuso per evitare il contatto con l'aria.</li>
+                <li data-i18n-key="guideStoragePoint3">Consuma l'olio entro pochi mesi dall'apertura per goderne al massimo della fragranza.</li>
+            </ul>
+        </section>
+
+        <section id="guide-pairings" class="guide-section">
+            <h2 data-i18n-key="guidePairingsTitle">Abbinamenti in Cucina</h2>
+            <p data-i18n-key="guidePairingsText">Grazie al suo equilibrio, l'olio Peranzana è estremamente versatile. Provalo a crudo per esaltarne al massimo il sapore:</p>
+            <ul>
+                <li data-i18n-key="guidePairingsPoint1">Su una semplice bruschetta di pane caldo.</li>
+                <li data-i18n-key="guidePairingsPoint2">Per condire insalate, verdure cotte o zuppe di legumi.</li>
+                <li data-i18n-key="guidePairingsPoint3">Su carni bianche alla griglia o pesce al vapore.</li>
+            </ul>
+        </section>
+
+        <section id="guide-pdf" class="guide-section" style="text-align: center;">
+            <h2 data-i18n-key="guidePdfTitle">Scarica la Guida Completa</h2>
+            <p data-i18n-key="guidePdfText">Vuoi tenere questa guida sempre a portata di mano? Scarica la versione PDF stampabile.</p>
+            <a href="#" class="btn btn-primary" download style="margin-top: 20px;">
+                <i class="fas fa-file-pdf" style="margin-right: 8px;"></i> <span data-i18n-key="guidePdfBtn">Download PDF</span>
+            </a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+             <div class="footer-content">
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerAboutTitle">Chi Siamo</h4>
+                    <p data-i18n-key="footerAboutText">Adopt Your Olive ti connette direttamente al cuore della Puglia, offrendo un modo unico per sostenere l'olivicoltura sostenibile e gustare l'autentico olio d'oliva italiano con packaging personalizzato.</p>
+                 </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
+                    <ul>
+                    <li><a href="index.html" data-i18n-key="navHome">Home</a></li>
+                    <li><a href="#guide-visual" data-i18n-key="navGuideVisual">Analisi Visiva</a></li>
+                    <li><a href="#guide-olfactory" data-i18n-key="navGuideOlfactory">Analisi Olfattiva</a></li>
+                    <li><a href="#guide-gustatory" data-i18n-key="navGuideGustatory">Analisi Gustativa</a></li>
+                    <li><a href="#guide-storage" data-i18n-key="navGuideStorage">Conservazione</a></li>
+                    <li><a href="club.html" onclick="handleClubLinkClick(event)">Club</a></li>
+                </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerLegalTitle">Legale</h4>
+                    <ul>
+                         <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Termini di Servizio</a></li>
+                        <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Spedizioni & Resi</a></li>
+                        <li><a href="#" id="modify-cookie-preferences-link" data-i18n-key="footerCookiePrefs">Modifica Preferenze Cookie</a></li>
+                     </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n-key="footerFollowTitle">Seguici</h4>
+                    <p data-i18n-key="footerFollowText">Seguici sui social per aggiornamenti dagli uliveti!</p>
+                     <div class="social-links">
+                        <a href="https://www.instagram.com/adoptyourolive/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                 </div>
+            </div>
+            <div class="footer-bottom">
+                <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
+                <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
+                <div class="footer-legal-info">
+                    <p>
+                        <span data-i18n-key="footerLegalCompanyName">Adopt Your Olive</span><br>
+                        <span data-i18n-key="footerLegalAddress">Via Morgagni, 84 - 71016 San Severo (FG)</span><br>
+                        <span data-i18n-key="footerLegalVatNumber">P.IVA: </span> | <span data-i18n-key="footerLegalContactEmail">Email: info@adoptyourolive.com</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>

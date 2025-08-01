@@ -642,3 +642,27 @@ input:checked + .slider:before { transform: translateX(22px); }
 .club-telegram-cta p {
     color: var(--white);
 }
+
+.guide-section {
+    padding: 30px 0;
+    border-bottom: 1px solid var(--medium-grey);
+}
+.guide-section:last-child {
+    border-bottom: none;
+}
+.guide-section h2 {
+    margin-bottom: 15px;
+}
+.guide-highlight-box {
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: var(--border-radius-md);
+    border: 2px dashed var(--primary-green);
+}
+.guide-highlight-box ul, .guide-section ul {
+    list-style-position: inside;
+    padding-left: 10px;
+}
+.guide-highlight-box ul li, .guide-section ul li {
+    margin-bottom: 10px;
+}
