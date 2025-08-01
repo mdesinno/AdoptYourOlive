@@ -532,5 +532,6 @@
 "navGuideVisual": "Visuell",
 "navGuideOlfactory": "Olfaktorisch",
 "navGuideGustatory": "Gustatorisch",
-"navGuideStorage": "Lagerung"
+"navGuideStorage": "Lagerung",
+"modalInfoTitle": "Reservierter Zugang"
 }

@@ -524,5 +524,6 @@
 "navGuideVisual": "Visueel",
 "navGuideOlfactory": "Geur",
 "navGuideGustatory": "Smaak",
-"navGuideStorage": "Bewaren"
+"navGuideStorage": "Bewaren",
+"modalInfoTitle": "Gereserveerde Toegang"
 }

@@ -15,20 +15,26 @@ async function loadGoogleMapsScript() {
     }
 }
 
-// Funzione per gestire il click sul link del Club
+// Funzione per gestire il click sul link del Club (AGGIORNATA)
 function handleClubLinkClick(event) {
-    event.preventDefault(); // Impedisce al link di navigare immediatamente
+    event.preventDefault(); 
 
     const token = sessionStorage.getItem('ayoClubToken');
     
     if (token) {
-        // Se abbiamo un token salvato, andiamo alla pagina club con quel token
         window.location.href = `club.html?token=${token}`;
     } else {
-        // Se non c'è un token, informiamo l'utente
-        // Usiamo la funzione di traduzione per il messaggio
-        const alertMessage = getTranslation('clubAccessAlert') || 'L\'accesso all\'AYO Adopters Club è riservato agli adottanti. Usa il link QR che hai ricevuto con il tuo certificato per entrare.';
-        alert(alertMessage);
+        // Mostra il nostro modal personalizzato invece dell'alert
+        const modal = document.getElementById('info-modal');
+        const modalTitle = document.getElementById('info-modal-title');
+        const modalText = document.getElementById('info-modal-text');
+        
+        // Popola il modal con le traduzioni
+        modalTitle.textContent = getTranslation('modalInfoTitle');
+        modalText.textContent = getTranslation('clubAccessAlert');
+
+        // Rende il modal visibile
+        modal.classList.add('visible');
     }
 }
 
@@ -318,6 +324,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('close-modal-btn')?.addEventListener('click', () => document.getElementById('success-modal').classList.remove('visible'));
     document.getElementById('success-modal')?.addEventListener('click', (e) => { if (e.target.id === 'success-modal') e.target.classList.remove('visible'); });
     
+    // Gestione chiusura Info Modal
+    document.getElementById('close-info-modal-btn')?.addEventListener('click', () => {
+        document.getElementById('info-modal').classList.remove('visible');
+    });
+
+    document.getElementById('info-modal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'info-modal') {
+            e.target.classList.remove('visible');
+        }
+    });
+
     const nav = document.querySelector('.main-nav');
     window.addEventListener('scroll', () => {
         nav.classList.toggle('scrolled', window.scrollY > 50);

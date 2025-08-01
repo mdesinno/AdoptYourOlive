@@ -523,5 +523,6 @@
 "navGuideVisual": "Visuell",
 "navGuideOlfactory": "Olfaktorisk",
 "navGuideGustatory": "Smak",
-"navGuideStorage": "Oppbevaring"
+"navGuideStorage": "Oppbevaring",
+"modalInfoTitle": "Reservert Tilgang"
 }

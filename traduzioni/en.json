@@ -522,5 +522,6 @@
 "navGuideVisual": "Visual",
 "navGuideOlfactory": "Olfactory",
 "navGuideGustatory": "Gustatory",
-"navGuideStorage": "Storage"
+"navGuideStorage": "Storage",
+"modalInfoTitle": "Reserved Access"
 }
