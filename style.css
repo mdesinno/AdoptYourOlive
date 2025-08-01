@@ -750,3 +750,48 @@ input:checked + .slider:before { transform: translateX(22px); }
         display: none;
     }
 }
+
+/* --- STILI PER PAGINA RICETTE --- */
+.recipe-section {
+    padding: 40px 0;
+    border-bottom: 2px solid var(--light-grey);
+}
+.recipe-section:last-of-type {
+    border-bottom: none;
+}
+.recipe-section h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+.recipe-section > p { /* Selettore per il solo paragrafo di intro */
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+.recipe-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+@media (min-width: 768px) {
+    .recipe-content {
+        grid-template-columns: 1fr 2fr; /* Colonne 1/3 e 2/3 */
+        gap: 50px;
+    }
+}
+.recipe-column h3 {
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-green);
+    display: inline-block;
+}
+.ingredients-list, .instructions-list {
+    padding-left: 20px;
+}
+.ingredients-list li, .instructions-list li {
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
