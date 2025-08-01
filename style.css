@@ -638,3 +638,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     box-shadow: var(--shadow-light);
 }
 
+/* Rende bianco il testo di descrizione per il CTA di Telegram nella pagina Club */
+.club-telegram-cta p {
+    color: var(--white);
+}
