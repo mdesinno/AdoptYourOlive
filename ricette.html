@@ -33,7 +33,15 @@
             <li><a href="club.html" onclick="handleClubLinkClick(event)">Club</a></li>
         </ul>
         <div class="language-switcher">
-            </div>
+            <select id="language-selector" aria-label="Selettore della lingua">
+                <option value="it">Italiano</option>
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="nl">Nederlands</option>
+                <option value="no">Norsk</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
     </nav>
 
     <main class="container legal-page" style="padding-top: 40px; padding-bottom: 60px;">
@@ -119,18 +127,53 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer-col">
-            <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
-            <ul>
+        <footer class="footer">
+    <div class="container">
+         <div class="footer-content">
+            <div class="footer-col">
+                <h4 data-i18n-key="footerAboutTitle">Chi Siamo</h4>
+                <p data-i18n-key="footerAboutText">Adopt Your Olive ti connette direttamente al cuore della Puglia, offrendo un modo unico per sostenere l'olivicoltura sostenibile e gustare l'autentico olio d'oliva italiano con packaging personalizzato.</p>
+             </div>
+            <div class="footer-col">
+                <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
+                 <ul>
                 <li><a href="index.html" data-i18n-key="navHome">Home</a></li>
                 <li><a href="#bruschetta" data-i18n-key="navRecipeBruschetta">Bruschetta</a></li>
                 <li><a href="#orecchiette" data-i18n-key="navRecipeOrecchiette">Orecchiette</a></li>
                 <li><a href="#fave" data-i18n-key="navRecipeFave">Fave e Cicoria</a></li>
                 <li><a href="club.html" onclick="handleClubLinkClick(event)">Club</a></li>
             </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n-key="footerLegalTitle">Legale</h4>
+                <ul>
+                     <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Termini di Servizio</a></li>
+                    <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Spedizioni & Resi</a></li>
+                    <li><a href="#" id="modify-cookie-preferences-link" data-i18n-key="footerCookiePrefs">Modifica Preferenze Cookie</a></li>
+                 </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n-key="footerFollowTitle">Seguici</h4>
+                <p data-i18n-key="footerFollowText">Seguici sui social per aggiornamenti dagli uliveti!</p>
+                 <div class="social-links">
+                    <a href="https://www.instagram.com/adoptyourolive/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+             </div>
         </div>
-        </footer>
+        <div class="footer-bottom">
+            <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
+            <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
+            <div class="footer-legal-info">
+                <p>
+                    <span data-i18n-key="footerLegalCompanyName">Adopt Your Olive</span><br>
+                    <span data-i18n-key="footerLegalAddress">Via Morgagni, 84 - 71016 San Severo (FG)</span><br>
+                    <span data-i18n-key="footerLegalVatNumber">P.IVA: </span> | <span data-i18n-key="footerLegalContactEmail">Email: info@adoptyourolive.com</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
     
     <script src="script.js" defer></script>
 </body>
