@@ -1,9 +1,12 @@
 // File: /netlify/functions/create-payment-link.js
 
 const REFERRAL_CODES = {
-    'INFLUENCERFOODDE': 0.15,
-    'AYOMEMBER237': 0.10,
-    'WELCOME10': 0.10
+    'FOODANATOMIST': 0.10,
+    'BLONDEELIVING': 0.10,
+    'DENISEKORTLEVER': 0.10,
+    'TRAVELTOGETHER': 0.10,
+    'INGEPUTKER': 0.10,
+    'STUKORECEPTJES': 0.10
 };
 
 exports.handler = async (event) => {
