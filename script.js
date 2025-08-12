@@ -527,57 +527,61 @@ if (productFromUrl) {
     updateTreeSelectionDisplay();
 }
         
-        const adoptionForm = document.getElementById('adoption-form');
-adoptionForm.addEventListener('submit', (event) => {
-    event.preventDefault(); // Impedisce l'invio immediato del form
+const adoptionForm = document.getElementById('adoption-form');
+if (adoptionForm) {
+    adoptionForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Impedisce al form di ricaricare la pagina
 
-    const submitButton = adoptionForm.querySelector('button[type="submit"]');
-    
-    // Funzione che gestisce l'invio dei dati DOPO che reCAPTCHA ha dato l'ok
-    const handleFormSubmit = async () => {
+        const submitButton = adoptionForm.querySelector('button[type="submit"]');
         submitButton.disabled = true;
         submitButton.textContent = 'Creazione pagamento...';
-        
+
         const formData = new FormData(adoptionForm);
-        const data = Object.fromEntries(formData.entries());
-        data.price = selectedPrice; // Invia sempre il prezzo base
-        if(hiddenRefInput) data['referral-code'] = hiddenRefInput.value;
-        
+        const treeType = formData.get('tree-type');
+        const customerEmail = formData.get('email');
+        const discountCode = document.getElementById('discount-code').value.trim();
+
+        // Trova il prezzo corretto dall'opzione selezionata del menu a tendina
+        const selectedOption = document.querySelector(`#tree-type option[value="${treeType}"]`);
+        const price = selectedOption ? selectedOption.dataset.price : '0';
+
+        // Prepara tutti i dati da inviare alla nostra funzione serverless
+        const data = {
+            treeType: treeType,
+            price: parseFloat(price),
+            customerEmail: customerEmail,
+            discountCode: discountCode
+        };
+
         try {
-            const response = await fetch('/.netlify/functions/create-payment-link', {
+            // Chiama la nostra funzione Netlify per creare una sessione Stripe
+            const response = await fetch('/.netlify/functions/create-stripe-checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
             });
-            if (!response.ok) throw new Error('Errore di rete durante la creazione del pagamento.');
-            
-            const responseData = await response.json();
-            if (responseData.paymentUrl) {
-                window.location.href = responseData.paymentUrl;
-            } else {
-                throw new Error('URL di pagamento non ricevuto dal server.');
+
+            if (!response.ok) {
+                throw new Error('Errore dal server durante la creazione del pagamento.');
             }
+
+            const responseData = await response.json();
+
+            // Se tutto va bene, reindirizza l'utente alla pagina di pagamento sicura di Stripe
+            if (responseData.checkoutUrl) {
+                window.location.href = responseData.checkoutUrl;
+            } else {
+                throw new Error('URL di pagamento non ricevuto.');
+            }
+
         } catch (error) {
             console.error(error);
-            alert('Si è verificato un errore durante la creazione del pagamento. Riprova più tardi.');
+            alert('Si è verificato un errore imprevisto. Riprova più tardi.');
             submitButton.disabled = false;
-            checkFormValidity();
+            checkFormValidity(); // Riattiva il pulsante
         }
-    };
-
-    // Netlify gestisce il reCAPTCHA invisibile in background.
-    // Quando il form viene inviato, Netlify aggiunge un campo nascosto 'g-recaptcha-response'.
-    // Noi dobbiamo solo inviare il form. Se il campo non è valido, l'invio del form a Netlify fallirà.
-    // Per questo, invece di complicare con callback, possiamo semplicemente inviare il form a Netlify.
-    
-    // A differenza di prima, non chiamiamo handleFormSubmit direttamente,
-    // ma lasciamo che Netlify processi il submit dopo il nostro preventDefault().
-    // La nostra funzione di backend Netlify NON verrà chiamata se il reCAPTCHA fallisce.
-    
-    // Per inviare il form programmaticamente in modo che Netlify lo processi:
-handleFormSubmit();
-});
-
+    });
+}
         document.querySelectorAll('#adoption-form input, #adoption-form select, #adoption-form textarea').forEach(input => {
             if(input.id !== 'discount-code'){
                 input.addEventListener((input.tagName === 'SELECT' ? 'change' : 'input'), checkFormValidity);
