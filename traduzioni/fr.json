@@ -569,5 +569,9 @@
     "recipeFaveStep1": "Faites tremper les fèves toute une nuit. Égouttez-les et mettez-les dans une casserole avec de l'eau froide et la pomme de terre pelée.",
     "recipeFaveStep2": "Portez à ébullition et laissez mijoter à feu doux pendant environ 2 heures, en écumant si nécessaire. À la fin, l'eau doit être presque complètement absorbée.",
     "recipeFaveStep3": "Pendant ce temps, faites cuire la chicorée dans de l'eau salée, égouttez-la et faites-la revenir dans une poêle avec de l'huile et de l'ail.",
-    "recipeFaveStep4": "Mixez les fèves avec un mixeur plongeant, ajoutez du sel et une quantité généreuse d'huile EVO Peranzana jusqu'à obtenir une crème lisse. Servez la purée chaude, recouverte de chicorée et arrosée d'un généreux filet d'huile crue."
+    "recipeFaveStep4": "Mixez les fèves avec un mixeur plongeant, ajoutez du sel et une quantité généreuse d'huile EVO Peranzana jusqu'à obtenir une crème lisse. Servez la purée chaude, recouverte de chicorée et arrosée d'un généreux filet d'huile crue.",
+    "formOrderSummaryCurrencyNote": "Les prix sont en Euros (€). Pour les paiements dans d'autres devises, votre banque peut appliquer des frais de change.",
+    "legalCustomsDisclaimer": "Pour les envois vers des pays non membres de l'UE, tels que le Royaume-Uni et la Suisse, les droits de douane, taxes d'importation et frais locaux sont à la charge exclusive du destinataire et seront demandés par le transporteur lors de la livraison.",
+    "formCustomsWarning": "Attention : s'agissant d'un envoi hors UE, des droits de douane et taxes d'importation peuvent s'appliquer à la charge du destinataire.",
+    "customsWarningTitle": "Note pour les envois hors UE (Royaume-Uni et Suisse) :"
 }

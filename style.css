@@ -795,3 +795,34 @@ input:checked + .slider:before { transform: translateX(22px); }
     margin-bottom: 10px;
     line-height: 1.7;
 }
+
+/* Stile per le note nel riepilogo ordine */
+.summary-note {
+    display: block;
+    text-align: right;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--light-text);
+    margin-top: 8px;
+    padding-right: 5px;
+}
+
+/* Stile per l'avviso sui dazi doganali */
+.customs-warning-note {
+    display: none; /* Nascosto di default */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fff3cd; /* Giallo chiaro per l'attenzione */
+    border: 1px solid #ffeeba;
+    border-radius: var(--border-radius-sm);
+    color: #856404;
+    font-weight: 600;
+}
+
+.legal-warning-box {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff3cd;
+    border-left: 5px solid #ffeeba;
+    color: #856404;
+}

@@ -569,5 +569,9 @@
 "recipeFaveStep1": "Soak the fava beans overnight. Drain them and place them in a pot covered with cold water along with the peeled potato.",
 "recipeFaveStep2": "Bring to a boil and cook on low heat for about 2 hours, skimming if necessary. By the end, the water should be almost completely absorbed.",
 "recipeFaveStep3": "Meanwhile, boil the chicory in salted water, drain it, and sauté it in a pan with oil and garlic.",
-"recipeFaveStep4": "Blend the fava beans with an immersion blender, adding salt and a generous amount of Peranzana EVO Oil until you get a smooth cream. Serve the purée hot, topped with the chicory and a generous drizzle of raw oil."
+"recipeFaveStep4": "Blend the fava beans with an immersion blender, adding salt and a generous amount of Peranzana EVO Oil until you get a smooth cream. Serve the purée hot, topped with the chicory and a generous drizzle of raw oil.",
+"formOrderSummaryCurrencyNote": "Prices are in Euros (€). For payments in other currencies, your bank may apply exchange fees.",
+"legalCustomsDisclaimer": "For shipments to non-EU countries, such as the UK and Switzerland, any customs duties, import taxes, and local fees are the sole responsibility of the recipient and will be requested by the courier upon delivery.",
+"formCustomsWarning": "Please note: as a non-EU shipment, customs duties and import taxes may be applied at the recipient's expense.",
+"customsWarningTitle": "Note for Non-EU Shipments (UK and Switzerland):"
 }

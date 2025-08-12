@@ -569,5 +569,9 @@
     "recipeFaveStep1": "Die Fava-Bohnen über Nacht einweichen. Abgießen und in einen Topf mit kaltem Wasser zusammen mit der geschälten Kartoffel geben.",
     "recipeFaveStep2": "Zum Kochen bringen und bei niedriger Hitze etwa 2 Stunden kochen, bei Bedarf abschäumen. Am Ende sollte das Wasser fast vollständig absorbiert sein.",
     "recipeFaveStep3": "In der Zwischenzeit den Chicorée in Salzwasser kochen, abgießen und in einer Pfanne mit Öl und Knoblauch anbraten.",
-    "recipeFaveStep4": "Die Fava-Bohnen mit einem Stabmixer pürieren, Salz und eine großzügige Menge Peranzana EVO-Öl hinzufügen, bis eine glatte Creme entsteht. Das Püree heiß servieren, mit dem Chicorée bedecken und mit einem großzügigen Schuss rohem Öl veredeln."
+    "recipeFaveStep4": "Die Fava-Bohnen mit einem Stabmixer pürieren, Salz und eine großzügige Menge Peranzana EVO-Öl hinzufügen, bis eine glatte Creme entsteht. Das Püree heiß servieren, mit dem Chicorée bedecken und mit einem großzügigen Schuss rohem Öl veredeln.",
+    "formOrderSummaryCurrencyNote": "Die Preise sind in Euro (€). Bei Zahlungen in anderen Währungen kann Ihre Bank Umrechnungsgebühren erheben.",
+    "legalCustomsDisclaimer": "Für Sendungen in Nicht-EU-Länder wie das Vereinigte Königreich und die Schweiz sind Zölle, Einfuhrsteuern und lokale Gebühren vom Empfänger zu tragen und werden vom Kurier bei der Zustellung angefordert.",
+    "formCustomsWarning": "Bitte beachten Sie: Da es sich um eine Nicht-EU-Sendung handelt, können Zollgebühren und Einfuhrsteuern zu Lasten des Empfängers anfallen.",
+    "customsWarningTitle": "Hinweis für Lieferungen außerhalb der EU (Großbritannien und Schweiz):"
 }

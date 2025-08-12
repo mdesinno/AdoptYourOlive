@@ -592,6 +592,21 @@ if (adoptionForm) {
             if (input.id === 'certificate-message') input.addEventListener('input', updateCharCount);
         });
 
+         const countrySelect = document.getElementById('country');
+        const customsWarning = document.getElementById('customs-warning');
+
+        if (countrySelect && customsWarning) {
+            countrySelect.addEventListener('change', () => {
+                const selectedCountry = countrySelect.value;
+                // Mostra l'avviso solo per Regno Unito (UK) e Svizzera (CH)
+                if (selectedCountry === 'UK' || selectedCountry === 'CH') {
+                    customsWarning.style.display = 'block';
+                } else {
+                    customsWarning.style.display = 'none';
+                }
+            });
+        }
+
         let slideIndex = 0;
         const slides = document.querySelectorAll("#gallery .slide");
         const dots = document.querySelectorAll("#gallery .dot");

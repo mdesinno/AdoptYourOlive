@@ -569,5 +569,9 @@
     "recipeFaveStep1": "Legg fava-bønnene i bløt over natten. Sil av dem og legg dem i en gryte dekket med kaldt vann sammen med den skrelte poteten.",
     "recipeFaveStep2": "Kok opp og la det småkoke på lav varme i ca. 2 timer, og skum av om nødvendig. Mot slutten skal vannet være nesten helt absorbert.",
     "recipeFaveStep3": "I mellomtiden, kok sikorien i saltet vann, sil den av, og fres den i en panne med olje og hvitløk.",
-    "recipeFaveStep4": "Bland fava-bønnene med en stavmikser, tilsett salt og en sjenerøs mengde Peranzana EVO-olje til du får en jevn krem. Server pureen varm, toppet med sikorien og en sjenerøs duskregn av råolje."
+    "recipeFaveStep4": "Bland fava-bønnene med en stavmikser, tilsett salt og en sjenerøs mengde Peranzana EVO-olje til du får en jevn krem. Server pureen varm, toppet med sikorien og en sjenerøs duskregn av råolje.",
+    "formOrderSummaryCurrencyNote": "Prisene er i Euro (€). For betalinger i andre valutaer kan banken din pålegge vekslingsgebyrer.",
+    "legalCustomsDisclaimer": "For forsendelser til land utenfor EU, som Storbritannia og Sveits, er eventuelle tollavgifter, importskatter og lokale gebyrer mottakerens alleinansvar og vil bli krevd av budfirmaet ved levering.",
+    "formCustomsWarning": "Merk: Siden dette er en forsendelse utenfor EU, kan tollavgifter og importskatter påløpe for mottakerens regning.",
+    "customsWarningTitle": "Merknad for forsendelser utenfor EU (Storbritannia og Sveits):"
 }
