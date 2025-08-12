@@ -17,6 +17,7 @@ exports.handler = async (event) => {
         };
         const productName = productNames[treeType] || "Adozione Ulivo";
 
+        // Creiamo un cliente su Stripe con i dati già raccolti
         const customer = await stripe.customers.create({
             email: customerEmail,
             name: shippingDetails.name,
@@ -25,22 +26,15 @@ exports.handler = async (event) => {
 
         let sessionConfig = {
             payment_method_types: ['card', 'klarna', 'paypal'],
-            customer: customer.id,
             
-            // =====================================================================
-            // RIGA DA AGGIUNGERE
-            // =====================================================================
-            customer_update: {
-              shipping: 'auto'
-            },
-            // =====================================================================
+            // Associamo la sessione al cliente che ha già un indirizzo
+            customer: customer.id,
 
+            // Abilitiamo il calcolo automatico dell'IVA
             automatic_tax: {
                 enabled: true,
             },
-            shipping_address_collection: {
-                allowed_countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'CH', 'GB'],
-            },
+
             line_items: [{
                 price_data: {
                     currency: 'eur',
