@@ -6,7 +6,9 @@ const REFERRAL_CODES = {
     'DENISEKORTLEVER': 0.10,
     'TRAVELTOGETHER': 0.10,
     'INGEPUTKER': 0.10,
-    'STUKORECEPTJES': 0.10
+    'STUKORECEPTJES': 0.10,
+    'MYFOODBLOG': 0.10,
+    'KEUKENMEID': 0.10
 };
 
 exports.handler = async (event) => {
