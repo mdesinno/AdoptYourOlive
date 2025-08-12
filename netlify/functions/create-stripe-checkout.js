@@ -7,7 +7,7 @@ exports.handler = async (event) => {
     }
     try {
         const data = JSON.parse(event.body);
-        const { treeType, price, customerEmail, discountCode } = data;
+        const { treeType, price, customerEmail, discountCode, shippingDetails } = data;
 
         const productNames = {
             young: "Adozione Ulivo Giovane",
@@ -17,14 +17,29 @@ exports.handler = async (event) => {
         };
         const productName = productNames[treeType] || "Adozione Ulivo";
 
+        const customer = await stripe.customers.create({
+            email: customerEmail,
+            name: shippingDetails.name,
+            address: shippingDetails.address
+        });
+
         let sessionConfig = {
             payment_method_types: ['card', 'klarna', 'paypal'],
-            customer_email: customerEmail,
+            customer: customer.id,
+            
+            // =====================================================================
+            // RIGA DA AGGIUNGERE
+            // =====================================================================
+            customer_update: {
+              shipping: 'auto'
+            },
+            // =====================================================================
+
+            automatic_tax: {
+                enabled: true,
+            },
             shipping_address_collection: {
                 allowed_countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'CH', 'GB'],
-            },
-            tax_id_collection: {
-                enabled: true,
             },
             line_items: [{
                 price_data: {
@@ -32,7 +47,7 @@ exports.handler = async (event) => {
                     product_data: {
                         name: productName
                     },
-                    unit_amount: Math.round(price * 100), // Prezzo in centesimi, arrotondato
+                    unit_amount: Math.round(price * 100),
                 },
                 quantity: 1,
             }],
