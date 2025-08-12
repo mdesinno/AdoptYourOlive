@@ -7,7 +7,8 @@ exports.handler = async (event) => {
     }
     try {
         const data = JSON.parse(event.body);
-        const { treeType, price, customerEmail, discountCode } = data;
+        // Ora riceviamo anche i dettagli di spedizione dal frontend
+        const { treeType, price, customerEmail, discountCode, shippingDetails } = data;
 
         const productNames = {
             young: "Adozione Ulivo Giovane",
@@ -19,20 +20,26 @@ exports.handler = async (event) => {
 
         let sessionConfig = {
             payment_method_types: ['card', 'klarna', 'paypal'],
-            customer_email: customerEmail,
-            shipping_address_collection: {
-                allowed_countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'CH', 'GB'],
+            
+            // Inseriamo i dati del cliente, incluso l'indirizzo che abbiamo già
+            customer_details: {
+              email: customerEmail,
+              name: shippingDetails.name,
+              address: shippingDetails.address
             },
-            tax_id_collection: {
+
+            // Abilitiamo il calcolo automatico dell'IVA
+            automatic_tax: {
                 enabled: true,
             },
+
             line_items: [{
                 price_data: {
                     currency: 'eur',
                     product_data: {
                         name: productName
                     },
-                    unit_amount: Math.round(price * 100), // Prezzo in centesimi, arrotondato
+                    unit_amount: Math.round(price * 100),
                 },
                 quantity: 1,
             }],
