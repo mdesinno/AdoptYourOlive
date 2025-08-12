@@ -541,20 +541,29 @@ if (adoptionForm) {
         const customerEmail = formData.get('email');
         const discountCode = document.getElementById('discount-code').value.trim();
 
-        // Trova il prezzo corretto dall'opzione selezionata del menu a tendina
         const selectedOption = document.querySelector(`#tree-type option[value="${treeType}"]`);
         const price = selectedOption ? selectedOption.dataset.price : '0';
 
-        // Prepara tutti i dati da inviare alla nostra funzione serverless
+        // QUESTO BLOCCO È FONDAMENTALE: crea l'oggetto 'shippingDetails'
         const data = {
             treeType: treeType,
             price: parseFloat(price),
             customerEmail: customerEmail,
-            discountCode: discountCode
+            discountCode: discountCode,
+            shippingDetails: {
+                name: `${formData.get('first-name')} ${formData.get('last-name')}`,
+                address: {
+                    line1: formData.get('address'),
+                    line2: formData.get('address-2'),
+                    city: formData.get('city'),
+                    postal_code: formData.get('postal-code'),
+                    country: formData.get('country'),
+                }
+            }
         };
 
         try {
-            // Chiama la nostra funzione Netlify per creare una sessione Stripe
+            // Chiama la funzione Netlify per creare una sessione Stripe
             const response = await fetch('/.netlify/functions/create-stripe-checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -562,12 +571,14 @@ if (adoptionForm) {
             });
 
             if (!response.ok) {
-                throw new Error('Errore dal server durante la creazione del pagamento.');
+                // Se la funzione serverless stessa restituisce un errore, lo gestiamo qui
+                const errorBody = await response.json();
+                throw new Error(errorBody.error || 'Errore dal server durante la creazione del pagamento.');
             }
 
             const responseData = await response.json();
 
-            // Se tutto va bene, reindirizza l'utente alla pagina di pagamento sicura di Stripe
+            // Reindirizza l'utente alla pagina di pagamento sicura di Stripe
             if (responseData.checkoutUrl) {
                 window.location.href = responseData.checkoutUrl;
             } else {
@@ -582,6 +593,7 @@ if (adoptionForm) {
         }
     });
 }
+
         document.querySelectorAll('#adoption-form input, #adoption-form select, #adoption-form textarea').forEach(input => {
             if(input.id !== 'discount-code'){
                 input.addEventListener((input.tagName === 'SELECT' ? 'change' : 'input'), checkFormValidity);
