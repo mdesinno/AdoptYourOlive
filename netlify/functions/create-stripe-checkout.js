@@ -25,7 +25,7 @@ exports.handler = async (event) => {
         });
 
         let sessionConfig = {
-            payment_method_types: ['card', 'klarna', 'paypal'],
+            payment_method_types: ['card', 'klarna', 'paypal', 'revolut_pay'],
             
             // Associamo la sessione al cliente che ha già un indirizzo
             customer: customer.id,
