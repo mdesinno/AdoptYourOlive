@@ -610,8 +610,8 @@ if (adoptionForm) {
         if (countrySelect && customsWarning) {
             countrySelect.addEventListener('change', () => {
                 const selectedCountry = countrySelect.value;
-                // Mostra l'avviso solo per Regno Unito (UK) e Svizzera (CH)
-                if (selectedCountry === 'UK' || selectedCountry === 'CH') {
+                // Mostra l'avviso solo per Regno Unito (GB) e Svizzera (CH)
+                if (selectedCountry === 'GB' || selectedCountry === 'CH') {
                     customsWarning.style.display = 'block';
                 } else {
                     customsWarning.style.display = 'none';
