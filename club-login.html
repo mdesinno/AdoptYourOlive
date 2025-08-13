@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesso Club - Adopt Your Olive</title>
     <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
         /* Stili specifici per la pagina di login */
@@ -34,7 +35,7 @@
         }
         .login-form input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 40px 12px 12px; /* Aggiunto padding a destra per l'icona */
             margin-bottom: 20px;
             border: 1px solid var(--medium-grey);
             border-radius: var(--border-radius-sm);
@@ -50,6 +51,21 @@
             font-weight: 600;
             display: none; /* Nascosto di default */
         }
+        
+        /* ===== STILI NUOVI PER L'ICONA PASSWORD ===== */
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .toggle-password-icon {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: var(--light-text);
+            cursor: pointer;
+        }
+        /* ============================================ */
     </style>
 </head>
 <body>
@@ -59,9 +75,13 @@
     <main class="login-container">
         <div class="login-box">
             <h1 data-i18n-key="clubLoginTitle">Accesso Riservato</h1>
-            <p data-i18n-key="clubLoginSubtitle">Inserisci la parola d'ordine che hai trovato sulla tua card di adozione.</p>
+            <p data-i18n-key="clubLoginSubtitle">Inserisci la parola d'ordine che hai trovato nella tua email di conferma ordine.</p>
             <form id="club-login-form" class="login-form">
-                <input type="password" id="club-password" placeholder="Parola d'ordine" data-i18n-placeholder-key="clubLoginPlaceholder" required>
+                
+                <div class="password-wrapper">
+                    <input type="password" id="club-password" placeholder="Parola d'ordine" data-i18n-placeholder-key="clubLoginPlaceholder" required>
+                    <i class="fas fa-eye toggle-password-icon" id="toggle-password"></i>
+                </div>
                 <button type="submit" class="btn btn-primary" data-i18n-key="clubLoginButton">Entra nel Club</button>
             </form>
             <p id="error-message" class="error-message" data-i18n-key="clubLoginError">Parola d'ordine errata. Riprova.</p>
@@ -72,26 +92,24 @@
         document.addEventListener('DOMContentLoaded', () => {
             const loginForm = document.getElementById('club-login-form');
             if (loginForm) {
-                loginForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
+                // ... (vecchio script per l'invio del form) ...
+            }
+
+            // ===== SCRIPT NUOVO PER MOSTRARE/NASCONDERE LA PASSWORD =====
+            const togglePassword = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('club-password');
+
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function () {
+                    // Controlla il tipo di input attuale
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
                     
-                    // Definisci qui la tua password semplice
-                    const correctPassword = 'PERANZANA2025'; 
-                    // Definisci qui il token segreto REALE
-                    const clubToken = 'axr-p8a-tq2-n9k';
-
-                    const enteredPassword = document.getElementById('club-password').value;
-                    const errorMessage = document.getElementById('error-message');
-
-                    if (enteredPassword === correctPassword) {
-                        // Se la password è corretta, reindirizza alla pagina club con il token
-                        window.location.href = `club.html?token=${clubToken}`;
-                    } else {
-                        // Altrimenti, mostra l'errore
-                        errorMessage.style.display = 'block';
-                    }
+                    // Cambia l'icona (occhio / occhio barrato)
+                    this.classList.toggle('fa-eye-slash');
                 });
             }
+            // ==========================================================
         });
     </script>
     <script src="script.js" defer></script> </body>
