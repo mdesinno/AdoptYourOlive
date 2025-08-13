@@ -90,12 +90,29 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- PARTE 1: GESTIONE INVIO FORM E REDIRECT ---
             const loginForm = document.getElementById('club-login-form');
             if (loginForm) {
-                // ... (vecchio script per l'invio del form) ...
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const correctPassword = 'PERANZANA2025'; 
+                    const clubToken = 'axr-p8a-tq2-n9k';
+
+                    const enteredPassword = document.getElementById('club-password').value;
+                    const errorMessage = document.getElementById('error-message');
+
+                    if (enteredPassword === correctPassword) {
+                        // Se la password è corretta, reindirizza
+                        window.location.href = `club.html?token=${clubToken}`;
+                    } else {
+                        // Altrimenti, mostra l'errore
+                        errorMessage.style.display = 'block';
+                    }
+                });
             }
 
-            // ===== SCRIPT NUOVO PER MOSTRARE/NASCONDERE LA PASSWORD =====
+            // --- PARTE 2: GESTIONE VISIBILITÀ PASSWORD ---
             const togglePassword = document.getElementById('toggle-password');
             const passwordInput = document.getElementById('club-password');
 
@@ -106,11 +123,18 @@
                     passwordInput.setAttribute('type', type);
                     
                     // Cambia l'icona (occhio / occhio barrato)
+                    this.classList.toggle('fa-eye');
                     this.classList.toggle('fa-eye-slash');
                 });
             }
-            // ==========================================================
         });
     </script>
+    <script src="script.js" defer></script> ```
+
+### Cosa ho corretto
+
+Ho semplicemente reinserito la logica di controllo della password e di reindirizzamento che avevo accidentalmente rimosso, unendola a quella per l'icona "occhio". Ho anche corretto un piccolo bug nell'icona stessa (ora alterna `fa-eye` e `fa-eye-slash` correttamente).
+
+Con questo script completo, ora funzioneranno sia l'invio del modulo che la funzione per mostrare/nascondere la password.
     <script src="script.js" defer></script> </body>
 </html>
