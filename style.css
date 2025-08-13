@@ -826,3 +826,72 @@ input:checked + .slider:before { transform: translateX(22px); }
     border-left: 5px solid #ffeeba;
     color: #856404;
 }
+
+ @media print {
+
+            /* Impostazioni generali della pagina di stampa */
+            @page {
+                size: A4;
+                margin: 2cm; /* Margini standard per un documento A4 */
+            }
+
+            /* Nasconde tutti gli elementi inutili sulla carta */
+            .main-nav, 
+            .footer, 
+            #guide-pdf, /* Nasconde il pulsante di download stesso */
+            .video-container,
+            video {
+                display: none !important;
+            }
+
+            /* Stile base per il corpo del testo stampato */
+            body {
+                font-family: 'Times New Roman', serif; /* Un font classico e leggibile per la stampa */
+                font-size: 12pt; /* Dimensione standard per documenti */
+                color: #000000; /* Testo nero puro per massima leggibilità */
+                background-color: #ffffff; /* Sfondo bianco puro */
+            }
+
+            /* Rimuove ombre e sfondi colorati */
+            .legal-page, .guide-highlight-box, .guide-tip-box, .guide-info-box {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important; /* Sostituisce i bordi colorati con uno grigio leggero */
+                background-color: transparent !important;
+                padding: 15px !important;
+                margin-bottom: 20px !important;
+            }
+            
+            /* Stile per i titoli */
+            h1, h2, h3 {
+                color: #000000;
+                font-family: 'Georgia', serif;
+                page-break-after: avoid; /* Evita che la pagina si interrompa subito dopo un titolo */
+                page-break-inside: avoid; /* Evita che il titolo si spezzi su due pagine */
+            }
+
+            h1 { font-size: 24pt; }
+            h2 { font-size: 18pt; }
+            h3 { font-size: 14pt; }
+
+            /* All'interno del blocco @media print {...} */
+
+/* Aggiunge interruzioni di pagina forzate prima delle sezioni specificate */
+#guide-visual,
+#guide-olfactory,
+#guide-gustatory,
+#guide-storage {
+    page-break-before: always; /* Vecchia sintassi per massima compatibilità */
+    break-before: page;      /* Nuova sintassi standard */
+}
+
+            /* Stile per i link, che sulla carta non sono cliccabili */
+            a {
+                color: #000000;
+                text-decoration: none;
+            }
+
+            /* Stile per le liste */
+            ul, ol {
+                page-break-inside: avoid; /* Cerca di non spezzare le liste tra due pagine */
+            }
+        }

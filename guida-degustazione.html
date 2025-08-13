@@ -44,73 +44,173 @@
             </select>
         </div>
     </nav>
+<main class="container legal-page" style="padding-top: 40px; padding-bottom: 60px;">
 
-    <main class="container legal-page" style="padding-top: 40px; padding-bottom: 60px;">
-        <div class="section-header">
-            <h1 class="section-title" data-i18n-key="guideHeaderTitle">Guida alla Degustazione dell'Olio EVO</h1>
-            <p class="section-subtitle" data-i18n-key="guideHeaderSubtitle">Impara a riconoscere e apprezzare il tuo Olio Peranzana</p>
+    <div class="section-header">
+        <h1 class="section-title" data-i18n-key="guideHeaderTitle">Guida alla Degustazione Professionale dell’Olio EVO Peranzana</h1>
+        <p class="section-subtitle" data-i18n-key="guideHeaderSubtitle">
+            Per i Membri del Club “Adopt Your Olive”
+        </p>
+    </div>
+
+    <!-- INTRODUZIONE -->
+    <section id="guide-intro" class="guide-section">
+        <h2 data-i18n-key="guideIntroTitle">Introduzione – Un Patrimonio Liquido</h2>
+        <p data-i18n-key="guideIntroText">
+            La Peranzana non è solo un’oliva: è un frammento di storia pugliese. Introdotta a San Severo dal Principe di Sangro, proveniente dalla Provenza francese,
+            deve il suo nome alla forma dialettale di “provenzale”. Degustare quest’olio significa immergersi in una narrazione fatta di territorio, clima e tradizione contadina,
+            trasformata in un’esperienza sensoriale completa.
+        </p>
+        <p data-i18n-key="guideIntroText2">
+            Questa guida ti condurrà passo passo nelle tre fasi ufficiali della degustazione professionale – con tecniche, trucchi da panel test e riferimenti specifici alla nostra Peranzana –
+            così da poter distinguere, comprendere e raccontare le sue qualità come un vero esperto.
+        </p>
+    </section>
+
+    <!-- FASE 1 VISIVO -->
+    <section id="guide-visual" class="guide-section">
+        <h2 data-i18n-key="guideVisualTitle">Fase 1 – Esame Visivo</h2>
+
+        <h3 data-i18n-key="guideVisualToolsTitle">Strumenti e contesto</h3>
+        <p data-i18n-key="guideVisualToolsText">
+            I degustatori professionisti utilizzano un bicchiere in vetro spesso di colore blu cobalto per evitare che il colore influenzi il giudizio.
+            A casa, puoi usare un piccolo bicchiere di vetro (circa 15 ml di olio, ovvero un cucchiaio), evitando fonti di luce diretta.
+        </p>
+
+        <h3 data-i18n-key="guideVisualObserveTitle">Cosa osservare</h3>
+        <ul>
+            <li data-i18n-key="guideVisualPoint1"><strong>Fluidità:</strong> la Peranzana si presenta con una consistenza setosa, segno di freschezza e filtrazione adeguata.</li>
+            <li data-i18n-key="guideVisualPoint2"><strong>Colore:</strong> può variare dal verde intenso con riflessi dorati (raccolta precoce) al giallo dorato con sfumature verdi (raccolta a maturazione ottimale). Ricorda: <em>il colore non è indice di qualità</em>.</li>
+        </ul>
+
+        <div class="guide-tip-box" data-i18n-key="guideVisualTip">
+            Nota da esperto: eventuali piccolissimi sedimenti sul fondo indicano un olio non filtrato, scelto da alcuni produttori per preservare aromi complessi.
+            Tuttavia, la sospensione organica accelera il degrado: per questo nel Club consegniamo solo olio filtrato, stabile e fresco più a lungo.
         </div>
 
-        <section id="guide-intro" class="guide-section">
-            <h2 data-i18n-key="guideIntroTitle">Un'Esperienza per i Sensi</h2>
-            <p data-i18n-key="guideIntroText">Benvenuto in questo viaggio alla scoperta del tuo olio. Degustare l'olio extra vergine d'oliva è un'arte che coinvolge tutti i sensi e ti connette profondamente con la terra da cui proviene. Questa guida ti insegnerà le basi per riconoscere le qualità del nostro Peranzana, un olio prezioso ed equilibrato. Preparati a stupirti. - Michele & Laura</p>
-        </section>
-        
-        <section id="guide-phases" class="guide-section">
-            <h2 data-i18n-key="guidePhasesTitle">Le 3 Fasi della Degustazione Professionale</h2>
-            <p data-i18n-key="guidePhasesText">La degustazione professionale dell'olio segue un protocollo preciso che si divide in tre momenti fondamentali. Analizzeremo ciascuno di essi per darti gli strumenti per diventare un vero intenditore.</p>
-            <div class="why-peranzana-grid" style="margin-top: 20px;">
-                <div class="why-peranzana-item"><i class="fas fa-eye value-icon"></i><h3 data-i18n-key="guidePhase1">Analisi Visiva</h3></div>
-                <div class="why-peranzana-item"><i class="fas fa-wind value-icon"></i><h3 data-i18n-key="guidePhase2">Analisi Olfattiva</h3></div>
-                <div class="why-peranzana-item"><i class="fas fa-mouth-guard value-icon"></i><h3 data-i18n-key="guidePhase3">Analisi Gustativa</h3></div>
-            </div>
-        </section>
+        <div class="video-container" style="margin-top:20px;">
+            <video controls>
+                <source src="video/degustazione-visiva.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
 
-        <section id="guide-visual" class="guide-section">
-            <h2 data-i18n-key="guideVisualTitle">Fase 1: L'Esame Visivo</h2>
-            <p data-i18n-key="guideVisualText1">Versa circa 15ml di olio (un cucchiaio) in un bicchierino. Osservane la fluidità e il colore. Il colore, che può variare dal giallo dorato al verde intenso, dipende dalla varietà di oliva e dal suo grado di maturazione, ma attenzione: <strong data-i18n-key="guideVisualStrong">non è un indicatore di qualità</strong>. I degustatori professionisti usano infatti un bicchiere blu per non farsi influenzare.</p>
-        </section>
+    <!-- FASE 2 OLFATTIVO -->
+    <section id="guide-olfactory" class="guide-section">
+        <h2 data-i18n-key="guideOlfactoryTitle">Fase 2 – Esame Olfattivo</h2>
 
-        <section id="guide-olfactory" class="guide-section">
-            <h2 data-i18n-key="guideOlfactoryTitle">Fase 2: L'Esame Olfattivo</h2>
-            <p data-i18n-key="guideOlfactoryText1">Scalda leggermente il bicchiere con il palmo della mano e ruotalo per liberare gli aromi. Avvicina il naso e inspira profondamente. Cerca di riconoscere i profumi: un buon olio deve sapere di "fresco" e "vegetale".</p>
-            <p data-i18n-key="guideOlfactoryText2">Nel nostro Peranzana, dovresti riconoscere sentori di <strong>pomodoro verde, mandorla e un leggero profumo di erba tagliata</strong>. I difetti da evitare sono odori di rancido, muffa o metallico.</p>
-            </section>
+        <h3 data-i18n-key="guideOlfactoryPrepTitle">Preparazione</h3>
+        <p data-i18n-key="guideOlfactoryPrepText">
+            Scalda il bicchiere nel palmo della mano, coprendolo con l’altra per trattenere i profumi. Ruota lentamente: il calore libererà le molecole aromatiche.
+        </p>
 
-        <section id="guide-gustatory" class="guide-section">
-            <h2 data-i18n-key="guideGustatoryTitle">Fase 3: L'Esame Gustativo</h2>
-            <p data-i18n-key="guideGustatoryText1">Prendi un piccolo sorso di olio e distribuiscilo in tutta la bocca. A denti stretti, inspira aria velocemente e con forza per un paio di volte. Questa tecnica, chiamata <strong>"strippaggio"</strong>, vaporizza l'olio e ne amplifica le sensazioni.</p>
-            <p data-i18n-key="guideGustatoryText2">Le due sensazioni chiave da cercare in gola sono l'<strong>amaro</strong> e il <strong>piccante</strong>. Non sono difetti! Anzi, sono la prova della presenza di polifenoli, i preziosi antiossidanti che fanno bene alla salute. Un olio di qualità deve avere un equilibrio tra queste sensazioni, proprio come il nostro Peranzana.</p>
-             </section>
-        
-        <section id="guide-storage" class="guide-section guide-highlight-box">
-            <h2 data-i18n-key="guideStorageTitle">La Conservazione Perfetta</h2>
-            <p data-i18n-key="guideStorageText1">L'olio d'oliva ha tre grandi nemici: <strong>luce, calore e ossigeno</strong>. Per preservare la sua freschezza e le sue proprietà:</p>
-            <ul>
-                <li data-i18n-key="guideStoragePoint1">Conserva la latta o la bottiglia in un luogo fresco e buio, lontano dai fornelli. La temperatura ideale è tra 14°C e 18°C.</li>
-                <li data-i18n-key="guideStoragePoint2">Tieni il contenitore sempre ben chiuso per evitare il contatto con l'aria.</li>
-                <li data-i18n-key="guideStoragePoint3">Consuma l'olio entro pochi mesi dall'apertura per goderne al massimo della fragranza.</li>
-            </ul>
-        </section>
+        <h3 data-i18n-key="guideOlfactoryProfileTitle">Profilo aromatico tipico della Peranzana di eccellenza</h3>
+        <ul>
+            <li data-i18n-key="guideOlfactoryPoint1">Fruttato medio-intenso con spiccati sentori di pomodoro verde e foglia di pomodoro.</li>
+            <li data-i18n-key="guideOlfactoryPoint2">Mandorla fresca, dolcezza delicata che bilancia il profilo erbaceo.</li>
+            <li data-i18n-key="guideOlfactoryPoint3">Erba falciata e leggere note di carciofo, segno di elevata ricchezza in polifenoli.</li>
+        </ul>
 
-        <section id="guide-pairings" class="guide-section">
-            <h2 data-i18n-key="guidePairingsTitle">Abbinamenti in Cucina</h2>
-            <p data-i18n-key="guidePairingsText">Grazie al suo equilibrio, l'olio Peranzana è estremamente versatile. Provalo a crudo per esaltarne al massimo il sapore:</p>
-            <ul>
-                <li data-i18n-key="guidePairingsPoint1">Su una semplice bruschetta di pane caldo.</li>
-                <li data-i18n-key="guidePairingsPoint2">Per condire insalate, verdure cotte o zuppe di legumi.</li>
-                <li data-i18n-key="guidePairingsPoint3">Su carni bianche alla griglia o pesce al vapore.</li>
-            </ul>
-        </section>
+        <div class="guide-info-box" data-i18n-key="guideOlfactoryDefects">
+            Difetti da individuare (e scartare): <br>
+            <strong>Rancido</strong> – odore di frutta secca vecchia, segno di ossidazione.<br>
+            <strong>Avvinato</strong> – richiama l’aceto o il vino, indice di fermentazioni anomale.<br>
+            <strong>Muffa</strong> – aroma di umido o legno bagnato, dovuto a olive mal conservate.
+        </div>
 
-        <section id="guide-pdf" class="guide-section" style="text-align: center;">
-            <h2 data-i18n-key="guidePdfTitle">Scarica la Guida Completa</h2>
-            <p data-i18n-key="guidePdfText">Vuoi tenere questa guida sempre a portata di mano? Scarica la versione PDF stampabile.</p>
-            <a href="#" class="btn btn-primary" download style="margin-top: 20px;">
-                <i class="fas fa-file-pdf" style="margin-right: 8px;"></i> <span data-i18n-key="guidePdfBtn">Download PDF</span>
-            </a>
-        </section>
-    </main>
+        <div class="video-container" style="margin-top:20px;">
+            <video controls>
+                <source src="video/degustazione-olfattiva.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
+
+    <!-- FASE 3 GUSTATIVO -->
+    <section id="guide-gustatory" class="guide-section">
+        <h2 data-i18n-key="guideGustatoryTitle">Fase 3 – Esame Gustativo</h2>
+
+        <h3 data-i18n-key="guideGustatoryTechTitle">Tecnica dello “strippaggio”</h3>
+        <p data-i18n-key="guideGustatoryTechText">
+            Prendi un piccolo sorso e distribuiscilo in bocca. Mantieni l’olio tra denti e labbra e inspira rapidamente a denti stretti:
+            l’aria trascina gli aromi verso la cavità retronasale, amplificando le percezioni.
+        </p>
+
+        <h3 data-i18n-key="guideGustatoryFeelTitle">Cosa percepire</h3>
+        <ul>
+            <li data-i18n-key="guideGustatoryPoint1"><strong>Amaro:</strong> si avverte sulla lingua, legato alla presenza di composti fenolici benefici.</li>
+            <li data-i18n-key="guideGustatoryPoint2"><strong>Piccante:</strong> pizzicore in gola, più o meno persistente, segno di freschezza e alta concentrazione di antiossidanti.</li>
+            <li data-i18n-key="guideGustatoryPoint3"><strong>Equilibrio:</strong> nella Peranzana, amaro e piccante si bilanciano armoniosamente, lasciando un retrogusto pulito e persistente di mandorla e pomodoro.</li>
+        </ul>
+
+        <div class="guide-tip-box" data-i18n-key="guideGustatoryTip">
+            Quasi tutti tossiscono al primo tentativo: è il pizzicore a confermare la freschezza e la ricchezza di polifenoli.
+        </div>
+
+        <div class="guide-info-box" data-i18n-key="guideGustatoryCuriosity">
+            Curiosità da sommelier: una leggera sensazione di “allappamento” (astringenza) è normale e indica oli ricchi di polifenoli.
+        </div>
+
+        <p data-i18n-key="guideExtraTip">
+            Suggerimento: prima di degustare o tra un assaggio e l’altro, mangia un pezzetto di mela verde. 
+            Aiuta a “resettare” il palato e a percepire meglio le sfumature dell’olio.
+        </p>
+
+        <div class="video-container" style="margin-top:20px;">
+            <video controls>
+                <source src="video/degustazione-gustativa.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
+
+    <!-- CONSERVAZIONE -->
+    <section id="guide-storage" class="guide-section guide-highlight-box">
+        <h2 data-i18n-key="guideStorageTitle">Conservazione Ottimale</h2>
+        <ul>
+            <li data-i18n-key="guideStoragePoint1"><strong>Luce:</strong> evita esposizione diretta, preferisci ambienti bui.</li>
+            <li data-i18n-key="guideStoragePoint2"><strong>Temperatura:</strong> 14–18°C, mai vicino a fonti di calore.</li>
+            <li data-i18n-key="guideStoragePoint3"><strong>Ossigeno:</strong> richiudi sempre la confezione e riduci al minimo il tempo tra apertura e consumo.</li>
+        </ul>
+        <p data-i18n-key="guideStorageNote">
+            Per i membri del Club, il nostro olio è confezionato in contenitori studiati per proteggere ogni goccia fino all’ultimo giorno di consumo ottimale.
+        </p>
+    </section>
+
+    <!-- ABBINAMENTI -->
+    <section id="guide-pairings" class="guide-section">
+        <h2 data-i18n-key="guidePairingsTitle">Abbinamenti d’Autore</h2>
+        <ul>
+            <li data-i18n-key="guidePairingsPoint1">Insalate fresche con verdure di stagione.</li>
+            <li data-i18n-key="guidePairingsPoint2">Zuppe e vellutate di ortaggi.</li>
+            <li data-i18n-key="guidePairingsPoint3">Pesce bianco al vapore o alla griglia con erbe fresche.</li>
+            <li data-i18n-key="guidePairingsPoint4">Patate al forno con rosmarino e timo.</li>
+            <li data-i18n-key="guidePairingsPoint5">Carni alla griglia, bianche o rosse.</li>
+        </ul>
+    </section>
+
+    <!-- VALORE -->
+    <section id="guide-value" class="guide-section">
+        <h2 data-i18n-key="guideValueTitle">Il Valore Nascosto</h2>
+        <p data-i18n-key="guideValueText">
+            Ogni bottiglia racchiude la firma del nostro uliveto, frutto di raccolta manuale e molitura entro poche ore.
+            La differenza si sente: non solo un condimento, ma un concentrato di salute, storia e identità pugliese.
+        </p>
+    </section>
+
+    <!-- PDF -->
+    <section id="guide-pdf" class="guide-section" style="text-align: center;">
+    <h2 data-i18n-key="guidePdfTitle">Versione Stampabile (PDF)</h2>
+    <p data-i18n-key="guidePdfText">Per salvare una versione PDF di questa guida sul tuo dispositivo, usa il pulsante qui sotto. Si aprirà la funzione di stampa del tuo browser: da lì, scegli l'opzione "Salva come PDF".</p>
+    
+    <button onclick="window.print();" class="btn btn-primary" style="margin-top: 20px;">
+        <i class="fas fa-print" style="margin-right: 8px;"></i>
+        <span data-i18n-key="guidePdfBtn">Stampa o Salva la Guida</span>
+    </button>
+</section>
+
+</main>
+
+
+
 
     <footer class="footer">
         <div class="container">
