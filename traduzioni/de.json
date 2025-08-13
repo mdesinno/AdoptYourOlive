@@ -191,8 +191,7 @@
     "faqQ10_Title": "Wie lange dauert die Adoption und wie verlängere ich sie?",
     "faqQ10_Answer": "Die Adoption ist ab Kaufdatum 12 Monate gültig. Es gibt keine automatische Verlängerung. Vor Ablauf senden wir Ihnen eine E-Mail mit einem Verlängerungsvorschlag für das folgende Jahr, sodass Sie frei entscheiden können, ob Sie Ihren Baum weiter unterstützen möchten.",
     "faqQ14_Title": "Akzeptieren Sie Zahlungen in Fremdwährungen?",
-    "faqQ14_Answer": "Derzeit akzeptiert unser Zahlungssystem nur Transaktionen in Euro (€). Wir arbeiten daran, in Zukunft weitere Währungen zu integrieren. Bitte abonnieren Sie unseren Newsletter, um über neue Funktionen informiert zu bleiben.",
-    "faqCat3_Title": "Support & Problemlösung",
+"faqQ14_Answer": "Ja, unser von Stripe betriebenes Zahlungssystem akzeptiert Zahlungen von Karten und Wallets in den meisten Währungen. Alle unsere Preise werden jedoch in Euro (€) angezeigt und abgerechnet. Wenn Sie mit einer Karte in einer anderen Währung (z. B. GBP oder CHF) bezahlen, wird Ihre Bank oder Ihr Kartenanbieter die Währungsumrechnung vornehmen. Bitte beachten Sie, dass diese möglicherweise einen eigenen Wechselkurs anwenden und eine Gebühr für Auslandstransaktionen erheben. Diese potenziellen Kosten liegen nicht in der Kontrolle von Adopt Your Olive.",    "faqCat3_Title": "Support & Problemlösung",
     "faqQ11_Title": "Was tun, wenn ich Bedenken hinsichtlich der Produktqualität habe?",
     "faqQ11_Answer": "Qualität ist unsere oberste Priorität. Wenn Sie bei Erhalt des Produkts Transportschäden oder eine Nichtübereinstimmung feststellen, kontaktieren Sie uns bitte umgehend unter <strong>info@adoptyourolive.com</strong>. Wie in unserer <a href=\"shipping-returns.html\">Versand- & Rückgabebedingungen</a> beschrieben, bitten wir Sie, Fotos der Schäden und Ihre Bestellnummer bereitzustellen, damit wir Sie bestmöglich mit einem Ersatz oder einer Rückerstattung unterstützen können, falls zutreffend.",
     "faqQ12_Title": "Ich habe Ihre Bestätigungs-/Update-E-Mail nicht erhalten.",
@@ -571,5 +570,10 @@
     "formOrderSummaryCurrencyNote": "Die Preise sind in Euro (€). Bei Zahlungen in anderen Währungen kann Ihre Bank Umrechnungsgebühren erheben.",
     "legalCustomsDisclaimer": "Für Sendungen in Nicht-EU-Länder wie das Vereinigte Königreich und die Schweiz sind Zölle, Einfuhrsteuern und lokale Gebühren vom Empfänger zu tragen und werden vom Kurier bei der Zustellung angefordert.",
     "formCustomsWarning": "Bitte beachten Sie: Da es sich um eine Nicht-EU-Sendung handelt, können Zollgebühren und Einfuhrsteuern zu Lasten des Empfängers anfallen.",
-    "customsWarningTitle": "Hinweis für Lieferungen außerhalb der EU (Großbritannien und Schweiz):"
+    "customsWarningTitle": "Hinweis für Lieferungen außerhalb der EU (Großbritannien und Schweiz):",
+    "clubLoginTitle": "Reservierter Zugang",
+"clubLoginSubtitle": "Geben Sie das Passwort aus Ihrer Bestätigungs-E-Mail ein.",
+"clubLoginPlaceholder": "Passwort",
+"clubLoginButton": "Club beitreten",
+"clubLoginError": "Falsches Passwort. Bitte versuchen Sie es erneut."
 }

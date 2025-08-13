@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesso Club - Adopt Your Olive</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Stili specifici per la pagina di login */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px); /* Altezza meno la navbar */
+            text-align: center;
+            padding: 20px;
+        }
+        .login-box {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-medium);
+            max-width: 400px;
+            width: 100%;
+        }
+        .login-box h1 {
+            margin-bottom: 15px;
+        }
+        .login-box p {
+            margin-bottom: 25px;
+            color: var(--light-text);
+        }
+        .login-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--medium-grey);
+            border-radius: var(--border-radius-sm);
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .login-form .btn {
+            width: 100%;
+        }
+        .error-message {
+            color: var(--accent-red);
+            margin-top: 15px;
+            font-weight: 600;
+            display: none; /* Nascosto di default */
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        </nav>
+
+    <main class="login-container">
+        <div class="login-box">
+            <h1 data-i18n-key="clubLoginTitle">Accesso Riservato</h1>
+            <p data-i18n-key="clubLoginSubtitle">Inserisci la parola d'ordine che hai trovato sulla tua card di adozione.</p>
+            <form id="club-login-form" class="login-form">
+                <input type="password" id="club-password" placeholder="Parola d'ordine" data-i18n-placeholder-key="clubLoginPlaceholder" required>
+                <button type="submit" class="btn btn-primary" data-i18n-key="clubLoginButton">Entra nel Club</button>
+            </form>
+            <p id="error-message" class="error-message" data-i18n-key="clubLoginError">Parola d'ordine errata. Riprova.</p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('club-login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    // Definisci qui la tua password semplice
+                    const correctPassword = 'PERANZANA2025'; 
+                    // Definisci qui il token segreto REALE
+                    const clubToken = 'axr-p8a-tq2-n9k';
+
+                    const enteredPassword = document.getElementById('club-password').value;
+                    const errorMessage = document.getElementById('error-message');
+
+                    if (enteredPassword === correctPassword) {
+                        // Se la password è corretta, reindirizza alla pagina club con il token
+                        window.location.href = `club.html?token=${clubToken}`;
+                    } else {
+                        // Altrimenti, mostra l'errore
+                        errorMessage.style.display = 'block';
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="script.js" defer></script> </body>
+</html>

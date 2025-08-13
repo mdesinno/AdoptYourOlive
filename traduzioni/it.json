@@ -191,8 +191,7 @@
   "faqQ10_Title": "Quanto dura l'adozione e come si rinnova?",
   "faqQ10_Answer": "L'adozione ha una validità di 12 mesi dalla data dell'acquisto. Non è previsto il rinnovo automatico. Prima della scadenza, ti invieremo un'email con la proposta di rinnovo per l'anno successivo, così potrai decidere in totale libertà se continuare a sostenere il tuo albero.",
   "faqQ14_Title": "Accettate pagamenti in valuta estera?",
-  "faqQ14_Answer": "Al momento il nostro sistema di pagamento accetta transazioni solo in Euro (€). Stiamo lavorando per integrare altre valute in futuro. Ti invitiamo a iscriverti alla nostra newsletter per rimanere aggiornato sulle novità.",
-  "faqCat3_Title": "Supporto e Risoluzione Problemi",
+"faqQ14_Answer": "Sì, il nostro sistema di pagamento gestito da Stripe accetta pagamenti da carte di credito e wallet in quasi tutte le valute. Tutti i nostri prezzi sono però visualizzati ed elaborati in Euro (€). Se paghi con una carta la cui valuta non è l'Euro (ad esempio Sterline Britanniche - GBP o Franchi Svizzeri - CHF), la tua banca o il gestore della tua carta effettuerà la conversione. Ti preghiamo di notare che la tua banca potrebbe applicare il proprio tasso di cambio e addebitare una commissione per la transazione estera. Questi eventuali costi non dipendono da Adopt Your Olive.",  "faqCat3_Title": "Supporto e Risoluzione Problemi",
   "faqQ11_Title": "Cosa faccio se ho dubbi sulla qualità del prodotto?",
   "faqQ11_Answer": "La qualità è la nostra massima priorità. Se alla ricezione del prodotto dovessi riscontrare un danno dovuto al trasporto o un difetto di conformità, ti preghiamo di contattarci immediatamente a <strong>info@adoptyourolive.com</strong>. Come descritto nella nostra politica su <a href=\"shipping-returns.html\">Spedizioni e Resi</a>, ti chiederemo di fornire foto del danno e numero d'ordine per poterti assistere al meglio con una sostituzione o un rimborso, ove applicabile.",
   "faqQ12_Title": "Non ho ricevuto la vostra email di conferma/aggiornamento.",
@@ -571,5 +570,10 @@
 "formOrderSummaryCurrencyNote": "I prezzi sono in Euro (€). Per pagamenti in altre valute, la tua banca potrebbe applicare commissioni di cambio.",
 "legalCustomsDisclaimer": "Per spedizioni destinate a paesi extra-UE, come Regno Unito e Svizzera, eventuali dazi doganali, tasse di importazione e oneri locali sono a completo carico del destinatario e verranno richiesti dal corriere al momento della consegna.",
 "formCustomsWarning": "Attenzione: essendo una spedizione extra-UE, potrebbero essere applicati dazi doganali e tasse di importazione a carico del destinatario.",
-"customsWarningTitle": "Nota per Spedizioni Extra-UE (Regno Unito e Svizzera):"
+"customsWarningTitle": "Nota per Spedizioni Extra-UE (Regno Unito e Svizzera):",
+"clubLoginTitle": "Accesso Riservato",
+"clubLoginSubtitle": "Inserisci la parola d'ordine che hai trovato nella tua email di conferma ordine.",
+"clubLoginPlaceholder": "Parola d'ordine",
+"clubLoginButton": "Entra nel Club",
+"clubLoginError": "Parola d'ordine errata. Riprova."
 }

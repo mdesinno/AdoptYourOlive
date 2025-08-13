@@ -191,8 +191,7 @@
     "faqQ10_Title": "Hoe lang duurt de adoptie en hoe verleng ik deze?",
     "faqQ10_Answer": "De adoptie is 12 maanden geldig vanaf de aankoopdatum. Er is geen automatische verlenging. Voor het einde sturen we u een e-mail met een verlengingsvoorstel voor het volgende jaar, zodat u vrij kunt beslissen of u uw boom verder wilt ondersteunen.",
     "faqQ14_Title": "Accepteert u betalingen in vreemde valuta?",
-    "faqQ14_Answer": "Momenteel accepteert ons betalingssysteem alleen transacties in euro (€). We werken eraan om in de toekomst meer valuta's te integreren. Abonneer u op onze nieuwsbrief om op de hoogte te blijven van nieuwe functies.",
-    "faqCat3_Title": "Ondersteuning & probleemoplossing",
+"faqQ14_Answer": "Ja, ons betalingssysteem, mogelijk gemaakt door Stripe, accepteert betalingen van kaarten en wallets in de meeste valuta. Al onze prijzen worden echter weergegeven en verwerkt in Euro (€). Als u betaalt met een kaart in een andere valuta (bijv. GBP of CHF), zal uw bank of kaartuitgever de omrekening uitvoeren. Houd er rekening mee dat zij hun eigen wisselkoers en transactiekosten voor het buitenland kunnen toepassen. Deze eventuele kosten staan los van Adopt Your Olive.",    "faqCat3_Title": "Ondersteuning & probleemoplossing",
     "faqQ11_Title": "Wat moet ik doen als ik zorgen heb over de productkwaliteit?",
     "faqQ11_Answer": "Kwaliteit is onze hoogste prioriteit. Als u bij ontvangst van het product transportschade of een niet-conformiteit constateert, neem dan onmiddellijk contact met ons op via <strong>info@adoptyourolive.com</strong>. Zoals beschreven in onze <a href=\"shipping-returns.html\">Verzend- & retourvoorwaarden</a>, vragen we u om foto's van de schade en uw bestelnummer te verstrekken, zodat we u zo goed mogelijk kunnen ondersteunen met een vervanging of terugbetaling, indien van toepassing.",
     "faqQ12_Title": "Ik heb uw bevestigings-/update-e-mail niet ontvangen.",
@@ -571,5 +570,10 @@
     "formOrderSummaryCurrencyNote": "Prijzen zijn in Euro (€). Voor betalingen in andere valuta kan uw bank wisselkosten in rekening brengen.",
     "legalCustomsDisclaimer": "Voor zendingen naar niet-EU-landen, zoals het VK en Zwitserland, zijn eventuele douanerechten, invoerbelastingen en lokale heffingen de volledige verantwoordelijkheid van de ontvanger en worden deze door de koerier bij aflevering gevraagd.",
     "formCustomsWarning": "Let op: aangezien dit een zending buiten de EU is, kunnen douanerechten en invoerbelastingen voor rekening van de ontvanger komen.",
-    "customsWarningTitle": "Opmerking voor zendingen buiten de EU (VK en Zwitserland):"
+    "customsWarningTitle": "Opmerking voor zendingen buiten de EU (VK en Zwitserland):",
+    "clubLoginTitle": "Gereserveerde Toegang",
+"clubLoginSubtitle": "Voer het wachtwoord in dat u in uw bevestigingsmail hebt gevonden.",
+"clubLoginPlaceholder": "Wachtwoord",
+"clubLoginButton": "De Club Binnengaan",
+"clubLoginError": "Onjuist wachtwoord. Probeer het opnieuw."
 }

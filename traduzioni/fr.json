@@ -191,8 +191,7 @@
     "faqQ10_Title": "Combien de temps dure l'adoption et comment la renouveler ?",
     "faqQ10_Answer": "L'adoption est valable 12 mois à compter de la date d'achat. Il n'y a pas de renouvellement automatique. Avant la fin, nous vous enverrons un e-mail avec une proposition de renouvellement pour l'année suivante, vous laissant libre de décider si vous souhaitez continuer à soutenir votre arbre.",
     "faqQ14_Title": "Acceptez-vous les paiements en devises étrangères ?",
-    "faqQ14_Answer": "Actuellement, notre système de paiement n'accepte que les transactions en euros (€). Nous travaillons à intégrer davantage de devises à l'avenir. Abonnez-vous à notre newsletter pour rester informé des nouvelles fonctionnalités.",
-    "faqCat3_Title": "Support & résolution de problèmes",
+"faqQ14_Answer": "Oui, notre système de paiement géré par Stripe accepte les paiements par carte et portefeuilles électroniques dans la plupart des devises. Cependant, tous nos prix sont affichés et traités en Euros (€). Si vous payez avec une carte dans une autre devise (par ex. GBP ou CHF), votre banque ou l'émetteur de votre carte effectuera la conversion. Veuillez noter qu'ils peuvent appliquer leur propre taux de change et facturer des frais de transaction à l'étranger. Ces frais potentiels ne sont pas contrôlés par Adopt Your Olive.",    "faqCat3_Title": "Support & résolution de problèmes",
     "faqQ11_Title": "Que dois-je faire si j'ai des préoccupations concernant la qualité du produit ?",
     "faqQ11_Answer": "La qualité est notre priorité absolue. Si vous constatez des dommages de transport ou une non-conformité à la réception du produit, contactez-nous immédiatement via <strong>info@adoptyourolive.com</strong>. Comme décrit dans nos <a href=\"shipping-returns.html\">Conditions de livraison et de retour</a>, nous vous demandons de fournir des photos des dommages et votre numéro de commande, afin que nous puissions vous aider au mieux avec un remplacement ou un remboursement, si applicable.",
     "faqQ12_Title": "Je n'ai pas reçu votre e-mail de confirmation/mise à jour.",
@@ -571,5 +570,10 @@
     "formOrderSummaryCurrencyNote": "Les prix sont en Euros (€). Pour les paiements dans d'autres devises, votre banque peut appliquer des frais de change.",
     "legalCustomsDisclaimer": "Pour les envois vers des pays non membres de l'UE, tels que le Royaume-Uni et la Suisse, les droits de douane, taxes d'importation et frais locaux sont à la charge exclusive du destinataire et seront demandés par le transporteur lors de la livraison.",
     "formCustomsWarning": "Attention : s'agissant d'un envoi hors UE, des droits de douane et taxes d'importation peuvent s'appliquer à la charge du destinataire.",
-    "customsWarningTitle": "Note pour les envois hors UE (Royaume-Uni et Suisse) :"
+    "customsWarningTitle": "Note pour les envois hors UE (Royaume-Uni et Suisse) :",
+    "clubLoginTitle": "Accès Réservé",
+"clubLoginSubtitle": "Entrez le mot de passe que vous avez trouvé dans votre e-mail de confirmation.",
+"clubLoginPlaceholder": "Mot de passe",
+"clubLoginButton": "Entrer dans le Club",
+"clubLoginError": "Mot de passe incorrect. Veuillez réessayer."
 }

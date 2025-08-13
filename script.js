@@ -16,25 +16,18 @@ async function loadGoogleMapsScript() {
 }
 
 // Funzione per gestire il click sul link del Club (AGGIORNATA)
+// Funzione per gestire il click sul link del Club (VERSIONE DEFINITIVA)
 function handleClubLinkClick(event) {
     event.preventDefault(); 
 
     const token = sessionStorage.getItem('ayoClubToken');
     
     if (token) {
+        // Se l'utente è già stato nel club in questa sessione, lo facciamo rientrare subito
         window.location.href = `club.html?token=${token}`;
     } else {
-        // Mostra il nostro modal personalizzato invece dell'alert
-        const modal = document.getElementById('info-modal');
-        const modalTitle = document.getElementById('info-modal-title');
-        const modalText = document.getElementById('info-modal-text');
-        
-        // Popola il modal con le traduzioni
-        modalTitle.textContent = getTranslation('modalInfoTitle');
-        modalText.textContent = getTranslation('clubAccessAlert');
-
-        // Rende il modal visibile
-        modal.classList.add('visible');
+        // Altrimenti, lo mandiamo alla pagina di accesso dove può inserire la password
+        window.location.href = 'club-login.html';
     }
 }
 

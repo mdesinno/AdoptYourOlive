@@ -191,8 +191,7 @@
   "faqQ10_Title": "How long does the adoption last and how do I renew?",
   "faqQ10_Answer": "The adoption is valid for 12 months from the date of purchase. There is no automatic renewal. Before it expires, we will send you an email with a renewal proposal for the following year, so you can decide freely whether to continue supporting your tree.",
   "faqQ14_Title": "Do you accept payments in foreign currencies?",
-  "faqQ14_Answer": "Currently, our payment system only accepts transactions in Euros (€). We are working to integrate other currencies in the future. We invite you to subscribe to our newsletter to stay updated on new features.",
-  "faqCat3_Title": "Support & Troubleshooting",
+"faqQ14_Answer": "Yes, our payment system powered by Stripe accepts payments from cards and wallets in most currencies. However, all our prices are displayed and processed in Euros (€). If you pay with a card in a different currency (e.g., GBP or CHF), your bank or card issuer will handle the currency conversion. Please be aware that they may apply their own exchange rate and a foreign transaction fee. These potential charges are not controlled by Adopt Your Olive.",  "faqCat3_Title": "Support & Troubleshooting",
   "faqQ11_Title": "What if I have concerns about the product's quality?",
   "faqQ11_Answer": "Quality is our top priority. If upon receiving the product you notice damage due to transport or a lack of conformity, please contact us immediately at <strong>info@adoptyourolive.com</strong>. As described in our <a href=\"shipping-returns.html\">Shipping & Returns</a> policy, we will ask you to provide photos of the damage and your order number to best assist you with a replacement or refund, where applicable.",
   "faqQ12_Title": "I haven't received your confirmation/update email.",
@@ -571,5 +570,10 @@
 "formOrderSummaryCurrencyNote": "Prices are in Euros (€). For payments in other currencies, your bank may apply exchange fees.",
 "legalCustomsDisclaimer": "For shipments to non-EU countries, such as the UK and Switzerland, any customs duties, import taxes, and local fees are the sole responsibility of the recipient and will be requested by the courier upon delivery.",
 "formCustomsWarning": "Please note: as a non-EU shipment, customs duties and import taxes may be applied at the recipient's expense.",
-"customsWarningTitle": "Note for Non-EU Shipments (UK and Switzerland):"
+"customsWarningTitle": "Note for Non-EU Shipments (UK and Switzerland):",
+"clubLoginTitle": "Reserved Access",
+"clubLoginSubtitle": "Enter the password found in your order confirmation email.",
+"clubLoginPlaceholder": "Password",
+"clubLoginButton": "Enter the Club",
+"clubLoginError": "Incorrect password. Please try again."
 }

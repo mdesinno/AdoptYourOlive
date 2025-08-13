@@ -191,8 +191,7 @@
     "faqQ10_Title": "Hvor lenge varer adopsjonen, og hvordan fornyer jeg?",
     "faqQ10_Answer": "Adopsjonen er gyldig i 12 måneder fra kjøpsdatoen. Det er ingen automatisk fornyelse. Før den utløper, vil vi sende deg en e-post med et fornyelsesforslag for det neste året, slik at du fritt kan bestemme om du vil fortsette å støtte treet ditt.",
     "faqQ14_Title": "Godtar dere betalinger i utenlandsk valuta?",
-    "faqQ14_Answer": "For øyeblikket godtar betalingssystemet vårt kun transaksjoner i euro (€). Vi jobber med å integrere andre valutaer i fremtiden. Vi inviterer deg til å abonnere på vårt nyhetsbrev for å holde deg oppdatert om nye funksjoner.",
-    "faqCat3_Title": "Støtte og feilsøking",
+"faqQ14_Answer": "Ja, betalingssystemet vårt, drevet av Stripe, godtar betalinger fra kort og digitale lommebøker i de fleste valutaer. Alle prisene våre vises og behandles imidlertid i Euro (€). Hvis du betaler med et kort i en annen valuta (f.eks. GBP eller CHF), vil banken din eller kortutstederen håndtere valutaomregningen. Vær oppmerksom på at de kan bruke sin egen valutakurs og kreve et gebyr for utenlandstransaksjoner. Disse eventuelle kostnadene er ikke kontrollert av Adopt Your Olive.",    "faqCat3_Title": "Støtte og feilsøking",
     "faqQ11_Title": "Hva om jeg har bekymringer om produktets kvalitet?",
     "faqQ11_Answer": "Kvalitet er vår høyeste prioritet. Hvis du ved mottak av produktet merker skade på grunn av transport eller mangel på samsvar, vennligst kontakt oss umiddelbart på <strong>info@adoptyourolive.com</strong>. Som beskrevet i vår <a href=\"shipping-returns.html\">Frakt- og returpolicy</a>, vil vi be deg om å gi bilder av skaden og ordrenummeret ditt for å best kunne hjelpe deg med en erstatning eller refusjon, der det er aktuelt.",
     "faqQ12_Title": "Jeg har ikke mottatt bekreftelses-/oppdaterings-e-posten deres.",
@@ -571,5 +570,10 @@
     "formOrderSummaryCurrencyNote": "Prisene er i Euro (€). For betalinger i andre valutaer kan banken din pålegge vekslingsgebyrer.",
     "legalCustomsDisclaimer": "For forsendelser til land utenfor EU, som Storbritannia og Sveits, er eventuelle tollavgifter, importskatter og lokale gebyrer mottakerens alleinansvar og vil bli krevd av budfirmaet ved levering.",
     "formCustomsWarning": "Merk: Siden dette er en forsendelse utenfor EU, kan tollavgifter og importskatter påløpe for mottakerens regning.",
-    "customsWarningTitle": "Merknad for forsendelser utenfor EU (Storbritannia og Sveits):"
+    "customsWarningTitle": "Merknad for forsendelser utenfor EU (Storbritannia og Sveits):",
+    "clubLoginTitle": "Reservert Tilgang",
+"clubLoginSubtitle": "Skriv inn passordet du fant i bekreftelses-e-posten din.",
+"clubLoginPlaceholder": "Passord",
+"clubLoginButton": "Gå inn i Klubben",
+"clubLoginError": "Feil passord. Vennligst prøv igjen."
 }
