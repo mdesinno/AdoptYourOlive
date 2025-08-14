@@ -589,5 +589,11 @@
 "clubLoginButton": "Enter the Club",
 "clubLoginError": "Incorrect password. Please try again.",
 "certPreviewDisclaimer": "This is a functional preview. The final certificate you will receive at home will have a superior graphic design and paper quality.",
-"feedbackSuccessFixed": "{amount}€ discount applied!"
+"feedbackSuccessFixed": "{amount}€ discount applied!",
+"formLabelIsGift": "Is this a gift?",
+"formLabelRecipientEmail": "Recipient's Email *",
+"formPlaceholderRecipientEmail": "To whom we'll send future updates and the renewal",
+"formNoteRecipientEmail": "The order confirmation and invoice will be sent to your email, not this one.",
+"formLabelOrderNote": "Order Note (Optional)",
+"formPlaceholderOrderNote": "Do you have any special requests or information to add?"
 }

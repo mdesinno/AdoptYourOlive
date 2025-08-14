@@ -631,6 +631,24 @@
                                     <textarea id="certificate-message" name="certificate-message" placeholder="Aggiungi un tocco personale al tuo certificato..." data-i18n-placeholder-key="formPlaceholderCertMessage" maxlength="150"></textarea>
                                     <small class="char-count" data-i18n-key="formCharCount">0/150 caratteri</small>
                                 </div>
+                                <div class="form-group">
+    <label for="order-note" data-i18n-key="formLabelOrderNote">Nota sull'Ordine (Opzionale)</label>
+    <textarea id="order-note" name="order-note" rows="3" placeholder="Hai qualche richiesta particolare o informazione da aggiungere?" data-i18n-placeholder-key="formPlaceholderOrderNote"></textarea>
+</div>
+                                <div class="form-group gift-option-group">
+    <label class="gift-checkbox-label">
+        <input type="checkbox" id="is-gift" name="is-gift">
+        <span data-i18n-key="formLabelIsGift">Stai facendo un regalo?</span>
+    </label>
+</div>
+
+<div id="gift-fields-container">
+    <div class="form-group">
+        <label for="recipient-email" data-i18n-key="formLabelRecipientEmail">Email del Ricevente *</label>
+        <input type="email" id="recipient-email" name="recipient-email" placeholder="A chi invieremo i futuri aggiornamenti e il rinnovo" data-i18n-placeholder-key="formPlaceholderRecipientEmail">
+        <small class="form-note" data-i18n-key="formNoteRecipientEmail">La conferma d'ordine verrà inviata alla tua email, non a questa.</small>
+    </div>
+</div>
                             </div>
                         </div>
                         <div class="form-column">

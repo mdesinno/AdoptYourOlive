@@ -588,5 +588,11 @@
 "clubLoginButton": "Club beitreten",
 "clubLoginError": "Falsches Passwort. Bitte versuchen Sie es erneut.",
 "certPreviewDisclaimer": "Dies ist eine funktionale Vorschau. Das endgültige Zertifikat, das Sie erhalten, wird ein hochwertigeres Design und Papier aufweisen.",
-"feedbackSuccessFixed": "{amount}€ Rabatt angewendet!"
+"feedbackSuccessFixed": "{amount}€ Rabatt angewendet!",
+"formLabelIsGift": "Ist das ein Geschenk?",
+"formLabelRecipientEmail": "E-Mail des Empfängers *",
+"formPlaceholderRecipientEmail": "An wen senden wir zukünftige Updates und die Verlängerung",
+"formNoteRecipientEmail": "Die Bestellbestätigung und die Rechnung werden an Ihre E-Mail-Adresse gesendet, nicht an diese.",
+"formLabelOrderNote": "Bestellhinweis (Optional)",
+"formPlaceholderOrderNote": "Haben Sie besondere Wünsche oder Informationen hinzuzufügen?"
 }

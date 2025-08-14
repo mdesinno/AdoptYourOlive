@@ -588,5 +588,11 @@
 "clubLoginButton": "De Club Binnengaan",
 "clubLoginError": "Onjuist wachtwoord. Probeer het opnieuw.",
 "certPreviewDisclaimer": "Dit is een functioneel voorbeeld. Het definitieve certificaat dat u thuis ontvangt, heeft een superieur grafisch ontwerp en papierkwaliteit.",
-"feedbackSuccessFixed": "{amount}€ korting toegepast!"
+"feedbackSuccessFixed": "{amount}€ korting toegepast!",
+"formLabelIsGift": "Is dit een cadeau?",
+"formLabelRecipientEmail": "E-mail van de Ontvanger *",
+"formPlaceholderRecipientEmail": "Naar wie sturen we toekomstige updates en de verlenging",
+"formNoteRecipientEmail": "De orderbevestiging en factuur worden naar uw e-mailadres gestuurd, niet naar dit.",
+"formLabelOrderNote": "Bestelnotitie (Optioneel)",
+"formPlaceholderOrderNote": "Heeft u speciale verzoeken of informatie om toe te voegen?"
 }

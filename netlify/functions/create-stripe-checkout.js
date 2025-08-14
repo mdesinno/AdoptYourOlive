@@ -1,4 +1,3 @@
-// File: netlify/functions/create-stripe-checkout.js
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async (event) => {
@@ -7,7 +6,11 @@ exports.handler = async (event) => {
     }
     try {
         const data = JSON.parse(event.body);
-        const { treeType, price, customerEmail, discountCode, shippingDetails } = data;
+        const { 
+            treeType, price, customerEmail, discountCode, shippingDetails, 
+            certificateName, certificateMessage, language, 
+            isGift, recipientEmail, orderNote 
+        } = data;
 
         const productNames = {
             young: "Adozione Ulivo Giovane",
@@ -17,7 +20,6 @@ exports.handler = async (event) => {
         };
         const productName = productNames[treeType] || "Adozione Ulivo";
 
-        // Creiamo un cliente su Stripe con i dati già raccolti
         const customer = await stripe.customers.create({
             email: customerEmail,
             name: shippingDetails.name,
@@ -26,14 +28,24 @@ exports.handler = async (event) => {
 
         let sessionConfig = {
             payment_method_types: ['card', 'klarna', 'paypal', 'revolut_pay'],
-            
-            // Associamo la sessione al cliente che ha già un indirizzo
             customer: customer.id,
-
-            // Abilitiamo il calcolo automatico dell'IVA
             automatic_tax: {
                 enabled: true,
             },
+            
+            // ===== BLOCCO METADATI AGGIUNTO QUI =====
+            payment_intent_data: {
+                metadata: {
+                    treeType: treeType,
+                    certificateName: certificateName,
+                    certificateMessage: certificateMessage,
+                    language: language,
+                    isGift: isGift,
+                    recipientEmail: recipientEmail,
+                    orderNote: orderNote
+                }
+            },
+            // =======================================
 
             line_items: [{
                 price_data: {

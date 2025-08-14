@@ -588,5 +588,11 @@
 "clubLoginButton": "Gå inn i Klubben",
 "clubLoginError": "Feil passord. Vennligst prøv igjen.",
 "certPreviewDisclaimer": "Dette er en funksjonell forhåndsvisning. Det endelige sertifikatet du mottar hjemme, vil ha en overlegen grafisk design og papirkvalitet.",
-"feedbackSuccessFixed": "{amount}€ rabatt brukt!"
+"feedbackSuccessFixed": "{amount}€ rabatt brukt!",
+"formLabelIsGift": "Er dette en gave?",
+"formLabelRecipientEmail": "Mottakerens E-post *",
+"formPlaceholderRecipientEmail": "Til hvem vi skal sende fremtidige oppdateringer og fornyelsen",
+"formNoteRecipientEmail": "Ordrebekreftelsen og fakturaen vil bli sendt til din e-post, ikke til denne.",
+"formLabelOrderNote": "Ordrenotat (Valgfritt)",
+"formPlaceholderOrderNote": "Har du noen spesielle forespørsler eller informasjon å legge til?"
 }

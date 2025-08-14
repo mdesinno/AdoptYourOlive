@@ -895,3 +895,39 @@ input:checked + .slider:before { transform: translateX(22px); }
                 page-break-inside: avoid; /* Cerca di non spezzare le liste tra due pagine */
             }
         }
+
+/* Stili per le nuove opzioni del form */
+.gift-option-group {
+    border-top: 1px solid var(--medium-grey);
+    border-bottom: 1px solid var(--medium-grey);
+    padding: 15px 0;
+    margin: 2rem 0;
+}
+.gift-checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.gift-checkbox-label input {
+    width: auto;
+    margin-right: 12px;
+    transform: scale(1.5);
+}
+#gift-fields-container {
+    display: none; /* Nascosto di default */
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 2rem;
+}
+#gift-fields-container.visible {
+    display: block; /* Visibile quando la checkbox è spuntata */
+}
+.form-note {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--light-text);
+    margin-top: 5px;
+}

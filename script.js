@@ -444,6 +444,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const hiddenRefInput = document.getElementById('referral-code-input');
         const refreshDiscountBtn = document.getElementById('refresh-discount-btn');
 const discountWarning = document.getElementById('discount-warning');
+// Gestione visibilità campi regalo
+const isGiftCheckbox = document.getElementById('is-gift');
+const giftFieldsContainer = document.getElementById('gift-fields-container');
+const recipientEmailInput = document.getElementById('recipient-email');
+
+if (isGiftCheckbox && giftFieldsContainer && recipientEmailInput) {
+    isGiftCheckbox.addEventListener('change', () => {
+        giftFieldsContainer.classList.toggle('visible');
+        // Rende il campo email del ricevente obbligatorio solo se la sezione è visibile
+        recipientEmailInput.required = isGiftCheckbox.checked;
+        checkFormValidity(); // Ricalcola la validità del form
+    });
+}
         
 applyDiscountBtn.addEventListener('click', async () => {
     const code = discountCodeInput.value.trim().toUpperCase();
@@ -566,7 +579,16 @@ if (adoptionForm) {
                     postal_code: formData.get('postal-code'),
                     country: formData.get('country'),
                 }
-            }
+            },
+            certificateName: formData.get('certificate-name'),
+    certificateMessage: formData.get('certificate-message'),
+    language: document.documentElement.lang || 'it',
+    
+    // ===== RIGHE DA AGGIUNGERE =====
+    isGift: document.getElementById('is-gift').checked,
+    recipientEmail: formData.get('recipient-email'),
+    orderNote: formData.get('order-note')
+    // =============================
         };
 
         try {

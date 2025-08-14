@@ -588,5 +588,11 @@
 "clubLoginButton": "Entra nel Club",
 "clubLoginError": "Parola d'ordine errata. Riprova.",
 "certPreviewDisclaimer": "Questa è un'anteprima funzionale. Il certificato che riceverai a casa avrà una grafica e una carta di qualità superiore.",
-"feedbackSuccessFixed": "Sconto di {amount}€ applicato!"
+"feedbackSuccessFixed": "Sconto di {amount}€ applicato!",
+"formLabelIsGift": "Stai facendo un regalo?",
+"formLabelRecipientEmail": "Email del Ricevente *",
+"formPlaceholderRecipientEmail": "A chi invieremo i futuri aggiornamenti e il rinnovo",
+"formNoteRecipientEmail": "La conferma d'ordine e la fattura verranno inviate alla tua email, non a questa.",
+"formLabelOrderNote": "Nota sull'Ordine (Opzionale)",
+"formPlaceholderOrderNote": "Hai qualche richiesta particolare o informazione da aggiungere?"
 }
