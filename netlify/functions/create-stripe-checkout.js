@@ -42,7 +42,8 @@ exports.handler = async (event) => {
                     language: language,
                     isGift: isGift,
                     recipientEmail: recipientEmail,
-                    orderNote: orderNote
+                    orderNote: orderNote,
+                    discountCodeUsed: discountCode 
                 }
             },
             // =======================================
