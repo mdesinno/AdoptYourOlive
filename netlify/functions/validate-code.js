@@ -17,6 +17,7 @@ const discounts = {
     'MYFOODBLOG': { type: 'percentage', value: 10 },
     'KEUKENMEID': { type: 'percentage', value: 10 },
     'SCONTOPROVA': { type: 'fixed', value: 4700 },
+    'SCONTOPROVA2': { type: 'fixed', value: 4700 },
     'PROVA3': { type: 'fixed', value: 4700 }  
 
 
