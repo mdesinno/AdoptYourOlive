@@ -588,5 +588,6 @@
 "clubLoginPlaceholder": "Password",
 "clubLoginButton": "Enter the Club",
 "clubLoginError": "Incorrect password. Please try again.",
-"certPreviewDisclaimer": "This is a functional preview. The final certificate you will receive at home will have a superior graphic design and paper quality."
+"certPreviewDisclaimer": "This is a functional preview. The final certificate you will receive at home will have a superior graphic design and paper quality.",
+"feedbackSuccessFixed": "{amount}€ discount applied!"
 }

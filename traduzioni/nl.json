@@ -587,5 +587,6 @@
 "clubLoginPlaceholder": "Wachtwoord",
 "clubLoginButton": "De Club Binnengaan",
 "clubLoginError": "Onjuist wachtwoord. Probeer het opnieuw.",
-"certPreviewDisclaimer": "Dit is een functioneel voorbeeld. Het definitieve certificaat dat u thuis ontvangt, heeft een superieur grafisch ontwerp en papierkwaliteit."
+"certPreviewDisclaimer": "Dit is een functioneel voorbeeld. Het definitieve certificaat dat u thuis ontvangt, heeft een superieur grafisch ontwerp en papierkwaliteit.",
+"feedbackSuccessFixed": "{amount}€ korting toegepast!"
 }

@@ -587,5 +587,6 @@
 "clubLoginPlaceholder": "Mot de passe",
 "clubLoginButton": "Entrer dans le Club",
 "clubLoginError": "Mot de passe incorrect. Veuillez réessayer.",
-"certPreviewDisclaimer": "Ceci est un aperçu fonctionnel. Le certificat final que vous recevrez à domicile aura un design graphique et un papier de qualité supérieure."
+"certPreviewDisclaimer": "Ceci est un aperçu fonctionnel. Le certificat final que vous recevrez à domicile aura un design graphique et un papier de qualité supérieure.",
+"feedbackSuccessFixed": "Remise de {amount}€ appliquée !"
 }

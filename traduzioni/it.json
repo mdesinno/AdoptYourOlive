@@ -587,5 +587,6 @@
 "clubLoginPlaceholder": "Parola d'ordine",
 "clubLoginButton": "Entra nel Club",
 "clubLoginError": "Parola d'ordine errata. Riprova.",
-"certPreviewDisclaimer": "Questa è un'anteprima funzionale. Il certificato che riceverai a casa avrà una grafica e una carta di qualità superiore."
+"certPreviewDisclaimer": "Questa è un'anteprima funzionale. Il certificato che riceverai a casa avrà una grafica e una carta di qualità superiore.",
+"feedbackSuccessFixed": "Sconto di {amount}€ applicato!"
 }

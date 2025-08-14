@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const refreshDiscountBtn = document.getElementById('refresh-discount-btn');
 const discountWarning = document.getElementById('discount-warning');
         
-        applyDiscountBtn.addEventListener('click', async () => {
+applyDiscountBtn.addEventListener('click', async () => {
     const code = discountCodeInput.value.trim().toUpperCase();
     if (!code || selectedPrice === 0) {
         discountFeedbackEl.textContent = getTranslation('feedbackErrorNoCodeOrProduct');
@@ -457,14 +457,28 @@ const discountWarning = document.getElementById('discount-warning');
             method: 'POST', body: JSON.stringify({ code })
         });
         const data = await response.json();
+
         if (data.valid) {
-            const discountedPrice = selectedPrice * (1 - data.rate);
+            let discountedPrice = 0;
+            let feedbackText = '';
+
+            // NUOVA LOGICA PER GESTIRE I DUE TIPI DI SCONTO
+            if (data.discount.type === 'percentage') {
+                const rate = data.discount.value / 100;
+                discountedPrice = selectedPrice * (1 - rate);
+                feedbackText = getTranslation('feedbackSuccess', { rate: data.discount.value });
+            } else if (data.discount.type === 'fixed') {
+                const amount = data.discount.value / 100; // Converte i centesimi in euro
+                discountedPrice = selectedPrice - amount;
+                // Assicurati che il prezzo non vada sotto zero
+                if (discountedPrice < 0) discountedPrice = 0;
+                feedbackText = getTranslation('feedbackSuccessFixed', { amount: amount.toFixed(2).replace('.', ',') });
+            }
+
             updatePriceUI(discountedPrice);
-            checkFormValidity();
-            discountFeedbackEl.textContent = getTranslation('feedbackSuccess', { rate: data.rate * 100 });
+            discountFeedbackEl.textContent = feedbackText;
             discountFeedbackEl.className = 'discount-feedback success';
             
-            // Logica per mostrare/nascondere i pulsanti
             discountCodeInput.disabled = true;
             applyDiscountBtn.style.display = 'none';
             refreshDiscountBtn.style.display = 'inline-block';

@@ -587,5 +587,6 @@
 "clubLoginPlaceholder": "Passwort",
 "clubLoginButton": "Club beitreten",
 "clubLoginError": "Falsches Passwort. Bitte versuchen Sie es erneut.",
-"certPreviewDisclaimer": "Dies ist eine funktionale Vorschau. Das endgültige Zertifikat, das Sie erhalten, wird ein hochwertigeres Design und Papier aufweisen."
+"certPreviewDisclaimer": "Dies ist eine funktionale Vorschau. Das endgültige Zertifikat, das Sie erhalten, wird ein hochwertigeres Design und Papier aufweisen.",
+"feedbackSuccessFixed": "{amount}€ Rabatt angewendet!"
 }
