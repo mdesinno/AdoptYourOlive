@@ -17,7 +17,9 @@ const discounts = {
     'MYFOODBLOG': { type: 'percentage', value: 10 },
     'KEUKENMEID': { type: 'percentage', value: 10 },
     'prova2': { type: 'percentage', value: 10 },
-    'scontoprova': { type: 'fixed', value: 4700 }  
+    'scontoprova': { type: 'fixed', value: 4700 },
+    'PROVA3': { type: 'fixed', value: 4700 }  
+
 
     // Aggiungi qui altri codici...
 };
