@@ -595,5 +595,11 @@
 "formPlaceholderRecipientEmail": "To whom we'll send future updates and the renewal",
 "formNoteRecipientEmail": "The order confirmation and invoice will be sent to your email, not this one.",
 "formLabelOrderNote": "Order Note (Optional)",
-"formPlaceholderOrderNote": "Do you have any special requests or information to add?"
+"formPlaceholderOrderNote": "Do you have any special requests or information to add?",
+"clubUpdateEmailTitle": "Changed Your Email?",
+"clubUpdateEmailText": "To ensure you correctly receive all future updates about your tree and renewal communications, it's important that your email address is always up to date. To change the email associated with your adoption, please send us a direct request.",
+"clubUpdateEmailBtn": "Send Update Request",
+"cookieOtherTechTitle": "2-b. Other Technologies Used (for the Web App)",
+"cookieOtherTechText": "In addition to cookies, our site uses other modern technologies to enhance your experience: <ul><li><strong>LocalStorage:</strong> We use it to securely save your access token for the AYO Adopters Club, so you don't have to enter the password on every visit from the installed app.</li><li><strong>Service Workers:</strong> These are scripts that run in the background of your browser to allow our Club Web App to function even when you're not connected to the internet, by loading essential resources from your device's memory (cache).</li></ul> These technologies are essential for providing the features you expect and do not collect personal tracking data.",
+"privacySection2_list4_item1": "<strong>Data saved on your device (for the Web App):</strong> To improve the AYO Adopters Club experience and allow for quick access, we save an anonymous authentication token in your browser (`localStorage`). This allows us to recognize you on subsequent visits without requiring a new password."
 }

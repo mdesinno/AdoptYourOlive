@@ -594,5 +594,11 @@
 "formPlaceholderRecipientEmail": "Til hvem vi skal sende fremtidige oppdateringer og fornyelsen",
 "formNoteRecipientEmail": "Ordrebekreftelsen og fakturaen vil bli sendt til din e-post, ikke til denne.",
 "formLabelOrderNote": "Ordrenotat (Valgfritt)",
-"formPlaceholderOrderNote": "Har du noen spesielle forespørsler eller informasjon å legge til?"
+"formPlaceholderOrderNote": "Har du noen spesielle forespørsler eller informasjon å legge til?",
+"clubUpdateEmailTitle": "Endret e-postadressen din?",
+"clubUpdateEmailText": "For å sikre at du mottar alle fremtidige oppdateringer om treet ditt og fornyelsesmeldinger korrekt, er det viktig at e-postadressen din alltid er oppdatert. For å endre e-posten som er knyttet til adopsjonen din, vennligst send oss en direkte forespørsel.",
+"clubUpdateEmailBtn": "Send oppdateringsforespørsel",
+"cookieOtherTechTitle": "2-b. Andre Teknologier som Brukes (for Webappen)",
+"cookieOtherTechText": "I tillegg til informasjonskapsler bruker nettstedet vårt andre moderne teknologier for å forbedre opplevelsen din: <ul><li><strong>LocalStorage:</strong> Vi bruker det for å lagre tilgangstokenet ditt for AYO Adopters Club sikkert, slik at du ikke trenger å skrive inn passordet ved hvert besøk fra den installerte appen.</li><li><strong>Service Workers:</strong> Dette er skript som kjører i bakgrunnen i nettleseren din for å la vår Klubb-webapp fungere selv når du ikke er koblet til internett, ved å laste inn essensielle ressurser fra enhetens minne (cache).</li></ul> Disse teknologiene er essensielle for å levere funksjonene du forventer, og samler ikke inn personlige sporingsdata.",
+"privacySection2_list4_item1": "<strong>Data lagret på enheten din (for Web Appen):</strong> For å forbedre opplevelsen i AYO Adopters Club og tillate rask tilgang, lagrer vi et anonymt autentiseringstoken i nettleseren din (`localStorage`). Dette lar oss gjenkjenne deg ved påfølgende besøk uten å kreve et nytt passord."
 }

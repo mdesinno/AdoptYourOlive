@@ -1,3 +1,16 @@
+// Registrazione del Service Worker per la PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('AYO Service Worker registrato con successo.');
+      })
+      .catch(error => {
+        console.log('Registrazione Service Worker fallita:', error);
+      });
+  });
+}
+
 // Funzione per caricare la chiave e lo script di Google Maps in modo sicuro
 async function loadGoogleMapsScript() {
     try {

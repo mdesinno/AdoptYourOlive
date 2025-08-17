@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="AYO Club">
+    <link rel="manifest" href="/site.webmanifest" />
 </head>
 <body id="club-body">
 
@@ -130,6 +134,18 @@
         </div>
     </div>
 </section>
+
+<section id="club-update-email" class="content-section" style="background-color: var(--white);">
+    <div class="container" style="text-align: center; max-width: 700px;">
+        <div class="section-header">
+            <h2 class="section-title" data-i18n-key="clubUpdateEmailTitle">Hai Cambiato Email?</h2>
+        </div>
+        <p data-i18n-key="clubUpdateEmailText">Per assicurarti di ricevere correttamente tutti gli aggiornamenti futuri sul tuo albero e le comunicazioni per il rinnovo, è importante che il tuo indirizzo email sia sempre aggiornato. Per modificare l'email associata alla tua adozione, ti preghiamo di inviarci una richiesta direttamente.</p>
+        <a href="mailto:info@adoptyourolive.com?subject=Richiesta%20Cambio%20Email%20Adozione" class="btn btn-primary" style="margin-top: 20px;" data-i18n-key="clubUpdateEmailBtn">
+            Invia Richiesta di Aggiornamento
+        </a>
+    </div>
+</section>
         </main>
     </div>
 
@@ -233,43 +249,73 @@
 </div>
     
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-            const clubContent = document.getElementById('club-content');
-            const accessDenied = document.getElementById('access-denied');
-            const loadingIndicator = document.getElementById('loading-indicator');
+    document.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenFromUrl = urlParams.get('token');
+        const clubContent = document.getElementById('club-content');
+        const accessDenied = document.getElementById('access-denied');
+        const loadingIndicator = document.getElementById('loading-indicator');
 
-            if (!token) {
-                loadingIndicator.style.display = 'none';
-                accessDenied.style.display = 'block';
-                return;
-            }
+        // Funzione per mostrare il contenuto
+        const showContent = () => {
+            loadingIndicator.style.display = 'none';
+            clubContent.style.display = 'block';
+        };
 
+        // Funzione per mostrare accesso negato
+        const showAccessDenied = () => {
+            loadingIndicator.style.display = 'none';
+            accessDenied.style.display = 'block';
+        };
+        
+        // Prima controlliamo se abbiamo un token salvato in modo permanente
+        const savedToken = localStorage.getItem('ayoClubToken');
+
+        if (tokenFromUrl) {
+            // Se c'è un token nell'URL, lo validiamo (è un primo accesso o un accesso da QR)
             try {
-                // La tua funzione Netlify per validare il token
                 const response = await fetch('/.netlify/functions/validate-club-token', {
                     method: 'POST',
-                    body: JSON.stringify({ token: token })
+                    body: JSON.stringify({ token: tokenFromUrl })
                 });
                 const data = await response.json();
-
-                loadingIndicator.style.display = 'none';
                 if (data.valid) {
-                    clubContent.style.display = 'block';
-                     // ===== RIGA DA AGGIUNGERE =====
-    sessionStorage.setItem('ayoClubToken', token); 
-    // =============================
+                    // Se è valido, lo salviamo per il futuro e mostriamo il contenuto
+                    localStorage.setItem('ayoClubToken', tokenFromUrl);
+                    showContent();
                 } else {
-                    accessDenied.style.display = 'block';
+                    localStorage.removeItem('ayoClubToken');
+                    showAccessDenied();
                 }
             } catch (error) {
                 console.error('Errore di validazione:', error);
-                loadingIndicator.style.display = 'none';
-                accessDenied.style.display = 'block';
+                showAccessDenied();
             }
-        });
-    </script>
-    <script src="script.js" defer></script>
+        } else if (savedToken) {
+            // Se non c'è token nell'URL ma ne abbiamo uno salvato, lo validiamo
+             try {
+                const response = await fetch('/.netlify/functions/validate-club-token', {
+                    method: 'POST',
+                    body: JSON.stringify({ token: savedToken })
+                });
+                const data = await response.json();
+                if (data.valid) {
+                    showContent();
+                } else {
+                    // Il token salvato non è più valido
+                    localStorage.removeItem('ayoClubToken');
+                    showAccessDenied();
+                }
+            } catch (error) {
+                console.error('Errore di validazione token salvato:', error);
+                showAccessDenied();
+            }
+        } else {
+            // Se non c'è nessun token da nessuna parte, accesso negato
+            showAccessDenied();
+        }
+    });
+</script>
+<script src="script.js" defer></script>
 </body>
 </html>
