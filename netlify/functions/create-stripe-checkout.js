@@ -6,10 +6,6 @@ exports.handler = async (event) => {
     }
     try {
         const data = JSON.parse(event.body);
-        
-        // ===== PRIMA SPIA: COSA RICEVE LA FUNZIONE? =====
-        console.log("FUNZIONE RICEVE QUESTO BODY:", JSON.stringify(data, null, 2)); 
-
         const { 
             treeType, price, customerEmail, discountCode, shippingDetails, 
             certificateName, certificateMessage, language, 
@@ -47,7 +43,17 @@ exports.handler = async (event) => {
             automatic_tax: {
                 enabled: true,
             },
+            
+            // Metadati per la SESSIONE (corretto per Make.com e webhook)
             metadata: metadata,
+            
+            // --- AGGIUNTA CHIAVE CHE RISOLVE LA VISUALIZZAZIONE ---
+            // Diciamo a Stripe di copiare gli stessi metadati anche sul PAGAMENTO
+            payment_intent_data: {
+                metadata: metadata
+            },
+            // ---------------------------------------------------------
+
             line_items: [{
                 price_data: {
                     currency: 'eur',
@@ -76,9 +82,6 @@ exports.handler = async (event) => {
             }
         }
         
-        // ===== SECONDA SPIA: COSA STIAMO INVIANDO A STRIPE? =====
-        console.log("CONFIGURAZIONE INVIATA A STRIPE:", JSON.stringify(sessionConfig, null, 2));
-
         const session = await stripe.checkout.sessions.create(sessionConfig);
 
         return {
