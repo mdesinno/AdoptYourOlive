@@ -604,8 +604,6 @@ if (adoptionForm) {
     // =============================
         };
 
-        debugger;
-
         try {
             // Chiama la funzione Netlify per creare una sessione Stripe
             const response = await fetch('/.netlify/functions/create-stripe-checkout', {

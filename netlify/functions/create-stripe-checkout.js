@@ -6,6 +6,10 @@ exports.handler = async (event) => {
     }
     try {
         const data = JSON.parse(event.body);
+        
+        // ===== PRIMA SPIA: COSA RICEVE LA FUNZIONE? =====
+        console.log("FUNZIONE RICEVE QUESTO BODY:", JSON.stringify(data, null, 2)); 
+
         const { 
             treeType, price, customerEmail, discountCode, shippingDetails, 
             certificateName, certificateMessage, language, 
@@ -26,15 +30,12 @@ exports.handler = async (event) => {
             address: shippingDetails.address
         });
 
-        // --- MODIFICA CHIAVE QUI ---
-        // Abbiamo spostato i metadati fuori dalla configurazione della sessione
-        // per renderli più chiari e li abbiamo messi al livello principale.
         const metadata = {
             tree_type: treeType,
             certificate_name: certificateName,
             certificate_message: certificateMessage,
             language: language,
-            is_gift: isGift.toString(), // Convertiamo il booleano in stringa, prassi migliore per i metadati
+            is_gift: isGift.toString(),
             recipient_email: recipientEmail,
             order_note: orderNote,
             discount_code_used: discountCode
@@ -46,10 +47,7 @@ exports.handler = async (event) => {
             automatic_tax: {
                 enabled: true,
             },
-            
-            // L'oggetto metadata ora è qui, al livello principale
             metadata: metadata,
-
             line_items: [{
                 price_data: {
                     currency: 'eur',
@@ -78,6 +76,9 @@ exports.handler = async (event) => {
             }
         }
         
+        // ===== SECONDA SPIA: COSA STIAMO INVIANDO A STRIPE? =====
+        console.log("CONFIGURAZIONE INVIATA A STRIPE:", JSON.stringify(sessionConfig, null, 2));
+
         const session = await stripe.checkout.sessions.create(sessionConfig);
 
         return {
@@ -86,7 +87,7 @@ exports.handler = async (event) => {
         };
 
     } catch (error) {
-        console.error("Stripe error:", error);
+        console.error("ERRORE NELLA FUNZIONE NETLIFY:", error);
         return { statusCode: 500, body: JSON.stringify({ error: 'Failed to create payment session.' }) };
     }
 };
