@@ -26,6 +26,20 @@ exports.handler = async (event) => {
             address: shippingDetails.address
         });
 
+        // --- MODIFICA CHIAVE QUI ---
+        // Abbiamo spostato i metadati fuori dalla configurazione della sessione
+        // per renderli più chiari e li abbiamo messi al livello principale.
+        const metadata = {
+            tree_type: treeType,
+            certificate_name: certificateName,
+            certificate_message: certificateMessage,
+            language: language,
+            is_gift: isGift.toString(), // Convertiamo il booleano in stringa, prassi migliore per i metadati
+            recipient_email: recipientEmail,
+            order_note: orderNote,
+            discount_code_used: discountCode
+        };
+
         let sessionConfig = {
             payment_method_types: ['card', 'klarna', 'paypal', 'revolut_pay'],
             customer: customer.id,
@@ -33,20 +47,8 @@ exports.handler = async (event) => {
                 enabled: true,
             },
             
-            // ===== BLOCCO METADATI AGGIUNTO QUI =====
-            payment_intent_data: {
-                metadata: {
-                    treeType: treeType,
-                    certificateName: certificateName,
-                    certificateMessage: certificateMessage,
-                    language: language,
-                    isGift: isGift,
-                    recipientEmail: recipientEmail,
-                    orderNote: orderNote,
-                    discountCodeUsed: discountCode 
-                }
-            },
-            // =======================================
+            // L'oggetto metadata ora è qui, al livello principale
+            metadata: metadata,
 
             line_items: [{
                 price_data: {
