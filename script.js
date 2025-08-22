@@ -302,28 +302,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         }));
     }
     
-    const handleNetlifyFormSubmit = async (event) => {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const submitButton = form.querySelector('button[type="submit"]');
-        const modal = document.getElementById('success-modal');
-        form.querySelector('input[name="language"]').value = currentLang;
-        if (submitButton) submitButton.disabled = true;
-        try {
-            await fetch('/', {
-                method: 'POST',
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(formData).toString()
-            });
-            if (modal) modal.classList.add('visible');
-            form.reset();
-        } catch (error) {
-            alert('Si è verificato un errore, riprova.');
-        } finally {
-            if (submitButton) submitButton.disabled = false;
-        }
-    };
+   const handleNetlifyFormSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const modal = document.getElementById('success-modal');
+
+    // PRIMA imposto il valore della lingua nel campo nascosto
+    form.querySelector('input[name="language"]').value = currentLang;
+
+    // POI creo l'oggetto FormData, che ora leggerà il valore corretto
+    const formData = new FormData(form);
+    
+    if (submitButton) submitButton.disabled = true;
+    try {
+        await fetch('/', {
+            method: 'POST',
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString()
+        });
+        if (modal) modal.classList.add('visible');
+        form.reset();
+    } catch (error) {
+        alert('Si è verificato un errore, riprova.');
+    } finally {
+        if (submitButton) submitButton.disabled = false;
+    }
+};
     document.getElementById('contact-form')?.addEventListener('submit', handleNetlifyFormSubmit);
     document.getElementById('newsletter-form')?.addEventListener('submit', handleNetlifyFormSubmit);
 
