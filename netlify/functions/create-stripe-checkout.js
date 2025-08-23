@@ -20,21 +20,38 @@ exports.handler = async (event) => {
         };
         const productName = productNames[treeType] || "Adozione Ulivo";
 
+        // Creiamo comunque il cliente su Stripe per la loro gestione interna
         const customer = await stripe.customers.create({
             email: customerEmail,
             name: shippingDetails.name,
             address: shippingDetails.address
         });
 
+        // --- OGGETTO METADATI POTENZIATO ---
+        // Ora contiene TUTTE le informazioni di cui abbiamo bisogno
         const metadata = {
+            // Dati dell'ordine
             tree_type: treeType,
+            is_gift: isGift.toString(),
+            language: language,
+            order_note: orderNote,
+            discount_code_used: discountCode,
+            
+            // Dati dell'acquirente
+            buyer_email: customerEmail,
+            buyer_name: shippingDetails.name,
+
+            // Dati del ricevente (se regalo)
+            recipient_email: recipientEmail,
             certificate_name: certificateName,
             certificate_message: certificateMessage,
-            language: language,
-            is_gift: isGift.toString(),
-            recipient_email: recipientEmail,
-            order_note: orderNote,
-            discount_code_used: discountCode
+
+            // Dati di spedizione
+            shipping_line1: shippingDetails.address.line1,
+            shipping_line2: shippingDetails.address.line2,
+            shipping_city: shippingDetails.address.city,
+            shipping_postal_code: shippingDetails.address.postal_code,
+            shipping_country: shippingDetails.address.country
         };
 
         let sessionConfig = {
@@ -43,17 +60,10 @@ exports.handler = async (event) => {
             automatic_tax: {
                 enabled: true,
             },
-            
-            // Metadati per la SESSIONE (corretto per Make.com e webhook)
             metadata: metadata,
-            
-            // --- AGGIUNTA CHIAVE CHE RISOLVE LA VISUALIZZAZIONE ---
-            // Diciamo a Stripe di copiare gli stessi metadati anche sul PAGAMENTO
             payment_intent_data: {
                 metadata: metadata
             },
-            // ---------------------------------------------------------
-
             line_items: [{
                 price_data: {
                     currency: 'eur',
