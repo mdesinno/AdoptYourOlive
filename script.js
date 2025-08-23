@@ -308,11 +308,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const submitButton = form.querySelector('button[type="submit"]');
     const modal = document.getElementById('success-modal');
 
-    // PRIMA imposto il valore della lingua nel campo nascosto
-    form.querySelector('input[name="language"]').value = currentLang;
+    // Legge il valore ATTUALE del selettore di lingua sulla pagina
+const linguaSelezionata = document.getElementById('language-selector').value;
 
-    // POI creo l'oggetto FormData, che ora leggerà il valore corretto
-    const formData = new FormData(form);
+// Imposta quel valore nel campo nascosto del form che sta per essere inviato
+form.querySelector('input[name="language"]').value = linguaSelezionata;
+
+// Ora crea l'oggetto FormData, che leggerà il valore corretto che abbiamo appena inserito
+const formData = new FormData(form);
     
     if (submitButton) submitButton.disabled = true;
     try {
