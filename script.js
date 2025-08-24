@@ -308,14 +308,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const submitButton = form.querySelector('button[type="submit"]');
     const modal = document.getElementById('success-modal');
 
-    // Legge il valore ATTUALE del selettore di lingua sulla pagina
-const linguaSelezionata = document.getElementById('language-selector').value;
-
-// Imposta quel valore nel campo nascosto del form che sta per essere inviato
-form.querySelector('input[name="language"]').value = linguaSelezionata;
-
-// Ora crea l'oggetto FormData, che leggerà il valore corretto che abbiamo appena inserito
-const formData = new FormData(form);
+    // 1. Crea l'oggetto FormData dal form, che conterrà tutti i campi tranne la lingua.
+    const formData = new FormData(form);
+    
+    // 2. AZIONE CHIAVE: Aggiungi la lingua al pacchetto di dati, leggendola
+    //    direttamente dall'attributo <html>, esattamente come fa il form di adozione.
+    formData.set('language', document.documentElement.lang || 'it');
     
     if (submitButton) submitButton.disabled = true;
     try {
