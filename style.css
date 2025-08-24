@@ -942,24 +942,23 @@ input:checked + .slider:before { transform: translateX(22px); }
 @media (max-width: 768px) {
 
     #cookie-banner {
-        /* Passa da una griglia a 2 colonne a una a colonna singola */
-        grid-template-columns: 1fr;
-        /* Aggiunge un po' più di spazio tra testo e pulsanti */
-        gap: 1.5rem; 
-        /* Centra il testo per un look più pulito su mobile */
-        text-align: center;
-        /* Adegua il padding per schermi più piccoli */
-        padding: 1.5rem 1rem;
+        /* Manteniamo la griglia, ma riduciamo padding e spazi per compattare */
+        padding: 1rem;
+        gap: 1rem;
     }
 
     .cookie-banner-content {
-        /* Centra il contenuto del banner (testo e link) */
-        justify-content: center;
+        /* Riduciamo leggermente la dimensione del testo per risparmiare spazio */
+        font-size: 0.9rem;
     }
 
     .cookie-banner-buttons {
-        /* Centra i pulsanti */
-        justify-content: center;
+        /* QUESTA È LA MODIFICA CHIAVE:
+           Impiliamo i pulsanti in verticale.
+           Questo rende la colonna dei pulsanti più stretta,
+           lasciando più spazio orizzontale al testo. */
+        flex-direction: column;
+        gap: 0.5rem; /* Riduciamo lo spazio tra i pulsanti impilati */
     }
 
 }
