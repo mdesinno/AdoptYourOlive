@@ -16,6 +16,7 @@ const discounts = {
     'STUKORECEPTJES': { type: 'percentage', value: 10 },
     'MYFOODBLOG': { type: 'percentage', value: 10 },
     'KEUKENMEID': { type: 'percentage', value: 10 },
+    'RETHINK10': { type: 'percentage', value: 10 },
     'SCONTOPROVA2': { type: 'fixed', value: 4700 }
 
     // Aggiungi qui altri codici...
