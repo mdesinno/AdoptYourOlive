@@ -99,7 +99,7 @@
     "formLabelCertName": "Navn på sertifikat",
     "formPlaceholderCertName": "Hvordan skal navnet ditt vises på sertifikatet?",
     "formLabelCertMessage": "Personlig melding (valgfritt)",
-    "formPlaceholderCertMessage": "Legg til en personlig touch på sertifikatet ditt...",
+    "formPlaceholderCertMessage": "Legg til en personlig touch på sertifikatet ditt... Default message: Your Tree, Your Oil, Your Story.",
     "formCharCount": "{length}/150 tegn",
     "formSectionShipping": "Leveringsinformasjon",
     "formLabelAddress": "Gateadresse *",
