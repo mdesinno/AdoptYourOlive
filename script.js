@@ -28,18 +28,14 @@ async function loadGoogleMapsScript() {
     }
 }
 
-// Funzione per gestire il click sul link del Club (AGGIORNATA)
-// Funzione per gestire il click sul link del Club (VERSIONE DEFINITIVA)
+// Funzione per gestire il click sul link del Club (CORRETTA)
 function handleClubLinkClick(event) {
     event.preventDefault(); 
-
-    const token = sessionStorage.getItem('ayoClubToken');
+    const token = localStorage.getItem('ayoClubToken'); // <-- MODIFICA CORRETTA
     
     if (token) {
-        // Se l'utente è già stato nel club in questa sessione, lo facciamo rientrare subito
         window.location.href = `club.html?token=${token}`;
     } else {
-        // Altrimenti, lo mandiamo alla pagina di accesso dove può inserire la password
         window.location.href = 'club-login.html';
     }
 }
