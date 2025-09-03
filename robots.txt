@@ -1,11 +1,3 @@
-Rispondo punto per punto. Hai fatto le domande giuste.
-
-1. Sezione Privata e robots.txt
-
-Sì. Devi assolutamente escluderla. Non vuoi che Google indicizzi contenuti esclusivi per i clienti o, peggio, la pagina di login.
-
-Azione: Devi modificare il file robots.txt. Aggiungi delle direttive "Disallow" per ogni pagina o cartella che vuoi nascondere. Basandomi sui nomi dei file che abbiamo usato, il tuo robots.txt dovrebbe apparire così:
-
 User-agent: *
 Disallow: /club.html
 Disallow: /club-login.html
