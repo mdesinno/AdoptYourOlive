@@ -217,40 +217,47 @@ function updatePriceUI(price) {
 
 // Assicurati che la tua funzione selectTree sia questa
 function selectTree(treeType) {
-    if(clickTracker.hasOwnProperty(treeType)) {
-        clickTracker[treeType]++;
-        localStorage.setItem(`clicks_${treeType}`, clickTracker[treeType].toString());
-    }
-    updateMostPopular();
-    document.querySelectorAll('.product-card').forEach(card => card.classList.remove('selected'));
-    const selectedCardElement = document.querySelector(`.product-card[data-tree-type="${treeType}"]`);
-    if (selectedCardElement) {
-        selectedCardElement.classList.add('selected');
-        selectedPrice = parseFloat(selectedCardElement.dataset.price);
-        selectedTreeType = treeType;
-        sessionStorage.setItem('selectedTree', treeType);
-    }
-    document.getElementById('tree-type').value = treeType;
-    updatePriceUI(selectedPrice);
-    updateTreeSelectionDisplay();
+  // tracking click
+  if (clickTracker.hasOwnProperty(treeType)) {
+    clickTracker[treeType]++;
+    localStorage.setItem(`clicks_${treeType}`, String(clickTracker[treeType]));
+  }
+  updateMostPopular?.();
 
-    // ==> BLOCCO AGGIUNTO CHE RISOLVE IL PROBLEMA <==
-    // Dopo aver selezionato un prodotto, controlla se c'è un codice in attesa (dall'URL)
-    // e se il pulsante "Applica" è ancora attivo. Se sì, lo clicca per l'utente.
-    const discountCodeInput = document.getElementById('discount-code');
-    const applyDiscountBtn = document.getElementById('apply-discount-btn');
-    if (discountCodeInput.value && !discountCodeInput.disabled) {
-        applyDiscountBtn.click();
-    }
-    // ==> FINE BLOCCO AGGIUNTO <==
+  // evidenzia card e salva selezione
+  document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+  const card = document.querySelector(`.product-card[data-tree-type="${treeType}"]`);
+  if (card) {
+    card.classList.add('selected');
+    selectedPrice = parseFloat(card.dataset.price);
+    selectedTreeType = treeType;
+    sessionStorage.setItem('selectedTree', treeType);
+  }
 
-    const formSection = document.getElementById('personalization');
-    if (formSection) {
-        const navHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
-        const elementPosition = formSection.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
-        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
-    }
+  // aggiorna il select del form
+  const sel = document.getElementById('tree-type');
+  if (sel) sel.value = treeType;
+
+  // 👉 SCROLL SUBITO (così parte anche se dopo qualcosa dà errore)
+  const formSection = document.getElementById('personalization');
+  if (formSection) {
+    const navH = document.querySelector('.main-nav')?.offsetHeight || 0;
+    const y = formSection.getBoundingClientRect().top + window.pageYOffset - navH - 20;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  // il resto (se qualcosa qui rompe, lo scroll è già partito)
+  try { updatePriceUI?.(selectedPrice); } catch(e) {}
+  try { updateTreeSelectionDisplay?.(); } catch(e) {}
+
+  // auto-applica eventuale codice sconto già scritto
+  try {
+    const input = document.getElementById('discount-code');
+    const btn = document.getElementById('apply-discount-btn');
+    if (input?.value && !input?.disabled) btn?.click();
+  } catch(e) {}
 }
+
 window.selectTree = selectTree;
 
 
@@ -969,26 +976,31 @@ document.getElementById('club-claim-gift-form')?.addEventListener('submit', asyn
   }
 });
 
-// --- CLUB: verifica token senza script inline (compatibile con la tua CSP) ---
+// --- CLUB: verifica token (funziona anche senza CSP, senza script inline) ---
 document.addEventListener('DOMContentLoaded', () => {
-  // Siamo nella pagina Club se il body ha id="club-body"
+  // Siamo nella pagina club se il body ha id="club-body"
   if (document.body?.id !== 'club-body') return;
 
-  const verifying    = document.getElementById('club-pre-check');  // box "Verifica in corso…"
-  const clubContent  = document.getElementById('club-content');     // contenuto privato
-  const accessDenied = document.getElementById('access-denied');    // box "Accesso negato"
+  // Nomi giusti degli elementi nella tua pagina
+  const verifying    = document.getElementById('loading-indicator'); // "Verifica in corso..."
+  const clubContent  = document.getElementById('club-content');      // contenuto privato
+  const accessDenied = document.getElementById('access-denied');     // "Accesso negato"
 
-  const showLoading = () => { if (verifying) verifying.style.display = 'block';
-                              if (clubContent) clubContent.style.display = 'none';
-                              if (accessDenied) accessDenied.style.display = 'none'; };
-
-  const showContent = () => { if (verifying) verifying.style.display = 'none';
-                              if (clubContent) clubContent.style.display = 'block';
-                              if (accessDenied) accessDenied.style.display = 'none'; };
-
-  const showDenied  = () => { if (verifying) verifying.style.display = 'none';
-                              if (clubContent) clubContent.style.display = 'none';
-                              if (accessDenied) accessDenied.style.display = 'block'; };
+  const showLoading = () => {
+    verifying && (verifying.style.display = 'block');
+    clubContent && (clubContent.style.display = 'none');
+    accessDenied && (accessDenied.style.display = 'none');
+  };
+  const showContent = () => {
+    verifying && (verifying.style.display = 'none');
+    clubContent && (clubContent.style.display = 'block');
+    accessDenied && (accessDenied.style.display = 'none');
+  };
+  const showDenied = () => {
+    verifying && (verifying.style.display = 'none');
+    clubContent && (clubContent.style.display = 'none');
+    accessDenied && (accessDenied.style.display = 'block');
+  };
 
   async function validateToken(token) {
     try {
@@ -1008,24 +1020,24 @@ document.addEventListener('DOMContentLoaded', () => {
   (async () => {
     showLoading();
 
-    const params       = new URLSearchParams(location.search);
-    const tokenFromUrl = params.get('token');
+    const qp = new URLSearchParams(location.search);
+    const tokenFromUrl = qp.get('token');
     const savedToken   = localStorage.getItem('ayoClubToken');
 
-    // 1) Se arriva da QR/URL, prova quello e salvalo se valido
+    // 1) Se arriva un token via URL (QR), prova quello e salvalo
     if (tokenFromUrl && await validateToken(tokenFromUrl)) {
       localStorage.setItem('ayoClubToken', tokenFromUrl);
       showContent();
       return;
     }
 
-    // 2) Altrimenti prova quello salvato in locale
+    // 2) Prova il token salvato in localStorage
     if (savedToken && await validateToken(savedToken)) {
       showContent();
       return;
     }
 
-    // 3) Niente di valido → nega
+    // 3) Niente → accesso negato
     localStorage.removeItem('ayoClubToken');
     showDenied();
   })();
