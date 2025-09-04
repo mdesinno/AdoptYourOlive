@@ -272,22 +272,31 @@ window.updateTreeSelectionFromForm = updateTreeSelectionFromForm;
 
 
 function updateTreeSelectionDisplay() {
-    if (!document.getElementById('selected-tree-title')) return; // Esce se non è nella pagina principale
-    
-const treeNames = {
-    'young': getTranslation('formTreeYoung').split(' - ')[0],
-    'mature': getTranslation('formTreeMature').split(' - ')[0],
+  const elTitle   = document.getElementById('selected-tree-title');
+  const elSumTree = document.getElementById('summary-tree');
+  const elPrev    = document.getElementById('preview-tree');
+
+  if (!elTitle && !elSumTree && !elPrev) return; // se non siamo nella pagina principale, esci
+
+  const treeNames = {
+    'young':   getTranslation('formTreeYoung').split(' - ')[0],
+    'mature':  getTranslation('formTreeMature').split(' - ')[0],
     'ancient': getTranslation('formTreeAncient').split(' - ')[0],
-    'historic': getTranslation('formTreeHistoric').split(' - ')[0]
-};
-    const defaultText = getTranslation('formSelectedTreeDefault');
-    const treeName = selectedTreeType ? treeNames[selectedTreeType] : defaultText;
-    document.getElementById('selected-tree-title').textContent = treeName;
-    document.getElementById('summary-tree').textContent = treeName;
-    document.getElementById('preview-tree').textContent = selectedTreeType ? treeNames[selectedTreeType] : getTranslation('certTreeTypePlaceholder');
-    updateCertificatePreview();
-    checkFormValidity();
+    'historic':getTranslation('formTreeHistoric').split(' - ')[0]
+  };
+  const defaultText = getTranslation('formSelectedTreeDefault');
+  const treeName = (typeof selectedTreeType !== 'undefined' && selectedTreeType) ? (treeNames[selectedTreeType] || defaultText) : defaultText;
+
+  if (elTitle)   elTitle.textContent   = treeName;
+  if (elSumTree) elSumTree.textContent = treeName;
+  if (elPrev)    elPrev.textContent    = selectedTreeType ? (treeNames[selectedTreeType] || '') : getTranslation('certTreeTypePlaceholder');
+
+  if (document.getElementById('preview-name')) {
+    updateCertificatePreview?.();
+  }
+  checkFormValidity?.();
 }
+
 
 function updateCertificatePreview() {
     if (!document.getElementById('preview-name')) return; // Esce se non è nella pagina principale
@@ -857,6 +866,36 @@ document.querySelectorAll('.product-card .select-button').forEach(btn => {
   });
 });
 
+// Rende globali (se servisse)
+window.selectTree = typeof selectTree === 'function' ? selectTree : window.selectTree;
+window.updateTreeSelectionFromForm = typeof updateTreeSelectionFromForm === 'function' ? updateTreeSelectionFromForm : window.updateTreeSelectionFromForm;
+
+// 1) Bottoni "Seleziona" nelle card prodotto
+document.querySelectorAll('.product-card .select-button').forEach(btn => {
+  btn.removeAttribute('onclick'); // non serve più (CSP lo blocca comunque)
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const card = e.currentTarget.closest('.product-card');
+    const type = card?.getAttribute('data-tree-type');
+    if (type && typeof window.selectTree === 'function') {
+      window.selectTree(type);
+      document.getElementById('personalization')?.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  });
+});
+
+// 2) Cambio tipo albero da radio/select
+document.querySelectorAll('input[name="tree-type"]').forEach(r => {
+  r.removeAttribute('onchange');
+  r.addEventListener('change', () => {
+    if (typeof window.updateTreeSelectionFromForm === 'function') window.updateTreeSelectionFromForm();
+  });
+});
+document.getElementById('tree-type')?.addEventListener('change', () => {
+  if (typeof window.updateTreeSelectionFromForm === 'function') window.updateTreeSelectionFromForm();
+});
+
+
     } // --- FINE BLOCCO IF per la pagina principale
 
      const track = document.querySelector('.recipe-slider-track');
@@ -881,4 +920,51 @@ document.querySelectorAll('.product-card .select-button').forEach(btn => {
             }
         });
     }
+});
+
+// --- Club: cambia email ---
+document.getElementById('club-update-email-form')?.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const oldEmail = document.getElementById('old-email')?.value.trim();
+  const newEmail = document.getElementById('new-email')?.value.trim();
+  if (!oldEmail || !newEmail) return;
+
+  try{
+    const r = await fetch('/.netlify/functions/club-update-email', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ oldEmail, newEmail })
+    });
+    if(!r.ok) throw 0;
+    document.getElementById('upd-ok').style.display='block';
+    document.getElementById('upd-err').style.display='none';
+    e.target.reset();
+  }catch(_){
+    document.getElementById('upd-ok').style.display='none';
+    document.getElementById('upd-err').style.display='block';
+  }
+});
+
+// --- Club: collega regalo (buyerEmail + recipientEmail [+ sid opzionale]) ---
+document.getElementById('club-claim-gift-form')?.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const buyerEmail     = document.getElementById('buyer-email')?.value.trim();
+  const recipientEmail = document.getElementById('recipient-email')?.value.trim();
+  const recipientName  = document.getElementById('recipient-name')?.value.trim();
+  const sid            = document.getElementById('order-sid')?.value.trim(); // opzionale
+
+  if (!buyerEmail || !recipientEmail) return;
+
+  try{
+    const r = await fetch('/.netlify/functions/club-claim-gift', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ buyerEmail, recipientEmail, recipientName, sid })
+    });
+    if(!r.ok) throw 0;
+    document.getElementById('claim-ok').style.display='block';
+    document.getElementById('claim-err').style.display='none';
+    e.target.reset();
+  }catch(_){
+    document.getElementById('claim-ok').style.display='none';
+    document.getElementById('claim-err').style.display='block';
+  }
 });
