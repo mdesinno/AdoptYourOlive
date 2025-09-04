@@ -251,6 +251,8 @@ function selectTree(treeType) {
         window.scrollTo({ top: elementPosition, behavior: 'smooth' });
     }
 }
+window.selectTree = selectTree;
+
 
 function updateTreeSelectionFromForm() {
     const treeSelect = document.getElementById('tree-type');
@@ -266,6 +268,8 @@ function updateTreeSelectionFromForm() {
         updateTreeSelectionDisplay();
     }
 }
+window.updateTreeSelectionFromForm = updateTreeSelectionFromForm;
+
 
 function updateTreeSelectionDisplay() {
     if (!document.getElementById('selected-tree-title')) return; // Esce se non è nella pagina principale
@@ -842,6 +846,17 @@ if (adoptionForm) {
                 exitIntentPopup.style.display = 'none';
             });
         }
+
+        // Selettori “Select” delle card: chiama selectTree leggendo data-tree-type
+document.querySelectorAll('.product-card .select-button').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const card = e.currentTarget.closest('.product-card');
+    if (!card) return;
+    const type = card.getAttribute('data-tree-type');
+    if (type) window.selectTree(type);
+  });
+});
+
     } // --- FINE BLOCCO IF per la pagina principale
 
      const track = document.querySelector('.recipe-slider-track');
