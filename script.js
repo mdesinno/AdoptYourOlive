@@ -28,17 +28,58 @@ async function loadGoogleMapsScript() {
     }
 }
 
-// Funzione per gestire il click sul link del Club (CORRETTA)
-function handleClubLinkClick(event) {
-    event.preventDefault(); 
-    const token = localStorage.getItem('ayoClubToken'); // <-- MODIFICA CORRETTA
-    
-    if (token) {
-        window.location.href = `club.html?token=${token}`;
-    } else {
-        window.location.href = 'club-login.html';
-    }
+// --- Caricamento on-demand di Google Analytics (dopo consenso) ---
+window.loadGA = function () {
+  if (window.gaLoaded) return;
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-FE1BSWKNP8';
+  document.head.appendChild(s);
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', 'G-FE1BSWKNP8', { anonymize_ip: true });
+  window.gaLoaded = true;
+};
+
+
+// --- GESTIONE TOKEN CLUB con scadenza "gentile" ---
+// (Se il token NON ha scadenza perché salvato in passato, lo accettiamo lo stesso.)
+
+// (In futuro, quando salverai il token dopo il login, usa questa helper:)
+function saveClubTokenWithExpiry(token, days = 30) {
+  const exp = Date.now() + days * 24 * 60 * 60 * 1000; // 30 giorni
+  localStorage.setItem('ayoClubToken', token);
+  localStorage.setItem('ayoClubTokenExp', String(exp));
 }
+
+// Legge il token e controlla la scadenza (se c'è). 
+// Se non c'è scadenza (vecchio salvataggio), lo considera valido per compatibilità.
+function getValidClubToken() {
+  const t = localStorage.getItem('ayoClubToken');
+  if (!t) return null;
+  const expStr = localStorage.getItem('ayoClubTokenExp');
+  if (!expStr) return t; // compatibilità: token salvati prima della scadenza
+  const exp = parseInt(expStr, 10) || 0;
+  if (Date.now() < exp) return t;
+  // scaduto: pulisco e invalido
+  localStorage.removeItem('ayoClubToken');
+  localStorage.removeItem('ayoClubTokenExp');
+  return null;
+}
+
+// SOSTITUISCI la tua funzione con questa:
+function handleClubLinkClick(event) {
+  event.preventDefault();
+  const token = getValidClubToken();
+  if (token) {
+    window.location.href = `club.html?token=${token}`;
+  } else {
+    window.location.href = 'club-login.html';
+  }
+}
+
 
 function initAutocomplete() {
     const addressInput = document.getElementById('address');
@@ -105,7 +146,7 @@ async function setLanguage(lang) {
     localStorage.setItem('language', lang);
     document.documentElement.lang = lang;
 
-    // ==> INIZIO BLOCCO HREFLANG <==
+   /* // ==> INIZIO BLOCCO HREFLANG <==
     // Rimuovi i vecchi tag hreflang per evitare duplicati
     document.querySelectorAll('link[rel="alternate"]').forEach(el => el.remove());
 
@@ -119,7 +160,7 @@ async function setLanguage(lang) {
         link.href = baseUrl;
         document.head.appendChild(link);
     });
-    // ==> FINE BLOCCO HREFLANG <==
+    // ==> FINE BLOCCO HREFLANG <== */
 
     if (Object.keys(i18nData.en).length === 0) {
         i18nData.en = await fetchTranslations('en');
@@ -326,8 +367,71 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (submitButton) submitButton.disabled = false;
     }
 };
-    document.getElementById('contact-form')?.addEventListener('submit', handleNetlifyFormSubmit);
-    document.getElementById('newsletter-form')?.addEventListener('submit', handleNetlifyFormSubmit);
+    // --- Newsletter: invia alla Function newsletter-intake ---
+async function handleNewsletterSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const modal = document.getElementById('success-modal');
+
+  const email = document.getElementById('newsletter-email')?.value.trim();
+  const language = document.documentElement.lang || 'it';
+  const name = ''; // se vuoi chiedere il nome, cambiamo qui
+
+  if (!email) { alert('Inserisci la tua email'); return; }
+
+  btn && (btn.disabled = true);
+  try {
+    const res = await fetch('/.netlify/functions/newsletter-intake', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({ email, language, name })
+    });
+    if (!res.ok) throw new Error('Errore server');
+    modal?.classList.add('visible');
+    form.reset();
+  } catch (err) {
+    alert('Si è verificato un errore, riprova.');
+  } finally {
+    btn && (btn.disabled = false);
+  }
+}
+
+// --- Contatti: invia alla Function contact-intake ---
+async function handleContactSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const modal = document.getElementById('success-modal');
+
+  const name = document.getElementById('contact-name')?.value.trim() || '';
+  const email = document.getElementById('contact-email')?.value.trim() || '';
+  const message = document.getElementById('contact-message')?.value.trim() || '';
+  const language = document.documentElement.lang || 'it';
+
+  if (!email || !message) { alert('Email e messaggio sono obbligatori'); return; }
+
+  btn && (btn.disabled = true);
+  try {
+    const res = await fetch('/.netlify/functions/contact-intake', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({ name, email, message, language })
+    });
+    if (!res.ok) throw new Error('Errore server');
+    modal?.classList.add('visible');
+    form.reset();
+  } catch (err) {
+    alert('Si è verificato un errore, riprova.');
+  } finally {
+    btn && (btn.disabled = false);
+  }
+}
+
+// Collega gli handler giusti ai due form
+document.getElementById('newsletter-form')?.addEventListener('submit', handleNewsletterSubmit);
+document.getElementById('contact-form')?.addEventListener('submit', handleContactSubmit);
+
 
     document.getElementById('close-modal-btn')?.addEventListener('click', () => document.getElementById('success-modal').classList.remove('visible'));
     document.getElementById('success-modal')?.addEventListener('click', (e) => { if (e.target.id === 'success-modal') e.target.classList.remove('visible'); });
@@ -414,11 +518,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             this.hideAll();
             this.executeConsentedScripts(consent);
         },
-        executeConsentedScripts(consent) {
-            if (consent.functional && typeof window.loadGoogleMapsScript === 'function') {
-                if (document.getElementById('adoption-form')) window.loadGoogleMapsScript();
-            }
-        },
+executeConsentedScripts(consent) {
+    // Funzionali: Google Maps (solo se c'è il form adozione)
+    if (consent.functional && typeof window.loadGoogleMapsScript === 'function') {
+        if (document.getElementById('adoption-form')) window.loadGoogleMapsScript();
+    }
+    // Analitici: Google Analytics
+    if (consent.analytics && typeof window.loadGA === 'function') {
+        window.loadGA();
+    }
+},
+
         showBanner() { this.banner.classList.add('visible'); },
         showPreferences() {
             this.hideAll();
@@ -468,7 +578,7 @@ if (isGiftCheckbox && giftFieldsContainer && recipientEmailInput) {
     isGiftCheckbox.addEventListener('change', () => {
         giftFieldsContainer.classList.toggle('visible');
         // Rende il campo email del ricevente obbligatorio solo se la sezione è visibile
-        recipientEmailInput.required = isGiftCheckbox.checked;
+        recipientEmailInput.required = false;
         checkFormValidity(); // Ricalcola la validità del form
     });
 }
@@ -677,17 +787,49 @@ if (adoptionForm) {
         window.plusSlides = (n) => showSlides(slideIndex + n);
         window.currentSlide = (n) => showSlides(n - 1);
         showSlides(slideIndex);
+
+                // --- Rendi NON obbligatori i campi indirizzo (Stripe li chiede in checkout) ---
+        (function makeAddressFieldsOptional(){
+          ['address','address-2','city','postal-code','country'].forEach(id=>{
+            const el = document.getElementById(id);
+            if (el) el.removeAttribute('required');
+          });
+        })();
         
+        // === EXIT-INTENT POPUP (versione più educata) ===
         const exitIntentPopup = document.getElementById('exit-intent-popup');
         if (exitIntentPopup) {
+            const SESSION_KEY = 'exitIntentShownAyo';
+            let exitDelayOk = false;
+            let scrolledOk = false;
+
             const showExitPopup = () => {
-                if (!sessionStorage.getItem('exitIntentShownAyo')) {
+                if (!sessionStorage.getItem(SESSION_KEY)) {
                     exitIntentPopup.style.display = 'flex';
-                    sessionStorage.setItem('exitIntentShownAyo', 'true');
+                    sessionStorage.setItem(SESSION_KEY, 'true');
                 }
             };
-            document.addEventListener('mouseout', e => { if (e.clientY < 0 && !e.relatedTarget && !e.toElement) showExitPopup(); });
-            document.getElementById('close-exit-popup').addEventListener('click', () => { exitIntentPopup.style.display = 'none'; });
+
+            // Attendi almeno 45s prima di poter mostrare il popup
+            setTimeout(() => { exitDelayOk = true; }, 45000);
+
+            // Mostra solo se l'utente ha scrollato almeno 400px
+            window.addEventListener('scroll', () => {
+                if (!scrolledOk && window.scrollY > 400) scrolledOk = true;
+            }, { passive: true });
+
+            // Trigger di uscita SOLO su desktop e solo se ha “ingaggiato”
+            document.addEventListener('mouseout', (e) => {
+                const isDesktop = window.innerWidth > 992;
+                const leavingTop = e.clientY < 0 && !e.relatedTarget && !e.toElement;
+                if (isDesktop && leavingTop && exitDelayOk && scrolledOk) {
+                    showExitPopup();
+                }
+            });
+
+            document.getElementById('close-exit-popup')?.addEventListener('click', () => {
+                exitIntentPopup.style.display = 'none';
+            });
         }
     } // --- FINE BLOCCO IF per la pagina principale
 

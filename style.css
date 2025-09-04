@@ -334,57 +334,6 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
     cursor: not-allowed; 
 }
 
-
-/* --- Stili per l'Anteprima del Certificato --- */
-.certificate-preview {
-    margin-top: 4rem; /* Spazio tra form e certificato */
-}
-.certificate-preview h3 { 
-    text-align: center; 
-    margin-bottom: 2rem; 
-}
-.certificate-frame { 
-    width: 100%; 
-    border: 8px solid #d4af37; 
-    box-shadow: var(--shadow-medium); 
-    background: linear-gradient(135deg, #fdf8e3, #fffbe8); 
-    padding: 20px; 
-    position: relative; 
-}
-.certificate-content { 
-    text-align: center; 
-}
-.certificate-logo { 
-    width: 65px; 
-    height: auto; 
-    margin-bottom: 10px; 
-}
-.certificate-header h4 { 
-    font-size: 1.5rem; 
-    color: var(--primary-green); 
-}
-.certificate-name, .certificate-tree { 
-    font-family: 'Playfair Display', serif; 
-    font-size: 1.8rem; 
-    font-weight: 700; 
-    color: var(--dark-text); 
-    margin: 0.3rem 0 0.6rem 0; 
-    border-bottom: 1.5px solid var(--primary-green); 
-    display: inline-block; 
-    padding-bottom: 3px; 
-}
-.certificate-message { 
-    font-style: italic; 
-    margin-top: 1rem; 
-    min-height: 40px; 
-}
-.signature { 
-    font-family: 'Dancing Script', cursive; 
-    font-size: 1.3rem; 
-    margin-top: 0.6rem; 
-    color: var(--primary-green); 
-}
-
 /* Media query per schermi più grandi (tablet e pc) */
 @media (min-width: 768px) {
     /* Fa diventare il form a due colonne */
@@ -500,7 +449,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
 .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
-@media (max-width: 992px) { .nav-toggle { display: block; } .nav-links { position: absolute; top: 100%; right: 0; width: 100%; background-color: rgba(255, 255, 255, 0.98); flex-direction: column; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; } .nav-links.open { max-height: 500px; } .certificate-preview, .form-container { order: 0; } .contact-grid-top { grid-template-columns: 1fr; } }
+@media (max-width: 992px) { .nav-toggle { display: block; } .nav-links { position: absolute; top: 100%; right: 0; width: 100%; background-color: rgba(255, 255, 255, 0.98); flex-direction: column; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; } .nav-links.open { max-height: 500px; } .form-container { order: 0; } .contact-grid-top { grid-template-columns: 1fr; } }
 @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .story-layout { flex-direction: column; }  
 .video-background {
     display: none; /* Nasconde il contenitore del video */
@@ -962,3 +911,6 @@ input:checked + .slider:before { transform: translateX(22px); }
     }
 
 }
+
+/* Nascondo l'indirizzo: lo chiede Stripe in checkout */
+#address-section { display: none !important; }
