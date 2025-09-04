@@ -968,3 +968,65 @@ document.getElementById('club-claim-gift-form')?.addEventListener('submit', asyn
     document.getElementById('claim-err').style.display='block';
   }
 });
+
+// --- CLUB: verifica token senza script inline (compatibile con la tua CSP) ---
+document.addEventListener('DOMContentLoaded', () => {
+  // Siamo nella pagina Club se il body ha id="club-body"
+  if (document.body?.id !== 'club-body') return;
+
+  const verifying    = document.getElementById('club-pre-check');  // box "Verifica in corso…"
+  const clubContent  = document.getElementById('club-content');     // contenuto privato
+  const accessDenied = document.getElementById('access-denied');    // box "Accesso negato"
+
+  const showLoading = () => { if (verifying) verifying.style.display = 'block';
+                              if (clubContent) clubContent.style.display = 'none';
+                              if (accessDenied) accessDenied.style.display = 'none'; };
+
+  const showContent = () => { if (verifying) verifying.style.display = 'none';
+                              if (clubContent) clubContent.style.display = 'block';
+                              if (accessDenied) accessDenied.style.display = 'none'; };
+
+  const showDenied  = () => { if (verifying) verifying.style.display = 'none';
+                              if (clubContent) clubContent.style.display = 'none';
+                              if (accessDenied) accessDenied.style.display = 'block'; };
+
+  async function validateToken(token) {
+    try {
+      if (!token) return false;
+      const res = await fetch('/.netlify/functions/validate-club-token', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({ token })
+      });
+      const data = await res.json();
+      return !!data.valid;
+    } catch {
+      return false;
+    }
+  }
+
+  (async () => {
+    showLoading();
+
+    const params       = new URLSearchParams(location.search);
+    const tokenFromUrl = params.get('token');
+    const savedToken   = localStorage.getItem('ayoClubToken');
+
+    // 1) Se arriva da QR/URL, prova quello e salvalo se valido
+    if (tokenFromUrl && await validateToken(tokenFromUrl)) {
+      localStorage.setItem('ayoClubToken', tokenFromUrl);
+      showContent();
+      return;
+    }
+
+    // 2) Altrimenti prova quello salvato in locale
+    if (savedToken && await validateToken(savedToken)) {
+      showContent();
+      return;
+    }
+
+    // 3) Niente di valido → nega
+    localStorage.removeItem('ayoClubToken');
+    showDenied();
+  })();
+});
