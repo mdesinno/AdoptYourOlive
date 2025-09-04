@@ -1,40 +1,33 @@
 // netlify/functions/create-stripe-checkout.js
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
-/**
- * Opzione A:
- * - Prezzi calcolati SOLO qui (server).
- * - Codici sconto: l’utente li inserisce in Checkout (allow_promotion_codes: true).
- * - Indirizzo: lo chiede Stripe (shipping_address_collection).
- */
+const discounts = require('./_discounts.js');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
-
   try {
     const data = JSON.parse(event.body || '{}');
-
     const {
-      treeType,                // 'young' | 'mature' | 'ancient' | 'historic'
-      customerEmail,           // email acquirente
-      certificateName,         // per certificato (solo metadati)
-      certificateMessage,      // per certificato (solo metadati)
-      language,                // lingua
-      isGift,                  // boolean
-      recipientEmail,          // opzionale
-      orderNote                // opzionale
+      treeType,
+      // ignoriamo qualsiasi price lato client
+      customerEmail,
+      discountCode,
+      certificateName = '',
+      certificateMessage = '',
+      language = 'it',
+      isGift = false,
+      recipientEmail = '',
+      orderNote = ''
     } = data;
 
-    // 1) PREZZI UFFICIALI (CENTESIMI)
+    // 1) Listino prezzi fisso (in centesimi)
     const PRICE_CENTS = {
       young:    4900,   // 49,00 €
       mature:  29900,   // 299,00 €
       ancient: 49900,   // 499,00 €
       historic:64900    // 649,00 €
     };
-
     const PRODUCT_NAME = {
       young:    "Adozione Ulivo Giovane",
       mature:   "Adozione Ulivo Maturo",
@@ -47,46 +40,78 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Tipo di albero non valido' }) };
     }
 
-    // 2) Metadati utili per post-vendita / fogli / email
-    const metadata = {
-      treeType,
-      certificateName: certificateName || '',
-      certificateMessage: certificateMessage || '',
-      language: language || 'it',
-      isGift: String(!!isGift),
-      recipientEmail: recipientEmail || '',
-      orderNote: orderNote || ''
-    };
+    // 2) Applica eventuale sconto
+    let applied = null;
+    const code = (discountCode || '').trim().toUpperCase();
+    if (code && discounts[code]) {
+      applied = discounts[code];
+    }
+    const finalAmount = (() => {
+      if (!applied) return unitAmount;
+      if (applied.type === 'percentage') {
+        const scontato = Math.round(unitAmount * (100 - Number(applied.value)) / 100);
+        return Math.max(scontato, 0);
+      }
+      if (applied.type === 'fixed') {
+        return Math.max(unitAmount - Number(applied.value), 0);
+      }
+      return unitAmount;
+    })();
 
-    // 3) Config Checkout
-    const siteUrl = process.env.URL || process.env.DEPLOY_PRIME_URL || 'http://localhost:8888';
+    // 3) Crea la sessione Stripe con il PREZZO GIÀ SCONTATO
+    const siteUrl = process.env.URL || `https://${event.headers.host}`;
 
-    const sessionConfig = {
+    const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      payment_method_types: ['card', 'klarna', 'paypal', 'revolut_pay'],
-      customer_email: customerEmail,
+      payment_method_types: ['card'],
+      customer_email: customerEmail || undefined,
+
+      // NIENTE "allow_promotion_codes": il cliente non vedrà un campo codice in Stripe
       line_items: [{
+        quantity: 1,
         price_data: {
           currency: 'eur',
-          product_data: { name: PRODUCT_NAME[treeType] },
-          unit_amount: unitAmount
-        },
-        quantity: 1
+          unit_amount: finalAmount,
+          product_data: {
+            name: PRODUCT_NAME[treeType],
+            metadata: { treeType }
+          }
+        }
       }],
-      allow_promotion_codes: true, // sconti gestiti in checkout
+
+      // Stripe raccoglie l'indirizzo di spedizione
       shipping_address_collection: {
-        allowed_countries: ['IT','DE','NL','NO','FR','ES','GB','CH','AT']
+        allowed_countries: ['IT','DE','FR','NL','NO','BE','ES','PT','AT','CH','DK','SE','FI','IE','LU','GB']
       },
-      success_url: `${siteUrl}/success.html`,
+
+      // Torno alle tue pagine
+      success_url: `${siteUrl}/success.html?sid={CHECKOUT_SESSION_ID}`,
       cancel_url:  `${siteUrl}/cancel.html`,
-      metadata
+
+      // Salviamo TUTTO nelle metadata (le useremo nel webhook)
+      metadata: {
+        language,
+        tree_type: treeType,
+        base_price: String(unitAmount),
+        discount_code: code,
+        discount_type: applied ? applied.type : '',
+        discount_value: applied ? String(applied.value) : '',
+        final_amount: String(finalAmount),
+
+        is_gift: isGift ? 'yes' : 'no',
+        recipient_email: recipientEmail,
+        certificate_name: certificateName,
+        certificate_message: certificateMessage,
+        order_note: orderNote
+      }
+    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ checkoutUrl: session.url })
     };
-
-    const session = await stripe.checkout.sessions.create(sessionConfig);
-    return { statusCode: 200, body: JSON.stringify({ checkoutUrl: session.url }) };
-
-  } catch (err) {
-    console.error('Errore create-stripe-checkout:', err);
-    return { statusCode: 500, body: JSON.stringify({ error: 'Impossibile creare la sessione di pagamento' }) };
+  } catch (error) {
+    console.error('ERRORE create-stripe-checkout:', error);
+    return { statusCode: 500, body: JSON.stringify({ error: 'Failed to create payment session.' }) };
   }
 };
