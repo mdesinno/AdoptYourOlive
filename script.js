@@ -217,12 +217,12 @@ function updatePriceUI(price) {
 
 // Assicurati che la tua funzione selectTree sia questa
 function selectTree(treeType) {
-  // tracking click
-  if (clickTracker.hasOwnProperty(treeType)) {
+  // tracking click (se esiste l'oggetto)
+  if (typeof clickTracker === 'object' && clickTracker.hasOwnProperty(treeType)) {
     clickTracker[treeType]++;
     localStorage.setItem(`clicks_${treeType}`, String(clickTracker[treeType]));
   }
-  updateMostPopular?.();
+  try { updateMostPopular?.(); } catch(e){}
 
   // evidenzia card e salva selezione
   document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
@@ -238,25 +238,29 @@ function selectTree(treeType) {
   const sel = document.getElementById('tree-type');
   if (sel) sel.value = treeType;
 
-  // 👉 SCROLL SUBITO (così parte anche se dopo qualcosa dà errore)
+  // 👉 SCROLL SUBITO al form (sempre)
   const formSection = document.getElementById('personalization');
   if (formSection) {
-    const navH = document.querySelector('.main-nav')?.offsetHeight || 0;
-    const y = formSection.getBoundingClientRect().top + window.pageYOffset - navH - 20;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    // scroll semplice + correzione per navbar fissa
+    formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+      const navH = document.querySelector('.main-nav')?.offsetHeight || 0;
+      window.scrollBy({ top: -navH - 20, left: 0, behavior: 'auto' });
+    }, 350);
   }
 
-  // il resto (se qualcosa qui rompe, lo scroll è già partito)
-  try { updatePriceUI?.(selectedPrice); } catch(e) {}
-  try { updateTreeSelectionDisplay?.(); } catch(e) {}
+  // il resto (se qualcosa rompe, lo scroll è già partito)
+  try { updatePriceUI?.(selectedPrice); } catch(e){}
+  try { updateTreeSelectionDisplay?.(); } catch(e){}
 
-  // auto-applica eventuale codice sconto già scritto
+  // applica codice sconto se già presente
   try {
     const input = document.getElementById('discount-code');
-    const btn = document.getElementById('apply-discount-btn');
-    if (input?.value && !input?.disabled) btn?.click();
-  } catch(e) {}
+    const btn   = document.getElementById('apply-discount-btn');
+    if (input && input.value && !input.disabled) btn?.click();
+  } catch(e){}
 }
+
 
 window.selectTree = selectTree;
 
@@ -344,6 +348,58 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- LOGICA GLOBALE (per tutte le pagine) ---
     await setLanguage(currentLang);
+
+      // --- CLUB: verifica token e redirect a login se mancante/errato ---
+  if (document.body && document.body.id === 'club-body') {
+    const verifying    = document.getElementById('loading-indicator'); // "Verifica in corso..."
+    const clubContent  = document.getElementById('club-content');      // contenuto privato
+    const accessDenied = document.getElementById('access-denied');     // box rosso (non lo useremo)
+
+    // piccole helper per mostrare/nascondere
+    const show = (what) => {
+      if (verifying)    verifying.style.display    = (what === 'loading' ? 'block' : 'none');
+      if (clubContent)  clubContent.style.display  = (what === 'content' ? 'block' : 'none');
+      if (accessDenied) accessDenied.style.display = (what === 'denied'  ? 'block' : 'none');
+    };
+
+    const validate = async (token) => {
+      try {
+        if (!token) return false;
+        const res = await fetch('/.netlify/functions/validate-club-token', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify({ token })
+        });
+        const data = await res.json();
+        return !!data.valid;
+      } catch { return false; }
+    };
+
+    show('loading');
+
+    const params       = new URLSearchParams(location.search);
+    const tokenFromUrl = params.get('token');
+    const savedToken   = localStorage.getItem('ayoClubToken');
+
+    // 1) token via URL → valida e salva
+    if (tokenFromUrl && await validate(tokenFromUrl)) {
+      localStorage.setItem('ayoClubToken', tokenFromUrl);
+      show('content');
+      return;
+    }
+
+    // 2) token salvato → valida
+    if (savedToken && await validate(savedToken)) {
+      show('content');
+      return;
+    }
+
+    // 3) niente token valido → vai alla login
+    localStorage.removeItem('ayoClubToken');
+    window.location.href = 'club-login.html';
+    return; // IMPORTANTISSIMO: non eseguire altro JS della home
+  }
+
 
     const languageSelector = document.getElementById('language-selector');
     if (languageSelector) {
