@@ -1,55 +1,6 @@
 // netlify/functions/create-stripe-checkout.js
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const discounts = require('./_discounts.js');
-const { google } = require('googleapis');
-
-// ===== Helpers Google Sheets =====
-async function getSheets() {
-  const jwt = new google.auth.JWT(
-    process.env.GOOGLE_CLIENT_EMAIL,
-    null,
-    (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
-    ['https://www.googleapis.com/auth/spreadsheets']
-  );
-  await jwt.authorize();
-  return google.sheets({ version: 'v4', auth: jwt });
-}
-
-async function appendAttemptRow({
-  spreadsheetId, sessionId, createdISO, buyerEmail,
-  isGift, treeType, finalAmount, discountCode, language
-}) {
-  const sheets = await getSheets();
-  // Colonne attese in "Log tentativi":
-  // ID ordine | Data ordine | Email acquirente | Nome acquirente | Email adottante | Nome adottante |
-  // Regalo? | Tipo adozione | Messaggio personalizzato | Indirizzo 1 | Indirizzo 2 | Città | CAP | Nazione |
-  // Note | Codice sconto usato | Importo ordine | Lingua | Stato (calcolata da formula)
-  const values = [[
-    sessionId,
-    createdISO,
-    buyerEmail || '',
-    '',
-    '', // email adottante (se regalo la mettiamo dopo)
-    '',
-    isGift ? 'Sì' : 'No',
-    treeType || '',
-    '',
-    '', '', '', '', '',
-    '', // Note
-    discountCode || '',
-    (finalAmount / 100).toFixed(2).replace('.', ','), // Importo ordine in € con virgola
-    language || ''
-  ]];
-
-  await sheets.spreadsheets.values.append({
-    spreadsheetId,
-    range: 'Log tentativi!A:Z',
-    valueInputOption: 'RAW',
-    requestBody: { values }
-  });
-}
-
-// =================================
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -106,22 +57,18 @@ exports.handler = async (event) => {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
 
-      // 👇 Lasciamo a Stripe la scelta dei metodi (PayPal incluso se abilitato in Dashboard)
+      // Lasciamo a Stripe la scelta dei metodi (PayPal apparirà se abilitato nel tuo account)
       automatic_payment_methods: { enabled: true },
 
-      // Raccogliamo indirizzo di spedizione e fatturazione
+      // Raccogliamo indirizzo spedizione + fatturazione
       shipping_address_collection: {
         allowed_countries: ['IT','DE','FR','NL','NO','BE','ES','PT','AT','CH','DK','SE','FI','IE','LU','GB']
       },
       billing_address_collection: 'required',
-
-      // Email precompilata
       customer_email: customerEmail || undefined,
-
-      // Aggiorna indirizzi sul Customer
       customer_update: { address: 'auto', shipping: 'auto' },
 
-      // ✅ Metadati SUL PAYMENT INTENT (visibili sul pagamento)
+      // ✅ Metadati sul PaymentIntent (visibili nel pagamento)
       payment_intent_data: {
         metadata: {
           language,
@@ -153,36 +100,15 @@ exports.handler = async (event) => {
         }
       }],
 
-      // Niente campo "codice" in Stripe: lo abbiamo già applicato
       allow_promotion_codes: false,
-
       success_url: `${siteUrl}/success.html?sid={CHECKOUT_SESSION_ID}`,
       cancel_url:  `${siteUrl}/cancel.html`,
-
-      // Etichetta generica
       metadata: { order_source: 'AYO_Site' }
     });
 
-    // --- LOG TENTATIVI: scriviamo subito la riga ---
-    try {
-      await appendAttemptRow({
-        spreadsheetId: process.env.GSHEET_ID || process.env.SHEET_ID,
-        sessionId: session.id,
-        createdISO: new Date().toISOString(),
-        buyerEmail: customerEmail || '',
-        isGift,
-        treeType,
-        finalAmount,
-        discountCode: code,
-        language
-      });
-    } catch (e) {
-      console.warn('Append Log tentativi failed:', e?.response?.data || e.message);
-    }
-
     return { statusCode: 200, body: JSON.stringify({ checkoutUrl: session.url }) };
   } catch (error) {
-    console.error('ERRORE create-stripe-checkout:', error);
-    return { statusCode: 500, body: JSON.stringify({ error: 'Failed to create payment session.' }) };
+    console.error('ERRORE create-stripe-checkout:', error?.message || error);
+    return { statusCode: 500, body: JSON.stringify({ error: 'Create session failed' }) };
   }
 };
