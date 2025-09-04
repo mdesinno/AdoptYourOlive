@@ -287,7 +287,7 @@ const treeNames = {
 
 function updateCertificatePreview() {
     if (!document.getElementById('preview-name')) return; // Esce se non è nella pagina principale
-    const certName = document.getElementById('certificate-name').value.trim() || `${document.getElementById('first-name').value.trim()} ${document.getElementById('last-name').value.trim()}`.trim() || getTranslation('certYourNamePlaceholder');
+    const certName = document.getElementById('certificate-name').value.trim() || `${document.getElementById('full-name').value.trim()}`.trim() || getTranslation('certYourNamePlaceholder');
     document.getElementById('preview-name').textContent = certName;
     document.getElementById('preview-message').textContent = document.getElementById('certificate-message').value.trim() || getTranslation('certMessagePlaceholder');
 }
@@ -696,7 +696,7 @@ if (adoptionForm) {
             customerEmail: customerEmail,
             discountCode: discountCode,
             shippingDetails: {
-                name: `${formData.get('first-name')} ${formData.get('last-name')}`,
+                name: `${formData.get('full-name')}`,
                 address: {
                     line1: formData.get('address'),
                     line2: formData.get('address-2'),
@@ -752,7 +752,7 @@ if (adoptionForm) {
             if(input.id !== 'discount-code'){
                 input.addEventListener((input.tagName === 'SELECT' ? 'change' : 'input'), checkFormValidity);
             }
-            if (['certificate-name', 'certificate-message', 'first-name', 'last-name'].includes(input.id)) {
+            if (['certificate-name', 'certificate-message', 'full-name'].includes(input.id)) {
                 input.addEventListener('input', updateCertificatePreview);
             }
             if (input.id === 'certificate-message') input.addEventListener('input', updateCharCount);
@@ -795,6 +795,17 @@ if (adoptionForm) {
             if (el) el.removeAttribute('required');
           });
         })();
+
+        // --- Autofill: se "Nome per il Certificato" è vuoto, metti il Nome Completo
+(function autoFillCertificateName(){
+  const full = document.getElementById('full-name');
+  const cert = document.getElementById('certificate-name');
+  if (!full || !cert) return;
+  full.addEventListener('blur', () => {
+    if (!cert.value.trim()) cert.value = full.value.trim();
+  });
+})();
+
         
         // === EXIT-INTENT POPUP (versione più educata) ===
         const exitIntentPopup = document.getElementById('exit-intent-popup');

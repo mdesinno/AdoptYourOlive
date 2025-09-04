@@ -589,7 +589,7 @@
 "certPreviewDisclaimer": "Dies ist eine funktionale Vorschau. Das endgültige Zertifikat, das Sie erhalten, wird ein hochwertigeres Design und Papier aufweisen.",
 "feedbackSuccessFixed": "{amount}€ Rabatt angewendet!",
 "formLabelIsGift": "Ist das ein Geschenk?",
-"formLabelRecipientEmail": "E-Mail des Empfängers *",
+"formLabelRecipientEmail": "E-Mail des Empfängers (Optional)",
 "formPlaceholderRecipientEmail": "An wen senden wir zukünftige Updates und die Verlängerung",
 "formNoteRecipientEmail": "Die Bestellbestätigung und die Rechnung werden an Ihre E-Mail-Adresse gesendet, nicht an diese.",
 "formLabelOrderNote": "Bestellhinweis (Optional)",
@@ -597,6 +597,8 @@
 "clubUpdateEmailTitle": "E-Mail geändert?",
 "clubUpdateEmailText": "Um sicherzustellen, dass Sie alle zukünftigen Updates zu Ihrem Baum und die Erneuerungsmitteilungen korrekt erhalten, ist es wichtig, dass Ihre E-Mail-Adresse immer aktuell ist. Um die mit Ihrer Adoption verbundene E-Mail zu ändern, senden Sie uns bitte eine direkte Anfrage.",
 "clubUpdateEmailBtn": "Update-Anfrage senden",
+"formLabelFullName": "Vollständiger Name *",
+  "formPlaceholderFullName": "z. B. Mario Rossi",
 "cookieOtherTechTitle": "2-b. Andere verwendete Technologien (für die Web-App)",
 "cookieOtherTechText": "Zusätzlich zu Cookies verwendet unsere Website weitere moderne Technologien, um Ihre Erfahrung zu verbessern: <ul><li><strong>LocalStorage:</strong> Wir verwenden es, um Ihr Zugangstoken für den AYO Adopters Club sicher zu speichern, damit Sie nicht bei jedem Besuch der installierten App das Passwort eingeben müssen.</li><li><strong>Service Workers:</strong> Dies sind Skripte, die im Hintergrund Ihres Browsers laufen, damit unsere Club-Web-App auch ohne Internetverbindung funktioniert, indem wesentliche Ressourcen aus dem Speicher Ihres Geräts (Cache) geladen werden.</li></ul> Diese Technologien sind für die Bereitstellung der von Ihnen erwarteten Funktionen unerlässlich und sammeln keine persönlichen Tracking-Daten.",
 "privacySection2_list4_item1": "<strong>Auf Ihrem Gerät gespeicherte Daten (für die Web App):</strong> Um das Erlebnis im AYO Adopters Club zu verbessern und einen schnellen Zugriff zu ermöglichen, speichern wir ein anonymes Authentifizierungstoken in Ihrem Browser (`localStorage`). Dies ermöglicht es uns, Sie bei späteren Besuchen wiederzuerkennen, ohne ein neues Passwort anfordern zu müssen."

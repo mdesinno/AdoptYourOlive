@@ -589,7 +589,7 @@
 "certPreviewDisclaimer": "Dit is een functioneel voorbeeld. Het definitieve certificaat dat u thuis ontvangt, heeft een superieur grafisch ontwerp en papierkwaliteit.",
 "feedbackSuccessFixed": "{amount}€ korting toegepast!",
 "formLabelIsGift": "Is dit een cadeau?",
-"formLabelRecipientEmail": "E-mail van de Ontvanger *",
+"formLabelRecipientEmail": "E-mail van de Ontvanger (Optioneel)",
 "formPlaceholderRecipientEmail": "Naar wie sturen we toekomstige updates en de verlenging",
 "formNoteRecipientEmail": "De orderbevestiging en factuur worden naar uw e-mailadres gestuurd, niet naar dit.",
 "formLabelOrderNote": "Bestelnotitie (Optioneel)",
@@ -598,6 +598,8 @@
 "clubUpdateEmailText": "Om ervoor te zorgen dat u alle toekomstige updates over uw boom en de verlengingsberichten correct ontvangt, is het belangrijk dat uw e-mailadres altijd up-to-date is. Om het e-mailadres dat aan uw adoptie is gekoppeld te wijzigen, kunt u ons een direct verzoek sturen.",
 "clubUpdateEmailBtn": "Updateverzoek verzenden",
 "cookieOtherTechTitle": "2-b. Andere Gebruikte Technologieën (voor de Web App)",
+"formLabelFullName": "Volledige naam *",
+  "formPlaceholderFullName": "bijv. Mario Rossi",
 "cookieOtherTechText": "Naast cookies maakt onze site gebruik van andere moderne technologieën om uw ervaring te verbeteren: <ul><li><strong>LocalStorage:</strong> We gebruiken het om uw toegangstoken voor de AYO Adopters Club veilig op te slaan, zodat u niet bij elk bezoek vanuit de geïnstalleerde app het wachtwoord hoeft in te voeren.</li><li><strong>Service Workers:</strong> Dit zijn scripts die op de achtergrond van uw browser draaien om onze Club Web App te laten functioneren, zelfs als u geen internetverbinding heeft, door essentiële bronnen uit het geheugen van uw apparaat (cache) te laden.</li></ul> Deze technologieën zijn essentieel voor het leveren van de functies die u verwacht en verzamelen geen persoonlijke trackinggegevens.",
 "privacySection2_list4_item1": "<strong>Gegevens opgeslagen op uw apparaat (voor de Web App):</strong> Om de ervaring van de AYO Adopters Club te verbeteren en snelle toegang mogelijk te maken, slaan we een anoniem authenticatietoken op in uw browser (`localStorage`). Dit stelt ons in staat u te herkennen bij volgende bezoeken zonder een nieuw wachtwoord te vereisen."
 }

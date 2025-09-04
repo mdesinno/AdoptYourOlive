@@ -589,7 +589,7 @@
 "certPreviewDisclaimer": "Ceci est un aperçu fonctionnel. Le certificat final que vous recevrez à domicile aura un design graphique et un papier de qualité supérieure.",
 "feedbackSuccessFixed": "Remise de {amount}€ appliquée !",
 "formLabelIsGift": "Est-ce un cadeau ?",
-"formLabelRecipientEmail": "E-mail du Destinataire *",
+"formLabelRecipientEmail": "E-mail du Destinataire (Optionnel)",
 "formPlaceholderRecipientEmail": "À qui enverrons-nous les futures mises à jour et le renouvellement",
 "formNoteRecipientEmail": "La confirmation de commande et la facture seront envoyées à votre adresse e-mail, pas à celle-ci.",
 "formLabelOrderNote": "Note sur la Commande (Optionnel)",
@@ -597,6 +597,8 @@
 "clubUpdateEmailTitle": "Vous avez changé d'e-mail ?",
 "clubUpdateEmailText": "Pour vous assurer de recevoir correctement toutes les futures mises à jour concernant votre arbre et les communications de renouvellement, il est important que votre adresse e-mail soit toujours à jour. Pour modifier l'e-mail associé à votre adoption, veuillez nous envoyer une demande directe.",
 "clubUpdateEmailBtn": "Envoyer la demande de mise à jour",
+"formLabelFullName": "Nom complet *",
+  "formPlaceholderFullName": "ex. Mario Rossi",
 "cookieOtherTechTitle": "2-bis. Autres Technologies Utilisées (pour l'application Web)",
 "cookieOtherTechText": "En plus des cookies, notre site utilise d'autres technologies modernes pour améliorer votre expérience : <ul><li><strong>LocalStorage :</strong> Nous l'utilisons pour enregistrer en toute sécurité votre jeton d'accès au Club des Adopteurs AYO, afin que vous n'ayez pas à saisir le mot de passe à chaque visite depuis l'application installée.</li><li><strong>Service Workers :</strong> Ce sont des scripts qui s'exécutent en arrière-plan dans votre navigateur pour permettre à notre application Web du Club de fonctionner même lorsque vous n'êtes pas connecté à Internet, en chargeant les ressources essentielles depuis la mémoire de votre appareil (cache).</li></ul> Ces technologies sont essentielles pour fournir les fonctionnalités que vous attendez et ne collectent pas de données de suivi personnelles.",
 "privacySection2_list4_item1": "<strong>Données enregistrées sur votre appareil (pour l'application Web) :</strong> Pour améliorer l'expérience du Club des Adopteurs AYO et permettre un accès rapide, nous enregistrons un jeton d'authentification anonyme dans votre navigateur (`localStorage`). Cela nous permet de vous reconnaître lors de vos visites ultérieures sans nécessiter un nouveau mot de passe."
