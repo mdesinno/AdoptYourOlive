@@ -873,14 +873,44 @@ if (adoptionForm) {
         })();
 
         // --- Autofill: se "Nome per il Certificato" è vuoto, metti il Nome Completo
-(function autoFillCertificateName(){
+// Auto-fill "Nome per il certificato" da "Nome e cognome"
+// - funziona anche con autofill del browser
+// - non sovrascrive se l'utente modifica il certificato
+(function autoFillCertificateName() {
   const full = document.getElementById('full-name');
   const cert = document.getElementById('certificate-name');
   if (!full || !cert) return;
-  full.addEventListener('blur', () => {
-    if (!cert.value.trim()) cert.value = full.value.trim();
+
+  let userEdited = false;
+
+  // Se l'utente scrive nel certificato, non toccarlo più
+  ['input', 'change', 'paste'].forEach(evt => {
+    cert.addEventListener(evt, () => { userEdited = true; }, { passive: true });
   });
+
+  const sync = () => {
+    if (userEdited) return;
+    const v = (full.value || '').trim();
+    if (!v) return;
+    if (!cert.value.trim()) cert.value = v; // compila solo se vuoto
+  };
+
+  // Aggiorna quando cambia il nome (anche con autofill che spara 'input')
+  ['input', 'change', 'blur'].forEach(evt => {
+    full.addEventListener(evt, sync, { passive: true });
+  });
+
+  // Copri gli autofill che avvengono dopo il load
+  requestAnimationFrame(() => setTimeout(sync, 300));
+  setTimeout(sync, 1200);
 })();
+document.addEventListener('animationstart', e => {
+  if (e.animationName === 'onAutoFill') setTimeout(() => {
+    const full = document.getElementById('full-name');
+    full && full.dispatchEvent(new Event('input', { bubbles: true }));
+  }, 0);
+});
+
 
         
         // === EXIT-INTENT POPUP (versione più educata) ===

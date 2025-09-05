@@ -954,3 +954,5 @@ input:checked + .slider:before { transform: translateX(22px); }
 /* Se NON hai tolto la classe, neutralizza la transform solo qui */
 #final-cta.animate-on-scroll { transform: none !important; }
 
+@keyframes onAutoFill {}
+input:-webkit-autofill { animation: onAutoFill 0.01s; }
