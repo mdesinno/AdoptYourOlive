@@ -872,44 +872,69 @@ if (adoptionForm) {
           });
         })();
 
-        // --- Autofill: se "Nome per il Certificato" è vuoto, metti il Nome Completo
-// Auto-fill "Nome per il certificato" da "Nome e cognome"
-// - funziona anche con autofill del browser
-// - non sovrascrive se l'utente modifica il certificato
-(function autoFillCertificateName() {
+// Auto-fill "Nome per il certificato" da "Nome e Cognome"
+// - Funziona anche con autofill (Chrome/Safari/Firefox)
+// - NON sovrascrive dopo che l'utente modifica il certificato
+(function initCertificateAutofill() {
   const full = document.getElementById('full-name');
   const cert = document.getElementById('certificate-name');
   if (!full || !cert) return;
 
+  // Suggerimenti autofill per evitare che l'indirizzo tocchi il certificato
+  full.setAttribute('autocomplete', 'section-person name');
+  cert.setAttribute('autocomplete', 'nickname');
+
   let userEdited = false;
 
-  // Se l'utente scrive nel certificato, non toccarlo più
+  // Se l'utente tocca/scrive nel certificato → non sincronizzare più
   ['input', 'change', 'paste'].forEach(evt => {
-    cert.addEventListener(evt, () => { userEdited = true; }, { passive: true });
+    cert.addEventListener(evt, () => {
+      if (cert.dataset.sync !== '1') userEdited = true;
+    }, { passive: true });
   });
 
   const sync = () => {
     if (userEdited) return;
     const v = (full.value || '').trim();
     if (!v) return;
-    if (!cert.value.trim()) cert.value = v; // compila solo se vuoto
+    // Aggiorna solo se vuoto o se era già stato autocompilato da noi
+    if (!cert.value.trim() || cert.dataset.sync === '1') {
+      cert.value = v;
+      cert.dataset.sync = '1';
+    }
   };
 
-  // Aggiorna quando cambia il nome (anche con autofill che spara 'input')
+  // Aggiorna quando cambia il nome (copre digitazione e molti autofill)
   ['input', 'change', 'blur'].forEach(evt => {
     full.addEventListener(evt, sync, { passive: true });
   });
 
-  // Copri gli autofill che avvengono dopo il load
-  requestAnimationFrame(() => setTimeout(sync, 300));
-  setTimeout(sync, 1200);
+  // Copre gli autofill che avvengono dopo il load/paint
+  const kicks = [0, 100, 300, 800, 1500, 2500];
+  kicks.forEach(t => setTimeout(sync, t));
+
+  // Quando la pagina torna visibile (es. tornato dal password manager)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) setTimeout(sync, 120);
+  }, { passive: true });
+
+  // Alcuni browser fires 'pageshow' su bfcache/back-forward
+  window.addEventListener('pageshow', () => setTimeout(sync, 120));
 })();
-document.addEventListener('animationstart', e => {
-  if (e.animationName === 'onAutoFill') setTimeout(() => {
-    const full = document.getElementById('full-name');
-    full && full.dispatchEvent(new Event('input', { bubbles: true }));
-  }, 0);
-});
+
+// Aggancio specifico per WebKit quando scatta l'autofill
+document.addEventListener('animationstart', (e) => {
+  if (e.animationName === 'onAutoFill') {
+    // piccolo delay per lasciare completare il riempimento
+    setTimeout(() => {
+      const full = document.getElementById('full-name');
+      if (full) {
+        // forza un ciclo di sync come se l'utente avesse digitato
+        full.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    }, 0);
+  }
+}, { passive: true });
 
 
         

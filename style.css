@@ -955,4 +955,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 #final-cta.animate-on-scroll { transform: none !important; }
 
 @keyframes onAutoFill {}
-input:-webkit-autofill { animation: onAutoFill 0.01s; }
+input:-webkit-autofill {
+  animation-name: onAutoFill;
+  animation-duration: 0.01s;
+}
