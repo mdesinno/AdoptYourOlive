@@ -760,7 +760,7 @@ if (adoptionForm) {
         const formData = new FormData(adoptionForm);
         const treeType = formData.get('tree-type');
         const customerEmail = formData.get('email');
-        const discountCode = document.getElementById('discount-code').value.trim();
+const discountCode = document.getElementById('discount-code')?.value.trim() || '';
 
         const selectedOption = document.querySelector(`#tree-type option[value="${treeType}"]`);
         const price = selectedOption ? selectedOption.dataset.price : '0';
@@ -786,7 +786,7 @@ if (adoptionForm) {
     language: document.documentElement.lang || 'it',
     
     // ===== RIGHE DA AGGIUNGERE =====
-    isGift: document.getElementById('is-gift').checked,
+isGift: document.getElementById('is-gift')?.checked || false,
     recipientEmail: formData.get('recipient-email'),
     orderNote: formData.get('order-note')
     // =============================
