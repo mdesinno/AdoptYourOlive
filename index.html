@@ -263,10 +263,10 @@
             <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
             <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
             <!--<li><a href="#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
+            <li><a href="#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
             <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-                <li><a href="#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
             <li><a href="#contact" data-i18n-key="navContactShort">Contact</a></li>
-                <li><a href="club.html" onclick="handleClubLinkClick(event)">Club</a></li>
+            <li><a href="club.html" onclick="handleClubLinkClick(event)">Club</a></li>
         </ul>
         <div class="language-switcher">
             <select id="language-selector" aria-label="Selettore della lingua">
@@ -312,19 +312,19 @@
             </div>
             <div class="products-grid">
                 <div class="product-card" data-tree-type="young" data-price="49">
-        <img src="immagini/Albero-Giovane-copia.webp" alt="Ulivo giovane" class="product-image" loading="lazy">
-        <h3 class="product-title" data-i18n-key="productYoungTitle">Ulivo Giovane</h3>
-        <div class="product-age"><i class="fas fa-leaf"></i> <span data-i18n-key="productYoungAge">15-40 Anni</span></div>
-        <div class="price-container"><span class="current-price">€49</span></div>
-        <ul class="benefits-list">
+                    <img src="immagini/Albero-Giovane-copia.webp" alt="Ulivo giovane" class="product-image" loading="lazy">
+                    <h3 class="product-title" data-i18n-key="productYoungTitle">Ulivo Giovane</h3>
+                    <div class="product-age"><i class="fas fa-leaf"></i> <span data-i18n-key="productYoungAge">15-40 Anni</span></div>
+                    <div class="price-container"><span class="current-price">€49</span></div>
+                    <ul class="benefits-list">
                         <li data-i18n-key="productCommonBenefit1">Certificato di adozione <strong>digitale e cartaceo</strong></li>
                         <li data-i18n-key="productCommonBenefit2"><strong>Targhetta personalizzata</strong> applicata al tuo albero</li>
                         <li data-i18n-key="productCommonBenefit3">Aggiornamenti periodici e foto del tuo albero</li>
                         <li data-i18n-key="productCommonBenefitClub">Accesso esclusivo all'<strong>AYO Adopters Club</strong></li>
                     </ul>
                     <p class="ideal-for" data-i18n-key="productYoungIdeal">Perfetto per un regalo simbolico e sostenibile</p>
-        <button class="select-button" onclick="selectTree('young')" data-i18n-key="productYoungButton">Seleziona Ulivo Giovane</button>
-    </div>
+                    <button class="select-button" onclick="selectTree('young')" data-i18n-key="productYoungButton">Seleziona Ulivo Giovane</button>
+                </div>
     <div class="product-card" data-tree-type="mature" data-price="299">
         <img src="immagini/Albero-Maturo-copia.webp" alt="Ulivo maturo" class="product-image" loading="lazy">
         <h3 class="product-title" data-i18n-key="productMatureTitle">Ulivo Maturo</h3>
@@ -457,6 +457,149 @@
             <div style="text-align: center; margin: 40px 0;">
     <a href="#personalization" class="btn btn-primary" data-i18n-key="heroCtaChoose">Scegli il Tuo Ulivo</a>
 </div>
+        </div>
+    </section>
+
+    <section id="personalization" class="personalization-section">
+        <div class="container">
+            <div class="personalization-layout">
+                <div class="form-container animate-on-scroll">
+                    <h2 data-i18n-key="formTitlePersonalize">Personalizza la Tua Adozione</h2>
+                    <form id="adoption-form" data-netlify="true" class="adoption-form">
+                        <input type="hidden" name="form-name" value="adoption-form">
+                        <p class="honeypot-field" style="display:none;">
+                            <label>Lascia questo campo vuoto se sei umano: <input name="bot-field" /></label>
+                        </p>
+                        <input type="hidden" name="language" id="form-language-adoption">                   
+                        <div class="selected-tree-display">
+                            <h3 id="selected-tree-title" data-i18n-key="formSelectedTreeDefault">Seleziona un ulivo sopra per continuare</h3>
+                            <div id="selected-tree-price" class="price-display">€0</div>
+                        </div>
+                        <div class="personalization-content">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="tree-type" data-i18n-key="formLabelTreeType">Tipo di Adozione</label>
+                                    <select id="tree-type" name="tree-type" onchange="updateTreeSelectionFromForm()">
+                                        <option value="" data-i18n-key="formSelectTreeType">Seleziona il tipo di adozione</option>
+                                        <option value="young" data-price="49" data-i18n-key="formTreeYoung">Ulivo Giovane - €49</option>
+                                        <option value="mature" data-price="299" data-i18n-key="formTreeMature">Ulivo Maturo - €299</option>
+                                        <option value="ancient" data-price="499" data-i18n-key="formTreeAncient">Ulivo Antico - €499</option>
+                                        <option value="historic" data-price="649" data-i18n-key="formTreeHistoric">Ulivo Secolare - €649</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="full-name" data-i18n-key="formLabelFullName">Nome e Cognome *</label>
+                                    <input type="text" id="full-name" name="full-name" required autocomplete="name"  placeholder="Es. Mario Rossi" data-i18n-placeholder-key="formPlaceholderFullName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" data-i18n-key="formLabelEmail">Indirizzo Email *</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-section">
+                                    <h4 data-i18n-key="formSectionShipping">Informazioni di Spedizione</h4>
+                                    <div class="form-group">
+                                        <label for="address" data-i18n-key="formLabelAddress">Indirizzo *</label>
+                                        <input type="text" id="address" name="address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address-2" data-i18n-key="formLabelAddress2">Indirizzo 2 (Opzionale)</label>
+                                        <input type="text" id="address-2" name="address-2" data-i18n-placeholder-key="formPlaceholderAddress2" placeholder="Es. Interno, Scala, c/o">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="city" data-i18n-key="formLabelCity">Città *</label>
+                                            <input type="text" id="city" name="city">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="postal-code" data-i18n-key="formLabelPostalCode">CAP *</label>
+                                            <input type="text" id="postal-code" name="postal-code">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="country" data-i18n-key="formLabelCountry">Nazione *</label>
+                                        <select id="country" name="country">
+                                            <option value="" data-i18n-key="formSelectCountry">Seleziona Nazione</option>
+                                            <option value="AT" data-i18n-key="formCountryAT">Austria</option>
+                                            <option value="BE" data-i18n-key="formCountryBE">Belgio</option>
+                                            <option value="BG" data-i18n-key="formCountryBG">Bulgaria</option>
+                                            <option value="HR" data-i18n-key="formCountryHR">Croazia</option>
+                                            <option value="CY" data-i18n-key="formCountryCY">Cipro</option>
+                                            <option value="CZ" data-i18n-key="formCountryCZ">Repubblica Ceca</option>
+                                            <option value="DK" data-i18n-key="formCountryDK">Danimarca</option>
+                                            <option value="EE" data-i18n-key="formCountryEE">Estonia</option>
+                                            <option value="FI" data-i18n-key="formCountryFI">Finlandia</option>
+                                            <option value="FR" data-i18n-key="formCountryFR">Francia</option>
+                                            <option value="DE" data-i18n-key="formCountryDE">Germania</option>
+                                            <option value="GR" data-i18n-key="formCountryGR">Grecia</option>
+                                            <option value="HU" data-i18n-key="formCountryHU">Ungheria</option>
+                                            <option value="IE" data-i18n-key="formCountryIE">Irlanda</option>
+                                            <option value="IT" data-i18n-key="formCountryIT">Italia</option>
+                                            <option value="LV" data-i18n-key="formCountryLV">Lettonia</option>
+                                            <option value="LT" data-i18n-key="formCountryLT">Lituania</option>
+                                            <option value="LU" data-i18n-key="formCountryLU">Lussemburgo</option>
+                                            <option value="MT" data-i18n-key="formCountryMT">Malta</option>
+                                            <option value="NL" data-i18n-key="formCountryNL">Paesi Bassi</option>
+                                            <option value="PL" data-i18n-key="formCountryPL">Polonia</option>
+                                            <option value="PT" data-i18n-key="formCountryPT">Portogallo</option>
+                                            <option value="RO" data-i18n-key="formCountryRO">Romania</option>
+                                            <option value="SK" data-i18n-key="formCountrySK">Slovacchia</option>
+                                            <option value="SI" data-i18n-key="formCountrySI">Slovenia</option>
+                                            <option value="ES" data-i18n-key="formCountryES">Spagna</option>
+                                            <option value="SE" data-i18n-key="formCountrySE">Svezia</option>
+                                            <option value="CH" data-i18n-key="formCountryCH">Svizzera</option>
+                                            <option value="GB" data-i18n-key="formCountryUK">Regno Unito</option>
+                                        </select>
+                                        <small id="customs-warning" class="customs-warning-note" data-i18n-key="formCustomsWarning">
+            Attenzione: potrebbero essere applicati dazi doganali e tasse di importazione.
+        </small>
+                                    </div>
+                                </div>                                                                                                                              
+                            </div>
+                            <div class="form-column">
+                                 <div class="form-section">
+                                    <h4 data-i18n-key="formSectionCertPersonalization">Personalizzazione Certificato</h4>
+                                    <div class="form-group">
+                                        <label for="certificate-name" data-i18n-key="formLabelCertName">Nome per il Certificato</label>
+                                        <input type="text" id="certificate-name" name="certificate-name" placeholder="Come deve apparire il nome sul certificato?" data-i18n-placeholder-key="formPlaceholderCertName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="certificate-message" data-i18n-key="formLabelCertMessage">Messaggio Personale (Opzionale)</label>
+                                        <textarea id="certificate-message" name="certificate-message" placeholder="Aggiungi un tocco personale al tuo certificato..." data-i18n-placeholder-key="formPlaceholderCertMessage" maxlength="150"></textarea>
+                                        <small class="char-count" data-i18n-key="formCharCount">0/150 caratteri</small>
+                                    </div>
+                                </div>                                         
+                                <div class="form-section discount-section">
+                                    <label for="discount-code" data-i18n-key="formLabelDiscount">Codice Sconto / Referral</label>
+                                    <div class="discount-input-group">
+                                        <input type="text" id="discount-code" name="discount-code-visible">
+                                        <button type="button" id="apply-discount-btn" data-i18n-key="formButtonApply">Applica</button>
+                                        <button type="button" id="refresh-discount-btn" data-i18n-key="formButtonRefresh" style="display: none;">Ricalcola</button>
+                                    </div>
+                                    <small id="discount-feedback" class="discount-feedback"></small>
+                                    <small id="discount-warning" class="discount-warning" style="display: none;" data-i18n-key="formDiscountWarning"></small>
+                                </div>
+                                <h4 data-i18n-key="formOrderSummaryTitle">Riepilogo Ordine</h4>
+                                    <div class="summary-line">
+                                        <span id="summary-tree" data-i18n-key="formOrderSummaryNoTree">Nessuna adozione selezionata</span>
+                                        <span id="summary-price">€0</span>
+                                    </div>
+                                    <div class="summary-line">
+                                        <span data-i18n-key="formOrderSummaryShipping">Spedizione</span>
+                                        <span class="free" data-i18n-key="formOrderSummaryFree">GRATUITA</span>
+                                    </div>
+                                    <small class="order-summary-note" data-i18n-key="formOrderSummaryFreeNote"></small>
+                                    <div class="summary-total">
+                                        <span data-i18n-key="formOrderSummaryTotal">Totale</span>
+                                        <span id="total-price">€0</span>
+                                    </div>
+                                    <small class="summary-note" data-i18n-key="formOrderSummaryCurrencyNote">I prezzi sono in €. La tua banca potrebbe applicare commissioni di cambio.</small>
+                                <button type="submit" class="btn btn-complete" id="complete-adoption-btn" disabled data-i18n-key="formButtonCompleteDefault">Completa Adozione</button>
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -712,178 +855,7 @@
         </div>
     </section>
 
-<section id="personalization" class="personalization-section">
-    <div class="container">
-        <div class="personalization-layout">
-
-            <div class="form-container animate-on-scroll">
-                <h2 data-i18n-key="formTitlePersonalize">Personalizza la Tua Adozione</h2>
-                <form id="adoption-form" data-netlify="true" class="adoption-form">
-                    <input type="hidden" name="form-name" value="adoption-form">
-                    <p class="honeypot-field" style="display:none;">
-    <label>Lascia questo campo vuoto se sei umano: <input name="bot-field" /></label>
-</p>
-                    <input type="hidden" name="language" id="form-language-adoption">
-                    
-                    <div class="selected-tree-display">
-                        <h3 id="selected-tree-title" data-i18n-key="formSelectedTreeDefault">Seleziona un ulivo sopra per continuare</h3>
-                        <div id="selected-tree-price" class="price-display">€0</div>
-                    </div>
-                    <div class="personalization-content">
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="tree-type" data-i18n-key="formLabelTreeType">Tipo di Adozione</label>
-                                <select id="tree-type" name="tree-type" onchange="updateTreeSelectionFromForm()">
-    <option value="" data-i18n-key="formSelectTreeType">Seleziona il tipo di adozione</option>
-    <option value="young" data-price="49" data-i18n-key="formTreeYoung">Ulivo Giovane - €49</option>
-    <option value="mature" data-price="299" data-i18n-key="formTreeMature">Ulivo Maturo - €299</option>
-    <option value="ancient" data-price="499" data-i18n-key="formTreeAncient">Ulivo Antico - €499</option>
-    <option value="historic" data-price="649" data-i18n-key="formTreeHistoric">Ulivo Secolare - €649</option>
-</select>
-                            </div>
-                                <div class="form-group">
-  <label for="full-name" data-i18n-key="formLabelFullName">Nome e Cognome *</label>
-  <input type="text" id="full-name" name="full-name" required autocomplete="name" 
-         placeholder="Es. Mario Rossi" data-i18n-placeholder-key="formPlaceholderFullName">
-</div>
-                            <div class="form-section">
-                                <h4 data-i18n-key="formSectionCertPersonalization">Personalizzazione Certificato</h4>
-                                
-                                <div class="form-group">
-                                    <label for="certificate-message" data-i18n-key="formLabelCertMessage">Messaggio Personale (Opzionale)</label>
-                                    <textarea id="certificate-message" name="certificate-message" placeholder="Aggiungi un tocco personale al tuo certificato..." data-i18n-placeholder-key="formPlaceholderCertMessage" maxlength="150"></textarea>
-                                    <small class="char-count" data-i18n-key="formCharCount">0/150 caratteri</small>
-                                </div>
-                                <div class="form-group">
-    <label for="order-note" data-i18n-key="formLabelOrderNote">Nota sull'Ordine (Opzionale)</label>
-    <textarea id="order-note" name="order-note" rows="3" placeholder="Hai qualche richiesta particolare o informazione da aggiungere?" data-i18n-placeholder-key="formPlaceholderOrderNote"></textarea>
-</div>
-                                <div class="form-group gift-option-group">
-    <label class="gift-checkbox-label">
-        <input type="checkbox" id="is-gift" name="is-gift">
-        <span data-i18n-key="formLabelIsGift">Stai facendo un regalo?</span>
-    </label>
-</div>
-
-<div id="gift-fields-container">
-    <div class="form-group">
-        <label for="recipient-email" data-i18n-key="formLabelRecipientEmail">Email del Ricevente *</label>
-        <input type="email" id="recipient-email" name="recipient-email" placeholder="A chi invieremo i futuri aggiornamenti e il rinnovo" data-i18n-placeholder-key="formPlaceholderRecipientEmail">
-        <small class="form-note" data-i18n-key="formNoteRecipientEmail">La conferma d'ordine verrà inviata alla tua email, non a questa.</small>
-    </div>
-</div>
-                            </div>
-                        </div>
-                        <div class="form-column">
-<div class="form-section" id="address-section">
-                                <h4 data-i18n-key="formSectionShipping">Informazioni di Spedizione</h4>
-                                <div class="form-group">
-                                    <label for="address" data-i18n-key="formLabelAddress">Indirizzo *</label>
-                                    <input type="text" id="address" name="address">
-                                </div>
-                                <div class="form-group">
-                                    <label for="address-2" data-i18n-key="formLabelAddress2">Indirizzo 2 (Opzionale)</label>
-                                    <input type="text" id="address-2" name="address-2" data-i18n-placeholder-key="formPlaceholderAddress2" placeholder="Es. Interno, Scala, c/o">
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="city" data-i18n-key="formLabelCity">Città *</label>
-                                        <input type="text" id="city" name="city">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="postal-code" data-i18n-key="formLabelPostalCode">CAP *</label>
-                                        <input type="text" id="postal-code" name="postal-code">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="country" data-i18n-key="formLabelCountry">Nazione *</label>
-                                    <select id="country" name="country">
-                                        <option value="" data-i18n-key="formSelectCountry">Seleziona Nazione</option>
-                                        <option value="AT" data-i18n-key="formCountryAT">Austria</option>
-                                        <option value="BE" data-i18n-key="formCountryBE">Belgio</option>
-                                        <option value="BG" data-i18n-key="formCountryBG">Bulgaria</option>
-                                        <option value="HR" data-i18n-key="formCountryHR">Croazia</option>
-                                        <option value="CY" data-i18n-key="formCountryCY">Cipro</option>
-                                        <option value="CZ" data-i18n-key="formCountryCZ">Repubblica Ceca</option>
-                                        <option value="DK" data-i18n-key="formCountryDK">Danimarca</option>
-                                        <option value="EE" data-i18n-key="formCountryEE">Estonia</option>
-                                        <option value="FI" data-i18n-key="formCountryFI">Finlandia</option>
-                                        <option value="FR" data-i18n-key="formCountryFR">Francia</option>
-                                        <option value="DE" data-i18n-key="formCountryDE">Germania</option>
-                                        <option value="GR" data-i18n-key="formCountryGR">Grecia</option>
-                                        <option value="HU" data-i18n-key="formCountryHU">Ungheria</option>
-                                        <option value="IE" data-i18n-key="formCountryIE">Irlanda</option>
-                                        <option value="IT" data-i18n-key="formCountryIT">Italia</option>
-                                        <option value="LV" data-i18n-key="formCountryLV">Lettonia</option>
-                                        <option value="LT" data-i18n-key="formCountryLT">Lituania</option>
-                                        <option value="LU" data-i18n-key="formCountryLU">Lussemburgo</option>
-                                        <option value="MT" data-i18n-key="formCountryMT">Malta</option>
-                                        <option value="NL" data-i18n-key="formCountryNL">Paesi Bassi</option>
-                                        <option value="PL" data-i18n-key="formCountryPL">Polonia</option>
-                                        <option value="PT" data-i18n-key="formCountryPT">Portogallo</option>
-                                        <option value="RO" data-i18n-key="formCountryRO">Romania</option>
-                                        <option value="SK" data-i18n-key="formCountrySK">Slovacchia</option>
-                                        <option value="SI" data-i18n-key="formCountrySI">Slovenia</option>
-                                        <option value="ES" data-i18n-key="formCountryES">Spagna</option>
-                                        <option value="SE" data-i18n-key="formCountrySE">Svezia</option>
-                                        <option value="CH" data-i18n-key="formCountryCH">Svizzera</option>
-                                        <option value="GB" data-i18n-key="formCountryUK">Regno Unito</option>
-                                    </select>
-                                    <small id="customs-warning" class="customs-warning-note" data-i18n-key="formCustomsWarning">
-        Attenzione: potrebbero essere applicati dazi doganali e tasse di importazione.
-    </small>
-                                </div>
-                            </div>
-                                                        <div class="form-group">
-                                <label for="email" data-i18n-key="formLabelEmail">Indirizzo Email *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                    <label for="certificate-name" data-i18n-key="formLabelCertName">Nome per il Certificato</label>
-                                    <input type="text" id="certificate-name" name="certificate-name" placeholder="Come deve apparire il nome sul certificato?" data-i18n-placeholder-key="formPlaceholderCertName">
-                                </div>
-                            <div class="form-section discount-section">
-    <label for="discount-code" data-i18n-key="formLabelDiscount">Codice Sconto / Referral</label>
-    <div class="discount-input-group">
-        <input type="text" id="discount-code" name="discount-code-visible">
-        <button type="button" id="apply-discount-btn" data-i18n-key="formButtonApply">Applica</button>
-        <button type="button" id="refresh-discount-btn" data-i18n-key="formButtonRefresh" style="display: none;">Ricalcola</button>
-    </div>
-    <small id="discount-feedback" class="discount-feedback"></small>
-    <small id="discount-warning" class="discount-warning" style="display: none;" data-i18n-key="formDiscountWarning"></small>
-</div>
-                            <div class="order-summary">
-                                <h4 data-i18n-key="formOrderSummaryTitle">Riepilogo Ordine</h4>
-                                <div class="summary-line">
-                                    <span id="summary-tree" data-i18n-key="formOrderSummaryNoTree">Nessuna adozione selezionata</span>
-                                    <span id="summary-price">€0</span>
-                                </div>
-                                <div class="summary-line">
-                                    <span data-i18n-key="formOrderSummaryShipping">Spedizione</span>
-                                    <span class="free" data-i18n-key="formOrderSummaryFree">GRATUITA</span>
-                                </div>
-                                <div class="summary-total">
-                                    <span data-i18n-key="formOrderSummaryTotal">Totale</span>
-                                    <span id="total-price">€0</span>
-                                </div>
-                                <small class="summary-note" data-i18n-key="formOrderSummaryCurrencyNote">
-        I prezzi sono in €. La tua banca potrebbe applicare commissioni di cambio.
-    </small>
-                            </div>
-                            <small class="order-summary-note" data-i18n-key="formOrderSummaryFreeNote"></small>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-complete" id="complete-adoption-btn" disabled data-i18n-key="formButtonCompleteDefault">
-                        Completa Adozione
-                    </button>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-    <section id="final-cta" class="content-section animate-on-scroll">
+    <section id="final-cta" class="content-section animate-on-scroll cta--photo">
         <div class="container">
             <h2 class="section-title" data-i18n-key="finalCtaTitleNew">Inizia Oggi il Tuo Viaggio nell'Olio d'Oliva Pugliese</h2>
             <p class="hero-subtitle" data-i18n-key="finalCtaSubtitleNew">

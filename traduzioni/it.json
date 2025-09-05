@@ -99,7 +99,7 @@
     "formLabelCertName": "Nome per il Certificato",
     "formPlaceholderCertName": "Come deve apparire il nome sul certificato?",
     "formLabelCertMessage": "Messaggio Personale (Opzionale)",
-    "formPlaceholderCertMessage": "Aggiungi un tocco personale al tuo certificato... Default message: Your Tree, Your Oil, Your Story.",
+    "formPlaceholderCertMessage": "Default message: Your Tree, Your Oil, Your Story.",
     "formCharCount": "{length}/150 caratteri",
     "formSectionShipping": "Informazioni di Spedizione",
     "formLabelAddress": "Indirizzo *",

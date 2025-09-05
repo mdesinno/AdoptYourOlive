@@ -96,7 +96,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
 .shipping-note { text-align: center; margin-top: 50px; padding: 20px; background: rgba(107, 124, 91, 0.1); border-radius: var(--border-radius-md); color: var(--dark-text); font-size: 0.95rem; font-style: italic; border: 1px dashed var(--primary-green); }
 
 /* --- Parallax Sections --- */
-#how-it-works, #why-peranzana { position: relative; padding: 80px 0; background-image: linear-gradient(rgba(42, 49, 34, 0.7), rgba(42, 49, 34, 0.7)), url('immagini/sfondo-uliveto.webp'); background-attachment: fixed; background-position: center center; background-repeat: no-repeat; background-size: cover; color: var(--white); }
+#how-it-works, #why-peranzana, #final-cta { position: relative; padding: 80px 0; background-image: linear-gradient(rgba(42, 49, 34, 0.7), rgba(42, 49, 34, 0.7)), url('immagini/sfondo-uliveto.webp'); background-attachment: fixed; background-position: center center; background-repeat: no-repeat; background-size: cover; color: var(--white); }
 #how-it-works .section-title, #how-it-works h3, #how-it-works p, #why-peranzana .section-title, #why-peranzana h3, #why-peranzana p { color: var(--white); text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); }
 .how-it-works-grid, .why-peranzana-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: center; }
 .step-icon, .value-icon { color: var(--secondary-green); margin-bottom: 20px; font-size: 2.5rem; }
@@ -324,6 +324,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
     padding: 16px; 
     border-radius: var(--border-radius-lg); 
     font-size: 1.1rem; 
+    margin-top: 30px;
 }
 .btn-complete:hover:not(:disabled) { 
     transform: translateY(-3px); 
@@ -912,5 +913,44 @@ input:checked + .slider:before { transform: translateX(22px); }
 
 }
 
-/* Nascondo l'indirizzo: lo chiede Stripe in checkout */
-#address-section { display: none !important; }
+/* FINAL CTA — variante HERO foto */
+#final-cta.cta--photo{
+  position:relative; padding:120px 20px; color:#fff; text-align:center;
+}
+#final-cta.cta--photo::before{
+  content:''; position:absolute; inset:0; 
+}
+#final-cta.cta--photo .container{ position:relative; z-index:1; }
+#final-cta.cta--photo .section-title{ color:#fff; text-shadow: 0 2px 6px rgba(0,0,0,.35); }
+#final-cta.cta--photo .hero-subtitle{ color:#f1f5f9; text-shadow: 0 1px 4px rgba(0,0,0,.35); }
+#final-cta.cta--photo .cta-buttons{ gap:.75rem; }
+#final-cta.cta--photo .btn-secondary{ 
+  border-color:#fff; color:#fff; background:transparent;
+}
+#final-cta.cta--photo .btn-primary{
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.25));
+}
+/* Final CTA con stesso parallax delle altre sezioni */
+#final-cta {
+  position: relative;
+  padding: 100px 0; /* mantieni la tua spaziatura */
+  background-image:
+    linear-gradient(rgba(42,49,34,0.7), rgba(42,49,34,0.7)),
+    url('immagini/sfondo-uliveto.webp');
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
+/* opzionale: coerenza con le altre sezioni parallax */
+#final-cta .section-title,
+#final-cta .hero-subtitle {
+  color: var(--white);
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+/* Se NON hai tolto la classe, neutralizza la transform solo qui */
+#final-cta.animate-on-scroll { transform: none !important; }
+

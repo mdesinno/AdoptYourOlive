@@ -99,7 +99,7 @@
     "formLabelCertName": "Naam voor het certificaat",
     "formPlaceholderCertName": "Hoe moet uw naam op het certificaat verschijnen?",
     "formLabelCertMessage": "Persoonlijke boodschap (optioneel)",
-    "formPlaceholderCertMessage": "Voeg een persoonlijke touch toe aan uw certificaat... Default message: Your Tree, Your Oil, Your Story.",
+    "formPlaceholderCertMessage": "Default message: Your Tree, Your Oil, Your Story.",
     "formCharCount": "{length}/150 tekens",
     "formSectionShipping": "Verzendinformatie",
     "formLabelAddress": "Straat *",
