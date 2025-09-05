@@ -6,44 +6,49 @@ exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
+
   try {
-    const data = JSON.parse(event.body || '{}');
+    const body = JSON.parse(event.body || '{}');
     const {
       treeType,
-      customerEmail,
-      discountCode,
+      customerEmail = '',
+      discountCode = '',
+      shippingDetails = {},
       certificateName = '',
       certificateMessage = '',
       language = 'it',
       isGift = false,
       recipientEmail = '',
       orderNote = ''
-    } = data;
+    } = body;
 
     // Listino fisso (centesimi)
     const PRICE_CENTS = {
-      young:    4900,
-      mature:  29900,
-      ancient: 49900,
+      young:   4900,
+      mature: 29900,
+      ancient:49900,
       historic:64900
     };
     const PRODUCT_NAME = {
-      young:    "Adozione Ulivo Giovane",
-      mature:   "Adozione Ulivo Maturo",
-      ancient:  "Adozione Ulivo Antico",
-      historic: "Adozione Ulivo Secolare"
+      young:   "Adozione Ulivo Giovane",
+      mature:  "Adozione Ulivo Maturo",
+      ancient: "Adozione Ulivo Antico",
+      historic:"Adozione Ulivo Secolare"
     };
+
     const unitAmount = PRICE_CENTS[treeType];
     if (!unitAmount) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Tipo di albero non valido' }) };
     }
 
-    // Sconto lato server
+    // Calcolo sconto lato server (non ci fidiamo del prezzo del client)
     const code = (discountCode || '').trim().toUpperCase();
     const rule = code && discounts[code] ? discounts[code] : null;
+
     const finalAmount = (() => {
       if (!rule) return unitAmount;
       if (rule.type === 'percentage') {
+        // arrotondiamo ai centesimi e non scendiamo sotto 0
         return Math.max(Math.round(unitAmount * (100 - Number(rule.value)) / 100), 0);
       }
       if (rule.type === 'fixed') {
@@ -54,8 +59,7 @@ exports.handler = async (event) => {
 
     const siteUrl = process.env.URL || `https://${event.headers.host}`;
 
-    // Proviamo prima con TUTTI i metodi richiesti.
-    // Se Stripe non li accetta (non abilitati / non compatibili), facciamo fallback.
+    // Sequenza metodi con fallback (se qualcuno non è abilitato)
     const methodSets = [
       ['card','paypal','klarna','revolut_pay','link'],
       ['card','paypal','link'],
@@ -63,42 +67,43 @@ exports.handler = async (event) => {
       ['card']
     ];
 
+    // Metadata completi sul PaymentIntent
+    const md = {
+      order_source: 'AYO_Site',
+      language,
+      tree_type: treeType,
+      base_price: String(unitAmount),
+      discount_code: code,
+      discount_type: rule ? rule.type : '',
+      discount_value: rule ? String(rule.value) : '',
+      final_amount: String(finalAmount),
+      is_gift: isGift ? 'yes' : 'no',
+      recipient_email: recipientEmail || '',
+      certificate_name: certificateName || '',
+      certificate_message: certificateMessage || '',
+      order_note: orderNote || '',
+      // Spedizione (dal tuo form; non chiediamo nulla in Checkout)
+      shipping_name: shippingDetails?.name || '',
+      shipping_line1: shippingDetails?.address?.line1 || '',
+      shipping_line2: shippingDetails?.address?.line2 || '',
+      shipping_city: shippingDetails?.address?.city || '',
+      shipping_postal_code: shippingDetails?.address?.postal_code || '',
+      shipping_country: shippingDetails?.address?.country || '',
+      buyer_email: customerEmail || ''
+    };
+
     let session, lastErr;
     for (const payment_method_types of methodSets) {
       try {
         session = await stripe.checkout.sessions.create({
           mode: 'payment',
-          payment_method_types, // <-- niente automatic_payment_methods
+          payment_method_types,
 
-          // Indirizzi
-          shipping_address_collection: {
-            allowed_countries: ['IT','DE','FR','NL','NO','BE','ES','PT','AT','CH','DK','SE','FI','IE','LU','GB']
-          },
-          billing_address_collection: 'required',
-
-          // Email precompilata (ok anche senza customer)
+          // NON chiediamo indirizzo in Checkout
+          billing_address_collection: 'auto',
           customer_email: customerEmail || undefined,
 
-          // Metadati SUL PaymentIntent (li vedi nel pagamento)
-          payment_intent_data: {
-            metadata: {
-              language,
-              tree_type: treeType,
-              base_price: String(unitAmount),
-              discount_code: code,
-              discount_type: rule ? rule.type : '',
-              discount_value: rule ? String(rule.value) : '',
-              final_amount: String(finalAmount),
-
-              is_gift: isGift ? 'yes' : 'no',
-              recipient_email: recipientEmail,
-              certificate_name: certificateName,
-              certificate_message: certificateMessage,
-              order_note: orderNote
-            }
-          },
-
-          // Prezzo già scontato
+          // Prezzo già scontato (finalAmount)
           line_items: [{
             quantity: 1,
             price_data: {
@@ -108,16 +113,33 @@ exports.handler = async (event) => {
             }
           }],
 
+          // Niente campo “codice” in Stripe
           allow_promotion_codes: false,
+
+          // Attach metadata al PaymentIntent
+          payment_intent_data: {
+            metadata: md,
+            // scrivo anche la shipping sul PaymentIntent, utile in Dashboard
+            shipping: {
+              name: shippingDetails?.name || (customerEmail || 'AYO Customer'),
+              address: {
+                line1: shippingDetails?.address?.line1 || '',
+                line2: shippingDetails?.address?.line2 || '',
+                city: shippingDetails?.address?.city || '',
+                postal_code: shippingDetails?.address?.postal_code || '',
+                country: shippingDetails?.address?.country || 'IT'
+              }
+            }
+          },
+
+          metadata: { order_source: 'AYO_Site' },
           success_url: `${siteUrl}/success.html?sid={CHECKOUT_SESSION_ID}`,
-          cancel_url:  `${siteUrl}/cancel.html`,
-          metadata: { order_source: 'AYO_Site' }
+          cancel_url:  `${siteUrl}/cancel.html`
         });
         lastErr = null;
-        break; // creata con successo
+        break; // creata!
       } catch (err) {
-        lastErr = err;
-        // prova la prossima combinazione
+        lastErr = err; // prova la prossima combinazione
       }
     }
 
