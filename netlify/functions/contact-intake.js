@@ -1,7 +1,14 @@
 // netlify/functions/contact-intake.js
 const { google } = require('googleapis');
 
-// ---------- Helper: Google Sheets ----------
+// ====== ENV richieste ======
+// GOOGLE_CLIENT_EMAIL, GOOGLE_PRIVATE_KEY, GSHEET_ID
+// BREVO_API_KEY, BREVO_SENDER_EMAIL, BREVO_SENDER_NAME (opzionale), INFO_EMAIL
+
+const SHEET_ID = process.env.GSHEET_ID || process.env.SHEET_ID; // usiamo GSHEET_ID se presente
+const MESSAGES_SHEET = 'Storico messaggi ricevuti';
+
+// ---------- Google Sheets ----------
 async function getSheets() {
   const jwt = new google.auth.JWT(
     process.env.GOOGLE_CLIENT_EMAIL,
@@ -13,62 +20,76 @@ async function getSheets() {
   return google.sheets({ version: 'v4', auth: jwt });
 }
 
+async function ensureHeaderIfMissing(sheetName, header) {
+  const sheets = await getSheets();
+  const resp = await sheets.spreadsheets.values.get({
+    spreadsheetId: SHEET_ID,
+    range: `${sheetName}!A1:Z1`
+  }).catch(() => ({ data: {} }));
+
+  const firstRow = (resp.data && resp.data.values && resp.data.values[0]) || [];
+  if (firstRow.length === 0) {
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: SHEET_ID,
+      range: `${sheetName}!A1`,
+      valueInputOption: 'USER_ENTERED',
+      requestBody: { values: [header] }
+    });
+  }
+}
+
 async function appendRow(sheetName, values) {
   const sheets = await getSheets();
   return sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.SHEET_ID,
+    spreadsheetId: SHEET_ID,
     range: `${sheetName}!A:Z`,
     valueInputOption: 'USER_ENTERED',
     requestBody: { values: [values] }
   });
 }
 
-async function upsertByEmail(sheetName, header, email, rowValuesBuilder) {
-  const sheets = await getSheets();
-  const emailLower = (email || '').trim().toLowerCase();
+// ---------- Brevo (solo mail a info@) ----------
+async function sendBrevoMail({ toEmail, toName, subject, html, replyTo }) {
+  const apiKey = process.env.BREVO_API_KEY;
+  const senderEmail = process.env.BREVO_SENDER_EMAIL;
+  const senderName = process.env.BREVO_SENDER_NAME || 'AYO';
 
-  const getResp = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.SHEET_ID,
-    range: `${sheetName}!A:Z`
+  if (!apiKey || !senderEmail) {
+    throw new Error('BREVO_API_KEY o BREVO_SENDER_EMAIL mancano nelle variabili di ambiente');
+  }
+
+  const body = {
+    sender: { email: senderEmail, name: senderName },
+    to: [{ email: toEmail, name: toName || '' }],
+    subject,
+    htmlContent: html
+  };
+  if (replyTo && replyTo.email) body.replyTo = replyTo;
+
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'api-key': apiKey,
+      'accept': 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(body)
   });
 
-  const rows = getResp.data.values || [];
-  if (rows.length === 0) {
-    await sheets.spreadsheets.values.update({
-      spreadsheetId: process.env.SHEET_ID,
-      range: `${sheetName}!A1`,
-      valueInputOption: 'USER_ENTERED',
-      requestBody: { values: [header] }
-    });
-    const values = rowValuesBuilder({});
-    await appendRow(sheetName, values);
-    return { action: 'created' };
+  if (!res.ok) {
+    const txt = await res.text().catch(() => '');
+    throw new Error(`Brevo email ERR ${res.status}: ${txt}`);
   }
+}
 
-  const headerRow = rows[0];
-  const emailColIdx = headerRow.findIndex(h => (h || '').toLowerCase().includes('email'));
-  const existingIndex = rows.findIndex((r, idx) =>
-    idx > 0 && (r[emailColIdx] || '').trim().toLowerCase() === emailLower
-  );
-
-  if (existingIndex === -1) {
-    const values = rowValuesBuilder({});
-    await appendRow(sheetName, values);
-    return { action: 'created' };
-  } else {
-    const existingRow = rows[existingIndex] || [];
-    const current = {};
-    headerRow.forEach((h, i) => current[h] = existingRow[i] || '');
-    const newRow = rowValuesBuilder(current);
-    const range = `${sheetName}!A${existingIndex + 1}:` + String.fromCharCode(64 + headerRow.length) + (existingIndex + 1);
-    await sheets.spreadsheets.values.update({
-      spreadsheetId: process.env.GSHEET_ID,
-      range,
-      valueInputOption: 'USER_ENTERED',
-      requestBody: { values: [newRow] }
-    });
-    return { action: 'updated' };
-  }
+// ---------- Utils ----------
+function escapeHtml_(str) {
+  return String(str || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
 }
 
 // ---------- Handler ----------
@@ -83,39 +104,29 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Email e messaggio sono obbligatori' }) };
     }
 
-    const now = new Date().toISOString();
+    // 1) Scrivi solo su "Storico messaggi ricevuti"
+    const header = ['Data', 'Nome', 'Email', 'Messaggio', 'Lingua', 'Submission ID']; // manteniamo la colonna "Submission ID" vuota
+    await ensureHeaderIfMissing(MESSAGES_SHEET, header);
 
-    // 1) Storico messaggi ricevuti (append)
-    // Colonne: Data, Nome, Email, Messaggio, Lingua, Submission ID (inutile)
-    await appendRow('Storico messaggi ricevuti', [
-      now, name, email, message, language, ''
-    ]);
+    const nowISO = new Date().toISOString();
+    await appendRow(MESSAGES_SHEET, [ nowISO, name, email, message, language, '' ]);
 
-    // 2) Archivio contatti (UPsert "soft": aggiorno solo dati base se mancanti)
-    const ARCH_HEADER = [
-      'Email','Nome completo','Lingua','Data primo contatto','Data ultimo ordine','Ruolo ultimo ordine',
-      'Numero ordini effettuati (colonna calcolata tramite arrayformula)',
-      'Stato adozione personale','Data scadenza adozione personale',
-      'Ultimo indirizzo spedizione conosciuto 1','Ultimo indirizzo spedizione conosciuto 2',
-      'Ultima città spedizione conosciuta','Ultimo CAP spedizione conosciuto','Ultima nazione spedizione conosciuta'
-    ];
-
-    await upsertByEmail('Archivio contatti', ARCH_HEADER, email, (current) => ([
-      email,
-      name || current['Nome completo'] || '',
-      language || current['Lingua'] || 'it',
-      current['Data primo contatto'] || now,
-      current['Data ultimo ordine'] || '',
-      current['Ruolo ultimo ordine'] || '',
-      current['Numero ordini effettuati (colonna calcolata tramite arrayformula)'] || '',
-      current['Stato adozione personale'] || '',
-      current['Data scadenza adozione personale'] || '',
-      current['Ultimo indirizzo spedizione conosciuto 1'] || '',
-      current['Ultimo indirizzo spedizione conosciuto 2'] || '',
-      current['Ultima città spedizione conosciuta'] || '',
-      current['Ultimo CAP spedizione conosciuto'] || '',
-      current['Ultima nazione spedizione conosciuta'] || ''
-    ]));
+    // 2) Invia email interna a info@ con reply-to dell'utente
+    const toEmail = process.env.INFO_EMAIL;
+    if (toEmail) {
+      await sendBrevoMail({
+        toEmail,
+        toName: 'AYO',
+        subject: `AYO - Nuovo messaggio ${email}`,
+        html:
+          `<p><b>Data:</b> ${nowISO}</p>` +
+          `<p><b>Lingua:</b> ${language}</p>` +
+          `<p><b>Nome:</b> ${escapeHtml_(name) || '-'}</p>` +
+          `<p><b>Email:</b> ${escapeHtml_(email)}</p>` +
+          `<p><b>Messaggio:</b><br>${escapeHtml_(message).replace(/\n/g,'<br>')}</p>`,
+        replyTo: { email, name }
+      });
+    }
 
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   } catch (e) {
