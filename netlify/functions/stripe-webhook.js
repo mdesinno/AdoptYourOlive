@@ -82,19 +82,15 @@ async function brevoUpsertClientAddOnly({ email, name, language }) {
 }
 
 // ---------- Brevo: email conferma ordine ----------
-async function brevoSendOrderEmail({ toEmail, toName, amountEUR, orderId }) {
+// ---------- Brevo: email conferma ordine via TEMPLATE ----------
+async function brevoSendOrderEmailViaTemplate({ toEmail, toName, amountEUR, orderId }) {
   const apiKey = process.env.BREVO_API_KEY;
   const senderEmail = process.env.BREVO_SENDER_EMAIL;
   const senderName = process.env.BREVO_SENDER_NAME || 'Adopt Your Olive';
-  if (!apiKey || !senderEmail) throw new Error('BREVO_API_KEY o BREVO_SENDER_EMAIL mancanti');
+  const templateId = parseInt(process.env.BREVO_TMPL_ORDER_CONFIRM_ID || '0', 10);
 
-  const html =
-    `<p>Hi ${escapeHtml(toName || '')},</p>` +
-    `<p>Thanks for your adoption! We received your order.</p>` +
-    `<p><b>Order ID:</b> ${escapeHtml(orderId)}<br>` +
-    `<b>Total:</b> € ${(amountEUR || 0).toFixed(2)}</p>` +
-    `<p>You’ll get updates when your welcome kit ships.</p>` +
-    `<p>— Adopt Your Olive</p>`;
+  if (!apiKey || !senderEmail) throw new Error('BREVO_API_KEY o BREVO_SENDER_EMAIL mancanti');
+  if (!templateId) throw new Error('BREVO_TMPL_ORDER_CONFIRM_ID mancante o non valido');
 
   const res = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
@@ -106,15 +102,21 @@ async function brevoSendOrderEmail({ toEmail, toName, amountEUR, orderId }) {
     body: JSON.stringify({
       sender: { email: senderEmail, name: senderName },
       to: [{ email: toEmail, name: toName || '' }],
-      subject: 'Your adoption order is confirmed',
-      htmlContent: html
+      templateId,
+      params: {
+        NAME: toName || '',
+        ORDER_ID: orderId,
+        TOTAL_EUR: (amountEUR || 0).toFixed(2)
+      }
     })
   });
+
   if (!res.ok) {
     const t = await res.text().catch(() => '');
-    throw new Error(`Brevo email ERR ${res.status}: ${t}`);
+    throw new Error(`Brevo email (template) ERR ${res.status}: ${t}`);
   }
 }
+
 
 function escapeHtml(s) {
   return String(s || '')
@@ -211,12 +213,13 @@ exports.handler = async (event) => {
 
     // 3) Email di conferma ordine al cliente
     if (buyerEmail) {
-      await brevoSendOrderEmail({
-        toEmail: buyerEmail,
-        toName: buyerName,
-        amountEUR,
-        orderId: fullSession.id
-      });
+      await brevoSendOrderEmailViaTemplate({
+  toEmail: buyerEmail,
+  toName: buyerName,
+  amountEUR,
+  orderId: fullSession.id
+});
+
     }
 
     return { statusCode: 200, body: 'ok' };
