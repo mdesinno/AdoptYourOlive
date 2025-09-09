@@ -4,7 +4,7 @@ const { google } = require('googleapis');
 // ---------- Helper: Google Sheets ----------
 async function getSheets() {
   const jwt = new google.auth.JWT(
-    process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    process.env.GOOGLE_CLIENT_EMAIL,
     null,
     (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
     ['https://www.googleapis.com/auth/spreadsheets']
@@ -62,7 +62,7 @@ async function upsertByEmail(sheetName, header, email, rowValuesBuilder) {
     const newRow = rowValuesBuilder(current);
     const range = `${sheetName}!A${existingIndex + 1}:` + String.fromCharCode(64 + headerRow.length) + (existingIndex + 1);
     await sheets.spreadsheets.values.update({
-      spreadsheetId: process.env.SHEET_ID,
+      spreadsheetId: process.env.GSHEET_ID,
       range,
       valueInputOption: 'USER_ENTERED',
       requestBody: { values: [newRow] }
