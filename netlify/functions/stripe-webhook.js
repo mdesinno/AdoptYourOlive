@@ -1,11 +1,17 @@
 // netlify/functions/stripe-webhook.js
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const crypto = require('crypto');
 const { google } = require('googleapis');
 
-const SPREADSHEET_ID = process.env.GSHEET_ID;
+const SHEET_ID = process.env.GSHEET_ID;
 
-// Auth Google
+// ---------- Stripe raw body helper ----------
+function getRawBody(event) {
+  return event.isBase64Encoded
+    ? Buffer.from(event.body, 'base64').toString('utf8')
+    : event.body;
+}
+
+// ---------- Google Sheets ----------
 async function getSheets() {
   const jwt = new google.auth.JWT(
     process.env.GOOGLE_CLIENT_EMAIL,
@@ -17,169 +23,200 @@ async function getSheets() {
   return google.sheets({ version: 'v4', auth: jwt });
 }
 
-// Upsert semplice in Archivio contatti (per email)
-async function upsertContact(sheets, email, name, lang, role) {
-  if (!email) return;
-  const range = 'Archivio contatti!A:Z';
-  const get = await sheets.spreadsheets.values.get({ spreadsheetId: SPREADSHEET_ID, range });
-  const rows = get.data.values || [];
-  const header = rows[0] || [];
-  const idx = {
-    Email: header.indexOf('Email'),
-    Nome: header.indexOf('Nome completo'),
-    Lingua: header.indexOf('Lingua'),
-    DataPrimo: header.indexOf('Data primo contatto'),
-    DataUltimo: header.indexOf('Data ultimo ordine'),
-    RuoloUltimo: header.indexOf('Ruolo ultimo ordine')
-  };
-
-  const now = new Date().toISOString();
-  let foundRow = -1;
-  for (let r = 1; r < rows.length; r++) {
-    if ((rows[r][idx.Email] || '').toLowerCase() === email.toLowerCase()) { foundRow = r; break; }
-  }
-  if (foundRow === -1) {
-    const newRow = [];
-    newRow[idx.Email] = email;
-    if (idx.Nome > -1) newRow[idx.Nome] = name || '';
-    if (idx.Lingua > -1) newRow[idx.Lingua] = lang || '';
-    if (idx.DataPrimo > -1) newRow[idx.DataPrimo] = now;
-    if (idx.DataUltimo > -1) newRow[idx.DataUltimo] = now;
-    if (idx.RuoloUltimo > -1) newRow[idx.RuoloUltimo] = role || '';
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: SPREADSHEET_ID,
-      range,
-      valueInputOption: 'RAW',
-      requestBody: { values: [newRow] }
-    });
-  } else {
-    const row = rows[foundRow];
-    if (idx.Nome > -1) row[idx.Nome] = name || row[idx.Nome] || '';
-    if (idx.Lingua > -1) row[idx.Lingua] = lang || row[idx.Lingua] || '';
-    if (idx.DataUltimo > -1) row[idx.DataUltimo] = now;
-    if (idx.RuoloUltimo > -1) row[idx.RuoloUltimo] = role || row[idx.RuoloUltimo] || '';
+async function ensureHeaderIfMissing(sheetName, header) {
+  const sheets = await getSheets();
+  const resp = await sheets.spreadsheets.values.get({
+    spreadsheetId: SHEET_ID,
+    range: `${sheetName}!A1:Z1`
+  }).catch(() => ({ data: {} }));
+  const firstRow = (resp.data && resp.data.values && resp.data.values[0]) || [];
+  if (firstRow.length === 0) {
     await sheets.spreadsheets.values.update({
-      spreadsheetId: SPREADSHEET_ID,
-      range: `Archivio contatti!A${foundRow+1}:Z${foundRow+1}`,
-      valueInputOption: 'RAW',
-      requestBody: { values: [row] }
+      spreadsheetId: SHEET_ID,
+      range: `${sheetName}!A1`,
+      valueInputOption: 'USER_ENTERED',
+      requestBody: { values: [header] }
     });
   }
 }
 
-// Aggiunge riga in Storico ordini
-async function appendOrder(sheets, order) {
-  const range = 'Storico ordini!A:Z';
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: SPREADSHEET_ID,
-    range,
-    valueInputOption: 'RAW',
-    requestBody: { values: [[
-      order.id, order.created, order.buyerEmail, order.buyerName,
-      order.adopterEmail, order.adopterName,
-      order.isGift ? 'Sì' : 'No',
-      order.treeType, order.customMessage || '',
-      order.shipAddress1 || '', order.shipAddress2 || '', order.shipCity || '',
-      order.shipPostal || '', order.shipCountry || '',
-      order.note || '',
-      order.discountCode || '',
-      (order.amountPaidCents/100).toFixed(2).replace('.', ','),
-      order.lang || ''
-    ]] }
+async function appendRow(sheetName, values) {
+  const sheets = await getSheets();
+  return sheets.spreadsheets.values.append({
+    spreadsheetId: SHEET_ID,
+    range: `${sheetName}!A:Z`,
+    valueInputOption: 'USER_ENTERED',
+    requestBody: { values: [values] }
   });
 }
 
-function pickShipping(o) {
-  // Cerca spedizione sia su Session che su PaymentIntent
-  const s = (o.shipping_details || o.shipping || {});
-  const addr = s.address || {};
-  return {
-    name: s.name || '',
-    line1: addr.line1 || '',
-    line2: addr.line2 || '',
-    city: addr.city || '',
-    postal: addr.postal_code || '',
-    country: addr.country || ''
-  };
+// ---------- Brevo (solo upsert + aggiungi a Clienti) ----------
+async function brevoUpsertClientAddOnly({ email, name, language }) {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) throw new Error('BREVO_API_KEY mancante');
+
+  const listClienti = parseInt(process.env.BREVO_LIST_CLIENTI || '0', 10);
+
+  const res = await fetch('https://api.brevo.com/v3/contacts', {
+    method: 'POST',
+    headers: {
+      'api-key': apiKey,
+      'accept': 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      email,
+      attributes: {
+        NOME: name || '',
+        LINGUA: (language || 'it').toUpperCase()
+      },
+      listIds: listClienti ? [listClienti] : [],
+      updateEnabled: true
+    })
+  });
+
+  if (!res.ok) {
+    const t = await res.text().catch(() => '');
+    throw new Error(`Brevo upsert ERR ${res.status}: ${t}`);
+  }
 }
 
+// ---------- Brevo: email conferma ordine ----------
+async function brevoSendOrderEmail({ toEmail, toName, amountEUR, orderId }) {
+  const apiKey = process.env.BREVO_API_KEY;
+  const senderEmail = process.env.BREVO_SENDER_EMAIL;
+  const senderName = process.env.BREVO_SENDER_NAME || 'Adopt Your Olive';
+  if (!apiKey || !senderEmail) throw new Error('BREVO_API_KEY o BREVO_SENDER_EMAIL mancanti');
+
+  const html =
+    `<p>Hi ${escapeHtml(toName || '')},</p>` +
+    `<p>Thanks for your adoption! We received your order.</p>` +
+    `<p><b>Order ID:</b> ${escapeHtml(orderId)}<br>` +
+    `<b>Total:</b> € ${(amountEUR || 0).toFixed(2)}</p>` +
+    `<p>You’ll get updates when your welcome kit ships.</p>` +
+    `<p>— Adopt Your Olive</p>`;
+
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'api-key': apiKey,
+      'accept': 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      sender: { email: senderEmail, name: senderName },
+      to: [{ email: toEmail, name: toName || '' }],
+      subject: 'Your adoption order is confirmed',
+      htmlContent: html
+    })
+  });
+  if (!res.ok) {
+    const t = await res.text().catch(() => '');
+    throw new Error(`Brevo email ERR ${res.status}: ${t}`);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+// ---------- Handler ----------
 exports.handler = async (event) => {
-  const sig = event.headers['stripe-signature'];
+  // Verifica firma
   let stripeEvent;
   try {
-    stripeEvent = stripe.webhooks.constructEvent(event.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    const sig = event.headers['stripe-signature'];
+    const raw = getRawBody(event);
+    stripeEvent = stripe.webhooks.constructEvent(raw, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
-    console.error('Webhook signature verification failed.', err.message);
-    return { statusCode: 400, body: `Webhook Error: ${err.message}` };
+    console.error('Stripe signature verify FAILED:', err.message);
+    return { statusCode: 400, body: 'bad signature' };
   }
 
   try {
-    const type = stripeEvent.type;
-    let session = null;
-    let pi = null;
-
-    if (type.startsWith('checkout.session')) {
-      // per sicurezza, ricarico la sessione con expand
-      session = await stripe.checkout.sessions.retrieve(
-        stripeEvent.data.object.id,
-        { expand: ['payment_intent', 'customer'] }
-      );
-      pi = session.payment_intent;
-    } else if (type === 'payment_intent.succeeded') {
-      pi = stripeEvent.data.object;
-      // prova a risalire alla session se serve
-      try {
-        const list = await stripe.checkout.sessions.list({ payment_intent: pi.id, limit: 1 });
-        session = list.data?.[0] || null;
-      } catch (_) {}
-    } else {
-      return { statusCode: 200, body: 'Ignored' };
+    if (stripeEvent.type !== 'checkout.session.completed') {
+      return { statusCode: 200, body: 'ignored' };
     }
 
-    // Metadati (dal PaymentIntent, che sono quelli “visibili” su pagamento)
-    const md = (pi && pi.metadata) || {};
-    const sessMd = (session && session.metadata) || {};
-    const treeType = md.tree_type || (session && session.custom_fields?.tree_type) || '';
+    const session = stripeEvent.data.object;
 
-    // Email acquirente e adottante
-    const buyerEmail = session?.customer_details?.email || pi?.receipt_email || '';
-    const isGift = (md.is_gift === 'yes');
-    const adopterEmail = isGift ? (md.recipient_email || '') : buyerEmail;
+    // Recupero dettagli completi
+    const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+      expand: ['payment_intent', 'customer']
+    });
+    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 10 });
 
-    // Nome (se disponibile)
-    const buyerName = session?.customer_details?.name || '';
-    const adopterName = md.certificate_name || '';
+    // Estrazioni sicure
+    const buyerEmail = fullSession.customer_details?.email || fullSession.customer_email || '';
+    const buyerName  = fullSession.customer_details?.name || '';
+    const amountEUR  = (fullSession.amount_total || 0) / 100;
+    const currency   = fullSession.currency?.toUpperCase() || 'EUR';
+    const meta       = fullSession.metadata || {};
+    const lang       = (meta.language || 'it').toLowerCase();
 
-    // Spedizione (unifico)
-    const ship = pickShipping(session || pi);
+    const addr = fullSession.customer_details?.address || {};
+    const line1 = addr.line1 || '';
+    const line2 = addr.line2 || '';
+    const city  = addr.city || '';
+    const cap   = addr.postal_code || '';
+    const country = addr.country || '';
 
-    const order = {
-      id: session?.id || pi?.id,
-      created: new Date(((session?.created || pi?.created) || Math.floor(Date.now()/1000)) * 1000).toISOString(),
-      lang: md.language || 'it',
-      treeType: md.tree_type || '',
-      amountPaidCents: Number(md.final_amount || pi?.amount_received || pi?.amount || 0),
-      discountCode: md.discount_code || '',
-      isGift,
-      buyerEmail, buyerName,
-      adopterEmail, adopterName,
-      customMessage: md.certificate_message || '',
-      shipAddress1: ship.line1,
-      shipAddress2: ship.line2,
-      shipCity: ship.city,
-      shipPostal: ship.postal,
-      shipCountry: ship.country,
-      note: md.order_note || ''
-    };
+    // Product/type (dai line items se disponibile)
+    const firstItem = (lineItems.data && lineItems.data[0]) || {};
+    const productDesc = firstItem.description || meta.product_name || '';
+    const unitType    = meta.treeType || ''; // se in futuro lo rimetti in metadata
+    const discountCode = meta.discountCode || '';
 
-    const sheets = await getSheets();
-    await appendOrder(sheets, order);
+    // 1) Scrivi su "Storico ordini"
+    const ORDERS_SHEET = 'Storico ordini';
+    const header = [
+      'ID ordine','Data ordine','Email acquirente','Nome acquirente',
+      'Email adottante','Nome adottante','Regalo?','Tipo adozione',
+      'Messaggio personalizzato','Indirizzo spedizione 1','Indirizzo spedizione 2',
+      'Città spedizione','CAP spedizione','Nazione spedizione','Note sull\'ordine',
+      'Codice sconto usato','Importo pagato','Lingua'
+    ];
+    await ensureHeaderIfMissing(ORDERS_SHEET, header);
 
-    // Upsert acquirente
-    await upsertContact(sheets, buyerEmail, buyerName, order.lang, isGift ? 'Acquirente Regalo' : 'Acquirente Personale');
-    // Upsert adottante (se regalo)
-    if (isGift && adopterEmail) {
-      await upsertContact(sheets, adopterEmail, adopterName, order.lang, 'Adottante Regalo');
+    const nowISO = new Date().toISOString();
+    const isGift = meta.isGift === 'true' || meta.isGift === true;
+    const adopterEmail = isGift ? (meta.recipientEmail || '') : buyerEmail;
+    const adopterName  = isGift ? (meta.certificateName || '') : buyerName;
+    const userNote     = meta.orderNote || '';
+
+    await appendRow(ORDERS_SHEET, [
+      fullSession.id,
+      nowISO,
+      buyerEmail,
+      buyerName,
+      adopterEmail,
+      adopterName,
+      isGift ? 'Sì' : 'No',
+      unitType || productDesc,
+      meta.certificateMessage || '',
+      line1, line2, city, cap, country,
+      userNote,
+      discountCode,
+      currency === 'EUR' ? amountEUR : `${amountEUR} ${currency}`,
+      lang
+    ]);
+
+    // 2) Brevo: upsert contatto cliente -> Clienti (niente rimozioni, le farà l'automazione di Brevo)
+    if (buyerEmail) {
+      await brevoUpsertClientAddOnly({ email: buyerEmail, name: buyerName, language: lang });
+    }
+
+    // 3) Email di conferma ordine al cliente
+    if (buyerEmail) {
+      await brevoSendOrderEmail({
+        toEmail: buyerEmail,
+        toName: buyerName,
+        amountEUR,
+        orderId: fullSession.id
+      });
     }
 
     return { statusCode: 200, body: 'ok' };
