@@ -48,31 +48,26 @@ async function appendRow(sheetName, arr) {
 async function upsertMapping({ type, oldEmail, newEmail, origin }) {
   const sheet = 'Mappature email (attive)';
   const rows = await readAll(sheet);
-  const header = rows[0] || [];
-  const wantedHeader = ['Tipo', 'Email vecchia', 'Email attuale', 'Attivo', 'Ultimo aggiornamento', 'Origine/Codice'];
+  const wantedHeader = ['Tipo', 'Vecchia email', 'Email attuale', 'Attivo', 'Ultimo aggiornamento', 'Origine/Codice'];
 
-  // se foglio vuoto, crealo con header
   if (rows.length === 0) {
     await appendRow(sheet, wantedHeader);
     rows.push(wantedHeader);
-  } else {
-    // se header differente, non fermarti: prova a usare le posizioni migliori
   }
+  const h = rows[0].map(x => x || '');
 
-  const h = rows[0];
-  const colTipo   = h.findIndex(x => (x || '').toLowerCase().includes('tipo'));
-  const colOld    = h.findIndex(x => (x || '').toLowerCase().includes('email vecchia'));
-  const colNew    = h.findIndex(x => (x || '').toLowerCase().includes('email attuale'));
-  const colAttivo = h.findIndex(x => (x || '').toLowerCase().includes('attivo'));
-  const colWhen   = h.findIndex(x => (x || '').toLowerCase().includes('ultimo'));
-  const colOrig   = h.findIndex(x => (x || '').toLowerCase().includes('origine'));
+  const colTipo   = h.findIndex(x => x.toLowerCase().includes('tipo'));
+  const colOld    = h.findIndex(x => x.toLowerCase().includes('vecchia email'));
+  const colNew    = h.findIndex(x => x.toLowerCase().includes('email attuale'));
+  const colAttivo = h.findIndex(x => x.toLowerCase().includes('attivo'));
+  const colWhen   = h.findIndex(x => x.toLowerCase().includes('ultimo'));
+  const colOrig   = h.findIndex(x => x.toLowerCase().includes('origine'));
 
   let idx = -1;
   for (let i = 1; i < rows.length; i++) {
-    const r = rows[i];
-    if ((r[colTipo] || '') === type && (r[colOld] || '').toLowerCase() === oldEmail.toLowerCase()) {
-      idx = i;
-      break;
+    const r = rows[i] || [];
+    if ((r[colTipo] || '') === type && String(r[colOld] || '').toLowerCase() === oldEmail.toLowerCase()) {
+      idx = i; break;
     }
   }
 
@@ -85,17 +80,14 @@ async function upsertMapping({ type, oldEmail, newEmail, origin }) {
   newRow[colWhen]   = now;
   newRow[colOrig]   = origin || 'Club';
 
-  // riempi eventuali buchi fino a larghezza header
   for (let i = 0; i < wantedHeader.length; i++) {
     if (typeof newRow[i] === 'undefined') newRow[i] = '';
   }
 
-  if (idx === -1) {
-    await appendRow(sheet, newRow);
-  } else {
-    await updateRow(sheet, idx + 1, newRow);
-  }
+  if (idx === -1) await appendRow(sheet, newRow);
+  else await updateRow(sheet, idx + 1, newRow);
 }
+
 
 // ---------- Brevo email (no template) ----------
 const brevo = axios.create({

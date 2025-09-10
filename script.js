@@ -1062,40 +1062,59 @@ document.getElementById('club-update-email-form')?.addEventListener('submit', as
   }
 });
 
-// --- Club: collega regalo (AGGIORNATO) ---
-document.getElementById('club-claim-gift-form')?.addEventListener('submit', async (e)=>{
+// --- Club: collega regalo (buyerEmail + dati recipient + indirizzo [+ sid opzionale]) ---
+document.getElementById('club-claim-gift-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const buyerEmail     = document.getElementById('buyer-email')?.value.trim();
-  const recipientEmail = document.getElementById('recipient-email')?.value.trim();
-  const recipientName  = document.getElementById('recipient-name')?.value.trim();
-  const sid            = document.getElementById('order-sid')?.value.trim();
 
-  const address1 = document.getElementById('address1')?.value.trim();
-  const address2 = document.getElementById('address2')?.value.trim();
-  const city     = document.getElementById('city')?.value.trim();
-  const postal   = document.getElementById('postal')?.value.trim();
-  const country  = document.getElementById('country')?.value.trim();
+  const buyerEmail     = document.getElementById('buyer-email')?.value.trim() || '';
+  const recipientEmail = document.getElementById('recipient-email')?.value.trim() || '';
+  const recipientName  = document.getElementById('recipient-name')?.value.trim() || '';
 
+  // indirizzo (riga 2 opzionale)
+  const address1 = document.getElementById('address1')?.value.trim() || '';
+  const address2 = document.getElementById('address2')?.value.trim() || '';
+  const city     = document.getElementById('city')?.value.trim() || '';
+  const postal   = document.getElementById('postal')?.value.trim() || '';
+  const country  = document.getElementById('country')?.value.trim() || '';
+
+  // opzionale
+  const sid = document.getElementById('order-sid')?.value.trim() || '';
+
+  // campi MINIMI richiesti
   if (!buyerEmail || !recipientEmail || !recipientName || !address1 || !city || !postal || !country) {
-    alert('Compila tutti i campi obbligatori.');
+    alert('Compila i campi obbligatori.');
     return;
   }
 
-  try{
-    const r = await fetch('/.netlify/functions/club-claim-gift', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ buyerEmail, recipientEmail, recipientName, sid, address1, address2, city, postal, country })
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn && (btn.disabled = true);
+
+  try {
+    const res = await fetch('/.netlify/functions/club-claim-gift', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        buyerEmail, recipientEmail, recipientName, sid,
+        shipping: {
+          name: recipientName,
+          address: { line1: address1, line2: address2, city, postal_code: postal, country }
+        }
+      })
     });
-    if(!r.ok) throw 0;
-    document.getElementById('claim-ok').style.display='block';
-    document.getElementById('claim-err').style.display='none';
+
+    if (!res.ok) throw new Error('Errore server');
+
+    document.getElementById('claim-ok').style.display = 'block';
+    document.getElementById('claim-err').style.display = 'none';
     e.target.reset();
-  }catch(_){
-    document.getElementById('claim-ok').style.display='none';
-    document.getElementById('claim-err').style.display='block';
+  } catch (err) {
+    document.getElementById('claim-ok').style.display = 'none';
+    document.getElementById('claim-err').style.display = 'block';
+  } finally {
+    btn && (btn.disabled = false);
   }
 });
+
 
 
 // --- CLUB: verifica token (funziona anche senza CSP, senza script inline) ---
