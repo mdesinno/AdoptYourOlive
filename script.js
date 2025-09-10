@@ -1062,20 +1062,30 @@ document.getElementById('club-update-email-form')?.addEventListener('submit', as
   }
 });
 
-// --- Club: collega regalo (buyerEmail + recipientEmail [+ sid opzionale]) ---
+// --- Club: collega regalo (AGGIORNATO) ---
 document.getElementById('club-claim-gift-form')?.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const buyerEmail     = document.getElementById('buyer-email')?.value.trim();
   const recipientEmail = document.getElementById('recipient-email')?.value.trim();
   const recipientName  = document.getElementById('recipient-name')?.value.trim();
-  const sid            = document.getElementById('order-sid')?.value.trim(); // opzionale
+  const sid            = document.getElementById('order-sid')?.value.trim();
 
-  if (!buyerEmail || !recipientEmail) return;
+  const address1 = document.getElementById('address1')?.value.trim();
+  const address2 = document.getElementById('address2')?.value.trim();
+  const city     = document.getElementById('city')?.value.trim();
+  const postal   = document.getElementById('postal')?.value.trim();
+  const country  = document.getElementById('country')?.value.trim();
+
+  if (!buyerEmail || !recipientEmail || !recipientName || !address1 || !city || !postal || !country) {
+    alert('Compila tutti i campi obbligatori.');
+    return;
+  }
 
   try{
     const r = await fetch('/.netlify/functions/club-claim-gift', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ buyerEmail, recipientEmail, recipientName, sid })
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ buyerEmail, recipientEmail, recipientName, sid, address1, address2, city, postal, country })
     });
     if(!r.ok) throw 0;
     document.getElementById('claim-ok').style.display='block';
@@ -1086,6 +1096,7 @@ document.getElementById('club-claim-gift-form')?.addEventListener('submit', asyn
     document.getElementById('claim-err').style.display='block';
   }
 });
+
 
 // --- CLUB: verifica token (funziona anche senza CSP, senza script inline) ---
 document.addEventListener('DOMContentLoaded', () => {

@@ -44,7 +44,56 @@ async function appendRow(sheetName, arr) {
   });
 }
 
-// ---------- Brevo: simple email ----------
+// Upsert su "Mappature email (attive)"
+async function upsertMapping({ type, oldEmail, newEmail, origin }) {
+  const sheet = 'Mappature email (attive)';
+  const rows = await readAll(sheet);
+  const header = rows[0] || [];
+  const wantedHeader = ['Tipo', 'Email vecchia', 'Email attuale', 'Attivo', 'Ultimo aggiornamento', 'Origine/Codice'];
+
+  if (rows.length === 0) {
+    await appendRow(sheet, wantedHeader);
+    rows.push(wantedHeader);
+  }
+
+  const h = rows[0];
+  const colTipo   = h.findIndex(x => (x || '').toLowerCase().includes('tipo'));
+  const colOld    = h.findIndex(x => (x || '').toLowerCase().includes('email vecchia'));
+  const colNew    = h.findIndex(x => (x || '').toLowerCase().includes('email attuale'));
+  const colAttivo = h.findIndex(x => (x || '').toLowerCase().includes('attivo'));
+  const colWhen   = h.findIndex(x => (x || '').toLowerCase().includes('ultimo'));
+  const colOrig   = h.findIndex(x => (x || '').toLowerCase().includes('origine'));
+
+  let idx = -1;
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    if ((r[colTipo] || '') === type && (r[colOld] || '').toLowerCase() === oldEmail.toLowerCase()) {
+      idx = i;
+      break;
+    }
+  }
+
+  const now = new Date().toISOString();
+  const newRow = [];
+  newRow[colTipo]   = type;
+  newRow[colOld]    = oldEmail;
+  newRow[colNew]    = newEmail;
+  newRow[colAttivo] = 'TRUE';
+  newRow[colWhen]   = now;
+  newRow[colOrig]   = origin || 'Club';
+
+  for (let i = 0; i < wantedHeader.length; i++) {
+    if (typeof newRow[i] === 'undefined') newRow[i] = '';
+  }
+
+  if (idx === -1) {
+    await appendRow(sheet, newRow);
+  } else {
+    await updateRow(sheet, idx + 1, newRow);
+  }
+}
+
+// ---------- Brevo email ----------
 const brevo = axios.create({
   baseURL: 'https://api.brevo.com/v3',
   headers: { 'api-key': process.env.BREVO_API_KEY, 'Content-Type': 'application/json' },
@@ -62,60 +111,80 @@ async function sendEmail({ to, subject, html, replyTo }) {
   };
   if (replyTo) payload.replyTo = { email: replyTo };
 
-  await brevo.post('/smtp/email', payload);
+  try {
+    await brevo.post('/smtp/email', payload);
+  } catch (e) {
+    console.warn('Brevo email error', e.response?.data || e.message);
+  }
+}
+
+function isYes(v) {
+  const s = String(v || '').trim().toLowerCase();
+  return ['si', 'sì', 'yes', 'true', '1', 'y'].some(x => s.startsWith(x));
 }
 
 // ---------- Handler ----------
 exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
+  if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
 
   try {
-    const { buyerEmail = '', recipientEmail = '', recipientName = '', sid = '' } = JSON.parse(event.body || '{}');
+    const {
+      buyerEmail = '',
+      recipientEmail = '',
+      recipientName = '',
+      sid = '',
+      // nuovi campi indirizzo (obbligatori nel form aggiornato)
+      address1 = '',
+      address2 = '',
+      city = '',
+      postal = '',
+      country = ''
+    } = JSON.parse(event.body || '{}');
+
     if (!buyerEmail || !recipientEmail) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Parametri mancanti' }) };
     }
 
-    // 1) Trova l'ordine REGALO da aggiornare
+    // 1) Trova ordine regalo
     const rows = await readAll('Storico ordini');
     if (rows.length < 2) return { statusCode: 404, body: JSON.stringify({ error: 'Nessun ordine' }) };
 
-    const header = rows[0];
-    const idIdx     = header.findIndex(h => (h || '').toLowerCase().includes('id ordine'));
-    const buyerIdx  = header.findIndex(h => (h || '').toLowerCase().includes('email acquirente'));
-    const adoptIdx  = header.findIndex(h => (h || '').toLowerCase().includes('email adottante'));
-    const nameAdIdx = header.findIndex(h => (h || '').toLowerCase().includes('nome adottante'));
-    const giftIdx   = header.findIndex(h => (h || '').toLowerCase().includes('regalo'));
-    const dateIdx   = header.findIndex(h => (h || '').toLowerCase().includes('data ordine'));
+    const h = rows[0];
+    const idIdx     = h.findIndex(x => (x || '').toLowerCase().includes('id ordine'));
+    const buyerIdx  = h.findIndex(x => (x || '').toLowerCase().includes('email acquirente'));
+    const adoptIdx  = h.findIndex(x => (x || '').toLowerCase().includes('email adottante'));
+    const nameAdIdx = h.findIndex(x => (x || '').toLowerCase().includes('nome adottante'));
+    const giftIdx   = h.findIndex(x => (x || '').toLowerCase().includes('regalo'));
+    const dateIdx   = h.findIndex(x => (x || '').toLowerCase().includes('data ordine'));
+    const ship1Idx  = h.findIndex(x => (x || '').toLowerCase().includes('indirizzo spedizione 1'));
+    const ship2Idx  = h.findIndex(x => (x || '').toLowerCase().includes('indirizzo spedizione 2'));
+    const cityIdx   = h.findIndex(x => (x || '').toLowerCase().includes('città spedizione'));
+    const capIdx    = h.findIndex(x => (x || '').toLowerCase().includes('cap spedizione'));
+    const countryIdx= h.findIndex(x => (x || '').toLowerCase().includes('nazione spedizione'));
 
     let targetIndex = -1;
 
-    // Se c'è un SID specifico, prova match diretto
     if (sid && idIdx !== -1) {
-      targetIndex = rows.findIndex((r, i) => i > 0 && (r[idIdx] || '').trim() === sid.trim());
+      targetIndex = rows.findIndex((r, i) => i > 0 && String(r[idIdx] || '').trim() === sid.trim());
     }
 
-    // Altrimenti, prendi il più recente con Regalo = sì, buyer = buyerEmail,
-    // e "Email adottante" vuota o uguale all'acquirente (non ancora rivendicato)
     if (targetIndex === -1) {
       const candidates = rows
         .map((r, i) => ({ r, i }))
         .filter(x =>
           x.i > 0 &&
-          (x.r[giftIdx] || '').toString().trim().toLowerCase().startsWith('s') &&
-          (x.r[buyerIdx] || '').trim().toLowerCase() === buyerEmail.toLowerCase() &&
+          isYes(x.r[giftIdx]) &&
+          String(x.r[buyerIdx] || '').trim().toLowerCase() === buyerEmail.toLowerCase() &&
           (
-            (x.r[adoptIdx] || '').trim() === '' ||
-            (x.r[adoptIdx] || '').trim().toLowerCase() === buyerEmail.toLowerCase()
+            String(x.r[adoptIdx] || '').trim() === '' ||
+            String(x.r[adoptIdx] || '').trim().toLowerCase() === buyerEmail.toLowerCase()
           )
         )
         .sort((a, b) => {
           const da = Date.parse(a.r[dateIdx] || '') || 0;
           const db = Date.parse(b.r[dateIdx] || '') || 0;
-          return db - da; // più recente primo
+          return db - da;
         });
-
       if (candidates.length) targetIndex = candidates[0].i;
     }
 
@@ -123,63 +192,82 @@ exports.handler = async (event) => {
       return { statusCode: 404, body: JSON.stringify({ error: 'Ordine regalo non trovato' }) };
     }
 
-    // 2) Aggiorna riga ordine con l'email (e nome) del ricevente
+    // 2) Aggiorna riga ordine
     const orderRow = rows[targetIndex];
     if (adoptIdx !== -1) orderRow[adoptIdx] = recipientEmail;
     if (nameAdIdx !== -1) orderRow[nameAdIdx] = recipientName || orderRow[nameAdIdx] || '';
+
+    // aggiorna indirizzo sull’ordine se i campi ci sono
+    if (ship1Idx !== -1) orderRow[ship1Idx] = address1 || orderRow[ship1Idx] || '';
+    if (ship2Idx !== -1) orderRow[ship2Idx] = address2 || orderRow[ship2Idx] || '';
+    if (cityIdx  !== -1) orderRow[cityIdx]  = city     || orderRow[cityIdx]  || '';
+    if (capIdx   !== -1) orderRow[capIdx]   = postal   || orderRow[capIdx]   || '';
+    if (countryIdx!== -1)orderRow[countryIdx]= country || orderRow[countryIdx]|| '';
+
     await updateRow('Storico ordini', targetIndex + 1, orderRow);
 
-    // 3) Upsert Archivio contatti per il destinatario
+    // 3) Upsert Archivio contatti (destinatario) con indirizzo
     const arch = await readAll('Archivio contatti');
-    const archHeader = arch[0] || [
-      'Email', 'Nome completo', 'Lingua', 'Data primo contatto', 'Data ultimo ordine', 'Ruolo ultimo ordine',
+    const ah = arch[0] || [
+      'Email','Nome completo','Lingua','Data primo contatto','Data ultimo ordine','Ruolo ultimo ordine',
       'Numero ordini effettuati (colonna calcolata tramite arrayformula)',
-      'Stato adozione personale', 'Data scadenza adozione personale',
-      'Ultimo indirizzo spedizione conosciuto 1', 'Ultimo indirizzo spedizione conosciuto 2',
-      'Ultima città spedizione conosciuta', 'Ultimo CAP spedizione conosciuto', 'Ultima nazione spedizione conosciuta'
+      'Stato adozione personale','Data scadenza adozione personale',
+      'Ultimo indirizzo spedizione conosciuto 1','Ultimo indirizzo spedizione conosciuto 2',
+      'Ultima città spedizione conosciuta','Ultimo CAP spedizione conosciuto','Ultima nazione spedizione conosciuta'
     ];
-    const emailIdxA = archHeader.findIndex(h => (h || '').toLowerCase().includes('email'));
+    const emailIdxA = ah.findIndex(x => (x || '').toLowerCase().includes('email'));
 
     let foundIdx = -1;
     if (arch.length > 1 && emailIdxA !== -1) {
-      foundIdx = arch.findIndex((r, i) => i > 0 && (r[emailIdxA] || '').trim().toLowerCase() === recipientEmail.toLowerCase());
+      foundIdx = arch.findIndex((r, i) => i > 0 && String(r[emailIdxA] || '').trim().toLowerCase() === recipientEmail.toLowerCase());
     }
 
     const nowIso = new Date().toISOString();
+
     if (foundIdx === -1) {
-      const newRow = [
-        recipientEmail,
-        recipientName || '',
-        'it',
-        nowIso,
-        '',
-        'Adottante Regalo',
-        '', '', '', '', '', '', '', ''
-      ];
-      await appendRow('Archivio contatti', newRow);
+      const toPush = [];
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('email'))] = recipientEmail;
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('nome completo'))] = recipientName || '';
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('lingua'))] = 'it';
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('data primo contatto'))] = nowIso;
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('ruolo ultimo ordine'))] = 'Adottante Regalo';
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('ultimo indirizzo spedizione conosciuto 1'))] = address1 || '';
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('ultimo indirizzo spedizione conosciuto 2'))] = address2 || '';
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('ultima città spedizione conosciuta'))] = city || '';
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('ultimo cap spedizione conosciuto'))] = postal || '';
+      toPush[ah.findIndex(x => (x || '').toLowerCase().includes('ultima nazione spedizione conosciuta'))] = country || '';
+      // riempi buchi
+      for (let i = 0; i < ah.length; i++) if (typeof toPush[i] === 'undefined') toPush[i] = '';
+      await appendRow('Archivio contatti', toPush);
     } else {
       const toUpd = arch[foundIdx];
-      toUpd[emailIdxA] = recipientEmail; // no-op, ma garantisce coerenza
+      const idx1 = ah.findIndex(x => (x || '').toLowerCase().includes('ultimo indirizzo spedizione conosciuto 1'));
+      const idx2 = ah.findIndex(x => (x || '').toLowerCase().includes('ultimo indirizzo spedizione conosciuto 2'));
+      const idxC = ah.findIndex(x => (x || '').toLowerCase().includes('ultima città spedizione conosciuta'));
+      const idxP = ah.findIndex(x => (x || '').toLowerCase().includes('ultimo cap spedizione conosciuto'));
+      const idxN = ah.findIndex(x => (x || '').toLowerCase().includes('ultima nazione spedizione conosciuta'));
+      if (idx1 !== -1) toUpd[idx1] = address1 || toUpd[idx1] || '';
+      if (idx2 !== -1) toUpd[idx2] = address2 || toUpd[idx2] || '';
+      if (idxC !== -1) toUpd[idxC] = city     || toUpd[idxC] || '';
+      if (idxP !== -1) toUpd[idxP] = postal   || toUpd[idxP] || '';
+      if (idxN !== -1) toUpd[idxN] = country  || toUpd[idxN] || '';
       await updateRow('Archivio contatti', foundIdx + 1, toUpd);
     }
 
-    // 4) Brevo upsert (senza liste automatiche)
+    // 4) Brevo upsert contatto ricevente (no liste automatiche)
     await brevo.post('/contacts', {
       email: recipientEmail,
       attributes: { NOME: recipientName || '' },
       updateEnabled: true
     }).catch(() => {});
 
-    // 5) Log su "Storico cambi email" (vecchia = acquirente; nuova = ricevente)
+    // 5) Log cambi + Mappature attive (per collegare buyer -> recipient)
     await appendRow('Storico cambi email', [
-      new Date().toISOString(),
-      'CLAIM_GIFT',
-      buyerEmail,
-      recipientEmail,
-      sid || 'Club'
+      new Date().toISOString(), 'CLAIM_GIFT', buyerEmail, recipientEmail, sid || 'Club'
     ]);
+    await upsertMapping({ type: 'CLAIM_GIFT', oldEmail: buyerEmail, newEmail: recipientEmail, origin: sid || 'Club' });
 
-    // 6) Email conferma al ricevente + notifica interna
+    // 6) Email al ricevente + notifica interna
     const sheetUrl = `https://docs.google.com/spreadsheets/d/${process.env.GSHEET_ID}/edit`;
 
     await sendEmail({

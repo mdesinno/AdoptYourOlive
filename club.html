@@ -167,44 +167,84 @@
       <p id="upd-err" style="display:none;color:#b00020;margin-top:8px;" data-i18n-key="clubChangeEmailError">Errore. Controlla i dati e riprova.</p>
     </div>
 
-    <!-- CARD: Collega regalo a te -->
-    <div class="card" style="padding:16px;border:1px solid #eee;border-radius:12px;">
-      <h3 data-i18n-key="clubClaimGiftTitle">Hai ricevuto un regalo? Collegalo a te</h3>
-      <p data-i18n-key="clubClaimGiftIntro" style="margin-top:0;">
-        Inserisci l’email dell’acquirente e la tua email. Se hai il codice ordine, aggiungilo.
-      </p>
+ <!-- CARD: Collega regalo a te (AGGIORNATA) -->
+<div class="card" style="padding:16px;border:1px solid #eee;border-radius:12px;">
+  <h3 data-i18n-key="clubClaimGiftTitle">Hai ricevuto un regalo? Collegalo a te</h3>
+  <p data-i18n-key="clubClaimGiftIntro" style="margin-top:0;">
+    Inserisci l’email di chi ha acquistato e i tuoi dati. Se hai il codice ordine, aggiungilo.
+  </p>
 
-      <form id="club-claim-gift-form">
-        <label for="buyer-email" data-i18n-key="clubClaimBuyerEmailLabel">Email dell’acquirente</label>
-        <input type="email" id="buyer-email" required
-               placeholder="es. chi-ha-acquistato@email.com"
-               data-i18n-placeholder-key="clubClaimBuyerEmailPh"
+  <form id="club-claim-gift-form">
+    <label for="buyer-email" data-i18n-key="clubClaimBuyerEmailLabel">Email dell’acquirente</label>
+    <input type="email" id="buyer-email" required
+           placeholder="es. chi-ha-acquistato@email.com"
+           data-i18n-placeholder-key="clubClaimBuyerEmailPh"
+           style="width:100%;padding:10px;margin-bottom:8px;">
+
+    <label for="recipient-email" data-i18n-key="clubClaimRecipientEmailLabel">La tua email</label>
+    <input type="email" id="recipient-email" required
+           placeholder="es. la-tua-email@email.com"
+           data-i18n-placeholder-key="clubClaimRecipientEmailPh"
+           style="width:100%;padding:10px;margin-bottom:8px;">
+
+    <label for="recipient-name" data-i18n-key="clubClaimRecipientNameLabel">Il tuo nome</label>
+    <input type="text" id="recipient-name" required
+           placeholder="es. Mario Rossi"
+           data-i18n-placeholder-key="clubClaimRecipientNamePh"
+           style="width:100%;padding:10px;margin-bottom:8px;">
+
+    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div>
+        <label for="address1" data-i18n-key="clubClaimAddress1Label">Indirizzo (riga 1)</label>
+        <input type="text" id="address1" required
+               placeholder="es. Via Roma 10"
+               data-i18n-placeholder-key="clubClaimAddress1Ph"
                style="width:100%;padding:10px;margin-bottom:8px;">
-
-        <label for="recipient-email" data-i18n-key="clubClaimRecipientEmailLabel">La tua email</label>
-        <input type="email" id="recipient-email" required
-               placeholder="es. la-tua-email@email.com"
-               data-i18n-placeholder-key="clubClaimRecipientEmailPh"
+      </div>
+      <div>
+        <label for="address2" data-i18n-key="clubClaimAddress2Label">Indirizzo (riga 2, opz.)</label>
+        <input type="text" id="address2"
+               placeholder="Interno, scala, ecc."
+               data-i18n-placeholder-key="clubClaimAddress2Ph"
                style="width:100%;padding:10px;margin-bottom:8px;">
-
-        <label for="recipient-name" data-i18n-key="clubClaimRecipientNameLabel">Il tuo nome (opzionale)</label>
-        <input type="text" id="recipient-name"
-               placeholder="es. Mario Rossi"
-               data-i18n-placeholder-key="clubClaimRecipientNamePh"
+      </div>
+      <div>
+        <label for="city" data-i18n-key="clubClaimCityLabel">Città</label>
+        <input type="text" id="city" required
+               placeholder="es. Milano"
+               data-i18n-placeholder-key="clubClaimCityPh"
                style="width:100%;padding:10px;margin-bottom:8px;">
-
+      </div>
+      <div>
+        <label for="postal" data-i18n-key="clubClaimPostalLabel">CAP</label>
+        <input type="text" id="postal" required
+               placeholder="es. 20100"
+               data-i18n-placeholder-key="clubClaimPostalPh"
+               style="width:100%;padding:10px;margin-bottom:8px;">
+      </div>
+      <div>
+        <label for="country" data-i18n-key="clubClaimCountryLabel">Nazione</label>
+        <input type="text" id="country" required
+               placeholder="es. IT"
+               data-i18n-placeholder-key="clubClaimCountryPh"
+               style="width:100%;padding:10px;margin-bottom:8px;">
+      </div>
+      <div>
         <label for="order-sid" data-i18n-key="clubClaimOrderCodeLabel">Codice ordine (opzionale)</label>
         <input type="text" id="order-sid"
-               placeholder="es. cs_test_ABC123"
+               placeholder="es. cs_live_ABC123"
                data-i18n-placeholder-key="clubClaimOrderCodePh"
-               style="width:100%;padding:10px;margin-bottom:12px;">
-
-        <button type="submit" class="btn btn-primary" data-i18n-key="clubClaimSubmit">Collega</button>
-      </form>
-
-      <p id="claim-ok"  style="display:none;color:#2e7d32;margin-top:8px;" data-i18n-key="clubClaimSuccess">Fatto! Collegamento eseguito ✅</p>
-      <p id="claim-err" style="display:none;color:#b00020;margin-top:8px;" data-i18n-key="clubClaimError">Errore. Verifica i dati o riprova più tardi.</p>
+               style="width:100%;padding:10px;margin-bottom:8px;">
+      </div>
     </div>
+
+    <button type="submit" class="btn btn-primary" data-i18n-key="clubClaimSubmit">Collega</button>
+  </form>
+
+  <p id="claim-ok"  style="display:none;color:#2e7d32;margin-top:8px;" data-i18n-key="clubClaimSuccess">Fatto! Collegamento eseguito ✅</p>
+  <p id="claim-err" style="display:none;color:#b00020;margin-top:8px;" data-i18n-key="clubClaimError">Errore. Verifica i dati o riprova più tardi.</p>
+</div>
+
   </div>
 </section>
 
