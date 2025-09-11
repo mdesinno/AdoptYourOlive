@@ -14,29 +14,19 @@ async function getSheets() {
   return google.sheets({ version: 'v4', auth: jwt });
 }
 function toA1Col(n) {
-  // 1 -> A, 26 -> Z, 27 -> AA ...
   let s = '';
-  while (n > 0) {
-    const r = (n - 1) % 26;
-    s = String.fromCharCode(65 + r) + s;
-    n = Math.floor((n - 1) / 26);
-  }
+  while (n > 0) { const r = (n - 1) % 26; s = String.fromCharCode(65 + r) + s; n = Math.floor((n - 1) / 26); }
   return s;
 }
 async function ensureSheetExists(sheetName, headerRow) {
   const s = await getSheets();
   const meta = await s.spreadsheets.get({ spreadsheetId: process.env.GSHEET_ID });
   const exists = (meta.data.sheets || []).some(sh => sh.properties && sh.properties.title === sheetName);
-
   if (!exists) {
-    // crea il foglio
     await s.spreadsheets.batchUpdate({
       spreadsheetId: process.env.GSHEET_ID,
-      requestBody: {
-        requests: [{ addSheet: { properties: { title: sheetName } } }]
-      }
+      requestBody: { requests: [{ addSheet: { properties: { title: sheetName } } }] }
     });
-    // scrivi header
     const endCol = toA1Col(headerRow.length);
     await s.spreadsheets.values.update({
       spreadsheetId: process.env.GSHEET_ID,
@@ -54,8 +44,7 @@ async function readAll(sheetName) {
       range: `${sheetName}!A:Z`,
     });
     return r.data.values || [];
-  } catch (e) {
-    // se il foglio non esiste, ritorna array vuoto (chi lo chiama deciderà cosa fare)
+  } catch (_) {
     return [];
   }
 }
@@ -77,6 +66,69 @@ async function updateRow(sheetName, rowIndex1, arr) {
     valueInputOption: 'USER_ENTERED',
     requestBody: { values: [arr] },
   });
+}
+
+/* === Upsert su "Archivio contatti" con indirizzo === */
+async function upsertArchivioContatti({ email, name, lang='it', role='Adottante Regalo', addr1, addr2, city, cap, country }) {
+  const sheet = 'Archivio contatti';
+  const rows = await readAll(sheet);
+  if (rows.length === 0) return; // se proprio non esiste, esco “soft”
+
+  const header = rows[0].map(h => (h || '').toString());
+  const ci = (needle) => header.findIndex(h => (h || '').toLowerCase().includes(needle));
+
+  const emailIdx = ci('email');
+  const nameIdx  = ci('nome completo');
+  const langIdx  = ci('lingua');
+  const firstIdx = ci('data primo contatto');
+  const roleIdx  = ci('ruolo ultimo ordine');
+
+  const a1Idx = ci('indirizzo spedizione conosciuto 1');
+  const a2Idx = ci('indirizzo spedizione conosciuto 2');
+  const ctyIdx= ci('città spedizione conosciuta');
+  const capIdx= ci('cap spedizione conosciuto');
+  const cty2Idx = ci('nazione spedizione conosciuta'); // country
+
+  const nowIso = new Date().toISOString();
+
+  // cerca riga
+  let found = -1;
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    if (((r[emailIdx] || '') + '').trim().toLowerCase() === email.toLowerCase()) { found = i; break; }
+  }
+
+  if (found === -1) {
+    // costruisci nuova riga con stessa lunghezza dell'header
+    const newRow = new Array(header.length).fill('');
+    if (emailIdx !== -1) newRow[emailIdx] = email;
+    if (nameIdx  !== -1) newRow[nameIdx]  = name || '';
+    if (langIdx  !== -1) newRow[langIdx]  = lang || 'it';
+    if (firstIdx !== -1) newRow[firstIdx] = nowIso;
+    if (roleIdx  !== -1) newRow[roleIdx]  = role || '';
+
+    if (a1Idx   !== -1) newRow[a1Idx]   = addr1 || '';
+    if (a2Idx   !== -1) newRow[a2Idx]   = addr2 || '';
+    if (ctyIdx  !== -1) newRow[ctyIdx]  = city  || '';
+    if (capIdx  !== -1) newRow[capIdx]  = cap   || '';
+    if (cty2Idx !== -1) newRow[cty2Idx] = country || '';
+
+    await appendRow(sheet, newRow);
+  } else {
+    const row = rows[found];
+    if (nameIdx !== -1 && !row[nameIdx]) row[nameIdx] = name || row[nameIdx] || '';
+    if (langIdx !== -1 && !row[langIdx]) row[langIdx] = lang || row[langIdx] || '';
+    if (roleIdx !== -1 && !row[roleIdx]) row[roleIdx] = role || row[roleIdx] || '';
+
+    // aggiorna SEMPRE indirizzo come “ultimo conosciuto”
+    if (a1Idx   !== -1) row[a1Idx]   = addr1 || '';
+    if (a2Idx   !== -1) row[a2Idx]   = addr2 || '';
+    if (ctyIdx  !== -1) row[ctyIdx]  = city  || '';
+    if (capIdx  !== -1) row[capIdx]  = cap   || '';
+    if (cty2Idx !== -1) row[cty2Idx] = country || '';
+
+    await updateRow(sheet, found + 1, row);
+  }
 }
 
 /* ==================== Brevo (upsert + email semplice) ==================== */
@@ -127,11 +179,10 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Campi obbligatori mancanti' }) };
     }
 
-    /* --- leggi ordini --- */
     const SHEET_ORDINI = 'Storico ordini';
     const rows = await readAll(SHEET_ORDINI);
 
-    // sempre log in "Storico cambi email" (anche se pending)
+    // logger generico su “Storico cambi email”
     const logClaim = async (note = '') => {
       await ensureSheetExists('Storico cambi email', ['Timestamp','Tipo','Vecchia email','Nuova email','Origine/Codice','Note']);
       await appendRow('Storico cambi email', [
@@ -139,11 +190,42 @@ exports.handler = async (event) => {
       ]);
     };
 
-    // se non ci sono ordini, vai diretto in pending
-    if (rows.length < 2) {
-      await ensurePendingAndNotify({ buyerEmail, recipientEmail, recipientName, addr1, addr2, city, cap, country, candidates: [] });
-      await logClaim('pending: no orders');
+    // helper pending (ora upsert anche contatto+Brevo)
+    const handlePending = async (candidates) => {
+      // 1) upsert contatto con indirizzo
+      await upsertArchivioContatti({
+        email: recipientEmail, name: recipientName, lang: 'it', role: 'Adottante Regalo',
+        addr1, addr2, city, cap, country
+      });
+      // 2) upsert brevo
+      await brevoUpsert(recipientEmail, { NOME: recipientName });
+
+      // 3) crea/append “Claim in attesa di pairing”
+      const sheet = 'Claim in attesa di pairing';
+      const header = ['Timestamp','BuyerEmail','RecipientEmail','RecipientName','Address1','Address2','City','Postal','Country','Candidati'];
+      await ensureSheetExists(sheet, header);
+      await appendRow(sheet, [
+        new Date().toISOString(), buyerEmail, recipientEmail, recipientName,
+        addr1, addr2, city, cap, country,
+        JSON.stringify(candidates || [])
+      ]);
+
+      // 4) notifica interna
+      await sendEmail({
+        to: process.env.INFO_EMAIL,
+        subject: (candidates && candidates.length)
+          ? 'AYO • Claim regalo da abbinare (multipli)'
+          : 'AYO • Claim regalo da abbinare (nessun ordine)',
+        html: htmlPending({ buyerEmail, recipientEmail, recipientName, addr1, addr2, city, cap, country, candidates })
+      });
+
+      await logClaim(`pending: ${candidates ? candidates.length : 0} candidates`);
       return { statusCode: 200, body: JSON.stringify({ ok: true, linked: false, pending: true }) };
+    };
+
+    // Se non ci sono ordini → pending
+    if (rows.length < 2) {
+      return await handlePending([]);
     }
 
     const header = rows[0].map(h => (h || '').toString());
@@ -152,7 +234,6 @@ exports.handler = async (event) => {
     const idIdx     = findIdx('id ordine');
     const buyerIdx  = findIdx('email acquirente');
     const adoptIdx  = findIdx('email adottante');
-    const nameAdIdx = findIdx('nome adottante'); // NON lo useremo per scrivere
     const dateIdx   = findIdx('data ordine');
 
     const ship1Idx  = findIdx('indirizzo spedizione 1');
@@ -163,26 +244,20 @@ exports.handler = async (event) => {
 
     const candidates = rows
       .map((r,i)=>({ r, i }))
-      .filter(x => {
-        if (x.i === 0) return false;
-        const buyerOk = ((x.r[buyerIdx] || '').toString().trim().toLowerCase() === buyerEmail.toLowerCase());
-        return buyerOk;
-      })
+      .filter(x => x.i>0 && ((x.r[buyerIdx] || '').toString().trim().toLowerCase() === buyerEmail.toLowerCase()))
       .sort((a,b)=>{
         const da = Date.parse(a.r[dateIdx] || '') || 0;
         const db = Date.parse(b.r[dateIdx] || '') || 0;
-        return db - da; // più recente per primo
+        return db - da;
       });
 
     if (candidates.length === 1) {
-      // Link automatico su un solo ordine
+      // link automatico
       const targetIndex = candidates[0].i;
       const row = rows[targetIndex];
 
       if (adoptIdx  !== -1) row[adoptIdx]  = recipientEmail;
-      // NON toccare mai "Nome adottante"
-      // if (nameAdIdx !== -1 && !row[nameAdIdx]) row[nameAdIdx] = recipientName;
-
+      // non toccare “Nome adottante”
       if (ship1Idx  !== -1) row[ship1Idx]  = addr1;
       if (ship2Idx  !== -1) row[ship2Idx]  = addr2;
       if (cityIdx   !== -1) row[cityIdx]   = city;
@@ -191,23 +266,14 @@ exports.handler = async (event) => {
 
       await updateRow(SHEET_ORDINI, targetIndex + 1, row);
 
-      // Archivio contatti (soft-upsert)
-      const arch = await readAll('Archivio contatti');
-      if (arch.length > 0) {
-        const hA = arch[0];
-        const emailIdxA = hA.findIndex(x => (x || '').toLowerCase().includes('email'));
-        const exists = emailIdxA !== -1 && arch.findIndex((r,i)=> i>0 && (r[emailIdxA] || '').trim().toLowerCase() === recipientEmail.toLowerCase()) !== -1;
-        if (!exists) {
-          await appendRow('Archivio contatti', [
-            recipientEmail, recipientName, 'it', new Date().toISOString(), '', 'Adottante Regalo',
-            '', '', '', '', '', '', '', ''
-          ]);
-        }
-      }
-
-      // Brevo + email
+      // upsert contatto (con indirizzo) + brevo
+      await upsertArchivioContatti({
+        email: recipientEmail, name: recipientName, lang: 'it', role: 'Adottante Regalo',
+        addr1, addr2, city, cap, country
+      });
       await brevoUpsert(recipientEmail, { NOME: recipientName });
 
+      // conferma recipient
       await sendEmail({
         to: recipientEmail,
         subject: 'Your gift claim is confirmed',
@@ -219,6 +285,7 @@ exports.handler = async (event) => {
         `
       });
 
+      // notifica interna
       await sendEmail({
         to: process.env.INFO_EMAIL,
         subject: 'AYO • Claim regalo collegato',
@@ -232,24 +299,16 @@ exports.handler = async (event) => {
       });
 
       await logClaim('linked: single order match');
-
       return { statusCode: 200, body: JSON.stringify({ ok: true, linked: true, pending: false }) };
     }
 
-    // zero o multipli → pending + mail + log
+    // zero o multipli → pending ma con upsert contatto + brevo
     const candidateSummaries = candidates.map(c => ({
       id: (idIdx !== -1 ? (c.r[idIdx] || '') : ''),
       date: (dateIdx !== -1 ? (c.r[dateIdx] || '') : ''),
       adopt: (adoptIdx !== -1 ? (c.r[adoptIdx] || '') : '')
     }));
-
-    await ensurePendingAndNotify({
-      buyerEmail, recipientEmail, recipientName, addr1, addr2, city, cap, country, candidates: candidateSummaries
-    });
-
-    await logClaim(`pending: ${candidateSummaries.length} candidates`);
-
-    return { statusCode: 200, body: JSON.stringify({ ok: true, linked: false, pending: true }) };
+    return await handlePending(candidateSummaries);
 
   } catch (e) {
     console.error('club-claim-gift ERR', e);
@@ -257,33 +316,13 @@ exports.handler = async (event) => {
   }
 };
 
-/* ==================== helpers locali ==================== */
-async function ensurePendingAndNotify({ buyerEmail, recipientEmail, recipientName, addr1, addr2, city, cap, country, candidates }) {
-  const sheet = 'Claim in attesa di pairing';
-  const header = ['Timestamp','BuyerEmail','RecipientEmail','RecipientName','Address1','Address2','City','Postal','Country','Candidati'];
-  await ensureSheetExists(sheet, header);
-  await appendRow(sheet, [
-    new Date().toISOString(), buyerEmail, recipientEmail, recipientName,
-    addr1, addr2, city, cap, country,
-    JSON.stringify(candidates || [])
-  ]);
-
-  await sendEmail({
-    to: process.env.INFO_EMAIL,
-    subject: candidates && candidates.length
-      ? 'AYO • Claim regalo da abbinare (multipli)'
-      : 'AYO • Claim regalo da abbinare (nessun ordine)',
-    html: htmlPending({
-      buyerEmail, recipientEmail, recipientName, addr1, addr2, city, cap, country, candidates
-    })
-  });
-}
+/* ==================== Email HTML pending ==================== */
 function htmlPending({ buyerEmail, recipientEmail, recipientName, addr1, addr2, city, cap, country, candidates }) {
   const list = (candidates && candidates.length)
     ? `<ul>${candidates.map(c => `<li><b>ID:</b> ${c.id || '(n/d)'} — <b>Data:</b> ${c.date || '(n/d)'} — <b>Adottante:</b> ${c.adopt || '(vuoto)'}</li>`).join('')}</ul>`
     : '<p><i>Nessun candidato trovato.</i></p>';
   return `
-    <p>Claim ricevuto.</p>
+    <p>Claim ricevuto (in attesa di pairing manuale).</p>
     <p><b>Buyer:</b> ${buyerEmail}</p>
     <p><b>Recipient:</b> ${recipientEmail} (${recipientName})</p>
     <p><b>Ship:</b> ${addr1}${addr2?(', '+addr2):''}, ${cap} ${city}, ${country}</p>
