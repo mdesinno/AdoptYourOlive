@@ -153,7 +153,7 @@ async function brevoSendInfoNotification({ orderId, buyerEmail, buyerName, amoun
     body: JSON.stringify({
       sender: { email: senderEmail, name: senderName },
       to: [{ email: to }],
-      subject: `AYO • New order ${orderId}`,
+      subject: `AYO • Nuovo ordine ricevuto`,
       htmlContent: `
         <p><strong>Order:</strong> ${orderId}</p>
         <p><strong>Buyer:</strong> ${buyerName || ''} &lt;${buyerEmail || ''}&gt;</p>
@@ -268,60 +268,73 @@ exports.handler = async (event) => {
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 10 });
 
     // Dati principali
-    const meta = fullSession.metadata || {};
-    const buyerEmail = fullSession.customer_details?.email || fullSession.customer_email || meta.buyer_email || '';
-    const buyerName  = fullSession.customer_details?.name  || meta.shipping_name || '';
-    const amountEUR  = (fullSession.amount_total || 0) / 100;
-    const currency   = (fullSession.currency || 'eur').toUpperCase();
-    const lang       = (meta.language || 'it').toLowerCase();
+// === Metadati / helper ===
+const piMeta   = fullSession.payment_intent?.metadata || {};
+const sessMeta = fullSession.metadata || {}; // fallback retrocompatibile
+const M = (k) => (piMeta[k] ?? sessMeta[k] ?? '');
 
-// Indirizzo: PRIMA i metadati del sito, poi fallback Stripe
+// === Dati principali ===
+const amountEUR = (fullSession.amount_total || 0) / 100;
+const currency  = (fullSession.currency || 'eur').toUpperCase();
+
+const buyerEmail = fullSession.customer_details?.email || fullSession.customer_email || M('buyer_email') || '';
+const buyerName  = fullSession.customer_details?.name  || M('shipping_name') || '';
+const lang       = (M('language') || 'it').toLowerCase();
+
+// === Indirizzo: PRIMA i metadati del sito, poi Stripe come fallback ===
 const addrStripe = fullSession.customer_details?.address || {};
 const addr = {
-  line1:       meta.shipping_line1       || addrStripe.line1       || '',
-  line2:       meta.shipping_line2       || addrStripe.line2       || '',
-  city:        meta.shipping_city        || addrStripe.city        || '',
-  postal_code: meta.shipping_postal_code || addrStripe.postal_code || '',
-  country:     meta.shipping_country     || addrStripe.country     || ''
+  line1:       M('shipping_line1')       || addrStripe.line1       || '',
+  line2:       M('shipping_line2')       || addrStripe.line2       || '',
+  city:        M('shipping_city')        || addrStripe.city        || '',
+  postal_code: M('shipping_postal_code') || addrStripe.postal_code || '',
+  country:     M('shipping_country')     || addrStripe.country     || ''
 };
 
+// === Prodotto / tipo ===
+const firstItem   = (lineItems.data && lineItems.data[0]) || {};
+const productDesc = firstItem.description || M('tree_type') || '';
 
-    // Product/type (se serve lo usi nello sheet)
-    const firstItem = (lineItems.data && lineItems.data[0]) || {};
-    const productDesc = firstItem.description || meta.tree_type || '';
+// === Altri campi per lo Sheet ===
+const adopterEmail = M('recipient_email') || buyerEmail;
+const adopterName  = M('certificate_name') || buyerName;
+const isGiftFlag   = /^y|^s|^true|^1/i.test((M('is_gift') || '').toString()) ? 'Sì' : 'No';
 
-    // 1) Scrivi su "Storico ordini"
-    const ORDERS_SHEET = 'Storico ordini';
-    const header = [
-      'ID ordine','Data ordine','Email acquirente','Nome acquirente',
-      'Email adottante','Nome adottante','Regalo?','Tipo adozione',
-      'Messaggio personalizzato','Indirizzo spedizione 1','Indirizzo spedizione 2',
-      'Città spedizione','CAP spedizione','Nazione spedizione','Note sull\'ordine',
-      'Codice sconto usato','Importo pagato','Lingua'
-    ];
-    await ensureHeaderIfMissing(ORDERS_SHEET, header);
+const certMessage  = M('certificate_message') || 'Your Tree, Your Oil, Your Story';
+const userNote     = M('order_note') || '';
+const couponUsed   = M('discount_code') || '';
 
-    const nowISO = new Date().toISOString();
-    const adopterEmail = meta.recipient_email || buyerEmail;
-    const adopterName  = meta.certificate_name || buyerName;
-    const isGiftFlag   = (meta.is_gift || '').toString().toLowerCase().startsWith('y') ? 'Sì' : 'No';
+// === 1) Scrivi su "Storico ordini" ===
+const ORDERS_SHEET = 'Storico ordini';
+const header = [
+  'ID ordine','Data ordine','Email acquirente','Nome acquirente',
+  'Email adottante','Nome adottante','Regalo?','Tipo adozione',
+  'Messaggio personalizzato','Indirizzo spedizione 1','Indirizzo spedizione 2',
+  'Città spedizione','CAP spedizione','Nazione spedizione','Note sull\'ordine',
+  'Codice sconto usato','Importo pagato','Lingua'
+];
+await ensureHeaderIfMissing(ORDERS_SHEET, header);
 
-    await appendRow(ORDERS_SHEET, [
-      fullSession.id,
-      nowISO,
-      buyerEmail,
-      buyerName,
-      adopterEmail,
-      adopterName,
-      isGiftFlag,
-      productDesc,
-      meta.certificate_message || '',
-      addr.line1, addr.line2, addr.city, addr.postal_code, addr.country,
-      meta.order_note || '',
-      meta.discount_code || '',
-      currency === 'EUR' ? amountEUR : `${amountEUR} ${currency}`,
-      lang
-    ]);
+const nowISO = new Date().toISOString();
+
+await appendRow(ORDERS_SHEET, [
+  fullSession.id,
+  nowISO,
+  buyerEmail,
+  buyerName,
+  adopterEmail,
+  adopterName,
+  isGiftFlag,
+  productDesc,
+  certMessage,
+  addr.line1, addr.line2, addr.city, addr.postal_code, addr.country,
+  userNote,
+  couponUsed,
+  currency === 'EUR' ? amountEUR : `${amountEUR} ${currency}`,
+  lang
+]);
+
+
 
     // 2) Aggiorna "Archivio contatti" (buyer)
     if (buyerEmail) {
