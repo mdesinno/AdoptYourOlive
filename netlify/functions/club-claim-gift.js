@@ -89,17 +89,20 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Parametri mancanti' }) };
     }
 
-    // 1) Trova l'ordine regalo target
+    // 1) Trova un ordine del buyer da collegare (ignoriamo "Regalo?")
     const rows = await readAll('Storico ordini');
-    if (rows.length < 2) return { statusCode: 404, body: JSON.stringify({ error: 'Nessun ordine' }) };
+    if (rows.length < 2) {
+      // Nessun ordine: log "pending" + notifica + OK
+      await logPendingClaim({ buyerEmail, recipientEmail, recipientName, sid, line1, line2, city, postal, country, reason: 'NO_ORDERS' });
+      return { statusCode: 200, body: JSON.stringify({ ok: true, status: 'pending' }) };
+    }
     const header = rows[0];
 
     const col = (frag) => header.findIndex(h => (h || '').toLowerCase().includes(frag));
     const idIdx     = col('id ordine');
     const buyerIdx  = col('email acquirente');
     const adoptIdx  = col('email adottante');
-    const nameAdIdx = col('nome adottante');
-    const giftIdx   = col('regalo');
+    // const nameAdIdx = col('nome adottante'); // NON lo tocchiamo
     const dateIdx   = col('data ordine');
 
     const ship1Idx  = col('indirizzo spedizione 1');
@@ -110,22 +113,22 @@ exports.handler = async (event) => {
 
     let targetIndex = -1;
 
-    // Se ho il SID, provo match esatto su "ID ordine"
+    // a) match per SID se presente
     if (sid && idIdx !== -1) {
       targetIndex = rows.findIndex((r, i) => i > 0 && String(r[idIdx] || '').trim() === sid);
     }
 
-    // Altrimenti prendo l’ultimo ordine regalo del buyer con adottante vuoto o uguale al buyer
-    if (targetIndex === -1 && giftIdx !== -1 && buyerIdx !== -1) {
+    // b) fallback: ordine più recente del buyer con adottante vuoto o uguale al buyer
+    if (targetIndex === -1 && buyerIdx !== -1) {
+      const buyerL = buyerEmail.toLowerCase();
       const candidates = rows
         .map((r, i) => ({ r, i }))
         .filter(x =>
           x.i > 0 &&
-          String(x.r[giftIdx] || '').toLowerCase().startsWith('s') && // "si"/"sì" ecc.
-          String(x.r[buyerIdx] || '').trim().toLowerCase() === buyerEmail.toLowerCase() &&
+          String(x.r[buyerIdx] || '').trim().toLowerCase() === buyerL &&
           (
             String(x.r[adoptIdx] || '').trim() === '' ||
-            String(x.r[adoptIdx] || '').trim().toLowerCase() === buyerEmail.toLowerCase()
+            String(x.r[adoptIdx] || '').trim().toLowerCase() === buyerL
           )
         )
         .sort((a, b) => {
@@ -138,13 +141,14 @@ exports.handler = async (event) => {
     }
 
     if (targetIndex === -1) {
-      return { statusCode: 404, body: JSON.stringify({ error: 'Ordine regalo non trovato' }) };
+      // Nessun match certo: log "pending" + notifica + OK
+      await logPendingClaim({ buyerEmail, recipientEmail, recipientName, sid, line1, line2, city, postal, country, reason: 'NO_MATCH' });
+      return { statusCode: 200, body: JSON.stringify({ ok: true, status: 'pending' }) };
     }
 
-    // 2) Aggiorna ordine (email/nome adottante + indirizzo)
+    // 2) Aggiorna ordine (solo Email adottante + indirizzo, NON "Nome adottante")
     const row = rows[targetIndex];
     if (adoptIdx  !== -1) row[adoptIdx]  = recipientEmail;
-    if (nameAdIdx !== -1) row[nameAdIdx] = recipientName || row[nameAdIdx] || '';
     if (ship1Idx  !== -1) row[ship1Idx]  = line1;
     if (ship2Idx  !== -1) row[ship2Idx]  = line2;
     if (cityIdx   !== -1) row[cityIdx]   = city;
@@ -203,7 +207,7 @@ exports.handler = async (event) => {
       console.warn('Brevo upsert recipient warn', e.response?.data || e.message);
     }
 
-    // 5) Log su “Storico cambi email” (per tracciabilità claim)
+    // 5) Log su “Storico cambi email” (tracciabilità claim)
     await appendRow('Storico cambi email', [
       new Date().toISOString(), 'CLAIM_GIFT', buyerEmail, recipientEmail, (sid || 'Club')
     ]);
@@ -228,7 +232,7 @@ exports.handler = async (event) => {
       to: process.env.INFO_EMAIL,
       subject: 'AYO • Gift claim recorded',
       html: `
-        <p><strong>Gift claim</strong></p>
+        <p><strong>Gift claim</strong> (APPLICATO)</p>
         <p>Buyer: ${buyerEmail}<br>
            Recipient: ${recipientEmail} (${recipientName || '-'})<br>
            SID: ${sid || '-'}</p>
@@ -238,9 +242,46 @@ exports.handler = async (event) => {
       `
     });
 
-    return { statusCode: 200, body: JSON.stringify({ ok: true }) };
+    return { statusCode: 200, body: JSON.stringify({ ok: true, status: 'updated' }) };
   } catch (e) {
     console.error('club-claim-gift ERR', e);
     return { statusCode: 500, body: JSON.stringify({ error: 'Server error' }) };
   }
 };
+
+// ---------- helper: log pending + notifica ----------
+async function logPendingClaim({ buyerEmail, recipientEmail, recipientName, sid, line1, line2, city, postal, country, reason }) {
+  const detail = `${reason}|SID=${sid || ''}|NAME=${recipientName || ''}|ADDR=${line1} ${line2}, ${postal} ${city}, ${country}`;
+  await appendRow('Storico cambi email', [
+    new Date().toISOString(), 'CLAIM_GIFT_PENDING', buyerEmail, recipientEmail, detail
+  ]);
+
+  const sheetUrl = `https://docs.google.com/spreadsheets/d/${process.env.GSHEET_ID}/edit`;
+
+  // mail a info@
+  await sendEmail({
+    to: process.env.INFO_EMAIL,
+    subject: 'AYO • Gift claim PENDING (manual pairing)',
+    html: `
+      <p><strong>Gift claim</strong> (IN ATTESA • ${reason})</p>
+      <p>Buyer: ${buyerEmail}<br>
+         Recipient: ${recipientEmail} (${recipientName || '-'})<br>
+         SID: ${sid || '-'}</p>
+      <p>Address:<br>
+         ${line1}${line2 ? ('<br>' + line2) : ''}<br>${postal} ${city}, ${country}</p>
+      <p>Sheet: <a href="${sheetUrl}" target="_blank" rel="noopener">open Google Sheet</a></p>
+    `
+  });
+
+  // mail al ricevente (ricezione richiesta)
+  await sendEmail({
+    to: recipientEmail,
+    subject: 'We received your gift claim — Adopt Your Olive',
+    html: `
+      <p>Hi ${recipientName || ''},</p>
+      <p>We received your request to link the gifted adoption to your email <strong>${recipientEmail}</strong>.</p>
+      <p>We’ll finalize it shortly and confirm back. If something is wrong, just reply to this email.</p>
+      <p>— Adopt Your Olive</p>
+    `
+  });
+}
