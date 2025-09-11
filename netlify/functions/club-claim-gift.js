@@ -77,7 +77,6 @@ exports.handler = async (event) => {
     const sid            = (body.sid || '').trim();
 
     const shipping = body.shipping || {};
-    const shipName = (shipping.name || recipientName || '').trim();
     const addr     = shipping.address || {};
     const line1    = (addr.line1 || '').trim();
     const line2    = (addr.line2 || '').trim();
@@ -85,17 +84,17 @@ exports.handler = async (event) => {
     const postal   = (addr.postal_code || '').trim();
     const country  = (addr.country || '').trim();
 
-    // requisiti minimi
+    // MINIMI richiesti (SID NON richiesto)
     if (!buyerEmail || !recipientEmail || !recipientName || !line1 || !city || !postal || !country) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Parametri mancanti' }) };
     }
 
-    // 1) Trova l'ordine regalo target in "Storico ordini"
+    // 1) Trova l'ordine regalo target
     const rows = await readAll('Storico ordini');
     if (rows.length < 2) return { statusCode: 404, body: JSON.stringify({ error: 'Nessun ordine' }) };
     const header = rows[0];
 
-    const col = (labelFrag) => header.findIndex(h => (h || '').toLowerCase().includes(labelFrag));
+    const col = (frag) => header.findIndex(h => (h || '').toLowerCase().includes(frag));
     const idIdx     = col('id ordine');
     const buyerIdx  = col('email acquirente');
     const adoptIdx  = col('email adottante');
@@ -116,13 +115,13 @@ exports.handler = async (event) => {
       targetIndex = rows.findIndex((r, i) => i > 0 && String(r[idIdx] || '').trim() === sid);
     }
 
-    // Altrimenti prendo l’ultimo ordine regalo del buyer dove l’email adottante è vuota o uguale al buyer
+    // Altrimenti prendo l’ultimo ordine regalo del buyer con adottante vuoto o uguale al buyer
     if (targetIndex === -1 && giftIdx !== -1 && buyerIdx !== -1) {
       const candidates = rows
         .map((r, i) => ({ r, i }))
         .filter(x =>
           x.i > 0 &&
-          String(x.r[giftIdx] || '').toLowerCase().startsWith('s') && // sì
+          String(x.r[giftIdx] || '').toLowerCase().startsWith('s') && // "si"/"sì" ecc.
           String(x.r[buyerIdx] || '').trim().toLowerCase() === buyerEmail.toLowerCase() &&
           (
             String(x.r[adoptIdx] || '').trim() === '' ||
@@ -142,7 +141,7 @@ exports.handler = async (event) => {
       return { statusCode: 404, body: JSON.stringify({ error: 'Ordine regalo non trovato' }) };
     }
 
-    // 2) Aggiorna la riga ordine (email/nome adottante + indirizzo)
+    // 2) Aggiorna ordine (email/nome adottante + indirizzo)
     const row = rows[targetIndex];
     if (adoptIdx  !== -1) row[adoptIdx]  = recipientEmail;
     if (nameAdIdx !== -1) row[nameAdIdx] = recipientName || row[nameAdIdx] || '';
@@ -153,7 +152,7 @@ exports.handler = async (event) => {
     if (countryIdx!== -1) row[countryIdx]= country;
     await updateRow('Storico ordini', targetIndex + 1, row);
 
-    // 3) Upsert in "Archivio contatti" per il destinatario (senza toccare conteggi)
+    // 3) Upsert Archivio contatti del destinatario (aggiorna “ultimi indirizzi conosciuti”)
     const arch = await readAll('Archivio contatti');
     const archHeader = arch[0] || [
       'Email','Nome completo','Lingua','Data primo contatto','Data ultimo ordine','Ruolo ultimo ordine',
@@ -167,6 +166,12 @@ exports.handler = async (event) => {
     if (arch.length > 1 && emailIdxA !== -1) {
       foundIdx = arch.findIndex((r, i) => i > 0 && String(r[emailIdxA] || '').trim().toLowerCase() === recipientEmail.toLowerCase());
     }
+    const colA = (frag) => archHeader.findIndex(h => (h || '').toLowerCase().includes(frag));
+    const u1 = colA('ultimo indirizzo spedizione conosciuto 1');
+    const u2 = colA('ultimo indirizzo spedizione conosciuto 2');
+    const uc = colA('ultima città spedizione conosciuta');
+    const up = colA('ultimo cap spedizione conosciuto');
+    const un = colA('ultima nazione spedizione conosciuta');
 
     const nowIso = new Date().toISOString();
     if (foundIdx === -1) {
@@ -179,23 +184,15 @@ exports.handler = async (event) => {
     } else {
       const toUpd = arch[foundIdx];
       toUpd[emailIdxA] = recipientEmail;
-      // aggiorna ultimi indirizzi conosciuti
-      const col = (frag) => archHeader.findIndex(h => (h || '').toLowerCase().includes(frag));
-      const u1 = col('ultimo indirizzo spedizione conosciuto 1');
-      const u2 = col('ultimo indirizzo spedizione conosciuto 2');
-      const uc = col('ultima città spedizione conosciuta');
-      const up = col('ultimo cap spedizione conosciuto');
-      const un = col('ultima nazione spedizione conosciuta');
       if (u1 !== -1) toUpd[u1] = line1;
       if (u2 !== -1) toUpd[u2] = line2;
       if (uc !== -1) toUpd[uc] = city;
       if (up !== -1) toUpd[up] = postal;
       if (un !== -1) toUpd[un] = country;
-
       await updateRow('Archivio contatti', foundIdx + 1, toUpd);
     }
 
-    // 4) Brevo: upsert contatto (NO liste automatiche)
+    // 4) Brevo: upsert contatto (nessuna lista automatica)
     try {
       await brevo.post('/contacts', {
         email: recipientEmail,
@@ -203,10 +200,15 @@ exports.handler = async (event) => {
         updateEnabled: true
       });
     } catch (e) {
-      console.warn('Brevo upsert recipient failed', e.response?.data || e.message);
+      console.warn('Brevo upsert recipient warn', e.response?.data || e.message);
     }
 
-    // 5) Email: conferma al ricevente + notifica interna
+    // 5) Log su “Storico cambi email” (per tracciabilità claim)
+    await appendRow('Storico cambi email', [
+      new Date().toISOString(), 'CLAIM_GIFT', buyerEmail, recipientEmail, (sid || 'Club')
+    ]);
+
+    // 6) Email: conferma al ricevente + notifica interna
     const sheetUrl = `https://docs.google.com/spreadsheets/d/${process.env.GSHEET_ID}/edit`;
 
     await sendEmail({

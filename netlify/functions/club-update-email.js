@@ -125,15 +125,17 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Le email sono uguali' }) };
     }
 
-    // 1) Archivio contatti: sostituisci old->new
+    // 1) Archivio contatti: sostituisci old->new (+ prendi il nome per Brevo)
     const rows = await readAll('Archivio contatti');
     if (rows.length < 1) return { statusCode: 500, body: JSON.stringify({ error: 'Archivio contatti vuoto' }) };
     const header = rows[0];
     const emailIdx = header.findIndex(h => (h || '').toLowerCase().includes('email'));
+    const nameIdx  = header.findIndex(h => (h || '').toLowerCase().includes('nome completo'));
     const rowIdx = rows.findIndex((r, i) => i > 0 && (r[emailIdx] || '').trim().toLowerCase() === oldEmail.toLowerCase());
     if (rowIdx === -1) return { statusCode: 404, body: JSON.stringify({ error: 'Vecchia email non trovata in Archivio contatti' }) };
 
     const row = rows[rowIdx];
+    const fullName = nameIdx !== -1 ? (row[nameIdx] || '') : '';
     row[emailIdx] = newEmail;
     await updateRow('Archivio contatti', rowIdx + 1, row);
 
@@ -145,12 +147,28 @@ exports.handler = async (event) => {
     // 3) Mappature email (attive)
     await upsertMapping({ type: 'UPDATE_EMAIL', oldEmail, newEmail, origin: 'Club' });
 
-    // 4) Brevo: prova update email su vecchio contatto; se non esiste, upsert sul nuovo
+    // 4) Brevo: garantisci che esista il contatto "newEmail"; poi rimuovi "oldEmail" se ancora presente
+    //    (gestiamo anche il caso di conflitto se newEmail esiste già)
+    // ensure new contact exists/updated with name
     try {
-      await brevo.put(`/contacts/${encodeURIComponent(oldEmail)}`, { email: newEmail });
+      await brevo.post('/contacts', {
+        email: newEmail,
+        attributes: fullName ? { NOME: fullName } : {},
+        updateEnabled: true
+      });
     } catch (e) {
-      // se 404 o simile: crea/aggiorna il nuovo
-      await brevo.post('/contacts', { email: newEmail, updateEnabled: true }).catch(() => {});
+      // tollera 400 "already in list / invalid_parameter" ecc.
+      console.warn('Brevo upsert newEmail warn', e.response?.data || e.message);
+    }
+
+    // try to delete old contact (to evitare duplicati)
+    if (oldEmail.toLowerCase() !== newEmail.toLowerCase()) {
+      try {
+        await brevo.delete(`/contacts/${encodeURIComponent(oldEmail)}`);
+      } catch (e) {
+        // se non esiste più, va bene così
+        console.warn('Brevo delete oldEmail warn', e.response?.data || e.message);
+      }
     }
 
     // 5) Email al cliente e notifica interna
@@ -160,7 +178,7 @@ exports.handler = async (event) => {
       to: newEmail,
       subject: 'Your email was updated',
       html: `
-        <p>Hi,</p>
+        <p>Hi${fullName ? ' ' + fullName : ''},</p>
         <p>We’ve updated the email associated with your adoption from <strong>${oldEmail}</strong> to <strong>${newEmail}</strong>.</p>
         <p>If you didn’t request this change, reply to this email.</p>
         <p>— Adopt Your Olive</p>
@@ -171,7 +189,7 @@ exports.handler = async (event) => {
       to: process.env.INFO_EMAIL,
       subject: 'AYO • Email change recorded',
       html: `
-        <p>Type: <strong>UPDATE_EMAIL</strong></p>
+        <p><strong>UPDATE_EMAIL</strong></p>
         <p>Old: <strong>${oldEmail}</strong><br/>New: <strong>${newEmail}</strong><br/>Origin: Club</p>
         <p>Sheet: <a href="${sheetUrl}" target="_blank" rel="noopener">open Google Sheet</a></p>
       `,
