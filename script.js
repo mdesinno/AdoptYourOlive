@@ -1062,25 +1062,19 @@ document.getElementById('club-update-email-form')?.addEventListener('submit', as
   }
 });
 
-// --- Club: collega regalo (buyerEmail + dati recipient + indirizzo [+ sid opzionale]) ---
+// --- Club: collega regalo (senza SID) ---
 document.getElementById('club-claim-gift-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const buyerEmail     = document.getElementById('buyer-email')?.value.trim() || '';
   const recipientEmail = document.getElementById('recipient-email')?.value.trim() || '';
   const recipientName  = document.getElementById('recipient-name')?.value.trim() || '';
-
-  // indirizzo (riga 2 opzionale)
   const address1 = document.getElementById('address1')?.value.trim() || '';
   const address2 = document.getElementById('address2')?.value.trim() || '';
   const city     = document.getElementById('city')?.value.trim() || '';
   const postal   = document.getElementById('postal')?.value.trim() || '';
   const country  = document.getElementById('country')?.value.trim() || '';
 
-  // opzionale
-  const sid = document.getElementById('order-sid')?.value.trim() || '';
-
-  // campi MINIMI richiesti
   if (!buyerEmail || !recipientEmail || !recipientName || !address1 || !city || !postal || !country) {
     alert('Compila i campi obbligatori.');
     return;
@@ -1094,7 +1088,7 @@ document.getElementById('club-claim-gift-form')?.addEventListener('submit', asyn
       method: 'POST',
       headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({
-        buyerEmail, recipientEmail, recipientName, sid,
+        buyerEmail, recipientEmail, recipientName,
         shipping: {
           name: recipientName,
           address: { line1: address1, line2: address2, city, postal_code: postal, country }
@@ -1103,9 +1097,16 @@ document.getElementById('club-claim-gift-form')?.addEventListener('submit', asyn
     });
 
     if (!res.ok) throw new Error('Errore server');
+    const data = await res.json();
 
     document.getElementById('claim-ok').style.display = 'block';
     document.getElementById('claim-err').style.display = 'none';
+    if (data?.pending) {
+      document.getElementById('claim-ok').textContent =
+        'Ricevuto! Ti confermiamo via email dopo una breve verifica.';
+    } else {
+      document.getElementById('claim-ok').textContent = 'Fatto! Collegamento eseguito ✅';
+    }
     e.target.reset();
   } catch (err) {
     document.getElementById('claim-ok').style.display = 'none';
@@ -1114,6 +1115,7 @@ document.getElementById('club-claim-gift-form')?.addEventListener('submit', asyn
     btn && (btn.disabled = false);
   }
 });
+
 
 
 

@@ -167,11 +167,11 @@
       <p id="upd-err" style="display:none;color:#b00020;margin-top:8px;" data-i18n-key="clubChangeEmailError">Errore. Controlla i dati e riprova.</p>
     </div>
 
- <!-- CARD: Collega regalo a te (AGGIORNATA) -->
+<!-- CARD: Collega regalo a te (SENZA SID) -->
 <div class="card" style="padding:16px;border:1px solid #eee;border-radius:12px;">
   <h3 data-i18n-key="clubClaimGiftTitle">Hai ricevuto un regalo? Collegalo a te</h3>
   <p data-i18n-key="clubClaimGiftIntro" style="margin-top:0;">
-    Inserisci l’email di chi ha acquistato e i tuoi dati. Se hai il codice ordine, aggiungilo.
+    Inserisci l’email di chi ha acquistato e i tuoi dati di contatto e spedizione.
   </p>
 
   <form id="club-claim-gift-form">
@@ -229,13 +229,6 @@
                data-i18n-placeholder-key="clubClaimCountryPh"
                style="width:100%;padding:10px;margin-bottom:8px;">
       </div>
-      <div>
-        <label for="order-sid" data-i18n-key="clubClaimOrderCodeLabel">Codice ordine (opzionale)</label>
-        <input type="text" id="order-sid"
-               placeholder="es. cs_live_ABC123"
-               data-i18n-placeholder-key="clubClaimOrderCodePh"
-               style="width:100%;padding:10px;margin-bottom:8px;">
-      </div>
     </div>
 
     <button type="submit" class="btn btn-primary" data-i18n-key="clubClaimSubmit">Collega</button>
@@ -244,6 +237,7 @@
   <p id="claim-ok"  style="display:none;color:#2e7d32;margin-top:8px;" data-i18n-key="clubClaimSuccess">Fatto! Collegamento eseguito ✅</p>
   <p id="claim-err" style="display:none;color:#b00020;margin-top:8px;" data-i18n-key="clubClaimError">Errore. Verifica i dati o riprova più tardi.</p>
 </div>
+
 
   </div>
 </section>
