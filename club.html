@@ -213,25 +213,27 @@
   </p>
 
   <form id="club-claim-gift-form">
+    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
     <label for="buyer-email" data-i18n-key="clubClaimBuyerEmailLabel">Email dell’acquirente</label>
     <input type="email" id="buyer-email" required
            placeholder="es. chi-ha-acquistato@email.com"
            data-i18n-placeholder-key="clubClaimBuyerEmailPh"
-           style="width:100%;padding:10px;margin-bottom:8px;">
-
+           style="width:100%;padding:10px;margin-bottom:8px;"></div>
+<div>
     <label for="recipient-email" data-i18n-key="clubClaimRecipientEmailLabel">La tua email</label>
     <input type="email" id="recipient-email" required
            placeholder="es. la-tua-email@email.com"
            data-i18n-placeholder-key="clubClaimRecipientEmailPh"
-           style="width:100%;padding:10px;margin-bottom:8px;">
-
+           style="width:100%;padding:10px;margin-bottom:8px;"></div>
+<div>
     <label for="recipient-name" data-i18n-key="clubClaimRecipientNameLabel">Il tuo nome</label>
     <input type="text" id="recipient-name" required
            placeholder="es. Mario Rossi"
            data-i18n-placeholder-key="clubClaimRecipientNamePh"
-           style="width:100%;padding:10px;margin-bottom:8px;">
+           style="width:100%;padding:10px;margin-bottom:8px;"></div>
 
-    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+    
       <div>
         <label for="address1" data-i18n-key="formLabelAddress">Indirizzo (riga 1)</label>
         <input type="text" id="address1" required
