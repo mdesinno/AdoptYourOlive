@@ -106,7 +106,7 @@
         <div class="recipe-slider-container">
             <div class="recipe-slider-track">
                 <div class="club-card">
-                    <img src="immagini/ricetta-bruschetta.webp" alt="Bruschetta con olio d'oliva" class="club-card-image" loading="lazy">
+                    <img src="immagini/Bruschetta.webp" alt="Bruschetta con olio d'oliva" class="club-card-image" loading="lazy">
                     <h3 class="club-card-title" data-i18n-key="clubRecipe1Title">La Bruschetta Perfetta</h3>
                     <p class="club-card-text" data-i18n-key="clubRecipe1Text">Scopri il segreto per esaltare il sapore del nostro olio con il piatto più semplice e amato.</p>
                     <a href="ricette.html#bruschetta" class="btn btn-secondary" style="margin-top: auto;" data-i18n-key="clubRecipeBtn">Scopri la Ricetta</a>
@@ -135,6 +135,43 @@
 
         </div>
     </div>
+    <script>
+  // Rende le funzioni GLOBALI (attaccate a window) così gli onclick le trovano
+  window.AYO_sliderPrev = function(btn){
+    var container = btn.closest('.recipe-slider-container');
+    if (!container) return;
+    var track = container.querySelector('.recipe-slider-track');
+    if (!track) return;
+
+    var card = track.querySelector('.club-card');
+    var step = 300;
+    if (card) {
+      var styles = getComputedStyle(card);
+      var margin = parseFloat(styles.marginLeft || 0) + parseFloat(styles.marginRight || 0);
+      step = card.offsetWidth + margin;
+    }
+
+    track.scrollBy({ left: -step, behavior: 'smooth' });
+  };
+
+  window.AYO_sliderNext = function(btn){
+    var container = btn.closest('.recipe-slider-container');
+    if (!container) return;
+    var track = container.querySelector('.recipe-slider-track');
+    if (!track) return;
+
+    var card = track.querySelector('.club-card');
+    var step = 300;
+    if (card) {
+      var styles = getComputedStyle(card);
+      var margin = parseFloat(styles.marginLeft || 0) + parseFloat(styles.marginRight || 0);
+      step = card.offsetWidth + margin;
+    }
+
+    track.scrollBy({ left: step, behavior: 'smooth' });
+  };
+</script>
+
 </section>
 
 <section id="club-update-email" class="content-section" style="background-color: var(--white);">
