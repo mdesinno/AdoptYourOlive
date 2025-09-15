@@ -1016,28 +1016,33 @@ document.getElementById('tree-type')?.addEventListener('change', () => {
 
     } // --- FINE BLOCCO IF per la pagina principale
 
-     const track = document.querySelector('.recipe-slider-track');
-    const prevBtn = document.getElementById('recipe-prev-btn');
-    const nextBtn = document.getElementById('recipe-next-btn');
+document.addEventListener('DOMContentLoaded', function () {
+  // Prende lo slider ricette
+  const container = document.querySelector('.recipe-slider-container');
+  if (!container) return;
 
-    if (track && prevBtn && nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            const card = track.querySelector('.club-card');
-            if (card) {
-                // Calcola quanto scorrere: larghezza della card + margine
-                const scrollAmount = card.offsetWidth + 30; // 30px è il margine (15px a dx + 15px a sx)
-                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
-        });
+  const track   = container.querySelector('.recipe-slider-track');
+  const prevBtn = container.querySelector('#recipe-prev-btn');
+  const nextBtn = container.querySelector('#recipe-next-btn');
+  if (!track || !prevBtn || !nextBtn) return;
 
-        prevBtn.addEventListener('click', () => {
-            const card = track.querySelector('.club-card');
-            if (card) {
-                const scrollAmount = card.offsetWidth + 30;
-                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            }
-        });
-    }
+  // Calcola di quanto scorrere: larghezza card + margini reali
+  const getStep = () => {
+    const card = track.querySelector('.club-card');
+    if (!card) return 300;
+    const styles = window.getComputedStyle(card);
+    const margin =
+      parseFloat(styles.marginLeft || '0') + parseFloat(styles.marginRight || '0');
+    return card.offsetWidth + margin;
+  };
+
+  const scrollByStep = (dir = 1) => {
+    track.scrollBy({ left: dir * getStep(), behavior: 'smooth' });
+  };
+
+  prevBtn.addEventListener('click', () => scrollByStep(-1));
+  nextBtn.addEventListener('click', () => scrollByStep(1));
+});
 });
 
 // --- Club: cambia email ---
