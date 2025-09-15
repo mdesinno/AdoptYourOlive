@@ -1016,33 +1016,35 @@ document.getElementById('tree-type')?.addEventListener('change', () => {
 
     } // --- FINE BLOCCO IF per la pagina principale
 
-document.addEventListener('DOMContentLoaded', function () {
-  // Prende lo slider ricette
-  const container = document.querySelector('.recipe-slider-container');
-  if (!container) return;
+/* Funzione: trovo la "pista" dello slider partendo dal bottone cliccato */
+function AYO_getTrackFromButton(btn){
+  var container = btn.closest('.recipe-slider-container');
+  if(!container) return null;
+  return container.querySelector('.recipe-slider-track');
+}
 
-  const track   = container.querySelector('.recipe-slider-track');
-  const prevBtn = container.querySelector('#recipe-prev-btn');
-  const nextBtn = container.querySelector('#recipe-next-btn');
-  if (!track || !prevBtn || !nextBtn) return;
+/* Calcolo lo "step" di scorrimento: larghezza card + i suoi margini reali */
+function AYO_getStep(track){
+  var card = track.querySelector('.club-card');
+  if (!card) return 300; // se non trova la card, scorre di 300px
+  var styles = window.getComputedStyle(card);
+  var margin = parseFloat(styles.marginLeft || 0) + parseFloat(styles.marginRight || 0);
+  return card.offsetWidth + margin;
+}
 
-  // Calcola di quanto scorrere: larghezza card + margini reali
-  const getStep = () => {
-    const card = track.querySelector('.club-card');
-    if (!card) return 300;
-    const styles = window.getComputedStyle(card);
-    const margin =
-      parseFloat(styles.marginLeft || '0') + parseFloat(styles.marginRight || '0');
-    return card.offsetWidth + margin;
-  };
+/* Vai a sinistra */
+function AYO_sliderPrev(btn){
+  var track = AYO_getTrackFromButton(btn);
+  if(!track) return;
+  track.scrollBy({ left: -AYO_getStep(track), behavior: 'smooth' });
+}
 
-  const scrollByStep = (dir = 1) => {
-    track.scrollBy({ left: dir * getStep(), behavior: 'smooth' });
-  };
-
-  prevBtn.addEventListener('click', () => scrollByStep(-1));
-  nextBtn.addEventListener('click', () => scrollByStep(1));
-});
+/* Vai a destra */
+function AYO_sliderNext(btn){
+  var track = AYO_getTrackFromButton(btn);
+  if(!track) return;
+  track.scrollBy({ left: AYO_getStep(track), behavior: 'smooth' });
+}
 });
 
 // --- Club: cambia email ---
