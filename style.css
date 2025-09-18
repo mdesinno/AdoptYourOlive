@@ -363,7 +363,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
 .slideshow-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 .slide { display: none; width: 100%; height: 100%; animation: fadeEffect 1.5s; }
 .slide.active { display: block; }
-.slide img { width: 100%; height: 100%; object-fit: cover; }
+.slide img { width: 100%; height: 100%; object-fit: contain; }
 .prev-slide, .next-slide { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 18px; margin-top: -25px; color: white; font-weight: bold; font-size: 24px; transition: 0.6s ease; border-radius: 0 5px 5px 0; user-select: none; background-color: rgba(0,0,0,0.4); z-index: 2; }
 .next-slide { right: 0; border-radius: 5px 0 0 5px; }
 .gallery-header-overlay { position: absolute; top: 100px; left: 50%; transform: translateX(-50%); z-index: 3; text-align: center; width: 90%; }
@@ -374,7 +374,6 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
 @keyframes fadeEffect { from {opacity: .4} to {opacity: 1} }
 #customer-reviews { display: none; }
 #team { display: none; }
-#gallery { display: none; }
 .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
 .team-member { background: var(--white); padding: 25px; border-radius: var(--border-radius-md); box-shadow: var(--shadow-light); flex: 1 1 300px; text-align: center; }
 .team-member img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; box-shadow: 0 0 0 5px var(--white), 0 0 0 7px var(--secondary-green); }
