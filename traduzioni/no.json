@@ -574,7 +574,6 @@
     "recipeFaveIng3": "1 liten potet (valgfritt, for kremethet)",
     "recipeFaveIng4": "Peranzana EVO-olje, salt",
     "recipeFaveStep1": "Legg fava-bønnene i bløt over natten. Sil av dem og legg dem i en gryte dekket med kaldt vann sammen med den skrelte poteten.",
-    "recipeFaveStep2": "Kok opp og la det småkoke på lav varme i ca. 2 timer, og skum av om nødvendig. Mot slutten skal vannet være nesten helt absorbert.",
     "recipeFaveStep3": "I mellomtiden, kok sikorien i saltet vann, sil den av, og fres den i en panne med olje og hvitløk.",
     "recipeFaveStep4": "Bland fava-bønnene med en stavmikser, tilsett salt og en sjenerøs mengde Peranzana EVO-olje til du får en jevn krem. Server pureen varm, toppet med sikorien og en sjenerøs duskregn av råolje.",
     "formOrderSummaryCurrencyNote": "Prisene er i Euro (€). For betalinger i andre valutaer kan banken din pålegge vekslingsgebyrer.",
@@ -625,5 +624,16 @@
   "clubClaimError": "Feil. Kontroller dataene eller prøv igjen senere.",
 "cookieOtherTechTitle": "2-b. Andre Teknologier som Brukes (for Webappen)",
 "cookieOtherTechText": "I tillegg til informasjonskapsler bruker nettstedet vårt andre moderne teknologier for å forbedre opplevelsen din: <ul><li><strong>LocalStorage:</strong> Vi bruker det for å lagre tilgangstokenet ditt for AYO Adopters Club sikkert, slik at du ikke trenger å skrive inn passordet ved hvert besøk fra den installerte appen.</li><li><strong>Service Workers:</strong> Dette er skript som kjører i bakgrunnen i nettleseren din for å la vår Klubb-webapp fungere selv når du ikke er koblet til internett, ved å laste inn essensielle ressurser fra enhetens minne (cache).</li></ul> Disse teknologiene er essensielle for å levere funksjonene du forventer, og samler ikke inn personlige sporingsdata.",
-"privacySection2_list4_item1": "<strong>Data lagret på enheten din (for Web Appen):</strong> For å forbedre opplevelsen i AYO Adopters Club og tillate rask tilgang, lagrer vi et anonymt autentiseringstoken i nettleseren din (`localStorage`). Dette lar oss gjenkjenne deg ved påfølgende besøk uten å kreve et nytt passord."
+"privacySection2_list4_item1": "<strong>Data lagret på enheten din (for Web Appen):</strong> For å forbedre opplevelsen i AYO Adopters Club og tillate rask tilgang, lagrer vi et anonymt autentiseringstoken i nettleseren din (`localStorage`). Dette lar oss gjenkjenne deg ved påfølgende besøk uten å kreve et nytt passord.",
+
+  "recipeBruschettaVariantsTitle": "Varianter som fremhever oljen",
+  "recipeBruschettaVar1Title": "Pesto, mortadella og stracciatella",
+  "recipeBruschettaVar1Text": "Smør et tynt lag pesto, legg på 1–2 skiver mortadella og en skje stracciatella. Avslutt med en skvett Peranzana og pepper.",
+  "recipeBruschettaVar2Title": "Cherrytomater, mozzarella og ruccola",
+  "recipeBruschettaVar2Text": "Krydre tomatbåter med salt, oregano og olje; tilsett godt avrent mozzarella i terninger og ruccola. Fullfør med Peranzana og en klype salt.",
+  "recipeBruschettaVar3Title": "Fikenkrem og spekeskinke (gourmet)",
+  "recipeBruschettaVar3Text": "Smør på fikenkrem (eller en ikke for søt syltetøy), legg på 1–2 skiver spekeskinke. Avslutt med Peranzana og ristede mandelflak.",
+  "recipeBruschettaTip": "Tips: på «rikt pålagte» bruschetta, bruk minst mulig andre fettkilder og la olivenoljen binde smakene.",
+  "recipeFaveStep2": "Kok opp og la småkoke i 30–40 minutter, rør av og til og skum av ved behov. I trykkoker: 15–20 minutter etter at den begynner å pipe. Vannet skal nesten være fordampet og bønnene myke."
+
 }

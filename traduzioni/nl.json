@@ -574,7 +574,6 @@
     "recipeFaveIng3": "1 kleine aardappel (optioneel, voor extra romigheid)",
     "recipeFaveIng4": "Peranzana EVO-olie, zout",
     "recipeFaveStep1": "Week de fava-bonen een nacht. Giet af en doe ze in een pan met koud water samen met de geschilde aardappel.",
-    "recipeFaveStep2": "Breng aan de kook en laat ongeveer 2 uur op laag vuur sudderen, schep indien nodig het schuim eraf. Aan het einde moet het water bijna volledig zijn opgenomen.",
     "recipeFaveStep3": "Kook ondertussen de cichorei in gezouten water, giet af en bak in een pan met olie en knoflook.",
     "recipeFaveStep4": "Pureer de fava-bonen met een staafmixer, voeg zout en een royale hoeveelheid Peranzana EVO-olie toe tot een gladde crème ontstaat. Serveer de puree warm, bedek met de cichorei en maak af met een royale scheut rauwe olie.",
     "formOrderSummaryCurrencyNote": "Prijzen zijn in Euro (€). Voor betalingen in andere valuta kan uw bank wisselkosten in rekening brengen.",
@@ -625,5 +624,14 @@
   "clubClaimSuccess": "Gelukt! Gekoppeld ✅",
   "clubClaimError": "Fout. Controleer de gegevens of probeer later opnieuw.",
 "cookieOtherTechText": "Naast cookies maakt onze site gebruik van andere moderne technologieën om uw ervaring te verbeteren: <ul><li><strong>LocalStorage:</strong> We gebruiken het om uw toegangstoken voor de AYO Adopters Club veilig op te slaan, zodat u niet bij elk bezoek vanuit de geïnstalleerde app het wachtwoord hoeft in te voeren.</li><li><strong>Service Workers:</strong> Dit zijn scripts die op de achtergrond van uw browser draaien om onze Club Web App te laten functioneren, zelfs als u geen internetverbinding heeft, door essentiële bronnen uit het geheugen van uw apparaat (cache) te laden.</li></ul> Deze technologieën zijn essentieel voor het leveren van de functies die u verwacht en verzamelen geen persoonlijke trackinggegevens.",
-"privacySection2_list4_item1": "<strong>Gegevens opgeslagen op uw apparaat (voor de Web App):</strong> Om de ervaring van de AYO Adopters Club te verbeteren en snelle toegang mogelijk te maken, slaan we een anoniem authenticatietoken op in uw browser (`localStorage`). Dit stelt ons in staat u te herkennen bij volgende bezoeken zonder een nieuw wachtwoord te vereisen."
+"privacySection2_list4_item1": "<strong>Gegevens opgeslagen op uw apparaat (voor de Web App):</strong> Om de ervaring van de AYO Adopters Club te verbeteren en snelle toegang mogelijk te maken, slaan we een anoniem authenticatietoken op in uw browser (`localStorage`). Dit stelt ons in staat u te herkennen bij volgende bezoeken zonder een nieuw wachtwoord te vereisen.",
+"recipeBruschettaVariantsTitle": "Variaties om de olie te laten stralen",
+  "recipeBruschettaVar1Title": "Pesto, mortadella & stracciatella",
+  "recipeBruschettaVar1Text": "Smeer een dun laagje pesto, voeg 1–2 plakken mortadella en een lepel stracciatella toe. Afwerken met een straaltje Peranzana en peper.",
+  "recipeBruschettaVar2Title": "Cherrytomaatjes, mozzarella & rucola",
+  "recipeBruschettaVar2Text": "Breng tomaatpartjes op smaak met zout, oregano en olie; voeg goed uitgelekte mozzarellablokjes en rucola toe. Werk af met Peranzana en een snufje zout.",
+  "recipeBruschettaVar3Title": "Vijgencrème & rauwe ham (gourmet)",
+  "recipeBruschettaVar3Text": "Smeer vijgencrème (of een niet te zoete jam), leg er 1–2 plakken rauwe ham op. Werk af met Peranzana en geroosterde amandelschilfers.",
+  "recipeBruschettaTip": "Tip: gebruik bij ‘rijk belegde’ bruschetta zo min mogelijk andere vetten en laat de olijfolie de smaken binden.",
+  "recipeFaveStep2": "Aan de kook brengen en zachtjes 30–40 minuten laten sudderen, af en toe roeren en eventueel afschuimen. In de snelkookpan: 15–20 minuten na het fluiten. Het vocht moet bijna volledig verdampen en de bonen zacht zijn."
 }

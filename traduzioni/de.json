@@ -574,7 +574,6 @@
     "recipeFaveIng3": "1 kleine Kartoffel (optional, für Cremigkeit)",
     "recipeFaveIng4": "Peranzana EVO-Öl, Salz",
     "recipeFaveStep1": "Die Fava-Bohnen über Nacht einweichen. Abgießen und in einen Topf mit kaltem Wasser zusammen mit der geschälten Kartoffel geben.",
-    "recipeFaveStep2": "Zum Kochen bringen und bei niedriger Hitze etwa 2 Stunden kochen, bei Bedarf abschäumen. Am Ende sollte das Wasser fast vollständig absorbiert sein.",
     "recipeFaveStep3": "In der Zwischenzeit den Chicorée in Salzwasser kochen, abgießen und in einer Pfanne mit Öl und Knoblauch anbraten.",
     "recipeFaveStep4": "Die Fava-Bohnen mit einem Stabmixer pürieren, Salz und eine großzügige Menge Peranzana EVO-Öl hinzufügen, bis eine glatte Creme entsteht. Das Püree heiß servieren, mit dem Chicorée bedecken und mit einem großzügigen Schuss rohem Öl veredeln.",
     "formOrderSummaryCurrencyNote": "Die Preise sind in Euro (€). Bei Zahlungen in anderen Währungen kann Ihre Bank Umrechnungsgebühren erheben.",
@@ -625,5 +624,15 @@
   "clubClaimError": "Fehler. Bitte Daten prüfen oder später erneut versuchen.",
 "cookieOtherTechTitle": "2-b. Andere verwendete Technologien (für die Web-App)",
 "cookieOtherTechText": "Zusätzlich zu Cookies verwendet unsere Website weitere moderne Technologien, um Ihre Erfahrung zu verbessern: <ul><li><strong>LocalStorage:</strong> Wir verwenden es, um Ihr Zugangstoken für den AYO Adopters Club sicher zu speichern, damit Sie nicht bei jedem Besuch der installierten App das Passwort eingeben müssen.</li><li><strong>Service Workers:</strong> Dies sind Skripte, die im Hintergrund Ihres Browsers laufen, damit unsere Club-Web-App auch ohne Internetverbindung funktioniert, indem wesentliche Ressourcen aus dem Speicher Ihres Geräts (Cache) geladen werden.</li></ul> Diese Technologien sind für die Bereitstellung der von Ihnen erwarteten Funktionen unerlässlich und sammeln keine persönlichen Tracking-Daten.",
-"privacySection2_list4_item1": "<strong>Auf Ihrem Gerät gespeicherte Daten (für die Web App):</strong> Um das Erlebnis im AYO Adopters Club zu verbessern und einen schnellen Zugriff zu ermöglichen, speichern wir ein anonymes Authentifizierungstoken in Ihrem Browser (`localStorage`). Dies ermöglicht es uns, Sie bei späteren Besuchen wiederzuerkennen, ohne ein neues Passwort anfordern zu müssen."
+"privacySection2_list4_item1": "<strong>Auf Ihrem Gerät gespeicherte Daten (für die Web App):</strong> Um das Erlebnis im AYO Adopters Club zu verbessern und einen schnellen Zugriff zu ermöglichen, speichern wir ein anonymes Authentifizierungstoken in Ihrem Browser (`localStorage`). Dies ermöglicht es uns, Sie bei späteren Besuchen wiederzuerkennen, ohne ein neues Passwort anfordern zu müssen.",
+  "recipeBruschettaVariantsTitle": "Varianten, um das Öl hervorzuheben",
+  "recipeBruschettaVar1Title": "Pesto, Mortadella & Stracciatella",
+  "recipeBruschettaVar1Text": "Bestreiche mit etwas Pesto, lege 1–2 Scheiben Mortadella und einen Löffel Stracciatella darauf. Unbedingt abschließen mit einem Schuss Peranzana nativ und Pfeffer.",
+  "recipeBruschettaVar2Title": "Kirschtomaten, Mozzarella & Rucola",
+  "recipeBruschettaVar2Text": "Kirschtomaten in Spalten mit Salz, Oregano und Öl würzen; gewürfelten, gut abgetropften Mozzarella und Rucola hinzufügen. Mit Peranzana und einer Prise Salz vollenden.",
+  "recipeBruschettaVar3Title": "Feigencreme & Rohschinken (Gourmet)",
+  "recipeBruschettaVar3Text": "Bestreiche mit Feigencreme (oder nicht zu süßer Konfitüre), lege 1–2 Scheiben Rohschinken darauf. Mit Peranzana und gerösteten Mandelblättchen abschließen.",
+  "recipeBruschettaTip": "Tipp: Bei „reich belegten“ Bruschette nur wenig zusätzliche Fette verwenden und das native Olivenöl die Aromen verbinden lassen.",
+  "recipeFaveStep2": "Zum Kochen bringen und sanft 30–40 Minuten köcheln lassen, gelegentlich umrühren und abschäumen. Im Schnellkochtopf: 15–20 Minuten nach dem ersten Pfeifen. Die Flüssigkeit sollte fast verdampft sein und die Bohnen weich."
+
 }

@@ -574,7 +574,6 @@
     "recipeFaveIng3": "1 petite pomme de terre (facultatif, pour plus de crémeux)",
     "recipeFaveIng4": "Huile EVO Peranzana, sel",
     "recipeFaveStep1": "Faites tremper les fèves toute une nuit. Égouttez-les et mettez-les dans une casserole avec de l'eau froide et la pomme de terre pelée.",
-    "recipeFaveStep2": "Portez à ébullition et laissez mijoter à feu doux pendant environ 2 heures, en écumant si nécessaire. À la fin, l'eau doit être presque complètement absorbée.",
     "recipeFaveStep3": "Pendant ce temps, faites cuire la chicorée dans de l'eau salée, égouttez-la et faites-la revenir dans une poêle avec de l'huile et de l'ail.",
     "recipeFaveStep4": "Mixez les fèves avec un mixeur plongeant, ajoutez du sel et une quantité généreuse d'huile EVO Peranzana jusqu'à obtenir une crème lisse. Servez la purée chaude, recouverte de chicorée et arrosée d'un généreux filet d'huile crue.",
     "formOrderSummaryCurrencyNote": "Les prix sont en Euros (€). Pour les paiements dans d'autres devises, votre banque peut appliquer des frais de change.",
@@ -625,5 +624,14 @@
   "clubClaimError": "Erreur. Veuillez vérifier les données ou réessayer plus tard.",
 "cookieOtherTechTitle": "2-bis. Autres Technologies Utilisées (pour l'application Web)",
 "cookieOtherTechText": "En plus des cookies, notre site utilise d'autres technologies modernes pour améliorer votre expérience : <ul><li><strong>LocalStorage :</strong> Nous l'utilisons pour enregistrer en toute sécurité votre jeton d'accès au Club des Adopteurs AYO, afin que vous n'ayez pas à saisir le mot de passe à chaque visite depuis l'application installée.</li><li><strong>Service Workers :</strong> Ce sont des scripts qui s'exécutent en arrière-plan dans votre navigateur pour permettre à notre application Web du Club de fonctionner même lorsque vous n'êtes pas connecté à Internet, en chargeant les ressources essentielles depuis la mémoire de votre appareil (cache).</li></ul> Ces technologies sont essentielles pour fournir les fonctionnalités que vous attendez et ne collectent pas de données de suivi personnelles.",
-"privacySection2_list4_item1": "<strong>Données enregistrées sur votre appareil (pour l'application Web) :</strong> Pour améliorer l'expérience du Club des Adopteurs AYO et permettre un accès rapide, nous enregistrons un jeton d'authentification anonyme dans votre navigateur (`localStorage`). Cela nous permet de vous reconnaître lors de vos visites ultérieures sans nécessiter un nouveau mot de passe."
+"privacySection2_list4_item1": "<strong>Données enregistrées sur votre appareil (pour l'application Web) :</strong> Pour améliorer l'expérience du Club des Adopteurs AYO et permettre un accès rapide, nous enregistrons un jeton d'authentification anonyme dans votre navigateur (`localStorage`). Cela nous permet de vous reconnaître lors de vos visites ultérieures sans nécessiter un nouveau mot de passe.",
+"recipeBruschettaVariantsTitle": "Variantes pour sublimer l’huile",
+  "recipeBruschettaVar1Title": "Pesto, mortadelle et stracciatella",
+  "recipeBruschettaVar1Text": "Étalez une fine couche de pesto, ajoutez 1–2 tranches de mortadelle et une cuillerée de stracciatella. Finition indispensable : filet de Peranzana cru et poivre.",
+  "recipeBruschettaVar2Title": "Tomates cerises, mozzarella et roquette",
+  "recipeBruschettaVar2Text": "Assaisonnez les tomates cerises en quartiers avec sel, origan et huile ; ajoutez des dés de mozzarella bien égouttée et de la roquette. Terminez avec Peranzana et une pincée de sel.",
+  "recipeBruschettaVar3Title": "Crème de figues et jambon cru (gourmet)",
+  "recipeBruschettaVar3Text": "Étalez de la crème de figues (ou une confiture peu sucrée), ajoutez 1–2 tranches de jambon cru. Terminez avec Peranzana et des éclats d’amande grillés.",
+  "recipeBruschettaTip": "Astuce : pour les bruschette « garnies », limitez les autres matières grasses et laissez l’huile d’olive lier les saveurs.",
+  "recipeFaveStep2": "Portez à ébullition et laissez mijoter doucement 30–40 minutes, en remuant de temps en temps et en écumant si nécessaire. Cocotte-minute : 15–20 minutes après le sifflement. L’eau doit presque disparaître et les fèves être tendres."
 }
