@@ -8,7 +8,8 @@
     "navGalleryShort": "Galerie",
     "navFAQShort": "FAQ",
     "navContactShort": "Contact",
-    "heroTitle": "Adoptez un olivier Peranzana rare : Huile d'olive EVO des Pouilles avec votre nom, livrée directement chez vous.",
+    "heroTitle-old": "Adoptez un olivier Peranzana rare : Huile d'olive EVO des Pouilles avec votre nom, livrée directement chez vous.",
+    "heroTitle": "Le seul cadeau de Noël qui surprend deux fois : un arbre à leur nom aujourd'hui, leur huile personnalisée en janvier.",
     "heroSubtitle": "Vivez une connexion authentique avec les Pouilles. De notre famille de troisième génération, une huile d'olive Peranzana de haute qualité en bouteilles personnalisées et des mises à jour régulières sur votre arbre. Livré directement à votre porte, sans intermédiaires.",
     "heroCtaChoose": "Choisir votre arbre",
     "heroCtaFAQ": "Questions ? FAQ",
@@ -633,5 +634,12 @@
   "recipeBruschettaVar3Title": "Crème de figues et jambon cru (gourmet)",
   "recipeBruschettaVar3Text": "Étalez de la crème de figues (ou une confiture peu sucrée), ajoutez 1–2 tranches de jambon cru. Terminez avec Peranzana et des éclats d’amande grillés.",
   "recipeBruschettaTip": "Astuce : pour les bruschette « garnies », limitez les autres matières grasses et laissez l’huile d’olive lier les saveurs.",
-  "recipeFaveStep2": "Portez à ébullition et laissez mijoter doucement 30–40 minutes, en remuant de temps en temps et en écumant si nécessaire. Cocotte-minute : 15–20 minutes après le sifflement. L’eau doit presque disparaître et les fèves être tendres."
+  "recipeFaveStep2": "Portez à ébullition et laissez mijoter doucement 30–40 minutes, en remuant de temps en temps et en écumant si nécessaire. Cocotte-minute : 15–20 minutes après le sifflement. L’eau doit presque disparaître et les fèves être tendres.",
+  "urgentBannerTitle": "Plus que quelques jours avant Noël !",
+  "urgentBannerText": "Adoptez votre arbre personnalisé dès maintenant et recevez votre coffret cadeau à temps.",
+  "urgentBannerDays": "Jours",
+  "urgentBannerHours": "Heures",
+  "urgentBannerMinutes": "Minutes",
+  "urgentBannerSeconds": "Secondes",
+  "urgentBannerButton": "Adopter Mon Arbre"
 }

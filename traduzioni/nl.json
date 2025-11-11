@@ -8,7 +8,8 @@
     "navGalleryShort": "Galerij",
     "navFAQShort": "FAQ",
     "navContactShort": "Contact",
-    "heroTitle": "Adopteer een zeldzame Peranzana olijfboom: Pugliese EVO-olie met uw naam, rechtstreeks bij u thuis.",
+    "heroTitle-old": "Adopteer een zeldzame Peranzana olijfboom: Pugliese EVO-olie met uw naam, rechtstreeks bij u thuis.",
+    "heroTitle": "Het enige kerstcadeau dat twee keer verrast: een boom op hun naam vandaag, hun gepersonaliseerde olie in januari.",
     "heroSubtitle": "Ervaar een authentieke verbinding met Puglia. Van onze familie in de derde generatie, hoogwaardige Peranzana extra vierge olijfolie in gepersonaliseerde flessen en regelmatige updates over uw boom. Rechtstreeks aan uw deur geleverd, zonder tussenpersonen.",
     "heroCtaChoose": "Kies uw boom",
     "heroCtaFAQ": "Vragen? FAQ",
@@ -633,5 +634,12 @@
   "recipeBruschettaVar3Title": "Vijgencrème & rauwe ham (gourmet)",
   "recipeBruschettaVar3Text": "Smeer vijgencrème (of een niet te zoete jam), leg er 1–2 plakken rauwe ham op. Werk af met Peranzana en geroosterde amandelschilfers.",
   "recipeBruschettaTip": "Tip: gebruik bij ‘rijk belegde’ bruschetta zo min mogelijk andere vetten en laat de olijfolie de smaken binden.",
-  "recipeFaveStep2": "Aan de kook brengen en zachtjes 30–40 minuten laten sudderen, af en toe roeren en eventueel afschuimen. In de snelkookpan: 15–20 minuten na het fluiten. Het vocht moet bijna volledig verdampen en de bonen zacht zijn."
+  "recipeFaveStep2": "Aan de kook brengen en zachtjes 30–40 minuten laten sudderen, af en toe roeren en eventueel afschuimen. In de snelkookpan: 15–20 minuten na het fluiten. Het vocht moet bijna volledig verdampen en de bonen zacht zijn.",
+  "urgentBannerTitle": "Nog maar een paar dagen tot Kerst!",
+  "urgentBannerText": "Adopteer nu je gepersonaliseerde boom en ontvang je geschenkdoos op tijd.",
+  "urgentBannerDays": "Dagen",
+  "urgentBannerHours": "Uren",
+  "urgentBannerMinutes": "Minuten",
+  "urgentBannerSeconds": "Seconden",
+  "urgentBannerButton": "Mijn Boom Adopteren"
 }

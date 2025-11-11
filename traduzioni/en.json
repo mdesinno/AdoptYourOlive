@@ -8,7 +8,8 @@
     "navGalleryShort": "Gallery",
     "navFAQShort": "FAQ",
     "navContactShort": "Contact",
-    "heroTitle": "Adopt a Rare Peranzana Olive Tree: Puglian EVO Oil with Your Name, Directly to Your Home.",
+    "heroTitle-old": "Adopt a Rare Peranzana Olive Tree: Puglian EVO Oil with Your Name, Directly to Your Home.",
+    "heroTitle": "The only Christmas gift that surprises twice: a tree in their name today, their personalized oil in January.",
     "heroSubtitle": "Experience an authentic bond with Puglia. From our 3-generation family, superior quality Peranzana extra virgin olive oil in personalized bottles and constant updates from your tree. Delivered to your door, no middlemen.",
     "heroCtaChoose": "Choose Your Tree",
     "heroCtaFAQ": "Questions? FAQ",
@@ -634,5 +635,11 @@
   "clubClaimSuccess": "Done! Linked ✅",
   "clubClaimError": "Error. Please verify the data or try again later.",
 "cookieOtherTechText": "In addition to cookies, our site uses other modern technologies to enhance your experience: <ul><li><strong>LocalStorage:</strong> We use it to securely save your access token for the AYO Adopters Club, so you don't have to enter the password on every visit from the installed app.</li><li><strong>Service Workers:</strong> These are scripts that run in the background of your browser to allow our Club Web App to function even when you're not connected to the internet, by loading essential resources from your device's memory (cache).</li></ul> These technologies are essential for providing the features you expect and do not collect personal tracking data.",
-"privacySection2_list4_item1": "<strong>Data saved on your device (for the Web App):</strong> To improve the AYO Adopters Club experience and allow for quick access, we save an anonymous authentication token in your browser (`localStorage`). This allows us to recognize you on subsequent visits without requiring a new password."
+"privacySection2_list4_item1": "<strong>Data saved on your device (for the Web App):</strong> To improve the AYO Adopters Club experience and allow for quick access, we save an anonymous authentication token in your browser (`localStorage`). This allows us to recognize you on subsequent visits without requiring a new password.",
+"urgentBannerMessage": "🎄 Guaranteed Christmas delivery for orders placed by Dec 15th! Only:",
+  "countdownDaysShort": "d",
+  "countdownHoursShort": "h",
+  "countdownMinutesShort": "m",
+  "countdownSecondsShort": "s",
+  "urgentBannerCTA": "Gift Now!"
 }

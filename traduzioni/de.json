@@ -8,7 +8,8 @@
     "navGalleryShort": "Galerie",
     "navFAQShort": "FAQ",
     "navContactShort": "Kontakt",
-    "heroTitle": "Adoptieren Sie einen seltenen Peranzana-Olivenbaum: Apulisches EVO-Öl mit Ihrem Namen, direkt zu Ihnen nach Hause.",
+    "heroTitle-old": "Adoptieren Sie einen seltenen Peranzana-Olivenbaum: Apulisches EVO-Öl mit Ihrem Namen, direkt zu Ihnen nach Hause.",
+    "heroTitle": "Das einzige Weihnachtsgeschenk, das zweimal überrascht: ein Baum in ihrem Namen heute, ihr personalisiertes Öl im Januar.",
     "heroSubtitle": "Erleben Sie eine authentische Verbindung zu Apulien. Von unserer Familie in dritter Generation, hochwertiges Peranzana extra vergines Olivenöl in personalisierten Flaschen und regelmäßige Updates von Ihrem Baum. Direkt an Ihre Tür geliefert, ohne Zwischenhändler.",
     "heroCtaChoose": "Wählen Sie Ihren Baum",
     "heroCtaFAQ": "Fragen? FAQ",
@@ -633,6 +634,12 @@
   "recipeBruschettaVar3Title": "Feigencreme & Rohschinken (Gourmet)",
   "recipeBruschettaVar3Text": "Bestreiche mit Feigencreme (oder nicht zu süßer Konfitüre), lege 1–2 Scheiben Rohschinken darauf. Mit Peranzana und gerösteten Mandelblättchen abschließen.",
   "recipeBruschettaTip": "Tipp: Bei „reich belegten“ Bruschette nur wenig zusätzliche Fette verwenden und das native Olivenöl die Aromen verbinden lassen.",
-  "recipeFaveStep2": "Zum Kochen bringen und sanft 30–40 Minuten köcheln lassen, gelegentlich umrühren und abschäumen. Im Schnellkochtopf: 15–20 Minuten nach dem ersten Pfeifen. Die Flüssigkeit sollte fast verdampft sein und die Bohnen weich."
-
+  "recipeFaveStep2": "Zum Kochen bringen und sanft 30–40 Minuten köcheln lassen, gelegentlich umrühren und abschäumen. Im Schnellkochtopf: 15–20 Minuten nach dem ersten Pfeifen. Die Flüssigkeit sollte fast verdampft sein und die Bohnen weich.",
+  "urgentBannerTitle": "Nur noch wenige Tage bis Weihnachten!",
+  "urgentBannerText": "Sichere dir jetzt deinen personalisierten Baum und erhalte deine Geschenkbox pünktlich.",
+  "urgentBannerDays": "Tage",
+  "urgentBannerHours": "Stunden",
+  "urgentBannerMinutes": "Minuten",
+  "urgentBannerSeconds": "Sekunden",
+  "urgentBannerButton": "Meinen Baum Adoptieren"
 }

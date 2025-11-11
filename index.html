@@ -248,6 +248,20 @@ CC          },
     
 </head>
 <body>
+
+    <div id="urgent-countdown-banner">
+    <div class="container countdown-container">
+        <span class="banner-message" data-i18n-key="urgentBannerMessage"></span>
+        <div class="banner-timer">
+            <span id="banner-days">00</span><small data-i18n-key="countdownDaysShort">g</small>
+            <span id="banner-hours">00</span><small data-i18n-key="countdownHoursShort">h</small>
+            <span id="banner-minutes">00</span><small data-i18n-key="countdownMinutesShort">m</small>
+            <span id="banner-seconds">00</span><small data-i18n-key="countdownSecondsShort">s</small>
+        </div>
+        <a href="#personalization" class="btn btn-small btn-cta-banner" data-i18n-key="urgentBannerCTA"></a>
+    </div>
+</div>
+
     <nav class="main-nav">
         <div class="nav-logo-container">
             <a href="#hero">
@@ -282,7 +296,7 @@ CC          },
 
     <section id="hero" class="hero">
         <div class="video-background">
-            <video autoplay loop muted playsinline poster="immagini/hero-poster.webp" id="heroBgVideo">
+            <video autoplay loop muted playsinline poster="immagini/hero-poster.webp" id="heroBgVideo" class="campaign-video-hidden">
                 <source src="video/hero-video.mp4" type="video/mp4">
     <source src="video/hero-video.webm" type="video/webm">
             </video>

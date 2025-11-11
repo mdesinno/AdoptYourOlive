@@ -8,7 +8,8 @@
     "navGalleryShort": "Galleri",
     "navFAQShort": "FAQ",
     "navContactShort": "Kontakt",
-    "heroTitle": "Adopter et sjeldent Peranzana-oliventre: EVO-olje fra Puglia med ditt navn, rett hjem til deg.",
+    "heroTitle-old": "Adopter et sjeldent Peranzana-oliventre: EVO-olje fra Puglia med ditt navn, rett hjem til deg.",
+    "heroTitle": "Den eneste julegaven som overrasker to ganger: et tre i deres navn i dag, deres personlige olje i januar.",
     "heroSubtitle": "Opplev et autentisk bånd med Puglia. Fra vår familie gjennom 3 generasjoner, førsteklasses Peranzana extra virgin olivenolje i personlige flasker og konstante oppdateringer fra treet ditt. Levert på døren, uten mellomledd.",
     "heroCtaChoose": "Velg ditt tre",
     "heroCtaFAQ": "Spørsmål? FAQ",
@@ -634,6 +635,12 @@
   "recipeBruschettaVar3Title": "Fikenkrem og spekeskinke (gourmet)",
   "recipeBruschettaVar3Text": "Smør på fikenkrem (eller en ikke for søt syltetøy), legg på 1–2 skiver spekeskinke. Avslutt med Peranzana og ristede mandelflak.",
   "recipeBruschettaTip": "Tips: på «rikt pålagte» bruschetta, bruk minst mulig andre fettkilder og la olivenoljen binde smakene.",
-  "recipeFaveStep2": "Kok opp og la småkoke i 30–40 minutter, rør av og til og skum av ved behov. I trykkoker: 15–20 minutter etter at den begynner å pipe. Vannet skal nesten være fordampet og bønnene myke."
-
+  "recipeFaveStep2": "Kok opp og la småkoke i 30–40 minutter, rør av og til og skum av ved behov. I trykkoker: 15–20 minutter etter at den begynner å pipe. Vannet skal nesten være fordampet og bønnene myke.",
+"urgentBannerTitle": "Bare noen få dager igjen til jul!",
+  "urgentBannerText": "Adopter ditt personlige tre nå og motta gaveesken din i tide.",
+  "urgentBannerDays": "Dager",
+  "urgentBannerHours": "Timer",
+  "urgentBannerMinutes": "Minutter",
+  "urgentBannerSeconds": "Sekunder",
+  "urgentBannerButton": "Adopter Mitt Tre"
 }

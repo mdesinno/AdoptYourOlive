@@ -400,6 +400,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     return; // IMPORTANTISSIMO: non eseguire altro JS della home
   }
 
+  // --- LOGICA BANNER DI URGENZA STICKY (Sempre Visibile) ---
+const urgentCountdownBanner = document.getElementById('urgent-countdown-banner');
+if (urgentCountdownBanner) {
+    // Imposta la data di scadenza (15 Dicembre dell'anno corrente per la consegna Natale)
+    // Puoi modificare questa data come vuoi, es. per il 10 Dicembre: new Date(new Date().getFullYear(), 11, 10, 23, 59, 59)
+    const countdownDateBanner = new Date(new Date().getFullYear(), 11, 15, 23, 59, 59).getTime(); // 15 Dicembre
+
+    const bannerTimer = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = countdownDateBanner - now;
+
+        // Calcoli per giorni, ore, minuti e secondi
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Aggiorna gli elementi HTML del banner
+        // Usiamo un controllo per assicurarci che gli elementi esistano prima di aggiornarli
+        const bannerDays = document.getElementById("banner-days");
+        const bannerHours = document.getElementById("banner-hours");
+        const bannerMinutes = document.getElementById("banner-minutes");
+        const bannerSeconds = document.getElementById("banner-seconds");
+
+        if (bannerDays) bannerDays.textContent = days < 10 ? '0' + days : days;
+        if (bannerHours) bannerHours.textContent = hours < 10 ? '0' + hours : hours;
+        if (bannerMinutes) bannerMinutes.textContent = minutes < 10 ? '0' + minutes : minutes;
+        if (bannerSeconds) bannerSeconds.textContent = seconds < 10 ? '0' + seconds : seconds;
+
+        // Se il conto alla rovescia è finito, nascondi il banner o mostra un messaggio
+        if (distance < 0) {
+            clearInterval(bannerTimer);
+            urgentCountdownBanner.style.display = 'none'; // Nasconde l'intero banner
+            // Oppure: urgentCountdownBanner.innerHTML = '<div class="container"><span class="banner-message">Offerta scaduta!</span></div>';
+            // Potresti anche voler aggiungere una classe per animare la scomparsa.
+        }
+    }, 1000);
+}
 
     const languageSelector = document.getElementById('language-selector');
     if (languageSelector) {
@@ -864,13 +902,7 @@ isGift: document.getElementById('is-gift')?.checked || false,
         window.currentSlide = (n) => showSlides(n - 1);
         showSlides(slideIndex);
 
-                // --- Rendi NON obbligatori i campi indirizzo (Stripe li chiede in checkout) ---
-        (function makeAddressFieldsOptional(){
-          ['address','address-2','city','postal-code','country'].forEach(id=>{
-            const el = document.getElementById(id);
-            if (el) el.removeAttribute('required');
-          });
-        })();
+        
 
 // Auto-fill "Nome per il certificato" da "Nome e Cognome"
 // - Funziona anche con autofill (Chrome/Safari/Firefox)
