@@ -510,64 +510,34 @@ CC          },
                                     <input type="email" id="email" name="email" required>
                                 </div>
                                 <div class="form-section">
-                                    <h4 data-i18n-key="formSectionShipping">Informazioni di Spedizione</h4>
-                                    <div class="form-group">
-                                        <label for="address" data-i18n-key="formLabelAddress">Indirizzo *</label>
-                                        <input type="text" id="address" name="address">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="address-2" data-i18n-key="formLabelAddress2">Indirizzo 2 (Opzionale)</label>
-                                        <input type="text" id="address-2" name="address-2" data-i18n-placeholder-key="formPlaceholderAddress2" placeholder="Es. Interno, Scala, c/o">
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="city" data-i18n-key="formLabelCity">Città *</label>
-                                            <input type="text" id="city" name="city">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="postal-code" data-i18n-key="formLabelPostalCode">CAP *</label>
-                                            <input type="text" id="postal-code" name="postal-code">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="country" data-i18n-key="formLabelCountry">Nazione *</label>
-                                        <select id="country" name="country">
-                                            <option value="" data-i18n-key="formSelectCountry">Seleziona Nazione</option>
-                                            <option value="AT" data-i18n-key="formCountryAT">Austria</option>
-                                            <option value="BE" data-i18n-key="formCountryBE">Belgio</option>
-                                            <option value="BG" data-i18n-key="formCountryBG">Bulgaria</option>
-                                            <option value="HR" data-i18n-key="formCountryHR">Croazia</option>
-                                            <option value="CY" data-i18n-key="formCountryCY">Cipro</option>
-                                            <option value="CZ" data-i18n-key="formCountryCZ">Repubblica Ceca</option>
-                                            <option value="DK" data-i18n-key="formCountryDK">Danimarca</option>
-                                            <option value="EE" data-i18n-key="formCountryEE">Estonia</option>
-                                            <option value="FI" data-i18n-key="formCountryFI">Finlandia</option>
-                                            <option value="FR" data-i18n-key="formCountryFR">Francia</option>
-                                            <option value="DE" data-i18n-key="formCountryDE">Germania</option>
-                                            <option value="GR" data-i18n-key="formCountryGR">Grecia</option>
-                                            <option value="HU" data-i18n-key="formCountryHU">Ungheria</option>
-                                            <option value="IE" data-i18n-key="formCountryIE">Irlanda</option>
-                                            <option value="IT" data-i18n-key="formCountryIT">Italia</option>
-                                            <option value="LV" data-i18n-key="formCountryLV">Lettonia</option>
-                                            <option value="LT" data-i18n-key="formCountryLT">Lituania</option>
-                                            <option value="LU" data-i18n-key="formCountryLU">Lussemburgo</option>
-                                            <option value="MT" data-i18n-key="formCountryMT">Malta</option>
-                                            <option value="NL" data-i18n-key="formCountryNL">Paesi Bassi</option>
-                                            <option value="PL" data-i18n-key="formCountryPL">Polonia</option>
-                                            <option value="PT" data-i18n-key="formCountryPT">Portogallo</option>
-                                            <option value="RO" data-i18n-key="formCountryRO">Romania</option>
-                                            <option value="SK" data-i18n-key="formCountrySK">Slovacchia</option>
-                                            <option value="SI" data-i18n-key="formCountrySI">Slovenia</option>
-                                            <option value="ES" data-i18n-key="formCountryES">Spagna</option>
-                                            <option value="SE" data-i18n-key="formCountrySE">Svezia</option>
-                                            <option value="CH" data-i18n-key="formCountryCH">Svizzera</option>
-                                            <option value="GB" data-i18n-key="formCountryUK">Regno Unito</option>
-                                        </select>
-                                        <small id="customs-warning" class="customs-warning-note" data-i18n-key="formCustomsWarning">
+    <h4 data-i18n-key="formSectionShipping">Informazioni di Spedizione</h4>
+    <div class="form-group">
+        <label for="address" data-i18n-key="formLabelAddress">Indirizzo *</label>
+        <input type="text" id="address" name="address" required> </div>
+    <div class="form-group">
+        <label for="address-2" data-i18n-key="formLabelAddress2">Indirizzo 2 (Opzionale)</label>
+        <input type="text" id="address-2" name="address-2" data-i18n-placeholder-key="formPlaceholderAddress2" placeholder="Es. Interno, Scala, c/o">
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="city" data-i18n-key="formLabelCity">Città *</label>
+            <input type="text" id="city" name="city" required> </div>
+        <div class="form-group">
+            <label for="postal-code" data-i18n-key="formLabelPostalCode">CAP *</label>
+            <input type="text" id="postal-code" name="postal-code" required> </div>
+    </div>
+    <div class="form-group">
+        <label for="country" data-i18n-key="formLabelCountry">Nazione *</label>
+        <select id="country" name="country" required> <option value="" data-i18n-key="formSelectCountry">Seleziona Nazione</option>
+            <option value="AT" data-i18n-key="formCountryAT">Austria</option>
+            <option value="BE" data-i18n-key="formCountryBE">Belgio</option>
+            <option value="GB" data-i18n-key="formCountryUK">Regno Unito</option>
+        </select>
+        <small id="customs-warning" class="customs-warning-note" data-i18n-key="formCustomsWarning">
             Attenzione: potrebbero essere applicati dazi doganali e tasse di importazione.
         </small>
-                                    </div>
-                                </div>                                                                                                                              
+    </div>
+</div>                                                                                                                        
                             </div>
                             <div class="form-column">
                                  <div class="form-section">
