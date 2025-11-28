@@ -145,7 +145,7 @@ body.homepage nav.main-nav, body.homepage #hero { /* Aggiungi qui tutti gli elem
 .campaign-video-hidden {
     display: none !important; /* Forza la sovrascrittura */
 }
-.hero { min-height: 100svh; margin-top: -80px; padding-top: 100px; padding-bottom: 60px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-sizing: border-box; background-image: url('immagini/Foto\ esempio\ pacchetto\ Mature.jpg'); /* <-- PERCORSO CORRETTO DELLA TUA IMMAGINE */
+.hero { min-height: 100svh; margin-top: auto; padding-top: 100px; padding-bottom: 60px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-sizing: border-box; background-image: url('immagini/Foto\ esempio\ pacchetto\ Mature.jpg'); /* <-- PERCORSO CORRETTO DELLA TUA IMMAGINE */
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;}
