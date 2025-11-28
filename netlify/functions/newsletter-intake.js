@@ -17,7 +17,7 @@ async function getSheets() {
 async function appendRow(sheetName, values) {
   const sheets = await getSheets();
   return sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.SHEET_ID,
+    spreadsheetId: process.env.GSHEET_ID,
     range: `${sheetName}!A:Z`,
     valueInputOption: 'USER_ENTERED',
     requestBody: { values: [values] }
@@ -29,14 +29,14 @@ async function upsertByEmail(sheetName, header, email, rowValuesBuilder) {
   const emailLower = (email || '').trim().toLowerCase();
 
   const getResp = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.SHEET_ID,
+    spreadsheetId: process.env.GSHEET_ID,
     range: `${sheetName}!A:Z`
   });
 
   const rows = getResp.data.values || [];
   if (rows.length === 0) {
     await sheets.spreadsheets.values.update({
-      spreadsheetId: process.env.SHEET_ID,
+      spreadsheetId: process.env.GSHEET_ID,
       range: `${sheetName}!A1`,
       valueInputOption: 'USER_ENTERED',
       requestBody: { values: [header] }
@@ -63,7 +63,7 @@ async function upsertByEmail(sheetName, header, email, rowValuesBuilder) {
     const newRow = rowValuesBuilder(current);
     const range = `${sheetName}!A${existingIndex + 1}:` + String.fromCharCode(64 + headerRow.length) + (existingIndex + 1);
     await sheets.spreadsheets.values.update({
-      spreadsheetId: process.env.SHEET_ID,
+      spreadsheetId: process.env.GSHEET_ID,
       range,
       valueInputOption: 'USER_ENTERED',
       requestBody: { values: [newRow] }
