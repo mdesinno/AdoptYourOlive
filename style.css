@@ -105,7 +105,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text)
 
 /* IMPORTANTE: Regola il posizionamento degli elementi sottostanti */
 /* Questo sposta la tua navbar e il resto della pagina sotto il banner sticky */
-nav.main-nav, #hero { /* Aggiungi qui tutti gli elementi che devono scorrere sotto il banner */
+body.homepage nav.main-nav, body.homepage #hero { /* Aggiungi qui tutti gli elementi che devono scorrere sotto il banner */
     margin-top: 68px; /* **REGOLA QUESTO VALORE** in base all'altezza effettiva del tuo banner */
     /* Potrebbe essere necessario un JavaScript per calcolare l'altezza esatta
        del banner e applicarla dinamicamente al margin-top della nav/hero.
@@ -133,10 +133,10 @@ nav.main-nav, #hero { /* Aggiungi qui tutti gli elementi che devono scorrere sot
         padding: 5px 12px;
         font-size: 0.8rem;
     }
-    nav.main-nav { /* Aggiorna anche qui se hai un valore fisso */
+    body.homepage nav.main-nav { /* Aggiorna anche qui se hai un valore fisso */
         margin-top: 150px; /* Potrebbe servire più spazio su mobile se il banner si estende */
     }
-    #hero { /* Aggiorna anche qui se hai un valore fisso */
+    body.homepage #hero { /* Aggiorna anche qui se hai un valore fisso */
         margin-top: auto; /* Potrebbe servire più spazio su mobile se il banner si estende */
     }
 }
