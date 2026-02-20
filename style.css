@@ -1785,7 +1785,7 @@ input:checked + .slider:before { transform: translateX(24px); }
         /* Livello 1: Una velatura color crema all'85% di opacità */
         linear-gradient(rgba(0, 0, 0, 0.35), rgba(249, 248, 246, 0.95)),
         /* Livello 2: La tua immagine (Sostituisci l'URL tra le virgolette) */
-        url(immagini/Albero\ 9\ -\ DSC_2746\ copia.webp);
+        url(immagini/Albero-hero.webp);
         
     /* Fa sì che l'immagine copra tutto lo spazio senza deformarsi */
     background-size: cover;
