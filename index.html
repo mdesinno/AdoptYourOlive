@@ -1,1092 +1,928 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en"> 
 <head>
-<meta name="google-site-verification" content="Y85AARKVRz6ltP7evzrwVD9khwUHW-t15SLTXBLH_Os" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Adotta un ulivo Peranzana dalla Puglia e ricevi a casa tua olio extra vergine di oliva personalizzato. Un'esperienza autentica e un regalo unico." data-i18n-key="metaDescription">    
-<title data-i18n-key="pageTitle">Adopt Your Olive | Adotta un Ulivo in Puglia & Olio EVO Peranzana</title>
-<script>
-  // Questo script si esegue prima che la pagina venga caricata
-  // Se lo schermo è più piccolo di 768px (mobile), trova il video e rimuove le sue fonti
-  if (window.innerWidth < 768) {
-    document.addEventListener('DOMContentLoaded', function() {
-      const videoElement = document.getElementById('heroBgVideo');
-      if (videoElement) {
-        // Rimuove tutti i tag <source> all'interno del video
-        while (videoElement.firstChild) {
-          videoElement.removeChild(videoElement.firstChild);
-        }
-        // Disattiva il caricamento del video
-        videoElement.removeAttribute('src');
-        videoElement.load();
-      }
-    });
-  }
-</script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <title>Adopt Your Olive | Your Name. Your Oil. Your Story.</title>
+    <meta name="description" content="Adopt a centuries-old olive tree in Puglia, Italy. Receive your personalized Extra Virgin Olive Oil immediately. A perfect gift directly from the farm.">
+
+
+    <link rel="preload" as="image" href="/immagini/albero-hero-mobile.webp" media="(max-width: 768px)" fetchpriority="high">
+<link rel="preload" as="image" href="/immagini/albero-hero.webp" media="(min-width: 769px)" fetchpriority="high">
+
+    <link rel="alternate" hreflang="en" href="https://adoptyourolive.com/" />
+    <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/" />
+    <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/" />
+    <link rel="canonical" href="https://adoptyourolive.com/" />
+
+    <meta name="google-site-verification" content="Y85AARKVRz6ltP7evzrwVD9khwUHW-t15SLTXBLH_Os" />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="AYO" />
     <link rel="manifest" href="/site.webmanifest" />
-    
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
+<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adoptyourolive.com/">
+    <meta property="og:title" content="Adopt Your Olive | Your Name. Your Oil. Your Story.">
+    <meta property="og:description" content="Adopt a tree, receive premium EVOO oil with your name. Support traditional farming in Puglia.">
+    <meta property="og:image" content="https://adoptyourolive.com/immagini/Albero-hero.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Adopt Your Olive | Your Name. Your Oil. Your Story.">
+    <meta name="twitter:description" content="Adopt a tree, receive premium oil. The perfect gift for food lovers.">
+    <meta name="twitter:image" content="https://adoptyourolive.com/immagini/Albero-hero.webp">
+
+    <script type="application/ld+json">
     {
-      "@type": "Organization",
-      "name": "Adopt Your Olive",
-      "url": "https://www.adoptyourolive.com/",
-      "logo": "https://www.adoptyourolive.com/immagini/logo.png",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+39-392-9577685",
-        "contactType": "Customer Service",
-        "email": "info@adoptyourolive.com"
-      }
-    },
-    {
-      "@type": "Product",
-      "name": "Young Olive Tree Adoption",
-      "image": "https://www.adoptyourolive.com/immagini/prodotto-giovane.jpg",
-      "description": "Adopt a 15-40 year old olive tree. A symbolic gift that includes a certificate, updates, and access to the Adopters Club. No oil is shipped. The welcome kit is shipped within 5-7 business days.",
-      "brand": { "@type": "Brand", "name": "Adopt Your Olive" },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://www.adoptyourolive.com/#products",
-        "priceCurrency": "EUR",
-        "price": "49",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2026-12-31",
-        "hasMerchantReturnPolicy": {
-          "@type": "MerchantReturnPolicy",
-          "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
-          "applicableCountry": [ "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" ]
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Adopt Your Olive",
+          "url": "https://adoptyourolive.com",
+          "logo": "https://adoptyourolive.com/immagini/logo.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Customer Service",
+            "email": "info@adoptyourolive.com"
+          }
         },
-        "shippingDetails": {
-          "@type": "OfferShippingDetails",
-          "shippingRate": {
-            "@type": "MonetaryAmount",
-            "value": "0",
-            "currency": "EUR"
-          },
-          "shippingDestination": {
- "@type": "DefinedRegion",
- "addressCountry": [ "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" ]
-      },
-          "deliveryTime": {
-            "@type": "ShippingDeliveryTime",
-            "handlingTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 1,
-              "maxValue": 2,
-              "unitCode": "d"
-            },
-            "transitTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 5,
-              "maxValue": 7,
-              "unitCode": "d"
+        {
+          "@type": "Product",
+          "name": "Welcome Kit Adoption",
+          "image": "https://adoptyourolive.com/immagini/Albero-welcome-kit.webp",
+          "description": "Adopt an olive tree for 1 year. Includes certificate and 1 liter (2 bottles) of premium Extra Virgin Olive Oil with personalized label.",
+          "brand": { "@type": "Brand", "name": "Adopt Your Olive" },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://adoptyourolive.com/#adoption-kits",
+            "priceCurrency": "EUR",
+            "price": "79.00",
+            "availability": "https://schema.org/InStock",
+            "shippingDetails": {
+              "@type": "OfferShippingDetails",
+              "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "EUR" }
+            }
+          }
+        },
+        {
+          "@type": "Product",
+          "name": "Reserve Kit Adoption",
+          "image": "https://adoptyourolive.com/immagini/Albero-reserve-kit.webp",
+          "description": "Adopt an olive tree for 1 year. Includes certificate and 2 liters (4 bottles) of premium Extra Virgin Olive Oil with personalized label.",
+          "brand": { "@type": "Brand", "name": "Adopt Your Olive" },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://adoptyourolive.com/#adoption-kits",
+            "priceCurrency": "EUR",
+            "price": "129.00",
+            "availability": "https://schema.org/InStock",
+            "shippingDetails": {
+              "@type": "OfferShippingDetails",
+              "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "EUR" }
+            }
+          }
+        },
+        {
+          "@type": "Product",
+          "name": "Family Kit Adoption",
+          "image": "https://adoptyourolive.com/immagini/Albero-family-kit.webp",
+          "description": "Adopt an olive tree for 1 year. Includes certificate and 5 liters of premium Extra Virgin Olive Oil with personalized label.",
+          "brand": { "@type": "Brand", "name": "Adopt Your Olive" },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://adoptyourolive.com/#adoption-kits",
+            "priceCurrency": "EUR",
+            "price": "219.00",
+            "availability": "https://schema.org/InStock",
+            "shippingDetails": {
+              "@type": "OfferShippingDetails",
+              "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "EUR" }
             }
           }
         }
-      }
-    },
-    {
-      "@type": "Product",
-      "name": "Mature Olive Tree Adoption",
-      "image": "https://www.adoptyourolive.com/immagini/prodotto-maturo.jpg",
-      "description": "Adopt a 40-70 year old olive tree. Includes 5 liters of premium Peranzana olive oil, a certificate, updates, and access to the Adopters Club. The welcome kit is shipped within 5-7 business days. Olive oil delivery depends on adoption date: June-November adopters receive oil in December, December-May adopters receive oil shortly after adoption.",
-      "brand": { "@type": "Brand", "name": "Adopt Your Olive" },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://www.adoptyourolive.com/#products",
-        "priceCurrency": "EUR",
-        "price": "299",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2026-12-31",
-        "hasMerchantReturnPolicy": {
-          "@type": "MerchantReturnPolicy",
-          "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
-          "applicableCountry": [ "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" ]
-        },
-        "shippingDetails": {
-          "@type": "OfferShippingDetails",
-          "shippingRate": {
-            "@type": "MonetaryAmount",
-            "value": "0",
-            "currency": "EUR"
-          },
-          "shippingDestination": {
-            "@type": "DefinedRegion",
-            "addressCountry": [ "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" ]
-          },
-          "deliveryTime": {
-            "@type": "ShippingDeliveryTime",
-            "handlingTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 1,
-              "maxValue": 2,
-              "unitCode": "d"
-            },
-            "transitTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 5,
-              "maxValue": 7,
-              "unitCode": "d"
-            }
-          }
-        }
-      }
-    },
-    {
-      "@type": "Product",
-      "name": "Ancient Olive Tree Adoption",
-      "image": "https://www.adoptyourolive.com/immagini/prodotto-antico.jpg",
-      "description": "Adopt a 70-100 year old olive tree. Includes 10 liters of premium Peranzana olive oil, a certificate, updates, and access to the Adopters Club. The welcome kit is shipped within 5-7 business days. Olive oil delivery depends on adoption date: June-November adopters receive oil in December, December-May adopters receive oil shortly after adoption.",
-      "brand": { "@type": "Brand", "name": "Adopt Your Olive" },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://www.adoptyourolive.com/#products",
-        "priceCurrency": "EUR",
-        "price": "499",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2026-12-31",
-        "hasMerchantReturnPolicy": {
-          "@type": "MerchantReturnPolicy",
-          "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
-          "applicableCountry": [ "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" ]
-        },
-        "shippingDetails": {
-          "@type": "OfferShippingDetails",
-          "shippingRate": {
-            "@type": "MonetaryAmount",
-            "value": "0",
-            "currency": "EUR"
-          },
-          "shippingDestination": {
-            "@type": "DefinedRegion",
-            "addressCountry": [ "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" ]
-          },
-          "deliveryTime": {
-            "@type": "ShippingDeliveryTime",
-            "handlingTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 1,
-              "maxValue": 2,
-              "unitCode": "d"
-            },
-            "transitTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 5,
-              "maxValue": 7,
-              "unitCode": "d"
-            }
-          }
-        }
-      }
-    },
-    {
-      "@type": "Product",
-      "name": "Historic Olive Tree Adoption",
-      "image": "https://www.adoptyourolive.com/immagini/prodotto-secolare.jpg",
-      "description": "Adopt an olive tree over 100 years old. Includes 15 liters of premium Peranzana olive oil, a certificate, updates, and access to the Adopters Club. The welcome kit is shipped within 5-7 business days. Olive oil delivery depends on adoption date: June-November adopters receive oil in December, December-May adopters receive oil shortly after adoption.",
-      "brand": { "@type": "Brand", "name": "Adopt Your Olive" },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://www.adoptyourolive.com/#products",
-        "priceCurrency": "EUR",
-        "price": "649",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2026-12-31",
-        "hasMerchantReturnPolicy": {
-          "@type": "MerchantReturnPolicy",
-          "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
-          "applicableCountry": [ "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" ]
-        },
-        "shippingDetails": {
-          "@type": "OfferShippingDetails",
-          "shippingRate": {
-            "@type": "MonetaryAmount",
-            "value": "0",
-            "currency": "EUR"
-          },
-          "shippingDestination": {
-            "@type": "DefinedRegion",
-            "addressCountry": [ "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" ]
-          },
-          "deliveryTime": {
-            "@type": "ShippingDeliveryTime",
-            "handlingTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 1,
-              "maxValue": 2,
-              "unitCode": "d"
-            },
-            "transitTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 5,
-              "maxValue": 7,
-              "unitCode": "d"
-            }
-          }
-        }
-      }
+      ]
     }
-  ]
-}
 </script>
-
-
-    
 </head>
-<body class="homepage">
+<body>
 
-    <div id="urgent-countdown-banner">
-    <div class="container countdown-container">
-        <span class="banner-message" data-i18n-key="urgentBannerMessage"></span>
-        <div class="banner-timer">
-            <span id="banner-days">00</span><small data-i18n-key="countdownDaysShort">g</small>
-            <span id="banner-hours">00</span><small data-i18n-key="countdownHoursShort">h</small>
-            <span id="banner-minutes">00</span><small data-i18n-key="countdownMinutesShort">m</small>
-            <span id="banner-seconds">00</span><small data-i18n-key="countdownSecondsShort">s</small>
-        </div>
-        <a href="#personalization" class="btn btn-small btn-cta-banner" data-i18n-key="urgentBannerCTA"></a>
-    </div>
-</div>
-
-    <nav class="main-nav">
-        <div class="nav-logo-container">
-            <a href="#hero">
-                <img src="immagini/logo.svg" alt="Adopt Your Olive Logo" class="nav-logo-image">
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="logo-wrapper">
+                <img src="immagini/logo.webp" width="250" height="100" alt="AYO Logo" class="logo-img">
             </a>
-            <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <i class="fas fa-bars"></i>
-        </button>
-        <ul class="nav-links">
-            <li><a href="#products" data-i18n-key="navAdoptShort">Adopt</a></li>
-            <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
-            <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
-            <li><a href="#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>
-            <li><a href="#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
-            <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-            <li><a href="#contact" data-i18n-key="navContactShort">Contact</a></li>
-            <li><a href="club.html" onclick="handleClubLinkClick(event)">Club</a></li>
-        </ul>
-        <div class="language-switcher">
-            <select id="language-selector" aria-label="Selettore della lingua">
-    <option value="it">Italiano</option>
-    <option value="en">English</option>
-    <option value="de">Deutsch</option>
-    <option value="nl">Nederlands</option>
-    <option value="no">Norsk</option>
-    <option value="fr">Français</option>
-</select>
+            
+            <div class="nav-links">
+                <a href="#how-it-works">Process</a>
+                <a href="#story">Family</a>
+                <a href="#faq">FAQ</a>
+
+                <!--<a href="#adoption-kits">Shop</a>
+                
+                <a href="#" onclick="openCorporateModal(); return false;">Corporate & Weddings</a>-->
+                
+                <a href="/it/" class="shipping-alert">
+                    <span>🇮🇹 Spedisci in Italia?</span>
+                </a>
+
+                <a href="#adoption-kits" class="btn-nav">Adopt Now</a>
+            </div>
+            
+            <div class="mobile-menu-icon">☰</div>
         </div>
     </nav>
 
-    <section id="hero" class="hero">
-        <div class="video-background">
-            <video autoplay loop muted playsinline poster="immagini/hero-poster.webp" id="heroBgVideo" class="campaign-video-hidden">
-                <source src="video/hero-video.mp4" type="video/mp4">
-    <source src="video/hero-video.webm" type="video/webm">
-            </video>
-        </div>
-        <div class="hero-content">
-            <h1 data-i18n-key="heroTitle">Adotta un Raro Ulivo Peranzana: Olio EVO Pugliese con il Tuo Nome, Direttamente a Casa Tua.</h1>
-            <p class="hero-subtitle" data-i18n-key="heroSubtitle">
-                Vivi un legame autentico con la Puglia. Dalla nostra famiglia da 3 generazioni, olio extravergine Peranzana di qualità superiore in bottiglie personalizzate e aggiornamenti costanti dal tuo albero. Consegnato a casa tua, senza intermediari.
+    <header class="hero" id="home">
+        <div class="hero-bg">
+    <picture>
+        <source media="(max-width: 768px)" srcset="immagini/albero-hero-mobile.webp" width="750" height="1126">
+        
+        <img src="immagini/albero-hero.webp"  alt="Italian Olive Grove in San Severo" fetchpriority="high" width="1500" height="1126">
+    </picture>
+    <div class="overlay"></div>
+</div>
+        
+        <div class="container hero-content">
+            <span class="eyebrow">Family Reserve • Since 3 Generations</span>
+            <h1>Your Name.<br>Our Tradition.</h1>
+            <p class="hero-sub">
+                Adopt a centuries-old olive tree in Puglia. Receive your <strong>personalized Extra Virgin Olive Oil</strong> immediately. 
+                A timeless bond, ready to be tasted.
             </p>
-            <div class="cta-buttons">
-                <a href="#products" class="btn btn-primary" data-i18n-key="heroCtaChoose">Choose Your Tree</a>
-                <a href="#faq" class="btn btn-secondary" data-i18n-key="heroCtaFAQ">Questions? FAQ</a>
-            </div>
-            <div class="trust-signals">
-                <div class="trust-item"><i class="fas fa-leaf"></i> <span data-i18n-key="trustSignalProducers">3rd Generation Puglian Producers</span></div>
-                <div class="trust-item"><i class="fas fa-truck"></i> <span data-i18n-key="trustSignalShipping">Free Shipping Included</span></div>
-                <div class="trust-item"><i class="fas fa-certificate"></i> <span data-i18n-key="trustSignalCertificate">Personalized Certificate & Packaging</span></div>
+            <div class="hero-buttons">
+                <a href="#adoption-kits" class="btn-primary">Choose your Tree</a>
             </div>
         </div>
-    </section>
 
-    <section id="products" class="product-section">
+        <div class="hero-trust-bar">
+        <div class="trust-item"><span>🏷️</span> Personalized Label</div>
+        <div class="trust-item"><span>🚀</span> Ships in 5 Days</div>
+        <div class="trust-item"><span>🇮🇹</span> 100% Pugliese</div>
+    </div>
+    </header>
+
+    <section id="how-it-works" class="simple-process bg-cream">
+    <div class="container">
+        <div class="process-grid">
+            
+            <div class="process-step">
+                <div class="step-number">01</div>
+                <div class="step-text">
+                    <h3>Choose & Name</h3>
+                    <p>Select your kit. Tell us the name you want printed on the label and certificate. Make it yours.</p>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-number">02</div>
+                <div class="step-text">
+                    <h3>We Craft & Seal</h3>
+                    <p>We bottle the oil, apply the custom label, and seal the box by hand. A truly sartorial process.</p>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-number">03</div>
+                <div class="step-text">
+                    <h3>Fast Shipping</h3>
+                    <p>No waiting for the next harvest. We ship the current year's reserve immediately via tracked courier.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <section id="adoption-kits" class="section-padded">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Choose your Adoption</h2>
+            <p>Bring a piece of authentic Italy to your table today.</p>
+        </div>
+        
+        <div class="products-grid">
+            
+            <article class="product-card">
+                <div class="card-image">
+                    <img src="immagini/Albero-welcome-kit.webp" width="800" height="600" alt="Welcome Kit Adoption" loading="lazy">
+                </div>
+                
+                <div class="card-details">
+                    <div class="kit-toggle-header" onclick="toggleKit(this)">
+                        <h3>Welcome Kit <span class="arrow">▼</span></h3>
+                        <p class="subtitle">The perfect introduction. An unforgettable gift for you or a loved one.</p>
+                    </div>
+                    
+                    <div class="kit-dropdown-content">
+                        <ul class="kit-list">
+                            <li>📜 <strong>Adoption Certificate</strong></li>
+                            <li>📸 <strong>Photo of your Tree</strong></li>
+                            <li>🫒 <strong>1 Liter Premium EVO Oil</strong></li>
+                            <li>🏷️ <strong>Custom Label with YOUR Name</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="spacer-block"></div>
+
+                    <div class="price-block">
+                        <span class="price">€79</span>
+                        <span class="save-pill" style="visibility: hidden;">Save 00%</span>
+                        <span class="price-note">All Inclusive (Shipping to EU included)</span>
+                    </div>
+                    
+                    <button class="btn-primary btn-full" onclick="openAdoptionModal('Welcome Kit', 'welcome-kit')">
+                        Adopt & Customize
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card">
+                
+                <div class="card-image">
+                    <img src="immagini/Albero-reserve-kit.webp" width="800" height="600" alt="Reserve Kit Adoption" loading="lazy">
+                </div>
+                
+                <div class="card-details">
+                    <div class="kit-toggle-header" onclick="toggleKit(this)">
+                        <h3>Reserve Kit <span class="arrow">▼</span></h3>
+                        <p class="subtitle">For food lovers. Bring the taste of the Italian Sunday lunch to your home.</p>
+                    </div>
+                    
+                    <div class="kit-dropdown-content">
+                        <ul class="kit-list">
+                            <li>📜 <strong>Adoption Certificate</strong></li>
+                            <li>📸 <strong>Photo of your Tree</strong></li>
+                            <li>🫒 <strong>2 Liters Premium EVO Oil</strong></li>
+                            <li>🏷️ <strong>Custom Label with YOUR Name</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="spacer-block"></div>
+
+                    <div class="price-block">
+                        <span class="price">€129</span>
+                        <span class="save-pill">Save 20%</span>
+                        <span class="price-note">All Inclusive (Shipping to EU included)</span>
+                    </div>
+                    
+                    <button class="btn-primary btn-full" onclick="openAdoptionModal('Reserve Kit', 'reserve-kit')">
+                        Adopt & Customize
+                    </button>
+                </div>
+            </article>
+
+            <article class="product-card featured">
+                <div class="badge-top" style="background-color: #2c5e2e;">Best Value</div>
+                
+                <div class="card-image">
+                    <img src="immagini/Albero-family-kit.webp" width="800" height="600" alt="Family Kit Adoption" loading="lazy">
+                </div>
+                
+                <div class="card-details">
+                    <div class="kit-toggle-header" onclick="toggleKit(this)">
+                        <h3>Family Kit <span class="arrow">▼</span></h3>
+                        <p class="subtitle">The ultimate supply. Perfect for large families & true olive oil lovers.</p>
+                    </div>
+                    
+                    <div class="kit-dropdown-content">
+                        <ul class="kit-list">
+                            <li>📜 <strong>Adoption Certificate</strong></li>
+                            <li>📸 <strong>Photo of your Tree</strong></li>
+                            <li>🫒 <strong>5 Liters Premium EVO Oil</strong></li>
+                            <li>🏷️ <strong>Custom Label with YOUR Name</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="spacer-block"></div>
+
+                    <div class="price-block">
+                        <span class="price">€219</span>
+                        <span class="save-pill">Save 45%</span>
+                        <span class="price-note">All Inclusive (Shipping to EU included)</span>
+                    </div>
+                    
+                    <button class="btn-primary btn-full" onclick="openAdoptionModal('Family Kit', 'family-kit')">
+                        Adopt & Customize
+                    </button>
+                </div>
+            </article>
+
+        </div>
+        
+        <div class="text-center" style="margin-top: 40px;">
+            <a href="/it/" class="shipping-alert" style="display: inline-block;">
+                <span>🇮🇹 Spedisci in Italia? Clicca qui per le tariffe dedicate.</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+    <!--<section class="corporate-strip">
+        <div class="container strip-content">
+            <div class="text-side">
+                <h3>Planning an Italian Wedding or Event?</h3>
+                <p>Surprise your guests with the most authentic favor: a mini-certificate and a bottle customized with your event's name (e.g. "Sarah & James").</p>
+            </div>
+            <button class="btn-outline-dark" onclick="openCorporateModal()">Get a Quote &rarr;</button>
+        </div>
+    </section>-->
+
+    <section id="story" class="section-split">
+    <div class="split-side split-visual">
+        <div class="slider-wrapper story-slider-wrapper" id="story-gallery-slider">
+            <button class="slider-btn prev-btn">❮</button>
+            <button class="slider-btn next-btn">❯</button>
+            
+            <div class="slider-track-container">
+                <ul class="slider-track">
+                    <li class="slide"><img src="/immagini/Frantoio-storia-copia.webp" loading="lazy" width="800" height="600" alt="Photo of ancient olive mill"></li>
+<li class="slide"><img src="/immagini/Albero-welcome-kit.webp" loading="lazy" width="800" height="600" alt="Olive tree at sunset"></li>
+<li class="slide"><img src="/immagini/Foto-bottiglie-certificato.webp" loading="lazy" width="800" height="600" alt="Personalized bottles and certificate"></li>
+<li class="slide"><img src="/immagini/Albero-con-scala.webp" loading="lazy" width="800" height="600" alt="Tree with ladder for harvesting"></li>
+<li class="slide"><img src="/immagini/Albero-hero.webp" loading="lazy" width="800" height="600" alt="Sun through olive branches"></li>
+<li class="slide"><img src="/immagini/Albero-family-kit.webp" loading="lazy" width="800" height="600" alt="Backlit tree"></li>
+<li class="slide"><img src="/immagini/Albero-tronco.webp" loading="lazy" width="800" height="600" alt="Olive tree trunk"></li>
+<li class="slide"><img src="/immagini/Albero-ramo.webp" loading="lazy" width="800" height="600" alt="Olive branch"></li>
+<li class="slide"><img src="/immagini/Timbro-ceralacca-logo.webp" loading="lazy" width="800" height="600" alt="Wax seal with logo"></li>
+<li class="slide"><img src="/immagini/Welcome-kit-esempio.webp" loading="lazy" width="800" height="600" alt="Personalized certificate folder"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="split-side split-content">
+        <span class="eyebrow">The Family</span>
+        <h2>Three Generations,<br>One Passion.</h2>
+        <p>
+            We are the <strong>de Sinno</strong> family. For over 70 years, we have cultivated ancient olive trees in the sunny countryside of San Severo.
+        </p>
+        <p>
+            When you adopt a tree, you are not just buying oil. You help us preserve traditional farming methods against intensive agriculture. 
+            In return, we share with you our most precious reserve: a Single Estate Extra Virgin Olive Oil, rich in history and flavor.
+        </p>
+        <br>
+        <p><strong>Michele & The Family</strong></p>
+    </div>
+</section>
+
+    <section id="reviews" class="section-padded bg-cream"> 
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-i18n-key="productsTitle">Scegli la Tua Adozione</h2>
-                <p class="section-subtitle" data-i18n-key="productsSubtitle">Disponibilità limitata per la nostra stagione inaugurale 2025</p>
+            <div class="section-header text-center">
+                <span class="eyebrow">Community</span>
+                <h2>Our Extended Family</h2>
             </div>
-            <div class="products-grid">
-                <div class="product-card" data-tree-type="young" data-price="49">
-                    <img src="immagini/Albero-Giovane-copia.webp" alt="Ulivo giovane" class="product-image" loading="lazy">
-                    <h3 class="product-title" data-i18n-key="productYoungTitle">Ulivo Giovane</h3>
-                    <div class="product-age"><i class="fas fa-leaf"></i> <span data-i18n-key="productYoungAge">15-40 Anni</span></div>
-                    <div class="price-container"><span class="current-price">€49</span></div>
-                    <ul class="benefits-list">
-                        <li data-i18n-key="productCommonBenefit1">Certificato di adozione <strong>digitale e cartaceo</strong></li>
-                        <li data-i18n-key="productCommonBenefit2"><strong>Targhetta personalizzata</strong> applicata al tuo albero</li>
-                        <li data-i18n-key="productCommonBenefit3">Aggiornamenti periodici e foto del tuo albero</li>
-                        <li data-i18n-key="productCommonBenefitClub">Accesso esclusivo all'<strong>AYO Adopters Club</strong></li>
-                    </ul>
-                    <p class="ideal-for" data-i18n-key="productYoungIdeal">Perfetto per un regalo simbolico e sostenibile</p>
-                    <button class="select-button" onclick="selectTree('young')" data-i18n-key="productYoungButton">Seleziona Ulivo Giovane</button>
-                </div>
-    <div class="product-card" data-tree-type="mature" data-price="299">
-        <img src="immagini/Albero-Maturo-copia.webp" alt="Ulivo maturo" class="product-image" loading="lazy">
-        <h3 class="product-title" data-i18n-key="productMatureTitle">Ulivo Maturo</h3>
-        <div class="product-age"><i class="fas fa-leaf"></i> <span data-i18n-key="productMatureAge">40-70 Anni</span></div>
-        <div class="price-container"><span class="current-price">€299</span></div>
-        <ul class="benefits-list">
-                        <li data-i18n-key="productCommonBenefit1">Certificato di adozione <strong>digitale e cartaceo</strong></li>
-                        <li data-i18n-key="productCommonBenefit2"><strong>Targhetta personalizzata</strong> applicata al tuo albero</li>
-                        <li data-i18n-key="productCommonBenefit3">Aggiornamenti periodici e foto del tuo albero</li>
-                        <li data-i18n-key="productMatureBenefit4"><strong>5 litri</strong> di olio Peranzana premium</li>
-                        <li data-i18n-key="productCommonBenefit5"><strong>Packaging personalizzato con il tuo nome</strong></li>
-                        <li data-i18n-key="productCommonBenefitClub">Accesso esclusivo all'<strong>AYO Adopters Club</strong></li>
-                    </ul>
-        <p class="ideal-for" data-i18n-key="productMatureIdeal">Perfetto per coppie o piccole famiglie</p>
-        <button class="select-button" onclick="selectTree('mature')" data-i18n-key="productMatureButton">Seleziona Ulivo Maturo</button>
-    </div>
-    <div class="product-card" data-tree-type="ancient" data-price="499">
-        <div class="popular-badge" data-i18n-key="productPopularBadge">Più Popolare</div>
-        <img src="immagini/Albero-Antico-copia.webp" alt="Ulivo antico" class="product-image" loading="lazy">
-        <h3 class="product-title" data-i18n-key="productAncientTitle">Ulivo Antico</h3>
-        <div class="product-age"><i class="fas fa-leaf"></i> <span data-i18n-key="productAncientAge">70-100 Anni</span></div>
-        <div class="price-container"><span class="current-price">€499</span></div>
-        <ul class="benefits-list">
-                        <li data-i18n-key="productCommonBenefit1">Certificato di adozione <strong>digitale e cartaceo</strong></li>
-                        <li data-i18n-key="productCommonBenefit2"><strong>Targhetta personalizzata</strong> applicata al tuo albero</li>
-                        <li data-i18n-key="productCommonBenefit3">Aggiornamenti periodici e foto del tuo albero</li>
-                        <li data-i18n-key="productAncientBenefit4"><strong>10 litri</strong> di olio Peranzana premium</li>
-                        <li data-i18n-key="productCommonBenefit5"><strong>Packaging personalizzato con il tuo nome</strong></li>
-                        <li data-i18n-key="productCommonBenefitClub">Accesso esclusivo all'<strong>AYO Adopters Club</strong></li>
-                    </ul>
-        <p class="ideal-for" data-i18n-key="productAncientIdeal">Ideale per famiglie o appassionati</p>
-        <button class="select-button" onclick="selectTree('ancient')" data-i18n-key="productAncientButton">Seleziona Ulivo Antico</button>
-    </div>
-    <div class="product-card" data-tree-type="historic" data-price="649">
-        <img src="immagini/Albero-Secolare-copia.webp" alt="Ulivo secolare" class="product-image" loading="lazy">
-        <h3 class="product-title" data-i18n-key="productHistoricTitle">Ulivo Secolare</h3>
-        <div class="product-age"><i class="fas fa-leaf"></i><span data-i18n-key="productHistoricAge">100+ Anni</span></div>
-        <div class="price-container"><span class="current-price">€649</span></div>
-        <ul class="benefits-list">
-                        <li data-i18n-key="productCommonBenefit1">Certificato di adozione <strong>digitale e cartaceo</strong></li>
-                        <li data-i18n-key="productCommonBenefit2"><strong>Targhetta personalizzata</strong> applicata al tuo albero</li>
-                        <li data-i18n-key="productCommonBenefit3">Aggiornamenti periodici e foto del tuo albero</li>
-                        <li data-i18n-key="productHistoricBenefit4"><strong>15 litri</strong> di olio Peranzana premium</li>
-                        <li data-i18n-key="productCommonBenefit5"><strong>Packaging personalizzato con il tuo nome</strong></li>
-                        <li data-i18n-key="productCommonBenefitClub">Accesso esclusivo all'<strong>AYO Adopters Club</strong></li>
-                    </ul>
-        <p class="ideal-for" data-i18n-key="productHistoricIdeal">Per veri intenditori e regali speciali</p>
-        <button class="select-button" onclick="selectTree('historic')" data-i18n-key="productHistoricButton">Seleziona Ulivo Secolare</button>
-    </div>
-</div>
-            <div class="shipping-note">
-                <span data-i18n-key="shippingNotePolicy">Spedizione Gratuita in tutta l'UE, Regno Unito e Svizzera. Escluse alcune isole e aree remote.</span>
+            
+            <div class="slider-wrapper" id="reviews-slider">
+                <button class="slider-btn prev-btn">❮</button>
+                
+                <div class="slider-track-container">
+                    <ul class="slider-track">
+    <li class="slide review-slide">
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <h4 class="review-title">"Truly connected to the process"</h4>
+            
+            <div class="review-content">
+                <p>"Adopting an olive tree with @adoptyourolive has been such a special experience. My tree is part of a three-generation family grove in Puglia, Italy, and it’s been amazing to follow its journey from grove to bottle. The updates make you feel truly connected to the process, and the olive oil itself is exceptional!!! I love that it’s beautifully personalised in my very own bottles and full of flavour. A thoughtful, meaningful gift and an experience I couldn’t recommend more."</p>
             </div>
+            <button class="read-more-btn">Read More</button>
+            
+            <small>— Deirdre Mc Eniff<br>Creator @blondeeliving (Ireland)</small>
         </div>
-    </section>
+    </li>
 
-    <section id="how-it-works" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-i18n-key="howItWorksTitle">Dalla Puglia alla Tua Tavola</h2>
+    <li class="slide review-slide">
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <h4 class="review-title">"The concept is just top-notch"</h4>
+            
+            <div class="review-content">
+                <p>"I have to be honest: the design is beautiful, and the photo of the olive tree is truly stunning. The recipes and the tasting guide are a lovely touch. I love the symbolism of the Olive Tree—it represents Italy, and the South in particular. The whole concept of receiving oil from your adopted tree’s harvest is just top-notch."</p>
             </div>
-            <div class="how-it-works-grid">
-                <div class="how-it-works-step">
-                    <i class="fas fa-mouse-pointer fa-3x step-icon"></i>
-                    <h3 data-i18n-key="howItWorksStep1Title">Scegli & Adotta</h3>
-                    <p data-i18n-key="howItWorksStep1Text">Seleziona il tipo di albero e personalizza il tuo certificato.</p>
-                </div>
-                <div class="how-it-works-step">
-                    <i class="fas fa-tag fa-3x step-icon"></i>
-                    <h3 data-i18n-key="howItWorksStep2Title">Il tuo albero viene selezionato</h3>
-                    <p data-i18n-key="howItWorksStep2Text">Il tuo albero specifico nel nostro uliveto pugliese viene etichettato con il tuo nome.</p>
-                </div>
-                <div class="how-it-works-step">
-                    <i class="fas fa-tractor fa-3x step-icon"></i>
-                    <h3 data-i18n-key="howItWorksStep3Title">Raccogliamo</h3>
-                    <p data-i18n-key="howItWorksStep3Text">Olive Peranzana premium raccolte a novembre con metodi moderni.</p>
-                </div>
-                <div class="how-it-works-step">
-                    <i class="fas fa-gift fa-3x step-icon"></i>
-                    <h3 data-i18n-key="howItWorksStep4Title">Ricevi a Casa</h3>
-                    <p data-i18n-key="howItWorksStep4Text">Olio fresco consegnato a casa tua entro dicembre con tracciamento incluso.</p>
-                </div>
-            </div>
-            </div> <div class="note-spedizione">
-                <p><small data-i18n-key="deliveryNote">*La campagna olearia va dal 1° giugno al 31 maggio. Gli ordini effettuati da giugno a dicembre ricevono l'olio della nuova raccolta entro dicembre. Gli ordini da gennaio a maggio ricevono l'olio della campagna appena conclusa.</small></p>
-            </div>
-        </div>
-    </section>
+            <button class="read-more-btn">Read More</button>
 
-    <section id="our-story" class="content-section">
-        <div class="container story-layout">
-            <div class="story-image">
-                <img src="immagini/Frantoio-storia-copia.webp" alt="Foto del frantoio di famiglia" style="width:100%; height:auto; object-fit:cover; box-shadow:0 0 10px rgba(0,0,0,0.2);" loading="lazy">
-            </div>
-            <div class="story-text">
-                <h2 class="section-title" data-i18n-key="storytellingTitle">La Storia della Peranzana: Rara Eccellenza Pugliese</h2>
-                <p data-i18n-key="storytellingPara1">Da tre generazioni, la nostra famiglia coltiva la rara oliva Peranzana nel cuore degli antichi uliveti pugliesi. L'oliva Peranzana è straordinaria: produce un olio dall'equilibrio perfetto, con delicate note fruttate e una qualità eccezionale che persino gli esperti di olio d'oliva faticano a trovare nei negozi specializzati.</p>
-                <p data-i18n-key="storytellingPara2">Quando adotti uno dei nostri alberi, non stai solo acquistando olio: stai entrando a far parte della tradizione della nostra famiglia pugliese. Ogni albero nel nostro uliveto è curato personalmente da abili agricoltori locali e ogni bottiglia è realizzata con tecniche moderne perfezionate nel corso di decenni.</p>
-            </div>
+            <small>— Sara P.<br>Adopter (Italy)</small>
         </div>
-    </section>
+    </li>
 
-    <section id="why-peranzana" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-i18n-key="whyPeranzanaTitle">Perché l'Olio di Peranzana dalla Puglia è Speciale</h2>
+    <li class="slide review-slide">
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <h4 class="review-title">"Smooth and full flavor"</h4>
+            
+            <div class="review-content">
+                <p>"In december, I received the olive oil (including the starter kit) through a collaboration with Adopt Your Olive. During Christmas, I used 'my' oil in all kinds of dishes. My absolute favorite: vanilla ice cream with a pinch of sea salt and a drizzle of the extra virgin olive oil. That’s when you really taste how smooth and full the flavor is, it's so good! Also a great gift - Christmas or not."</p>
             </div>
-            <div class="why-peranzana-grid">
-                <div class="why-peranzana-item">
-                    <i class="fas fa-gem fa-3x value-icon"></i>
-                    <h3 data-i18n-key="whyPeranzanaRarityTitle">Rarità</h3>
-                    <p data-i18n-key="whyPeranzanaRarityText">Una delle varietà di olive più rare della Puglia.</p>
-                </div>
-                <div class="why-peranzana-item">
-                    <i class="fas fa-balance-scale fa-3x value-icon"></i>
-                    <h3 data-i18n-key="whyPeranzanaBalanceTitle">Equilibrio</h3>
-                    <p data-i18n-key="whyPeranzanaBalanceText">Perfetta armonia di sapori - né troppo forte, né troppo delicato.</p>
-                </div>
-                <div class="why-peranzana-item">
-                    <i class="fas fa-cloud-sun fa-3x value-icon"></i>
-                    <h3 data-i18n-key="whyPeranzanaTerroirTitle">Terroir</h3>
-                    <p data-i18n-key="whyPeranzanaTerroirText">Il clima unico della Puglia crea profili aromatici eccezionali.</p>
-                </div>
-                <div class="why-peranzana-item">
-                    <i class="fas fa-stopwatch fa-3x value-icon"></i>
-                    <h3 data-i18n-key="whyPeranzanaFreshnessTitle">Freschezza</h3>
-                    <p data-i18n-key="whyPeranzanaFreshnessText">Dal nostro uliveto alla tua tavola in settimane, non mesi.</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin: 40px 0;">
-    <a href="#personalization" class="btn btn-primary" data-i18n-key="heroCtaChoose">Scegli il Tuo Ulivo</a>
-</div>
-        </div>
-    </section>
+            <button class="read-more-btn">Read More</button>
 
-    <section id="personalization" class="personalization-section">
-        <div class="container">
-            <div class="personalization-layout">
-                <div class="form-container animate-on-scroll">
-                    <h2 data-i18n-key="formTitlePersonalize">Personalizza la Tua Adozione</h2>
-                    <form id="adoption-form" data-netlify="true" class="adoption-form">
-                        <input type="hidden" name="form-name" value="adoption-form">
-                        <p class="honeypot-field" style="display:none;">
-                            <label>Lascia questo campo vuoto se sei umano: <input name="bot-field" /></label>
-                        </p>
-                        <input type="hidden" name="language" id="form-language-adoption">                   
-                        <div class="selected-tree-display">
-                            <h3 id="selected-tree-title" data-i18n-key="formSelectedTreeDefault">Seleziona un ulivo sopra per continuare</h3>
-                            <div id="selected-tree-price" class="price-display">€0</div>
-                        </div>
-                        <div class="personalization-content">
-                            <div class="form-column">
-                                <div class="form-group">
-                                    <label for="tree-type" data-i18n-key="formLabelTreeType">Tipo di Adozione</label>
-                                    <select id="tree-type" name="tree-type" onchange="updateTreeSelectionFromForm()">
-                                        <option value="" data-i18n-key="formSelectTreeType">Seleziona il tipo di adozione</option>
-                                        <option value="young" data-price="49" data-i18n-key="formTreeYoung">Ulivo Giovane - €49</option>
-                                        <option value="mature" data-price="299" data-i18n-key="formTreeMature">Ulivo Maturo - €299</option>
-                                        <option value="ancient" data-price="499" data-i18n-key="formTreeAncient">Ulivo Antico - €499</option>
-                                        <option value="historic" data-price="649" data-i18n-key="formTreeHistoric">Ulivo Secolare - €649</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="full-name" data-i18n-key="formLabelFullName">Nome e Cognome *</label>
-                                    <input type="text" id="full-name" name="full-name" required autocomplete="section-person name"  placeholder="Es. Mario Rossi" data-i18n-placeholder-key="formPlaceholderFullName">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email" data-i18n-key="formLabelEmail">Indirizzo Email *</label>
-                                    <input type="email" id="email" name="email" required>
-                                </div>
-                                <div class="form-section">
-    <h4 data-i18n-key="formSectionShipping">Informazioni di Spedizione</h4>
-    <div class="form-group">
-        <label for="address" data-i18n-key="formLabelAddress">Indirizzo *</label>
-        <input type="text" id="address" name="address" required> </div>
-    <div class="form-group">
-        <label for="address-2" data-i18n-key="formLabelAddress2">Indirizzo 2 (Opzionale)</label>
-        <input type="text" id="address-2" name="address-2" data-i18n-placeholder-key="formPlaceholderAddress2" placeholder="Es. Interno, Scala, c/o">
-    </div>
-    <div class="form-row">
-        <div class="form-group">
-            <label for="city" data-i18n-key="formLabelCity">Città *</label>
-            <input type="text" id="city" name="city" required> </div>
-        <div class="form-group">
-            <label for="postal-code" data-i18n-key="formLabelPostalCode">CAP *</label>
-            <input type="text" id="postal-code" name="postal-code" required> </div>
-    </div>
-    <div class="form-group">
-        <label for="country" data-i18n-key="formLabelCountry">Nazione *</label>
-        <select id="country" name="country" required> <option value="" data-i18n-key="formSelectCountry">Seleziona Nazione</option>
-            <option value="AT" data-i18n-key="formCountryAT">Austria</option>
-            <option value="BE" data-i18n-key="formCountryBE">Belgio</option>
-            <option value="GB" data-i18n-key="formCountryUK">Regno Unito</option>
-              <option value="IT" data-i18n-key="formCountryIT">Italia</option>
-            <option value="DE" data-i18n-key="formCountryDE">Germania</option>
-            <option value="CH" data-i18n-key="formCountryCH">Svizzera</option>
-               <option value="NO" data-i18n-key="formCountryNO">Norvegia</option>
-            <option value="SE" data-i18n-key="formCountrySE">Svezia</option>
-            <option value="DK" data-i18n-key="formCountryDK">Danimarca</option>
-              <option value="FR" data-i18n-key="formCountryFR">Francia</option>
-            <option value="ES" data-i18n-key="formCountryES">Spagna</option>
-            <option value="NL" data-i18n-key="formCountryNL">Paesi Bassi</option>
-               <option value="FI" data-i18n-key="formCountryFI">Finlandia</option>
-            <option value="BG" data-i18n-key="formCountryBG">Bulgaria</option>
-            <option value="HR" data-i18n-key="formCountryHR">Croazia</option>
-              <option value="CY" data-i18n-key="formCountryCY">Cipro</option>
-            <option value="CZ" data-i18n-key="formCountryCZ">Repubblica Ceca</option>
-            <option value="EE" data-i18n-key="formCountryEE">Estonia</option>
-               <option value="GR" data-i18n-key="formCountryGR">Grecia</option>
-            <option value="HU" data-i18n-key="formCountryHU">Ungheria</option>
-            <option value="IE" data-i18n-key="formCountryIE">Irlanda</option>
-              <option value="LV" data-i18n-key="formCountryLV">Lettonia</option>
-            <option value="LT" data-i18n-key="formCountryLT">Lituania</option>
-            <option value="LU" data-i18n-key="formCountryLU">Lussemburgo</option>
-               <option value="MT" data-i18n-key="formCountryMT">Malta</option>
-            <option value="PL" data-i18n-key="formCountryPL">Polonia</option>
-            <option value="PT" data-i18n-key="formCountryPT">Portogallo</option>
-              <option value="RO" data-i18n-key="formCountryRO">Romania</option>
-            <option value="SK" data-i18n-key="formCountrySK">Slovacchia</option>
-            <option value="SI" data-i18n-key="formCountrySI">Slovenia</option>
-        </select>
-        <small id="customs-warning" class="customs-warning-note" data-i18n-key="formCustomsWarning">
-            Attenzione: potrebbero essere applicati dazi doganali e tasse di importazione.
-        </small>
-    </div>
-</div>                                                                                                                        
-                            </div>
-                            <div class="form-column">
-                                 <div class="form-section">
-                                    <h4 data-i18n-key="formSectionCertPersonalization">Personalizzazione Certificato</h4>
-                                    <div class="form-group">
-                                        <label for="certificate-name" data-i18n-key="formLabelCertName">Nome per il Certificato</label>
-                                        <input type="text" id="certificate-name" name="certificate-name" autocomplete="nickname" placeholder="Come deve apparire il nome sul certificato?" data-i18n-placeholder-key="formPlaceholderCertName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="certificate-message" data-i18n-key="formLabelCertMessage">Messaggio Personale (Opzionale)</label>
-                                        <textarea id="certificate-message" name="certificate-message" placeholder="Aggiungi un tocco personale al tuo certificato..." data-i18n-placeholder-key="formPlaceholderCertMessage" maxlength="150"></textarea>
-                                        <small class="char-count" data-i18n-key="formCharCount">0/150 caratteri</small>
-                                    </div>
-                                </div>                                         
-                                <div class="form-section discount-section">
-                                    <label for="discount-code" data-i18n-key="formLabelDiscount">Codice Sconto / Referral</label>
-                                    <div class="discount-input-group">
-                                        <input type="text" id="discount-code" name="discount-code-visible">
-                                        <button type="button" id="apply-discount-btn" data-i18n-key="formButtonApply">Applica</button>
-                                        <button type="button" id="refresh-discount-btn" data-i18n-key="formButtonRefresh" style="display: none;">Ricalcola</button>
-                                    </div>
-                                    <small id="discount-feedback" class="discount-feedback"></small>
-                                    <small id="discount-warning" class="discount-warning" style="display: none;" data-i18n-key="formDiscountWarning"></small>
-                                </div>
-                                <h4 data-i18n-key="formOrderSummaryTitle">Riepilogo Ordine</h4>
-                                    <div class="summary-line">
-                                        <span id="summary-tree" data-i18n-key="formOrderSummaryNoTree">Nessuna adozione selezionata</span>
-                                        <span id="summary-price">€0</span>
-                                    </div>
-                                    <div class="summary-line">
-                                        <span data-i18n-key="formOrderSummaryShipping">Spedizione</span>
-                                        <span class="free" data-i18n-key="formOrderSummaryFree">GRATUITA</span>
-                                    </div>
-                                    <small class="order-summary-note" data-i18n-key="formOrderSummaryFreeNote"></small>
-                                    <div class="summary-total">
-                                        <span data-i18n-key="formOrderSummaryTotal">Totale</span>
-                                        <span id="total-price">€0</span>
-                                    </div>
-                                    <small class="summary-note" data-i18n-key="formOrderSummaryCurrencyNote">I prezzi sono in €. La tua banca potrebbe applicare commissioni di cambio.</small>
-                                <button type="submit" class="btn btn-complete" id="complete-adoption-btn" disabled data-i18n-key="formButtonCompleteDefault">Completa Adozione</button>
-                            </div>
-                        </div>
-                        
-                    </form>
-                </div>
-            </div>
+            <small>— Beau Schenk<br>Creator @keukenmeid (Netherlands)</small>
         </div>
-    </section>
-
-    <section id="gallery" class="content-section animate-on-scroll">
-         <div class="slideshow-container">
-            <div class="slide">
-                <img src="immagini/Timbro posato copia.webp" alt="Timbro in ceralacca con logo" loading="lazy">
-            </div>
-            <div class="slide active">
-                 <img src="immagini/Albero 9 - DSC_2746 copia.webp" alt="Albero di ulivo in contrasto al tramonto" loading="lazy">
-            </div>
-            <div class="slide">
-                <img src="immagini/Welcome kit Sara&Francesco copia.webp" alt="Ulivo secolare trapassato dalla luce del sole" loading="lazy">
-            </div>  
-            <div class="slide">
-                <img src="immagini/Albero con sole copia.webp" alt="Ulivo secolare trapassato dalla luce del sole" loading="lazy">
-            </div>          
-            <div class="slide">
-                 <img src="immagini/Albero simbolo web copia.webp" alt="Tronco di ulivo maestoso" loading="lazy">
-            </div>
-            <div class="slide">
-                <img src="immagini/Timbro in posa copia.webp" alt="Timbro per ceralacca durante la posa" loading="lazy">
-            </div>
-            <div class="slide">
-                <img src="immagini/Albero con scala web copia.webp" alt="Scala in legno appoggiata su albero" loading="lazy">
-            </div>
-            <div class="slide">
-                <img src="immagini/Albero in controluce web copia.webp" alt="Albero di ulivo in controluce" loading="lazy">
-            </div>
-            <div class="slide">
-                <img src="immagini/Dettaglio tronco copia.webp" alt="Dettaglio di un tronco di ulivo" loading="lazy">
-            </div>
-            <div class="slide">
-                <img src="immagini/Albero giovane copia1.webp" alt="Maestoso giovane albero di ulivo" loading="lazy">
-            </div>
-            <button class="prev-slide" onclick="plusSlides(-1)">❮</button>
-<button class="next-slide" onclick="plusSlides(1)">❯</button>
-        </div>
-        <div class="section-header gallery-header-overlay">
-            <h2 class="section-title" data-i18n-key="galleryTitle">Dall'Uliveto alla Tavola</h2>
-            <p class="section-subtitle" data-i18n-key="gallerySubtitle" style="color: var(--white); -webkit-text-fill-color: white; background: none;">Uno Sguardo nel Nostro Mondo</p>
-        </div>
-        <div class="slide-dots gallery-dots-overlay">
-            <span class="dot active" onclick="currentSlide(1)"></span>
-             <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-            <span class="dot" onclick="currentSlide(4)"></span>
-            <span class="dot" onclick="currentSlide(5)"></span>
-            <span class="dot" onclick="currentSlide(6)"></span>
-            <span class="dot" onclick="currentSlide(7)"></span>
-            <span class="dot" onclick="currentSlide(8)"></span>
-            <span class="dot" onclick="currentSlide(9)"></span>
-            <span class="dot" onclick="currentSlide(10)"></span>
-        </div>
-    </section>
-
-   <section id="what-you-get" class="content-section what-you-get-section">
-        <div class="container">
-            <div class="what-title">
-                <h2 class="section-title" data-i18n-key="whatYouGetTitle">La Tua Esperienza di Adozione Personalizzata</h2>
-                <p class="section-subtitle" data-i18n-key="whatYouGetSubtitle">Più che Semplice Olio d'Oliva</p>
-            </div>
-            <div class="what-content">
-                <p data-i18n-key="whatYouGetPara1">Quando adotti un ulivo con noi, non ricevi solo un eccezionale olio d'oliva Peranzana; abbracci un pezzo di tradizione pugliese, consegnato con un tocco personale. Ecco cosa rende speciale la tua adozione:</p>
-                <ul>
-    <li><i class="fas fa-certificate"></i><span data-i18n-key="whatYouGetBenefitCert"></span></li>
-    <li><i class="fas fa-box-open"></i><span data-i18n-key="whatYouGetBenefitPack"></span></li>
-    <li><i class="fas fa-camera-retro"></i><span data-i18n-key="whatYouGetBenefitUpdates"></span></li>
-    <li><i class="fas fa-seedling"></i><span data-i18n-key="whatYouGetBenefitDirect"></span></li>
+    </li>
 </ul>
-            </div>
-            <div class="what-you-get-highlight what-extra">
-                <p><strong data-i18n-key="whatYouGetImagineStrong">Immagina:</strong> <span data-i18n-key="whatYouGetImagineText">La tua scorta personale di olio d'oliva squisito, che arriva in una confezione che mostra con orgoglio il tuo nome, un costante promemoria del bellissimo albero pugliese che stai aiutando a coltivare. È un regalo unico per te o per una persona cara, che fonde tradizione, qualità e un legame profondamente personale.</span></p>
-            </div>
-        </div>
-    </section>
-
-    <section id="customer-reviews" class="content-section animate-on-scroll">
-         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-i18n-key="reviewsTitle">Cosa Dicono i Nostri Adottanti</h2>
-                 <p class="section-subtitle" data-i18n-key="reviewsSubtitle">Presto Disponibili - Storie Vere dalla Nostra Comunità</p>
-            </div>
-            <p style="text-align:center; font-style:italic;" data-i18n-key="reviewsComingSoon">Siamo entusiasti di condividere presto le recensioni dei nostri primi adottanti!</p>
-        <div style="text-align: center; margin: 40px 0;">
-    <a href="#personalization" class="btn btn-primary" data-i18n-key="heroCtaChoose">Scegli il Tuo Ulivo</a>
-</div>
-        </div>
-    </section>
-
-    <section id="team" class="content-section animate-on-scroll">
-         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-i18n-key="teamTitle">Incontra la Famiglia</h2>
-                <p class="section-subtitle" data-i18n-key="teamSubtitle">Il Cuore Dietro Adopt Your Olive</p>
-             </div>
-            <div class="team-grid">
-                 <div class="team-member">
-                    <img src="immagini/team-1.jpg" alt="Foto di Michele de Sinno" loading="lazy">
-                    <h4 data-i18n-key="teamMember1Name">Michele de Sinno</h4>
-                     <p data-i18n-key="teamMember1Role">Fondatore & Amministratore</p>
                 </div>
-                <div class="team-member">
-                    <img src="immagini/team-2.jpg" alt="Foto di Laura Stortiero" loading="lazy">
-                    <h4 data-i18n-key="teamMember2Name">Laura Stortiero</h4>
-                     <p data-i18n-key="teamMember2Role">Relazioni Clienti & Controllo Qualità</p>
-                </div>
+
+                <button class="slider-btn next-btn">❯</button>
             </div>
         </div>
     </section>
-
-    <section id="faq" class="faq-section">
-        <div class="container">
-            <div class="section-header">
-                 <h2 class="section-title" data-i18n-key="faqTitle">Domande Frequenti</h2>
-                <p class="section-subtitle" data-i18n-key="faqSubtitle">Trova risposte alle domande comuni sull'adozione di un ulivo.</p>
-            </div>
-            <div class="faq-list">
-    <div class="faq-category-title" data-i18n-key="faqCat1_Title">Informazioni sul Servizio</div>
     
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ1_Title">Cos'è esattamente "Adopt Your Olive"?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ1_Answer">"Adopt Your Olive" è un servizio che ti permette di creare un legame diretto con la nostra azienda agricola in Puglia attraverso l'adozione simbolica di un ulivo di Peranzana. Con la tua adozione, sostieni le nostre pratiche di agricoltura sostenibile, segui la vita di un albero specifico per un anno e ricevi a casa i suoi frutti sotto forma di olio extra vergine di oliva di alta qualità e altri benefit esclusivi.</p>
-        </div>
-    </div>
-    
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ2_Title">Cosa ricevo esattamente con la mia adozione?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ2_Answer">Ogni adozione (valida 12 mesi) include sempre i nostri benefit base: un certificato di adozione cartaceo con la foto del tuo albero, una targa personalizzata che apponiamo sull'ulivo, aggiornamenti periodici e l'accesso all'esclusivo AYO Adopters Club. A questi si aggiunge l'olio (con etichette personalizzate), a seconda del pacchetto:
-                <ul>
-                    <li><strong>Ulivo Giovane:</strong> Include tutti i benefit base, ma <strong>non include la fornitura di olio</strong>.</li>
-                    <li><strong>Ulivo Maturo:</strong> Include i benefit base + <strong>5 litri di olio</strong> (1 lattina da 3L e 4 bottiglie da 500ml).</li>
-                    <li><strong>Ulivo Antico:</strong> Include i benefit base + <strong>10 litri di olio</strong> (2 lattine da 3L e 8 bottiglie da 500ml).</li>
-                    <li><strong>Ulivo Secolare:</strong> Include i benefit base + <strong>15 litri di olio</strong> (2 lattine da 5L e 10 bottiglie da 500ml).</li>
-                </ul>
-            </p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ3_Title">Cosa rende speciale l'olio di Peranzana?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ3_Answer">La Peranzana è una cultivar rara e pregiata della Puglia. Il suo olio è eccezionale per il perfetto equilibrio: ha un fruttato medio-leggero con sentori di pomodoro, carciofo e mandorla, e un retrogusto leggermente amaro e piccante che è indice di alta qualità e ricchezza di polifenoli. È un olio estremamente versatile e apprezzato, difficile da trovare nella grande distribuzione.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ4_Title">Adottare un albero mi rende proprietario?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ4_Answer">No, l'adozione è simbolica e ha la durata di 12 mesi. Non comporta il trasferimento della proprietà legale dell'albero o del terreno. Con l'adozione diventi un "genitore adottivo" e un sostenitore diretto della nostra agricoltura, creando un legame personale con la terra e ricevendo in cambio i frutti del tuo patrocinio.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ5_Title">In cosa consiste l'AYO Adopters Club?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ5_Answer">È un club esclusivo per chi adotta un albero. Ti dà accesso a un gruppo privato (attualmente su Telegram) dove proponiamo offerte speciali per l'acquisto di pacchetti stagionali esclusivi durante l'anno.</p>
-        </div>
-    </div>
-    
-    <div class="faq-category-title" data-i18n-key="faqCat2_Title">Logistica e Dettagli Commerciali</div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ6_Title">Quando riceverò il certificato e l'olio?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ6_Answer">Le spedizioni avvengono in due momenti diversi:
-                <ul>
-                    <li><strong>Certificato e foto:</strong> Vengono spediti entro 5 giorni lavorativi dal tuo ordine, in qualsiasi periodo dell'anno.</li>
-                    <li><strong>Olio (se incluso):</strong> La spedizione dipende da quando adotti. Per ordini da giugno a novembre, l'olio nuovo viene spedito a dicembre. Per ordini da dicembre a maggio, l'olio già pronto viene spedito entro 5 giorni lavorativi.</li>
-                </ul>
-            </p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ7_Title">La spedizione e l'IVA sono incluse nel prezzo?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ7_Answer">Sì. I prezzi che vedi sul sito sono finali e includono sia l'IVA che i costi di spedizione per tutti i paesi dell'Unione Europea, Regno Unito e Svizzera. Per spedizioni in altre destinazioni, ti preghiamo di contattarci prima di effettuare l'ordine per una quotazione personalizzata.</p>
-        </div>
-    </div>
-    
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ8_Title">Posso regalare un'adozione?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ8_Answer">Certamente. Durante l'acquisto, potrai inserire il nome e l'indirizzo di spedizione del destinatario. Per fargli ricevere anche gli aggiornamenti periodici via email, ti chiediamo di comunicarci il suo indirizzo email dopo aver completato l'ordine, rispondendo alla conferma che riceverai.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ9_Title">Ho diritto al recesso?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ9_Answer">Ai sensi della normativa vigente (Art. 59 del Codice del Consumo), il diritto di recesso è escluso per la fornitura di beni personalizzati (certificati, targhe, etichette) e per beni sigillati che non si prestano ad essere restituiti per motivi igienici (come l'olio d'oliva una volta aperto). Anche il servizio di adozione, avendo esecuzione immediata, è escluso.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ10_Title">Quanto dura l'adozione e come si rinnova?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ10_Answer">L'adozione ha una validità di 12 mesi dalla data dell'acquisto. Non è previsto il rinnovo automatico. Prima della scadenza, ti invieremo un'email con la proposta di rinnovo per l'anno successivo, così potrai decidere in totale libertà se continuare a sostenere il tuo albero.</p>
-        </div>
-    </div>
-    
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ14_Title">Accettate pagamenti in valuta estera?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ14_Answer">Sì, il nostro sistema di pagamento gestito da Stripe accetta pagamenti da carte di credito e wallet in quasi tutte le valute. Tutti i nostri prezzi sono però visualizzati ed elaborati in Euro (€). Se paghi con una carta la cui valuta non è l'Euro (ad esempio Sterline Britanniche - GBP o Franchi Svizzeri - CHF), la tua banca o il gestore della tua carta effettuerà la conversione. Ti preghiamo di notare che la tua banca potrebbe applicare il proprio tasso di cambio e addebitare una commissione per la transazione estera. Questi eventuali costi non dipendono da Adopt Your Olive.</p>
-        </div>
-    </div>
-
-    <div class="faq-category-title" data-i18n-key="faqCat3_Title">Supporto e Risoluzione Problemi</div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ11_Title">Cosa faccio se ho dubbi sulla qualità del prodotto?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ11_Answer">La qualità è la nostra massima priorità. Se alla ricezione del prodotto dovessi riscontrare un danno dovuto al trasporto o un difetto di conformità, ti preghiamo di contattarci immediatamente a <strong>info@adoptyourolive.com</strong>. Come descritto nella nostra politica su <a href="shipping-returns.html">Spedizioni e Resi</a>, ti chiederemo di fornire foto del danno e numero d'ordine per poterti assistere al meglio con una sostituzione o un rimborso, ove applicabile.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ12_Title">Non ho ricevuto la vostra email di conferma/aggiornamento.</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ12_Answer">A volte le email automatiche possono finire nelle cartelle "Promozioni" o "Spam". Ti chiediamo di controllare queste cartelle nella tua casella di posta. Per assicurarti di ricevere sempre le nostre comunicazioni, ti consigliamo di aggiungere il nostro indirizzo <strong>info@adoptyourolive.com</strong> alla tua rubrica di contatti.</p>
-        </div>
-    </div>
-
-     <div class="faq-item">
-        <div class="faq-question">
-            <span data-i18n-key="faqQ13_Title">Posso venire a visitare il mio albero?</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n-key="faqQ13_Answer">Siamo un'azienda agricola a conduzione familiare e, sebbene al momento non abbiamo un programma strutturato per le visite, siamo felici di accogliere i nostri genitori adottivi. Se hai intenzione di venire in Puglia e desideri vedere il tuo albero, contattaci con un po' di preavviso a <strong>info@adoptyourolive.com</strong> e faremo del nostro meglio per organizzarci e incontrarti.</p>
-        </div>
-    </div>
+    <section id="faq" class="section-padded">
+        <div class="container small-container">
+            <div class="section-header text-center toggle-header" style="cursor: pointer;">
+    <h2>Frequently Asked Questions <span class="arrow-main">▼</span></h2>
+    <p>Everything you need to know about your adoption.</p>
 </div>
-        </div>
-    </section>
-
-    <section id="final-cta" class="content-section animate-on-scroll cta--photo">
-        <div class="container">
-            <h2 class="section-title" data-i18n-key="finalCtaTitleNew">Inizia Oggi il Tuo Viaggio nell'Olio d'Oliva Pugliese</h2>
-            <p class="hero-subtitle" data-i18n-key="finalCtaSubtitleNew">
-                Disponibilità limitata per la nostra stagione inaugurale 2025. Unisciti alla tradizione della nostra famiglia e assapora la differenza.
-            </p>
-            <div class="cta-buttons">
-                <a href="#products" class="btn btn-primary" data-i18n-key="finalCtaAdoptNew">Adotta Ora il Tuo Ulivo</a>
-                <a href="#contact" class="btn btn-secondary" data-i18n-key="finalCtaContactNew">Domande? Contattaci</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="content-section animate-on-scroll">
-         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-i18n-key="contactTitle">Mettiti in Contatto</h2>
-                <p class="section-subtitle" data-i18n-key="contactSubtitle">Ci Piacerebbe Sentirti</p>
-             </div>
-            <div class="contact-grid">
-                <div class="contact-grid-top">
-                    <div class="contact-form-container">
-                        <h3 data-i18n-key="contactFormTitle">Inviaci un Messaggio</h3>
-                        <form id="contact-form" data-netlify="true" netlify-honeypot="bot-field">
-    <input type="hidden" name="form-name" value="contact-form"> 
-
-    <p style="display:none;">
-        <label>Non compilare questo campo: <input name="bot-field" /></label>
-    </p>
-    <input type="hidden" name="language" id="form-language-contact">
-    
-    <div class="form-group">
-        <label for="contact-name" data-i18n-key="contactLabelName">Nome</label>
-        <input type="text" id="contact-name" name="contact-name" required>
-    </div>
-    <div class="form-group">
-        <label for="contact-email" data-i18n-key="contactLabelEmail">Email</label>
-        <input type="email" id="contact-email" name="contact-email" required>
-    </div>
-     <div class="form-group">
-        <label for="contact-message" data-i18n-key="contactLabelMessage">Messaggio</label>
-        <textarea id="contact-message" name="message" rows="5" required></textarea>
-     </div>
-    <button type="submit" class="btn" data-i18n-key="contactButtonSend">Invia Messaggio</button>
-</form>
-                    </div>
-                     <div class="contact-details-container">
-                        <div class="contact-info-text">
-                            <h3 data-i18n-key="contactFindUsTitle">Dove Trovarci</h3>
-                            <p><i class="fas fa-map-marker-alt"></i> <span data-i18n-key="contactAddressCity">71016 San Severo (FG), Puglia, Italia</span></p>
-                            <p><i class="fas fa-envelope"></i> <a href="mailto:info@adoptyourolive.com" data-i18n-key="contactEmail">info@adoptyourolive.com</a></p>
-                            <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/393929577685" target="_blank" data-i18n-key="contactPhone">+39 392 9577685</a></p>
-                        </div>
-                         <div class="map-container-wrapper">
-                            <div class="map-container">
-                                <iframe title="Mappa con la posizione di Adopt Your Olive" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.287869681525!2d15.37848831539296!3d41.6999969792359!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1339e80a0e8d1a1b%3A0x8b8d4f8f4a0c8d1a!2sSan%20Severo%2C%20FG!5e0!3m2!1sit!2sit!4v1626876934432!5m2!1sit!2sit" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
-                        </div>
+            
+        <div class="faq-section-wrapper">
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">When will I receive my oil?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>We prepare your personalized kit within 5 business days. Once shipped via <strong>tracked courier</strong>, delivery takes approximately 3-7 business days within Europe.</p>
                     </div>
                 </div>
-                 <div class="newsletter-container">
-                    <h3 data-i18n-key="newsletterTitle">Iscriviti alla Nostra Newsletter</h3>
-                    <p data-i18n-key="newsletterText">Ricevi aggiornamenti dall'uliveto, offerte speciali e ricette pugliesi.</p>
-                    <form id="newsletter-form" data-netlify="true" netlify-honeypot="bot-field">
-                        <input type="hidden" name="form-name" value="newsletter-form">
-                        <p style="display:none;">
-    <label>Non compilare questo campo: <input name="bot-field" /></label>
-</p>
-                        <input type="hidden" name="language" id="form-language-newsletter">
-                         <div class="form-group">
-                            <label for="newsletter-email" data-i18n-key="newsletterLabelEmail">Indirizzo Email</label>
-                            <input type="email" id="newsletter-email" name="newsletter-email" required placeholder="tua.email@esempio.com" data-i18n-placeholder-key="newsletterPlaceholderEmail">
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Is shipping included in the price?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>Yes! For all adoption kits (Welcome, Reserve & Family), shipping is <strong>already included</strong> for all EU countries. No surprise fees at checkout.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Can I request a Tax Invoice?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>By default, your payment confirmation serves as a receipt. If you require a formal <strong>Tax Invoice</strong> for your company, please email us immediately at <a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a> with your <strong>full billing details</strong> (Company Name, Address, VAT ID). <br><em>For Italian companies, please include SDI/PEC as well.</em></p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">What makes this oil special?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>Our Single Estate EVOO is crafted from a rare native cultivar known for its perfect balance. It features notes of <strong>freshly cut grass, green tomato and almond</strong>, with very low acidity. A superior category oil you won't find in supermarkets.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Do you do Wedding Favors & Corporate Gifts?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>Yes! We create beautiful bottles and mini-certificates customized with your event details (e.g., "Laura & Mark - 24/06/2026"). It's a living gift your guests will love. <a href="#" onclick="openCorporateModal(); return false;" style="text-decoration:underline;">Request a quote here</a>.</p>
+                    </div>
+                </div>
+                
+                 <div class="accordion-item">
+                    <button class="accordion-header">Is there a minimum order for Favors?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>For custom wedding or corporate favors, write to us with your needs, and we'll do our best to accommodate you.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Can I gift an adoption?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>Absolutely. Check the <strong>"Is this a gift?"</strong> box to add a <strong>personal note</strong> that we will print for you. You can enter the recipient's address to ship directly to them, or your own address if you prefer to hand-deliver the box.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">What else do I get besides the oil?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>You join our family. You will receive a <strong>Digital Tasting Guide</strong> and <strong>periodic traditional recipes</strong> via email to make the most of your oil. Plus, adopters get access to exclusive offers on our shop (opening soon) and priority access to next year's harvest.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Do you ship outside the EU?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>This page is dedicated to our international friends in the EU. If you ship in Italy, please visit our <a href="/it/" style="text-decoration:underline;">Italian page</a>. For <strong>USA, UK, Switzerland</strong> or other international destinations, please <a href="#contacts" style="text-decoration:underline;">contact us</a> for a custom quote.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header">How long does the adoption last?<span class="icon">+</span></button>
+                    <div class="accordion-content">
+                        <p>The adoption lasts for <strong>12 months</strong> from the date of purchase. You will have priority to renew your tree for the following year before anyone else.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="last-cta section-padded text-center">
+        <div class="container">
+            <h2>Ready to join the family?</h2>
+            <p class="subtitle" style="max-width: 600px; margin: 0 auto 30px;">
+                Adopt your tree today and receive the finest Extra Virgin Olive Oil immediately.
+            </p>
+            <a href="#adoption-kits" class="btn-primary btn-large">Adopt Your Olive Now</a>
+        </div>
+    </section>
+
+    <section id="partners" class="section-padded bg-white" style="border-top: 1px solid #eee;">
+    <div class="container">
+        
+        <div class="section-header text-center" style="margin-bottom: 30px;">
+            <span class="eyebrow">Our Local Supply Chain</span>
+            <h3 style="font-size: 1.5rem;">Crafted with Family & Friends</h3>
+        </div>
+        
+        <div class="slider-wrapper" id="partners-slider">
+            <button class="slider-btn prev-btn">❮</button>
+            
+            <div class="slider-track-container">
+                <ul class="slider-track">
+                    
+                    <li class="slide partner-slide">
+                        <a  target="_blank">
+                            <img src="immagini/Donna-Lisa-logo-desktop.webp" loading="lazy" width="200" height="150" alt="Partner 1">
+                        </a>
+                    </li>
+
+                    <li class="slide partner-slide">
+                        <a  target="_blank">
+                            <img src="immagini/Parente-logo.webp" width="200" height="150" alt="Partner 2" loading="lazy">
+                        </a>
+                    </li>
+
+                    <li class="slide partner-slide">
+                        <a  target="_blank">
+                            <img src="immagini/Feudo-Massari-logo.webp" width="200" height="150" alt="Partner 3" loading="lazy">
+                        </a>
+                    </li>
+
+                    <li class="slide partner-slide">
+                        <a  target="_blank">
+                            <img src="immagini/Cinzia-olearia-logo.webp" width="200" height="150" alt="Partner 4" loading="lazy">
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <button class="slider-btn next-btn">❯</button>
+        </div>
+    </div>
+</section>
+
+    <section id="contacts" class="section-padded bg-dark text-white">
+        <div class="container">
+            <div class="contacts-wrapper">
+                
+                <div class="contact-form-col">
+                    <h3>Contact Us</h3>
+                    <p class="mb-20">Questions? Custom orders? Write to us.</p>
+                    
+                    <form id="contact-form" class="contact-form">
+                        <input type="hidden" name="lang" value="en">
+<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+</div>
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required class="input-dark">
                         </div>
-                         <button type="submit" class="btn" data-i18n-key="newsletterButtonSubscribe">Iscriviti</button>
+    
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required class="input-dark">
+                        </div>
+    
+                        <div class="form-group">
+                            <textarea name="message" rows="3" placeholder="How can we help?" required class="input-dark"></textarea>
+                        </div>
+
+                        <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4;">
+                            By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                        </p>
+
+                        <button type="submit" id="contact-btn" class="btn-primary">Send Message</button>
                     </form>
                 </div>
+
+                <div class="newsletter-col">
+                    <div class="newsletter-box">
+                        <h3>Join the Family</h3>
+                        <p>Receive updates on the harvest, recipes, and exclusive offers.</p>
+                        
+                        <form id="newsletter-form" class="newsletter-form">
+                            <input type="hidden" name="lang" value="en">
+        <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+</div>
+                            <div class="newsletter-input-group">
+                                <input type="email" name="email" placeholder="name@example.com" required class="input-dark">
+                                <button type="submit" class="btn-primary" id="newsletter-btn">Subscribe</button>
+                            </div>
+
+                            <div class="privacy-check">
+                                <input type="checkbox" id="priv-news" name="privacy" required>
+                                <label for="priv-news">
+                                    I have read and agree to the <a href="privacy-policy.html" style="text-decoration:underline;">Privacy Policy</a>
+                                </label>
+                            </div>
+        
+                            <p id="newsletter-feedback" style="display:none; margin-top:10px; font-size:0.9rem;"></p>
+                        </form>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container">
-             <div class="footer-content">
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerAboutTitle">Chi Siamo</h4>
-                    <p data-i18n-key="footerAboutText">Adopt Your Olive ti connette direttamente al cuore della Puglia, offrendo un modo unico per sostenere l'olivicoltura sostenibile e gustare l'autentico olio d'oliva italiano con packaging personalizzato.</p>
-                 </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
-                    <ul>
-            <li><a href="#products" data-i18n-key="navAdoptShort">Adopt</a></li>
-            <li><a href="#how-it-works" data-i18n-key="navHowItWorksShort">How it Works</a></li>
-            <li><a href="#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Why Peranzana</a></li>
-            <!--<li><a href="#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
-            <li><a href="#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-                <li><a href="#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
-            <li><a href="#contact" data-i18n-key="navContactShort">Contact</a></li>
-                <li><a href="club.html" onclick="handleClubLinkClick(event)">Club</a></li>
-        </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerLegalTitle">Legale</h4>
-                    <ul>
-                         <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
-                        <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Termini di Servizio</a></li>
-                        <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Spedizioni & Resi</a></li>
-                        <li><a href="#" id="modify-cookie-preferences-link" data-i18n-key="footerCookiePrefs">Modifica Preferenze Cookie</a></li>
-                     </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerFollowTitle">Seguici</h4>
-                    <p data-i18n-key="footerFollowText">Seguici sui social per aggiornamenti dagli uliveti!</p>
-                     <div class="social-links">
-                        <a href="https://www.instagram.com/adoptyourolive/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    </div>
-                 </div>
+    <footer class="site-footer bg-dark text-white">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <span class="logo-text">AYO.</span>
+                <p>Your Tree. Your Oil. Your Story.</p>
             </div>
-            <div class="footer-bottom">
-                <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
-                <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
-                <div class="footer-legal-info">
-                    <p>
-                        <span data-i18n-key="footerLegalCompanyName">Adopt Your Olive</span><br>
-                        <span data-i18n-key="footerLegalAddress">Via Morgagni, 84 - 71016 San Severo (FG)</span><br>
-                        <span data-i18n-key="footerLegalVatNumber">P.IVA: 04563000712</span> | <span data-i18n-key="footerLegalContactEmail">Email: info@adoptyourolive.com</span>
-                    </p>
+            
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#adoption-kits">Adopt</a></li>
+                    <!--<li><button onclick="openCorporateModal()" class="text-link" style="background:none; border:none; color:#999; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Corporate & Weddings</button></li>
+                    <li><a href="shop.html">Shop</a></li>-->
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms & Service</a></li>
+                    <li><a href="shipping-returns.html">Shipping & Returns</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>San Severo, Puglia (IT)</p>
+                <p><a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a></p>
+                <div class="social-links" style="margin-top:10px;">
+                    <a href="https://instagram.com/adoptyourolive" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i> IG
+                    </a>
+                    <a href="https://wa.me/390882606222" target="_blank" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i> WA
+                    </a>
                 </div>
             </div>
+        </div>
+        
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 Adopt Your Olive. All rights reserved.</p>
         </div>
     </footer>
-    
-    <div id="success-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 data-i18n-key="modalTitle">Grazie!</h3>
-            <p data-i18n-key="modalMessage">Il tuo messaggio è stato inviato con successo.</p>
-            <button id="close-modal-btn" class="btn btn-primary" data-i18n-key="modalCloseBtn">Chiudi</button>
-        </div>
-    </div>
 
-    <div id="cookie-banner">
-        <div class="cookie-banner-content">
-            <p>
-                <span data-i18n-key="cookieBannerText">Questo sito utilizza cookie per migliorare l'esperienza.</span>
-                <a href="/privacy-policy.html" data-i18n-key="cookieBannerLink">Leggi la nostra privacy policy</a>.
-            </p>
-            <div class="cookie-banner-buttons">
-                <button id="customize-cookies-btn" class="btn btn-tertiary" data-i18n-key="cookieBannerCustomize">Personalizza</button>
-                <button id="decline-cookies-all-btn" class="btn btn-secondary" data-i18n-key="cookieBannerDecline">Rifiuta Tutti</button>
-                <button id="accept-cookies-all-btn" class="btn btn-primary" data-i18n-key="cookieBannerAccept">Accetta Tutti</button>
+
+    <dialog id="adoption-modal" class="modal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeModal()">✕</button>
+            
+            <div class="modal-header">
+                <h3>Customize your Adoption</h3>
+                <p id="modal-product-name" class="modal-subtitle">Selected Product</p>
             </div>
-        </div>
-        <button id="close-cookie-banner-btn" aria-label="Chiudi banner cookie">×</button>
-    </div>
-
-    <div id="cookie-preferences-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 data-i18n-key="cookieModalTitle">Preferenze Cookie</h3>
-            <p data-i18n-key="cookieModalText">Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.</p>
-            <div class="cookie-options">
-                <div class="cookie-option">
-                    <label for="consent-necessary" data-i18n-key="cookieModalNecessary">Cookie Necessari</label>
-                    <label class="switch"><input type="checkbox" id="consent-necessary" checked disabled><span class="slider round"></span></label>
-                </div>
-                <div class="cookie-option">
-                    <label for="consent-analytics" data-i18n-key="cookieModalAnalytics">Cookie di Analisi</label>
-                    <label class="switch"><input type="checkbox" id="consent-analytics"><span class="slider round"></span></label>
-                </div>
-                <div class="cookie-option">
-                    <label for="consent-functional" data-i18n-key="cookieModalFunctional">Cookie Funzionali</label>
-                    <label class="switch"><input type="checkbox" id="consent-functional"><span class="slider round"></span></label>
-                </div>
-            </div>
-            <button id="save-preferences-btn" class="btn btn-primary" data-i18n-key="cookieModalSave">Salva Preferenze</button>
-        </div>
-    </div>
-
-    <div id="exit-intent-popup">
-        <div class="exit-intent-content">
-            <button id="close-exit-popup">×</button>
-            <h3 data-i18n-key="exitPopupTitle">Non Andare Via!</h3>
-            <p data-i18n-key="exitPopupSubtitle">Unisciti alla nostra famiglia! Adotta un ulivo o iscriviti alla newsletter per rimanere aggiornato sulle novità dalla Puglia e ricevere offerte esclusive.</p>
-            <div class="exit-intent-buttons">
-                <a href="#products" class="btn btn-primary" data-i18n-key="exitPopupAdopt">Adotta un Ulivo</a>
-                <a href="#contact" class="btn btn-secondary" data-i18n-key="exitPopupNewsletter">Iscriviti alla Newsletter</a>
-            </div>
-        </div>
-    </div>
-
-    <div id="info-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h3 id="info-modal-title"></h3>
-        <p id="info-modal-text"></p>
-        <button id="close-info-modal-btn" class="btn btn-primary" data-i18n-key="modalCloseBtn">Chiudi</button>
-    </div>
+            
+            <form id="adoption-form">
+                <input type="hidden" id="selected-kit-id" name="kitId" value="">
+                <input type="hidden" name="lang" value="en">
+<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
 </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label>First Name:</label>
+                        <input type="text" id="buyer-firstname" name="buyerFirstName" placeholder="John" required>
+                    </div>
+                    <div class="form-group half-width">
+                        <label>Last Name:</label>
+                        <input type="text" id="buyer-lastname" name="buyerLastName" placeholder="Smith" required>
+                    </div>
+                </div>
 
-    <script src="script.js" defer></script>
+                <div class="form-group checkbox-group" style="background: #f9f9f9; border-radius: 5px;">
+                    <input type="checkbox" id="is-gift" name="isGift" onchange="toggleGiftMessage()">
+                    <label for="is-gift" style="cursor:pointer; font-weight: normal;">
+                        🎁 Is this a gift?
+                    </label>
+                    
+                    <div id="gift-message-container" style="display:none">
+                        <label style="font-size: 0.9rem;">Personal Note for the recipient:</label>
+                        <textarea id="gift-message" name="giftMessage" rows="2" placeholder="Write your wish here... We will print it for you!"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Name on Certificate (Adopter):</label>
+                    <input type="text" id="cert-name" name="certName" placeholder="John Smith" required>
+                    <small id="cert-hint" style="color:#888;">The full name of the person adopting the tree.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Name on Bottle Label:</label>
+                    <small style="margin-bottom:5px; display:block; color:#666;">The prefix "Olio" is fixed (e.g. Olio Smith).</small>
+                    
+                    <div class="input-group-prefix">
+                        <span class="prefix">Olio</span>
+                        <input type="text" id="label-name" name="labelName" placeholder="Smith" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Email (for receipt):</label>
+                    <input type="email" id="buyer-email" name="email" placeholder="name@email.com" required>
+                </div>
+
+                <div class="form-group discount-group" style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd;">
+                    <label>Do you have a discount code?</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="discount-code" name="discountCode" placeholder="PROMO CODE" style="text-transform: uppercase; margin-bottom: 0;">
+                    </div>
+                    <small id="discount-message" style="display: none; color: var(--primary-green); margin-top: 5px;">Code applied!</small>
+                </div>
+
+                <div style="margin-top: 20px; font-size: 0.85rem; color: #555; background: #eef; padding: 10px; border-radius: 5px; text-align: center;">
+                    🌍 <strong>Shipping Zone:</strong> This kit ships to <strong>European Union</strong> countries.
+                    <br>
+                    <a href="/it/" style="text-decoration:underline; color:#333;">Shipping to Italy only? Click here for IT prices.</a>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full" style="margin-top: 20px;">Proceed to Secure Payment &rarr;</button>
+                <p class="secure-note">🔒 SSL Encrypted Transaction via Stripe</p>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="corporate-modal" class="modal modal-wide">
+    <div class="modal-box modal-split-layout">
+        
+        <div class="modal-visual">
+            <img src="immagini/Foto-bottiglie-certificato.webp" loading="lazy" width="800" height="600" alt="Puglia Olive Oil Favor" class="modal-img-cover">
+        </div>
+
+        <div class="modal-form-content">
+            <button class="close-modal" onclick="closeCorporateModal()">✕</button>
+
+            <div class="modal-header">
+                <h3>Events & Weddings</h3>
+                <p class="modal-subtitle">Request a custom quote for your special day.</p>
+            </div>
+
+            <div class="kit-info-box">
+                <strong>The Gourmet Favor includes:</strong>
+                <ul class="kit-list-inline">
+                    <li>🫒 Bottle 500ml</li>
+                    <li>🏷️ Event Label</li>
+                    <li>📜 Mini-Certificate</li>
+                </ul>
+            </div>
+            
+            <form id="corporate-form">
+                <input type="hidden" name="lang" value="en">
+<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+</div>
+                <div class="form-group">
+                    <label>Name or Agency:</label>
+                    <input type="text" name="name" placeholder="e.g. Sarah & James" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" placeholder="name@email.com" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label>Event Type:</label>
+                        <input type="text" name="eventType" placeholder="Wedding..." required>
+                    </div>
+                    <div class="form-group half-width">
+                        <label>Est. Quantity:</label>
+                        <input type="number" name="quantity" placeholder="e.g. 50" min="10" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Notes (Date, Location):</label>
+                    <textarea name="message" rows="2" placeholder="Tell us about your event..."></textarea>
+                </div>
+
+                <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; text-align: center;">
+                    By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                </p>
+
+                <button type="submit" id="corp-btn" class="btn-primary btn-full">Request Quote</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <div class="cookie-content">
+            <h3>We value your privacy 🍪</h3>
+            <p>We use cookies to enhance your experience, serve personalized content, and analyze our traffic. You can choose to accept all or customize your preferences.</p>
+        </div>
+        <div class="cookie-actions">
+            <button id="cookie-customize" class="btn-link">Customize</button>
+            <button id="cookie-reject" class="btn-outline-light">Reject All</button>
+            <button id="cookie-accept" class="btn-primary">Accept All</button>
+        </div>
+    </div>
+
+    <dialog id="cookie-modal" class="modal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeCookieModal()">✕</button>
+            <div class="modal-header">
+                <h3>Cookie Preferences</h3>
+                <p>Manage your consent settings.</p>
+            </div>
+            
+            <form id="cookie-form">
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Strictly Necessary</strong>
+                        <p>Essential for the website to function (e.g. cart, login). Cannot be disabled.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider locked"></span>
+                    </div>
+                </div>
+
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Analytics & Performance</strong>
+                        <p>Help us understand how you use the site to improve it.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" id="consent-analytics" name="analytics">
+                        <label for="consent-analytics" class="slider"></label>
+                    </div>
+                </div>
+
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Marketing</strong>
+                        <p>Used to deliver relevant ads and track campaign performance.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" id="consent-marketing" name="marketing">
+                        <label for="consent-marketing" class="slider"></label>
+                    </div>
+                </div>
+
+                <button type="button" id="save-preferences" class="btn-primary btn-full" style="margin-top: 20px;">Save Preferences</button>
+            </form>
+        </div>
+    </dialog>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const recoverId = urlParams.get('recover_cart');
+
+    if (recoverId) {
+        // 1. Opzionale: Mostra un overlay di caricamento per l'utente
+        console.log("Ripristino sessione in corso...");
+
+        try {
+            // 2. Chiama la tua funzione Netlify passandogli solo l'ID
+            const response = await fetch('/.netlify/functions/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cartId: recoverId })
+            });
+
+            const session = await response.json();
+
+            if (session.url) {
+                // 3. Reindirizza direttamente a Stripe
+                window.location.href = session.url;
+            } else {
+                console.error("Errore nel recupero sessione:", session.error);
+            }
+        } catch (err) {
+            console.error("Errore di rete:", err);
+        }
+    }
+});
+</script>
 </body>
 </html>

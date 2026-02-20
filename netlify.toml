@@ -1,2 +1,45 @@
+[build]
+  publish = "."               # Pubblica la cartella corrente
+  functions = "netlify/functions" # Dove sono le funzioni
+
+# --- CONFIGURAZIONE FUNZIONI (AGGIUNGI QUESTO BLOCCO) ---
 [functions]
-  directory = "netlify/functions/"
+  # Usa il bundler moderno "esbuild", perfetto per i moduli ESM
+  node_bundler = "esbuild"
+
+
+# --- GESTIONE ERRORI ---
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# --- SICUREZZA & PERFORMANCE ---
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/.netlify/functions/stripe-webhook"
+  [headers.values]
+    Content-Type = "application/json"

@@ -1,7 +1,21 @@
 {
+  "name": "alternativa-2",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "stripe": "^18.4.0",
-    "googleapis": "^131.0.0",
-    "axios": "^1.7.2"
+    "@pdf-lib/fontkit": "^1.1.1",
+    "google-auth-library": "^10.5.0",
+    "google-spreadsheet": "^5.0.2",
+    "pdf-lib": "^1.17.1",
+    "resend": "^6.6.0",
+    "stripe": "^20.1.0"
   }
 }

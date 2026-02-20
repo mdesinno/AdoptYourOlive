@@ -1,378 +1,319 @@
-'use strict';
+/* netlify/functions/stripe-webhook.js */
+import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { JWT } from 'google-auth-library';
+import { Resend } from 'resend';
+import Stripe from 'stripe';
+import { PDFDocument, rgb } from 'pdf-lib'; // Per PDF
+import fontkit from '@pdf-lib/fontkit';      // Per Font custom
+import fs from 'fs';
+import path from 'path';
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { google } = require('googleapis');
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const SHEET_ID = process.env.GSHEET_ID;
+// --- FUNZIONE GENERAZIONE PDF (Eseguita in memoria) ---
+async function generaCertificatoPDF(nomeAdottante) {
+    try {
+        const pathToBase = path.resolve(__dirname, 'assets/certificato_base.png');
+        const pathToFont = path.resolve(__dirname, 'assets/PlayfairDisplay-BoldItalic.ttf');
+        
+        const baseImageBytes = fs.readFileSync(pathToBase);
+        const fontBytes = fs.readFileSync(pathToFont);
 
-// ---------- Raw body helper (Stripe signature) ----------
-function getRawBody(event) {
-  return event.isBase64Encoded
-    ? Buffer.from(event.body, 'base64').toString('utf8')
-    : event.body;
-}
+        const pdfDoc = await PDFDocument.create();
+        pdfDoc.registerFontkit(fontkit);
+        const customFont = await pdfDoc.embedFont(fontBytes);
 
-// ---------- Google Sheets helpers ----------
-async function getSheets() {
-  const jwt = new google.auth.JWT(
-    process.env.GOOGLE_CLIENT_EMAIL,
-    null,
-    (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
-    ['https://www.googleapis.com/auth/spreadsheets']
-  );
-  await jwt.authorize();
-  return google.sheets({ version: 'v4', auth: jwt });
-}
+        // Formato A4 Orizzontale in punti
+        const page = pdfDoc.addPage([841.89, 595.28]); 
+        const { width, height } = page.getSize();
 
-async function ensureHeaderIfMissing(sheetName, header) {
-  const sheets = await getSheets();
-  const resp = await sheets.spreadsheets.values.get({
-    spreadsheetId: SHEET_ID,
-    range: `${sheetName}!A1:Z1`
-  }).catch(() => ({ data: {} }));
-  const firstRow = (resp.data && resp.data.values && resp.data.values[0]) || [];
-  if (firstRow.length === 0) {
-    await sheets.spreadsheets.values.update({
-      spreadsheetId: SHEET_ID,
-      range: `${sheetName}!A1`,
-      valueInputOption: 'USER_ENTERED',
-      requestBody: { values: [header] }
-    });
-  }
-}
+        const embeddedImage = await pdfDoc.embedPng(baseImageBytes);
+        page.drawImage(embeddedImage, { x: 0, y: 0, width, height });
 
-async function readAll(sheetName) {
-  const sheets = await getSheets();
-  const r = await sheets.spreadsheets.values.get({
-    spreadsheetId: SHEET_ID,
-    range: `${sheetName}!A:Z`
-  });
-  return r.data.values || [];
-}
+        const fontSize = 42;
+        const textWidth = customFont.widthOfTextAtSize(nomeAdottante, fontSize);
+        
+        // Nome Adottante centrato a 11.1cm dall'alto
+        page.drawText(nomeAdottante, {
+            x: (width - textWidth) / 2,
+            y: 282, 
+            size: fontSize,
+            font: customFont,
+            color: rgb(0, 0, 0),
+        });
 
-async function appendRow(sheetName, values) {
-  const sheets = await getSheets();
-  return sheets.spreadsheets.values.append({
-    spreadsheetId: SHEET_ID,
-    range: `${sheetName}!A:Z`,
-    valueInputOption: 'USER_ENTERED',
-    requestBody: { values: [values] }
-  });
-}
-
-async function updateRow(sheetName, rowIndex1, arr) {
-  const sheets = await getSheets();
-  const endCol = String.fromCharCode(64 + arr.length);
-  await sheets.spreadsheets.values.update({
-    spreadsheetId: SHEET_ID,
-    range: `${sheetName}!A${rowIndex1}:${endCol}${rowIndex1}`,
-    valueInputOption: 'USER_ENTERED',
-    requestBody: { values: [arr] }
-  });
-}
-
-// ---------- Brevo helpers ----------
-async function brevoUpsertClientAddOnly({ email, name, language }) {
-  const apiKey = process.env.BREVO_API_KEY;
-  if (!apiKey) throw new Error('BREVO_API_KEY mancante');
-
-  const listClienti = parseInt(process.env.BREVO_LIST_CLIENTI || '0', 10);
-
-  const res = await fetch('https://api.brevo.com/v3/contacts', {
-    method: 'POST',
-    headers: {
-      'api-key': apiKey,
-      'accept': 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      email,
-      attributes: {
-        NOME: name || '',
-        LINGUA: (language || 'it').toUpperCase()
-      },
-      listIds: listClienti ? [listClienti] : [],
-      updateEnabled: true
-    })
-  });
-
-  if (!res.ok) {
-    const t = await res.text().catch(() => '');
-    throw new Error(`Brevo upsert ERR ${res.status}: ${t}`);
-  }
-}
-
-async function brevoSendOrderEmailViaTemplate({ toEmail, toName, amountEUR, orderId }) {
-  const apiKey = process.env.BREVO_API_KEY;
-  const senderEmail = process.env.BREVO_SENDER_EMAIL;
-  const senderName = process.env.BREVO_SENDER_NAME || 'Adopt Your Olive';
-  const templateId = parseInt(process.env.BREVO_TMPL_ORDER_CONFIRM_ID || '0', 10);
-
-  if (!apiKey || !senderEmail) throw new Error('BREVO_API_KEY o BREVO_SENDER_EMAIL mancanti');
-  if (!templateId) throw new Error('BREVO_TMPL_ORDER_CONFIRM_ID mancante o non valido');
-
-  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: {
-      'api-key': apiKey,
-      'accept': 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      sender: { email: senderEmail, name: senderName },
-      to: [{ email: toEmail, name: toName || '' }],
-      templateId,
-      params: {
-        NAME: toName || '',
-        ORDER_ID: orderId,
-        TOTAL_EUR: (amountEUR || 0).toFixed(2)
-      }
-    })
-  });
-
-  if (!res.ok) {
-    const t = await res.text().catch(() => '');
-    throw new Error(`Brevo email (template) ERR ${res.status}: ${t}`);
-  }
-}
-
-async function brevoSendInfoNotification({ orderId, buyerEmail, buyerName, amountEUR }) {
-  const apiKey = process.env.BREVO_API_KEY;
-  const to = process.env.INFO_EMAIL;
-  const senderEmail = process.env.BREVO_SENDER_EMAIL || to;
-  const senderName = process.env.BREVO_SENDER_NAME || 'Adopt Your Olive';
-  if (!apiKey || !to) return;
-
-  await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: {
-      'api-key': apiKey,
-      'accept': 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      sender: { email: senderEmail, name: senderName },
-      to: [{ email: to }],
-      subject: `AYO • Nuovo ordine ricevuto`,
-      htmlContent: `
-        <p><strong>Order:</strong> ${orderId}</p>
-        <p><strong>Buyer:</strong> ${buyerName || ''} &lt;${buyerEmail || ''}&gt;</p>
-        <p><strong>Total:</strong> € ${(amountEUR || 0).toFixed(2)}</p>
-        <p>Sheet: <a href="https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit" target="_blank" rel="noopener">open Google Sheet</a></p>
-      `
-    })
-  }).catch(() => {});
-}
-
-// ---------- Archivio contatti: upsert dinamico ----------
-async function upsertArchivioContatti({ email, name, language, role, addr }) {
-  const sheet = 'Archivio contatti';
-  const rows = await readAll(sheet);
-  const wantedHeader = [
-    'Email','Nome completo','Lingua','Data primo contatto','Data ultimo ordine','Ruolo ultimo ordine',
-    'Numero ordini effettuati (colonna calcolata tramite arrayformula)',
-    'Stato adozione personale','Data scadenza adozione personale',
-    'Ultimo indirizzo spedizione conosciuto 1','Ultimo indirizzo spedizione conosciuto 2',
-    'Ultima città spedizione conosciuta','Ultimo CAP spedizione conosciuto','Ultima nazione spedizione conosciuta'
-  ];
-
-  if (rows.length === 0) {
-    await ensureHeaderIfMissing(sheet, wantedHeader);
-    rows.push(wantedHeader);
-  }
-  const header = rows[0];
-
-  // mappa colonne per nome (case-insensitive, usa includes)
-  const idx = (label) => header.findIndex(h => (h || '').toLowerCase().includes(label));
-  const cEmail = idx('email');
-  const cNome  = idx('nome completo');
-  const cLang  = idx('lingua');
-  const cPrimo = idx('data primo contatto');
-  const cUlt   = idx('data ultimo ordine');
-  const cRuolo = idx('ruolo ultimo ordine');
-  const cL1    = idx('indirizzo spedizione conosciuto 1');
-  const cL2    = idx('indirizzo spedizione conosciuto 2');
-  const cCity  = idx('città');
-  const cZip   = idx('cap');
-  const cCtry  = idx('nazione');
-
-  // trova riga esistente
-  let rowIdx = -1;
-  for (let i = 1; i < rows.length; i++) {
-    if (((rows[i][cEmail] || '').trim().toLowerCase()) === (email || '').toLowerCase()) {
-      rowIdx = i; break;
+        return await pdfDoc.saveAsBase64();
+    } catch (e) {
+        console.error("❌ Errore Generazione PDF:", e);
+        return null;
     }
-  }
+}
 
-  const nowISO = new Date().toISOString();
-
-  // costruisci riga da aggiornare
-  const makeRow = (existing = []) => {
-    const out = existing.slice();
-    const set = (i, val) => { if (i >= 0) out[i] = val; };
-
-    set(cEmail, email);
-    if (cNome  >= 0) set(cNome,  name || existing[cNome] || '');
-    if (cLang  >= 0) set(cLang,  (language || existing[cLang] || 'it'));
-    if (cPrimo >= 0) set(cPrimo, existing[cPrimo] || nowISO);
-    if (cUlt   >= 0) set(cUlt,   nowISO);
-    if (cRuolo >= 0) set(cRuolo, role || existing[cRuolo] || '');
-
-    if (addr) {
-      if (cL1   >= 0) set(cL1,   addr.line1 || existing[cL1] || '');
-      if (cL2   >= 0) set(cL2,   addr.line2 || existing[cL2] || '');
-      if (cCity >= 0) set(cCity, addr.city  || existing[cCity] || '');
-      if (cZip  >= 0) set(cZip,  addr.postal_code || existing[cZip] || '');
-      if (cCtry >= 0) set(cCtry, addr.country || existing[cCtry] || '');
+export const handler = async (event, context) => {
+    if (event.httpMethod !== 'POST') {
+        return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
-    // allunga alla larghezza header
-    for (let i = 0; i < header.length; i++) if (typeof out[i] === 'undefined') out[i] = '';
-    return out;
-  };
-
-  if (rowIdx === -1) {
-    const newRow = makeRow([]);
-    await appendRow(sheet, newRow);
-  } else {
-    const existing = rows[rowIdx] || [];
-    const upd = makeRow(existing);
-    await updateRow(sheet, rowIdx + 1, upd);
-  }
-}
-
-// ---------- Handler ----------
-exports.handler = async (event) => {
-  // Verifica firma Stripe
-  let stripeEvent;
-  try {
     const sig = event.headers['stripe-signature'];
-    const raw = getRawBody(event);
-    stripeEvent = stripe.webhooks.constructEvent(raw, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch (err) {
-    console.error('Stripe signature verify FAILED:', err.message);
-    return { statusCode: 400, body: 'bad signature' };
-  }
+    let stripeEvent;
 
-  try {
-    if (stripeEvent.type !== 'checkout.session.completed') {
-      return { statusCode: 200, body: 'ignored' };
+    try {
+        const payload = event.isBase64Encoded
+            ? Buffer.from(event.body, 'base64').toString('utf8')
+            : event.body;
+
+        stripeEvent = stripe.webhooks.constructEvent(
+            payload,
+            sig,
+            process.env.STRIPE_WEBHOOK_SECRET
+        );
+    } catch (err) {
+        console.error(`⚠️ Webhook Error: ${err.message}`);
+        return { statusCode: 400, body: `Webhook Error: ${err.message}` };
     }
 
-    const session = stripeEvent.data.object;
+    if (stripeEvent.type === 'checkout.session.completed') {
+        const session = stripeEvent.data.object;
+        console.log(`💰 Pagamento ricevuto: ${session.id}`);
 
-    // Recupero dettagli completi + line items
-    const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
-      expand: ['payment_intent', 'customer']
-    });
-    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 10 });
+        // --- ESTRAZIONE DATI ---
+        const customerData = session.customer_details || {};
+        const shippingData = session.shipping_details || {}; 
+        
+        const fullName = shippingData.name || customerData.name || '';
+        const nameParts = fullName.split(' ');
+        const cognome = nameParts.length > 1 ? nameParts.pop() : '';
+        const nome = nameParts.join(' ');
 
-    // Dati principali
-// === Metadati / helper ===
-const piMeta   = fullSession.payment_intent?.metadata || {};
-const sessMeta = fullSession.metadata || {}; // fallback retrocompatibile
-const M = (k) => (piMeta[k] ?? sessMeta[k] ?? '');
+        const address = shippingData.address || customerData.address || {};
+        const unifiedStreet = [address.line1, address.line2].filter(Boolean).join(', ');
+        
+        const fullShippingAddress = `
+            ${fullName}<br>
+            ${address.line1 || ''} ${address.line2 || ''}<br>
+            ${address.postal_code || ''} ${address.city || ''} (${address.state || ''})<br>
+            ${address.country || ''}
+        `;
 
-// === Dati principali ===
-const amountEUR = (fullSession.amount_total || 0) / 100;
-const currency  = (fullSession.currency || 'eur').toUpperCase();
+        let productDesc = "Adozione";
+        try {
+            const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+            if (lineItems.data.length > 0) {
+                productDesc = lineItems.data.map(item => item.description).join(' + ');
+            }
+        } catch (e) { console.error("Errore recupero prodotti:", e); }
 
-const buyerEmail = fullSession.customer_details?.email || fullSession.customer_email || M('buyer_email') || '';
-const buyerName  = fullSession.customer_details?.name  || M('shipping_name') || '';
-const lang       = (M('language') || 'it').toLowerCase();
+        let qtyDescIT = "";
+        let qtyDescEN = "";
+        const pName = (productDesc || "").toLowerCase();
+        if (pName.includes('family')) {
+            qtyDescIT = "Family Kit (5 Litri)"; qtyDescEN = "Family Kit (5 Liters)";
+        } else if (pName.includes('reserve') || pName.includes('riserva')) {
+            qtyDescIT = "Reserve Kit (2 Litri)"; qtyDescEN = "Reserve Kit (2 Liters)";
+        } else {
+            qtyDescIT = "Welcome Kit (1 Litro)"; qtyDescEN = "Welcome Kit (1 Liter)";
+        }
 
-// === Indirizzo: PRIMA i metadati del sito, poi Stripe come fallback ===
-const addrStripe = fullSession.customer_details?.address || {};
-const addr = {
-  line1:       M('shipping_line1')       || addrStripe.line1       || '',
-  line2:       M('shipping_line2')       || addrStripe.line2       || '',
-  city:        M('shipping_city')        || addrStripe.city        || '',
-  postal_code: M('shipping_postal_code') || addrStripe.postal_code || '',
-  country:     M('shipping_country')     || addrStripe.country     || ''
-};
+        const certificatoNome = session.metadata?.cert_name || '';
+        const etichettaMsg = session.metadata?.label_name || '';
+        const isGift = session.metadata?.is_gift === 'YES';
+        const referralId = session.metadata?.referral_id || ''; 
+        
+        let regaloString = isGift ? 'Si' : 'No';
+        if (isGift && session.metadata?.gift_message) {
+            regaloString += ` - ${session.metadata.gift_message}`;
+        }
 
-// === Prodotto / tipo ===
-const firstItem   = (lineItems.data && lineItems.data[0]) || {};
-const productDesc = firstItem.description || M('tree_type') || '';
+        let codiceSconto = '';
+        if (session.total_details?.breakdown?.discounts) {
+            codiceSconto = session.total_details.breakdown.discounts
+                .map(d => {
+                    if (d.discount?.coupon?.name) return d.discount.coupon.name;
+                    if (d.discount?.coupon?.id) return d.discount.coupon.id;
+                    if (d.discount?.promotion_code?.code) return d.discount.promotion_code.code;
+                    return 'Sconto applicato';
+                })
+                .join(', ');
+        }
 
-// === Altri campi per lo Sheet ===
-const adopterEmail = M('recipient_email') || buyerEmail;
-const adopterName  = M('certificate_name') || buyerName;
-const isGiftFlag   = /^y|^s|^true|^1/i.test((M('is_gift') || '').toString()) ? 'Sì' : 'No';
+        const lang = session.metadata?.lang || session.locale || 'en';
+        const isIt = lang.startsWith('it');
 
-const certMessage  = M('certificate_message') || 'Your Tree, Your Oil, Your Story';
-const userNote     = M('order_note') || '';
-const couponUsed   = M('discount_code') || '';
+        // --- GENERAZIONE PDF ---
+        const pdfBase64 = await generaCertificatoPDF(certificatoNome);
+        const pdfAttachment = pdfBase64 ? [{
+            filename: `Certificato_Adozione_${certificatoNome.replace(/\s+/g, '_')}.pdf`,
+            content: pdfBase64,
+        }] : [];
 
-// === 1) Scrivi su "Storico ordini" ===
-const ORDERS_SHEET = 'Storico ordini';
-const header = [
-  'ID ordine','Data ordine','Email acquirente','Nome acquirente',
-  'Email adottante','Nome adottante','Regalo?','Tipo adozione',
-  'Messaggio personalizzato','Indirizzo spedizione 1','Indirizzo spedizione 2',
-  'Città spedizione','CAP spedizione','Nazione spedizione','Note sull\'ordine',
-  'Codice sconto usato','Importo pagato','Lingua'
-];
-await ensureHeaderIfMissing(ORDERS_SHEET, header);
+        // --- 1. GOOGLE SHEET ---
+        try {
+            const decodedCreds = Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT_ENCODED, 'base64').toString('utf-8');
+            const creds = JSON.parse(decodedCreds);
+            const serviceAccountAuth = new JWT({
+                email: creds.client_email,
+                key: creds.private_key,
+                scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+            });
+            const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, serviceAccountAuth);
+            await doc.loadInfo();
+            const sheet = doc.sheetsByTitle['Ordini'];
 
-const nowISO = new Date().toISOString();
+            if (sheet) {
+                await sheet.addRow({
+                    Data: new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Rome' }),
+                    Nome: nome,
+                    Cognome: cognome,
+                    Email: session.customer_details.email,
+                    Telefono: session.customer_details.phone || '',
+                    Via: unifiedStreet || '',
+                    Citta: address.city || '',
+                    CAP: address.postal_code || '',
+                    Paese: address.country || '',
+                    Lingua: lang,
+                    Certificato: certificatoNome,
+                    Etichetta: etichettaMsg.toLowerCase().startsWith('olio') ? etichettaMsg : `Olio ${etichettaMsg}`,
+                    Prodotto: productDesc,
+                    Regalo: regaloString,
+                    Codice: codiceSconto,
+                    Prezzo: (session.amount_total / 100).toFixed(2),
+                    ID_Carrello: session.metadata?.cart_id || '',
+                    ID_Transazione_Stripe: session.payment_intent || session.id,
+                    "Referral ID": referralId 
+                });
+                console.log("✅ Ordine salvato su Sheet");
+            }
+        } catch (sheetError) { console.error('❌ Errore salvataggio Sheet:', sheetError); }
 
-await appendRow(ORDERS_SHEET, [
-  fullSession.id,
-  nowISO,
-  buyerEmail,
-  buyerName,
-  adopterEmail,
-  adopterName,
-  isGiftFlag,
-  productDesc,
-  certMessage,
-  addr.line1, addr.line2, addr.city, addr.postal_code, addr.country,
-  userNote,
-  couponUsed,
-  currency === 'EUR' ? amountEUR : `${amountEUR} ${currency}`,
-  lang
-]);
+        // --- 2. RESEND AUDIENCE ---
+        if (process.env.RESEND_AUDIENCE_ID) {
+            try {
+                await resend.contacts.create({
+                    email: session.customer_details.email,
+                    audienceId: process.env.RESEND_AUDIENCE_ID,
+                    firstName: nome,
+                    lastName: cognome,
+                    unsubscribed: false
+                });
+                console.log('✅ Cliente Resend assicurato.');
+            } catch (e) { console.log('ℹ️ Resend skip:', e.message); }
+        }
 
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
+        // --- 3. EMAIL CLIENTE ---
+        const giftSection = isGift && session.metadata?.gift_message ? (isIt ? `
+            <div style="background-color: #fdf6e3; padding: 15px; border: 1px dashed #b58900; border-radius: 4px; margin-bottom: 20px;">
+                <p style="margin:0; color:#b58900; font-weight:bold; font-size:12px; text-transform:uppercase;">💌 Messaggio Incluso:</p>
+                <p style="margin:5px 0 0 0; font-style:italic; color:#333;">"${session.metadata.gift_message}"</p>
+            </div>
+        ` : `
+            <div style="background-color: #fdf6e3; padding: 15px; border: 1px dashed #b58900; border-radius: 4px; margin-bottom: 20px;">
+                <p style="margin:0; color:#b58900; font-weight:bold; font-size:12px; text-transform:uppercase;">💌 Gift Message Included:</p>
+                <p style="margin:5px 0 0 0; font-style:italic; color:#333;">"${session.metadata.gift_message}"</p>
+            </div>
+        `) : '';
 
-    // 2) Aggiorna "Archivio contatti" (buyer)
-    if (buyerEmail) {
-      await upsertArchivioContatti({
-        email: buyerEmail,
-        name: buyerName,
-        language: lang,
-        role: 'Personale', // acquisto personale: se un domani rimetti il flag regalo, qui potrai mettere 'Regalo'
-        addr
-      });
+        const emailContent = isIt ? {
+            subj: `Benvenuto in Famiglia! 🌿 Ordine #${session.payment_intent ? session.payment_intent.slice(-4) : 'WEB'}`,
+            html: `
+                <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6;">
+                    <h1 style="color: #2c5e2e;">Grazie, ${nome}!</h1>
+                    <p>Siamo felici di darti il benvenuto nella nostra famiglia di custodi degli ulivi in Puglia.</p>
+                    <p>Abbiamo ricevuto correttamente la tua adozione. <strong>In allegato a questa email trovi la copia digitale del tuo Certificato.</strong></p>
+                    
+                    <p style="background: #fdf6e3; padding: 15px; border-left: 4px solid #b58900; margin: 20px 0;">
+                        <strong>Nota importante:</strong> La versione fisica ufficiale arriverà a casa tua insieme alla <strong>Club Card</strong>. 
+                        Sulla card troverai il tuo <strong>Member ID</strong> e un QR Code per accedere all'area riservata e scaricare guide e ricettari.
+                    </p>
+
+                    <div style="background:#f4f4f4; padding:15px; border-radius:8px; margin: 20px 0; color:#333;">
+                        <p style="margin:0;"><strong>📦 Kit Scelto:</strong> ${qtyDescIT}</p>
+                        <p style="margin:5px 0 0 0;"><strong>💳 Totale:</strong> € ${(session.amount_total / 100).toFixed(2)}</p>
+                    </div>
+                    ${giftSection}
+                    <h3 style="color: #2c5e2e; border-bottom: 1px solid #eee; padding-bottom: 10px;">Cosa succede ora?</h3>
+                    <ol style="padding-left: 20px; color: #555;">
+                        <li style="margin-bottom: 10px;"><strong>Personalizzazione:</strong> Stiamo preparando i tuoi documenti e l'etichetta personalizzata.</li>
+                        <li style="margin-bottom: 10px;"><strong>Spedizione:</strong> Il tuo pacco partirà entro <strong>5 giorni lavorativi</strong>.</li>
+                        <li style="margin-bottom: 10px;"><strong>Member ID:</strong> Appena riceverai il pacco, usa il QR code sulla card per sbloccare i contenuti digitali.</li>
+                    </ol>
+                    <hr style="border:0; border-top:1px solid #eee; margin: 30px 0;">
+                    <p style="font-size:12px; color:#999; text-align: center;">Adopt Your Olive - Puglia, Italia</p>
+                </div>`
+        } : {
+            subj: `Welcome to the Family! 🌿 Order #${session.payment_intent ? session.payment_intent.slice(-4) : 'WEB'}`,
+            html: `
+                <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6;">
+                    <h1 style="color: #2c5e2e;">Thank you, ${nome}!</h1>
+                    <p>We successfully received your adoption. <strong>Your digital Adoption Certificate is attached to this email.</strong></p>
+                    
+                    <p style="background: #fdf6e3; padding: 15px; border-left: 4px solid #b58900; margin: 20px 0;">
+                        <strong>Important:</strong> Your official physical certificate will arrive with your <strong>Club Card</strong>. 
+                        The card features your <strong>Member ID</strong> and a QR Code to access your private area and download the guides and recipes.
+                    </p>
+
+                    <div style="background:#f4f4f4; padding:15px; border-radius:8px; margin: 20px 0; color:#333;">
+                        <p style="margin:0;"><strong>📦 Selected Kit:</strong> ${qtyDescEN}</p>
+                        <p style="margin:5px 0 0 0;"><strong>💳 Total:</strong> € ${(session.amount_total / 100).toFixed(2)}</p>
+                    </div>
+                    ${giftSection}
+                    <h3 style="color: #2c5e2e; border-bottom: 1px solid #eee; padding-bottom: 10px;">What happens next?</h3>
+                    <ol style="padding-left: 20px; color: #555;">
+                        <li style="margin-bottom: 10px;"><strong>Preparation:</strong> We are customizing your certificate and bottle labels.</li>
+                        <li style="margin-bottom: 10px;"><strong>Shipping:</strong> Your package will be shipped within <strong>5 business days</strong>.</li>
+                        <li style="margin-bottom: 10px;"><strong>Member ID:</strong> Once you receive your kit, use the QR code on the card to unlock digital content.</li>
+                    </ol>
+                    <hr style="border:0; border-top:1px solid #eee; margin: 30px 0;">
+                    <p style="font-size:12px; color:#999; text-align: center;">Adopt Your Olive - Puglia, Italy</p>
+                </div>`
+        };
+
+        try {
+            await resend.emails.send({
+                from: `Adopt Your Olive <${process.env.EMAIL_MITTENTE}>`,
+                to: session.customer_details.email,
+                subject: emailContent.subj,
+                html: emailContent.html,
+                attachments: pdfAttachment
+            });
+            console.log('✅ Email Cliente inviata');
+        } catch (e) { console.error('❌ Errore Email Cliente:', e); }
+
+        // --- 4. NOTIFICA ADMIN ---
+        try {
+            await resend.emails.send({
+                from: `Adopt Your Olive <${process.env.EMAIL_MITTENTE}>`,
+                to: process.env.EMAIL_ADMIN,
+                subject: `💰 [ORDINE] ${nome} ${cognome} - €${(session.amount_total / 100).toFixed(0)}`,
+                attachments: pdfAttachment, // Allegato anche per l'admin
+                html: `
+                    <div style="font-family: monospace; color: #333; max-width: 600px;">
+                        <h2 style="background: #e6fffa; padding: 10px; border: 1px solid #2c5e2e; color: #2c5e2e;">✅ Pagamento Ricevuto: € ${(session.amount_total / 100).toFixed(2)}</h2>
+                        <h3>1. LOGISTICA 📦</h3>
+                        <ul><li><strong>PRODOTTO:</strong> ${qtyDescIT}</li><li><strong>REGALO?</strong> ${isGift ? 'SÌ 🎁' : 'NO'}</li></ul>
+                        <h3>2. SPEDIZIONE 🚚</h3>
+                        <div style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd;"><strong>${fullShippingAddress}</strong><br><em>Email:</em> ${session.customer_details.email}</div>
+                        <h3>3. STAMPA 🖨️</h3>
+                        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                            <tr><td bgcolor="#eee">Certificato:</td><td>${certificatoNome}</td></tr>
+                            <tr><td bgcolor="#eee">Etichetta:</td><td>${etichettaMsg}</td></tr>
+                            ${session.metadata?.gift_message ? `<tr><td bgcolor="#fdf6e3">Messaggio:</td><td>${session.metadata.gift_message}</td></tr>` : ''}
+                            <tr><td bgcolor="#eee"><strong>Referral ID:</strong></td><td><strong>${referralId || 'Nessuno'}</strong></td></tr>
+                        </table>
+                        <br>
+                        <hr>
+                        <p style="font-size: 11px; color: #777;">
+                            ID Ordine: #${session.payment_intent ? session.payment_intent.slice(-4) : 'N/A'}<br>
+                            ID Transazione: ${session.payment_intent || session.id}<br>
+                            Lingua Cliente: ${lang}
+                        </p>
+                    </div>`
+            });
+            console.log('✅ Email Admin inviata');
+        } catch (e) { console.error('❌ Errore Email Admin:', e); }
     }
 
-    // 3) Brevo: upsert buyer in "Clienti"
-    if (buyerEmail) {
-      await brevoUpsertClientAddOnly({ email: buyerEmail, name: buyerName, language: lang });
-    }
-
-    // 4) Notifica interna a info@
-    await brevoSendInfoNotification({
-      orderId: fullSession.id,
-      buyerEmail,
-      buyerName,
-      amountEUR
-    });
-
-    // 5) Email conferma al cliente (se template ID presente)
-    if (buyerEmail && process.env.BREVO_TMPL_ORDER_CONFIRM_ID) {
-      await brevoSendOrderEmailViaTemplate({
-        toEmail: buyerEmail,
-        toName: buyerName,
-        amountEUR,
-        orderId: fullSession.id
-      });
-    }
-
-    return { statusCode: 200, body: 'ok' };
-  } catch (e) {
-    console.error('WEBHOOK ERROR', e);
-    return { statusCode: 500, body: 'server error' };
-  }
+    return { statusCode: 200, body: JSON.stringify({ received: true }) };
 };

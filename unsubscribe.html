@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsubscribe | Adopt Your Olive</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; color: #333; background-color: #f4f4f4; }
+        .box { max-width: 400px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #4CAF50; margin-top: 0; }
+        p { color: #666; line-height: 1.5; }
+        .error { color: #d32f2f; }
+        .loader { font-size: 24px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2 id="status"><span class="loader">⏳</span></h2>
+        <p id="message">Please wait...</p>
+    </div>
+
+    <script>
+        // 1. Dizionario Testi
+        const texts = {
+            it: {
+                processing: "Elaborazione in corso...",
+                wait: "Stiamo rimuovendo la tua email dalla lista.",
+                successTitle: "Disiscrizione Confermata",
+                successMsg: "Non riceverai più le nostre email promozionali.",
+                errorTitle: "Ops!",
+                errorMsg: "Si è verificato un errore o l'email non è valida.",
+                missing: "Nessuna email specificata nel link."
+            },
+            en: {
+                processing: "Processing...",
+                wait: "We are removing your email from our list.",
+                successTitle: "Unsubscribe Confirmed",
+                successMsg: "You will no longer receive our promotional emails.",
+                errorTitle: "Oops!",
+                errorMsg: "An error occurred or the email is invalid.",
+                missing: "No email specified in the link."
+            }
+        };
+
+        // 2. Rileva Lingua Browser (Se inizia con 'it', usa italiano, altrimenti inglese)
+        const userLang = navigator.language || navigator.userLanguage; 
+        const lang = userLang.startsWith('it') ? 'it' : 'en';
+        const txt = texts[lang];
+
+        // 3. Imposta testi iniziali
+        const statusEl = document.getElementById('status');
+        const msgEl = document.getElementById('message');
+        
+        statusEl.innerText = txt.processing;
+        msgEl.innerText = txt.wait;
+
+        async function unsub() {
+            const params = new URLSearchParams(window.location.search);
+            // Gestisce sia il ?email=normale che il ?email=con%20spazi
+            const email = params.get('email'); 
+
+            if (!email) {
+                statusEl.innerText = txt.errorTitle;
+                statusEl.className = "error";
+                msgEl.innerText = txt.missing;
+                return;
+            }
+
+            try {
+                // Chiama la tua function
+                const response = await fetch('/.netlify/functions/unsubscribe', {
+                    method: 'POST',
+                    body: JSON.stringify({ email: email })
+                });
+
+                if (response.ok) {
+                    statusEl.innerText = txt.successTitle;
+                    msgEl.innerText = txt.successMsg;
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch (error) {
+                statusEl.innerText = txt.errorTitle;
+                statusEl.className = "error";
+                msgEl.innerText = txt.errorMsg;
+            }
+        }
+        
+        // Avvia
+        unsub();
+    </script>
+</body>
+</html>

@@ -1,263 +1,340 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en"> 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n-key="cookiePolicyPageTitle">Cookie Policy - Adopt Your Olive</title>
-    <meta name="description" content="" data-i18n-key="cookiePolicyMetaDescription">
+    
+    <title>Cookie Policy | Adopt Your Olive</title>
+    <meta name="description" content="Details on the cookies we use for navigation, analytics, and marketing, and how to manage your consent preferences.">
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="alternate" hreflang="en" href="https://adoptyourolive.com/" />
+    <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/" />
+    <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/" />
+    <link rel="canonical" href="https://adoptyourolive.com/cookie-policy.html" />
+
+    <meta name="google-site-verification" content="Y85AARKVRz6ltP7evzrwVD9khwUHW-t15SLTXBLH_Os" />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="AYO" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <style>
-        body { padding-top: 80px; }
-        .legal-page { max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: var(--shadow-light); }
-        .legal-page h1 { font-size: 2.5rem; margin-bottom: 20px; }
-        .legal-page h2 { font-size: 1.8rem; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid var(--primary-green); padding-bottom: 5px;}
-        .legal-page p, .legal-page li { line-height: 1.7; }
-        .legal-page table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
-        .legal-page th, .legal-page td { border: 1px solid var(--medium-grey); padding: 10px; text-align: left; }
-        .legal-page th { background-color: var(--light-grey); }
-        .main-nav { position: fixed; }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Adopt Your Olive | Legal">
+    <meta property="og:image" content="https://adoptyourolive.com/immagini/Albero-hero.webp">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-    <nav class="main-nav">
-        <div class="nav-logo-container">
-            <a href="#hero">
-                <img src="immagini/logo.svg" alt="Adopt Your Olive Logo" class="nav-logo-image">
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="logo-wrapper">
+                <img src="/immagini/logo.webp" alt="AYO Logo" class="logo-img">
             </a>
-            <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <i class="fas fa-bars"></i>
-        </button>
-        <ul class="nav-links">
-            <li><a href="index.html#products" data-i18n-key="navAdoptShort">Adotta</a></li>
-        <li><a href="index.html#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
-        <li><a href="index.html#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Perché Peranzana</a></li>
-                   <!--<li><a href="index.html#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
-        <li><a href="index.html#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-        <li><a href="index.html#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
-        <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
-        <li><a href="club.html">Club</a></li>
-        </ul>
-        <div class="language-switcher">
-            <select id="language-selector">
-    <option value="it">Italiano</option>
-    <option value="en">English</option>
-    <option value="de">Deutsch</option>
-    <option value="nl">Nederlands</option>
-    <option value="no">Norsk</option>
-    <option value="fr">Français</option>
-</select>
+            
+            <div class="nav-links">
+                <a href="/#how-it-works">Process</a>
+                <a href="/#story">Family</a>
+                <a href="/#faq">FAQ</a>
+
+                <a href="#" onclick="openCorporateModal(); return false;">Corporate & Weddings</a>
+                
+                <a href="/it/" class="shipping-alert">
+                    <span>🇮🇹 Spedisci in Italia?</span>
+                </a>
+
+                <a href="/#adoption-kits" class="btn-nav">Adopt Now</a>
+            </div>
+            
+            <div class="mobile-menu-icon">☰</div>
         </div>
     </nav>
 
-<main class="container legal-page">
-    <h1 data-i18n-key="cookieTitle">Cookie Policy</h1>
-<p data-i18n-key="legalLastUpdatedLine"><strong>Ultimo aggiornamento:</strong> 23 giugno 2025</p>
-    <p data-i18n-key="cookieIntro">La presente Cookie Policy descrive come Adopt Your Olive (di seguito “noi” o “nostro”), con sede in Via Morgagni, 84, 71016 San Severo (FG), Italia, utilizza cookie e tecnologie simili sul sito web `https://www.adoptyourolive.com`. Questa policy è parte integrante della nostra <a href="privacy-policy.html">Informativa sulla Privacy</a>.</p>
+    <main style="padding-top: 120px; padding-bottom: 80px; min-height: 60vh;">
+        <section class="legal-content" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-green); margin-bottom: 20px;">Cookie Policy</h1>
+    <p><strong>Last Updated:</strong> January 2026</p>
 
-    <h2 data-i18n-key="cookieWhatAreTitle">1. Cosa sono i cookie?</h2>
-    <p data-i18n-key="cookieWhatAreText">I cookie sono piccoli file di testo che i siti web salvano sul tuo dispositivo (computer, smartphone, tablet) durante la navigazione. Sono essenziali per migliorare l’esperienza utente, ricordando preferenze, gestendo sessioni di navigazione o analizzando il traffico in forma aggregata e anonima.</p>
+    <p>This Cookie Policy describes how <strong>Adopt Your Olive di Michele Ezio de Sinno</strong> (hereinafter “we”, “us”, or “our”), with registered office at Via Morgagni, 84, 71016 San Severo (FG), Italy, VAT ID 04563000712, uses cookies and similar technologies on the website <strong>adoptyourolive.com</strong>. This policy is an integral part of our <a href="privacy-policy.html">Privacy Policy</a>.</p>
 
-    <h2 data-i18n-key="cookieTypesTitle">2. Tipi di cookie che utilizziamo</h2>
-    <p data-i18n-key="cookieTypesIntro">Il nostro sito utilizza le seguenti categorie di cookie, che puoi gestire tramite il nostro banner del consenso al tuo primo accesso o in qualsiasi momento tramite il link nel footer del sito:</p>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">1. What are Cookies?</h2>
+    <p>Cookies are small text files that websites save on your device (computer, smartphone, tablet) while you browse. They are essential for improving the user experience, remembering preferences, managing login sessions, or analyzing traffic.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">2. Types of Cookies We Use</h2>
+    <p>We use the following categories of cookies. You can manage your preferences via the banner on your first visit or the link in the footer.</p>
+
+    <h3 style="margin-top:20px;">A. Strictly Necessary (Always Active)</h3>
+    <p>These cookies are indispensable for the website to function securely. They include cookies for payment processing (Stripe), security (Netlify), and saving your cookie consent preferences. They do not require your consent.</p>
+
+    <h3 style="margin-top:20px;">B. Analytics</h3>
+    <p>If you provide consent, we use <strong>Google Analytics 4</strong> to collect anonymous statistical data on how visitors use the site. This helps us understand which pages are popular and improve our service. IP anonymization is enabled.</p>
+
+    <h3 style="margin-top:20px;">C. Marketing & Targeting (Pixels)</h3>
+    <p>If you provide consent, we allow third-party partners (<strong>Meta</strong> and <strong>TikTok</strong>) to set cookies. These are used to track the effectiveness of our advertising campaigns and to show you relevant ads on social media. If you do not allow these cookies, you will experience less targeted advertising.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">3. List of Main Cookies & Providers</h2>
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9rem;">
+            <thead>
+                <tr style="background:#f4f4f4; text-align:left;">
+                    <th style="padding:10px; border-bottom:2px solid #ddd;">Category</th>
+                    <th style="padding:10px; border-bottom:2px solid #ddd;">Provider</th>
+                    <th style="padding:10px; border-bottom:2px solid #ddd;">Example Names</th>
+                    <th style="padding:10px; border-bottom:2px solid #ddd;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Necessary</strong></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Adopt Your Olive</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><code>cookieConsentAyo</code></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Stores your consent preferences.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Necessary</strong></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Stripe</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><code>__stripe_mid</code>, <code>__stripe_sid</code></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Fraud prevention and secure payment processing.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Analytics</strong></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Google</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><code>_ga</code>, <code>_gid</code></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Distinguishes users for statistical purposes.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Marketing</strong></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Meta (Facebook)</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><code>_fbp</code></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Ad targeting and conversion tracking.</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Marketing</strong></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">TikTok</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><code>_ttp</code></td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;">Ad targeting and conversion tracking.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 style="margin-top:20px;">Other Technologies (Fonts & Icons)</h3>
+    <p>To display our website correctly, we use external libraries that may load resources from third-party servers:</p>
     <ul>
-        <li data-i18n-key="cookieTypeTechnical"><strong>Cookie Tecnici (Sempre Attivi):</strong> Sono indispensabili per il corretto funzionamento del sito. Includono cookie per la gestione della sessione, per la sicurezza (es. forniti da Netlify) e per ricordare le tue preferenze sul consenso dei cookie (`cookieConsentAyo`, `language`). Non richiedono il tuo consenso.</li>
-        <li data-i18n-key="cookieTypeAnalytics"><strong>Cookie Analitici:</strong> Se fornisci il tuo consenso, utilizziamo Google Analytics (con IP anonimizzato) per raccogliere dati statistici aggregati su come i visitatori usano il sito. Questo ci aiuta a capire quali pagine sono più popolari, come gli utenti navigano il sito e come possiamo migliorare il nostro servizio.</li>
-        <li data-i18n-key="cookieTypeFunctional"><strong>Cookie Funzionali:</strong> Se fornisci il tuo consenso, attiviamo funzionalità aggiuntive fornite da terze parti che migliorano l'usabilità del sito, come l'autocompletamento degli indirizzi tramite Google Maps nel nostro modulo di adozione.</li>
+        <li><strong>Google Fonts:</strong> Used for typography. Google may receive your IP address to deliver the font file.</li>
+        <li><strong>Font Awesome (Cloudflare):</strong> Used for icons. Cloudflare may receive your IP address to deliver the icon file.</li>
     </ul>
 
-    <h2 data-i18n-key="cookieOtherTechTitle">2-bis. Altre Tecnologie Utilizzate (per la Web App)</h2>
-<p data-i18n-key="cookieOtherTechText"></p>
-
-    <h3 data-i18n-key="cookieListTitle">3. Elenco dei principali cookie utilizzati</h3>
-    <table>
-        <thead>
-            <tr>
-                <th data-i18n-key="cookieTableHeaderCategory">Categoria</th>
-                <th data-i18n-key="cookieTableHeaderProvider">Fornitore</th>
-                <th data-i18n-key="cookieTableHeaderExample">Cookie Esempio</th>
-                <th data-i18n-key="cookieTableHeaderPurpose">Scopo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td data-i18n-key="cookieCatTechnical">Tecnici</td>
-                <td>Adopt Your Olive</td>
-                <td><code>cookieConsentAyo</code></td>
-                <td data-i18n-key="cookiePurposeConsent">Memorizza le tue preferenze sul consenso dei cookie.</td>
-            </tr>
-            <tr>
-                <td data-i18n-key="cookieCatTechnical">Tecnici</td>
-                <td>Adopt Your Olive</td>
-                <td><code>language</code></td>
-                <td data-i18n-key="cookiePurposeLang">Ricorda la lingua da te selezionata per la navigazione.</td>
-            </tr>
-            <tr>
-                <td data-i18n-key="cookieCatAnalytics">Analitici</td>
-                <td>Google LLC</td>
-                <td><code>_ga</code>, <code>_gid</code></td>
-                <td data-i18n-key="cookiePurposeAnalytics">Raccoglie statistiche anonime sulle visite e sull'utilizzo del sito.</td>
-            </tr>
-            <tr>
-                <td data-i18n-key="cookieCatFunctional">Funzionali</td>
-                <td>Google LLC</td>
-                <td><code>NID</code>, <code>CONSENT</code></td>
-                <td data-i18n-key="cookiePurposeFunctional">Utilizzato da Google Maps per le sue funzionalità di autocompletamento e visualizzazione delle mappe.</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2 data-i18n-key="cookieConsentTitle">4. Gestione del Consenso</h2>
-    <p data-i18n-key="cookieConsentText">Al tuo primo accesso, un banner ti permette di accettare tutti i cookie, rifiutare quelli non essenziali o personalizzare le tue scelte. Puoi modificare le tue preferenze in qualsiasi momento tramite il link "Modifica Preferenze Cookie" presente nel footer del sito. La revoca del consenso non pregiudica la liceità dei trattamenti basati sul consenso prestato in precedenza.</p>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">4. Managing Consent</h2>
+    <p>On your first visit, a banner allows you to accept all cookies, reject non-essential ones, or customize your choices. You can change your preferences at any time by clicking the button below:</p>
     
-    <h2 data-i18n-key="cookieThirdPartiesTitle">5. Ruolo delle Terze Parti</h2>
-    <p data-i18n-key="cookieThirdPartiesIntro">Utilizziamo alcuni servizi di terze parti che potrebbero impostare i loro cookie, ma solo dopo il tuo consenso (ad eccezione di quelli tecnici).</p>
+    <button onclick="document.getElementById('cookie-modal').showModal()" class="btn-primary" style="margin-top:15px; cursor:pointer; padding: 10px 20px;">Open Cookie Preferences</button>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">5. Third Party Roles</h2>
+    <p>We use third-party services that may set their own cookies upon your consent:</p>
     <ul>
-        <li data-i18n-key="cookieThirdPartyNetlify"><strong>Netlify:</strong> Fornisce l'hosting del sito e può utilizzare cookie tecnici per la sicurezza e la distribuzione del traffico.</li>
-        <li data-i18n-key="cookieThirdPartyGoogle"><strong>Google:</strong> Fornisce i servizi di Google Analytics (per le statistiche) e Google Maps (per l'autocompletamento degli indirizzi).</li>
-        <li data-i18n-key="cookieThirdPartyStripe"><strong>Stripe:</strong> Il nostro gestore di pagamenti. Quando vieni reindirizzato alla pagina di pagamento di Stripe, essa imposterà i propri cookie necessari per processare la transazione in sicurezza e prevenire frodi.</li>
-        <li data-i18n-key="cookieThirdPartyFonts"><strong>Fornitori di Caratteri e Icone (Google Fonts, Font Awesome):</strong> Per visualizzare correttamente il sito, utilizziamo servizi esterni che potrebbero raccogliere dati come l'indirizzo IP del tuo browser per fornire i file dei caratteri e delle icone.</li>
+        <li><strong>Stripe:</strong> Our payment processor (Strictly Necessary).</li>
+        <li><strong>Netlify:</strong> Our hosting provider (Strictly Necessary).</li>
+        <li><strong>Google:</strong> Analytics services.</li>
+        <li><strong>Meta Platforms Ireland Ltd:</strong> Facebook & Instagram advertising.</li>
+        <li><strong>TikTok Information Technologies:</strong> Advertising.</li>
     </ul>
 
-    <h2 data-i18n-key="cookieTransfersTitle">6. Trasferimenti Internazionali di Dati</h2>
-    <p data-i18n-key="cookieTransfersText">I dati raccolti tramite cookie da fornitori come Google o Netlify potrebbero essere trasferiti e trattati negli Stati Uniti. Questi trasferimenti sono protetti da meccanismi legali come il Data Privacy Framework (DPF) UE-USA e le Clausole Contrattuali Standard (SCC) per garantire un livello di protezione adeguato.</p>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">6. International Transfers</h2>
+    <p>Data collected via cookies by providers like Google, Meta, or Stripe may be transferred to servers in the United States. These transfers are protected by legal frameworks such as the <strong>Data Privacy Framework (DPF)</strong> and Standard Contractual Clauses (SCC).</p>
     
-    <h2 data-i18n-key="cookieBrowserTitle">7. Gestione dei Cookie tramite Browser</h2>
-    <p data-i18n-key="cookieBrowserIntro">Oltre al nostro strumento di consenso, puoi gestire le preferenze sui cookie direttamente dalle impostazioni del tuo browser. Puoi trovare informazioni su come gestire i cookie nei browser più comuni ai seguenti indirizzi:</p>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">7. Browser Management</h2>
+    <p>In addition to our consent tool, you can manage preferences directly through your browser settings. However, disabling "Necessary" cookies may prevent the checkout from working.</p>
+    <p>Find out how to manage cookies on popular browsers:</p>
     <ul>
-        <li data-i18n-key="cookieBrowserLink1"><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer">Google Chrome</a></li>
-        <li data-i18n-key="cookieBrowserLink2"><a href="https://support.mozilla.org/it/kb/Gestione%20dei%20cookie" target="_blank" rel="noopener noreferrer">Mozilla Firefox</a></li>
-        <li data-i18n-key="cookieBrowserLink3"><a href="https://support.apple.com/it-it/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer">Apple Safari</a></li>
-        <li data-i18n-key="cookieBrowserLink4"><a href="https://support.microsoft.com/it-it/microsoft-edge/eliminare-i-cookie-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer">Microsoft Edge</a></li>
+        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer">Google Chrome</a></li>
+        <li><a href="https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop" target="_blank" rel="noopener noreferrer">Mozilla Firefox</a></li>
+        <li><a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank" rel="noopener noreferrer">Apple Safari</a></li>
+        <li><a href="https://support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer">Microsoft Edge</a></li>
     </ul>
-    <p data-i18n-key="cookieBrowserOutro">La disabilitazione dei cookie tecnici potrebbe compromettere il corretto funzionamento del sito.</p>
 
-    <h2 data-i18n-key="cookieRightsTitle">8. Diritti e Contatti</h2>
-    <p data-i18n-key="cookieRightsText">Per informazioni su come esercitare i tuoi diritti in materia di protezione dei dati, ti invitiamo a consultare la nostra <a href="privacy-policy.html"><strong>Informativa sulla Privacy</strong></a> o a contattarci direttamente all'indirizzo `info@adoptyourolive.com`.</p>
-</main>
-
-    <footer class="footer">
-        <div class="container">
-             <div class="footer-content">
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerAboutTitle">Chi Siamo</h4>
-                    <p data-i18n-key="footerAboutText">Adopt Your Olive ti connette direttamente al cuore della Puglia, offrendo un modo unico per sostenere l'olivicoltura sostenibile e gustare l'autentico olio d'oliva italiano con packaging personalizzato.</p>
-                 </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
-                    <ul>
-        <li><a href="index.html#products" data-i18n-key="navAdoptShort">Adotta</a></li>
-        <li><a href="index.html#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
-        <li><a href="index.html#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Perché Peranzana</a></li>
-                   <!--<li><a href="index.html#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
-        <li><a href="index.html#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-        <li><a href="index.html#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
-        <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
-        <li><a href="club.html">Club</a></li>
-    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerLegalTitle">Legale</h4>
-                    <ul>
-                         <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
-                        <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Termini di Servizio</a></li>
-                        <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Spedizioni & Resi</a></li>
-                        <li><a href="#" id="modify-cookie-preferences-link" data-i18n-key="footerCookiePrefs">Modifica Preferenze Cookie</a></li>
-                     </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerFollowTitle">Seguici</h4>
-                    <p data-i18n-key="footerFollowText">Seguici sui social per aggiornamenti dagli uliveti!</p>
-                     <div class="social-links">
-                        <a href="https://www.instagram.com/adoptyourolive/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    </div>
-                 </div>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">8. Contact</h2>
+    <p>For more information on your rights, please see our <a href="privacy-policy.html">Privacy Policy</a> or contact us at <a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a>.</p>
+    </section>
+        </main>
+    <footer class="site-footer bg-dark text-white">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <span class="logo-text">AYO.</span>
+                <p>Your Tree. Your Oil. Your Story.</p>
             </div>
-            <div class="footer-bottom">
-                <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
-                <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
-                <div class="footer-legal-info">
-                    <p>
-                        <span data-i18n-key="footerLegalCompanyName">Adopt Your Olive</span><br>
-                        <span data-i18n-key="footerLegalAddress">Via Morgagni, 84 - 71016 San Severo (FG)</span><br>
-                        <span data-i18n-key="footerLegalVatNumber">P.IVA: 04563000712</span> | <span data-i18n-key="footerLegalContactEmail">Email: info@adoptyourolive.com</span>
-                    </p>
+            
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#adoption-kits">Adopt</a></li>
+                    <li><button onclick="openCorporateModal()" class="text-link" style="background:none; border:none; color:#999; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Corporate & Weddings</button></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms & Service</a></li>
+                    <li><a href="shipping-returns.html">Shipping & Returns</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>San Severo, Puglia (IT)</p>
+                <p><a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a></p>
+                <div class="social-links" style="margin-top:10px;">
+                    <a href="https://instagram.com/adoptyourolive" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i> IG
+                    </a>
+                    <a href="https://wa.me/390882606222" target="_blank" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i> WA
+                    </a>
                 </div>
             </div>
+        </div>
+        
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 Adopt Your Olive. All rights reserved.</p>
         </div>
     </footer>
 
-    <div id="success-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 data-i18n-key="modalTitle">Grazie!</h3>
-            <p data-i18n-key="modalMessage">Il tuo messaggio è stato inviato con successo.</p>
-            <button id="close-modal-btn" class="btn btn-primary" data-i18n-key="modalCloseBtn">Chiudi</button>
-        </div>
-    </div>
-
-    <div id="cookie-banner">
-        <div class="cookie-banner-content">
-            <p>
-                <span data-i18n-key="cookieBannerText">Questo sito utilizza cookie per migliorare l'esperienza.</span>
-                <a href="/privacy-policy.html" data-i18n-key="cookieBannerLink">Leggi la nostra privacy policy</a>.
-            </p>
-            <div class="cookie-banner-buttons">
-                <button id="customize-cookies-btn" class="btn btn-tertiary" data-i18n-key="cookieBannerCustomize">Personalizza</button>
-                <button id="decline-cookies-all-btn" class="btn btn-secondary" data-i18n-key="cookieBannerDecline">Rifiuta Tutti</button>
-                <button id="accept-cookies-all-btn" class="btn btn-primary" data-i18n-key="cookieBannerAccept">Accetta Tutti</button>
-            </div>
-        </div>
-        <button id="close-cookie-banner-btn" aria-label="Chiudi banner cookie">×</button>
-    </div>
-
-    <div id="cookie-preferences-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 data-i18n-key="cookieModalTitle">Preferenze Cookie</h3>
-            <p data-i18n-key="cookieModalText">Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.</p>
-            <div class="cookie-options">
-                <div class="cookie-option">
-                    <label for="consent-necessary" data-i18n-key="cookieModalNecessary">Cookie Necessari</label>
-                    <label class="switch"><input type="checkbox" id="consent-necessary" checked disabled><span class="slider round"></span></label>
-                </div>
-                <div class="cookie-option">
-                    <label for="consent-analytics" data-i18n-key="cookieModalAnalytics">Cookie di Analisi</label>
-                    <label class="switch"><input type="checkbox" id="consent-analytics"><span class="slider round"></span></label>
-                </div>
-                <div class="cookie-option">
-                    <label for="consent-functional" data-i18n-key="cookieModalFunctional">Cookie Funzionali</label>
-                    <label class="switch"><input type="checkbox" id="consent-functional"><span class="slider round"></span></label>
+    <dialog id="corporate-modal" class="modal modal-wide">
+        <div class="modal-box modal-split-layout">
+            <button class="close-modal" onclick="closeCorporateModal()">✕</button>
+            
+            <div class="modal-visual">
+                <img src="/immagini/Foto-bottiglie-certificato.webp" alt="Puglia Olive Oil Favor" class="modal-img">
+                <div class="modal-desc">
+                    <h4>The Gourmet Favor</h4>
+                    <ul class="kit-list small-list">
+                        <li>🫒 <strong>Bottle 500ml</strong> (EVO Oil)</li>
+                        <li>🏷️ <strong>Event Label</strong> (Names + Date)</li>
+                        <li>📜 <strong>Adoption Mini-Certificate</strong></li>
+                    </ul>
+                    <p class="small-note">A living, useful, and memorable gift for your guests.</p>
                 </div>
             </div>
-            <button id="save-preferences-btn" class="btn btn-primary" data-i18n-key="cookieModalSave">Salva Preferenze</button>
-        </div>
-    </div>
 
-    <div id="exit-intent-popup">
-        <div class="exit-intent-content">
-            <button id="close-exit-popup">×</button>
-            <h3 data-i18n-key="exitPopupTitle">Non Andare Via!</h3>
-            <p data-i18n-key="exitPopupSubtitle">Unisciti alla nostra famiglia! Adotta un ulivo o iscriviti alla newsletter per rimanere aggiornato sulle novità dalla Puglia e ricevere offerte esclusive.</p>
-            <div class="exit-intent-buttons">
-                <a href="#products" class="btn btn-primary" data-i18n-key="exitPopupAdopt">Adotta un Ulivo</a>
-                <a href="#contact" class="btn btn-secondary" data-i18n-key="exitPopupNewsletter">Iscriviti alla Newsletter</a>
+            <div class="modal-form-content">
+                <div class="modal-header">
+                    <h3>Events & Weddings</h3>
+                    <p class="modal-subtitle">Request a custom quote.</p>
+                </div>
+                
+                <form id="corporate-form">
+                    <input type="hidden" name="lang" value="en">
+<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+</div>
+                    <div class="form-group">
+                        <label>Name or Agency:</label>
+                        <input type="text" name="name" placeholder="e.g. Sarah & James" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" name="email" placeholder="name@email.com" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label>Event Type:</label>
+                            <input type="text" name="eventType" placeholder="Wedding, Baptism, Corporate..." required>
+                        </div>
+                        <div class="form-group half-width">
+                            <label>Est. Quantity:</label>
+                            <input type="number" name="quantity" placeholder="e.g. 50" min="10" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes (Date, Location, Ideas):</label>
+                        <textarea name="message" rows="2" placeholder="We are getting married on July 15th in..."></textarea>
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4; text-align: center;">
+                        By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                    </p>
+
+                    <button type="submit" id="corp-btn" class="btn-primary btn-full">Request Quote</button>
+                    <p class="secure-note">Response within 24/48h.</p>
+                </form>
             </div>
         </div>
+    </dialog>
+
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <div class="cookie-content">
+            <h3>We value your privacy 🍪</h3>
+            <p>We use cookies to enhance your experience, serve personalized content, and analyze our traffic. You can choose to accept all or customize your preferences.</p>
+        </div>
+        <div class="cookie-actions">
+            <button id="cookie-customize" class="btn-link">Customize</button>
+            <button id="cookie-reject" class="btn-outline-light">Reject All</button>
+            <button id="cookie-accept" class="btn-primary">Accept All</button>
+        </div>
     </div>
 
-    <script src="script.js" defer></script>
+    <dialog id="cookie-modal" class="modal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeCookieModal()">✕</button>
+            <div class="modal-header">
+                <h3>Cookie Preferences</h3>
+                <p>Manage your consent settings.</p>
+            </div>
+            
+            <form id="cookie-form">
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Strictly Necessary</strong>
+                        <p>Essential for the website to function (e.g. cart, login). Cannot be disabled.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider locked"></span>
+                    </div>
+                </div>
+
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Analytics & Performance</strong>
+                        <p>Help us understand how you use the site to improve it.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" id="consent-analytics" name="analytics">
+                        <label for="consent-analytics" class="slider"></label>
+                    </div>
+                </div>
+
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Marketing</strong>
+                        <p>Used to deliver relevant ads and track campaign performance.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" id="consent-marketing" name="marketing">
+                        <label for="consent-marketing" class="slider"></label>
+                    </div>
+                </div>
+
+                <button type="button" id="save-preferences" class="btn-primary btn-full" style="margin-top: 20px;">Save Preferences</button>
+            </form>
+        </div>
+    </dialog>
+
 </body>
 </html>

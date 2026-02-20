@@ -1,1 +1,13 @@
-node_modules
+# Dipendenze (Migliaia di file inutili da tracciare)
+node_modules/
+
+# File di sistema e log
+.DS_Store
+npm-debug.log*
+
+# CARTELLE DI NETLIFY (Cache locale)
+.netlify/
+
+# DATI SENSIBILI (Fondamentale!)
+.env
+credentials.json

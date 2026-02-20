@@ -1,252 +1,322 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en"> 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n-key="termsPageTitle">Termini e Condizioni - Adopt Your Olive</title>
-    <meta name="description" content="" data-i18n-key="termsMetaDescription">
+    
+    <title>Terms of Service | Adopt Your Olive</title>
+    <meta name="description" content="Read the terms of sale, adoption conditions, and legal agreement for purchasing Adopt Your Olive services.">
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="alternate" hreflang="en" href="https://adoptyourolive.com/" />
+    <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/" />
+    <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/" />
+    <link rel="canonical" href="https://adoptyourolive.com/terms-of-service.html" />
 
+    <meta name="google-site-verification" content="Y85AARKVRz6ltP7evzrwVD9khwUHW-t15SLTXBLH_Os" />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="AYO" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <style>
-        body { padding-top: 80px; }
-        .legal-page { max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: var(--shadow-light); }
-        .legal-page h1 { font-size: 2.5rem; margin-bottom: 20px; }
-        .legal-page h2 { font-size: 1.8rem; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid var(--primary-green); padding-bottom: 5px;}
-        .legal-page p, .legal-page li { line-height: 1.7; }
-        .legal-page table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
-        .legal-page th, .legal-page td { border: 1px solid var(--medium-grey); padding: 10px; text-align: left; }
-        .legal-page th { background-color: var(--light-grey); }
-        .main-nav { position: fixed; } /* Mantiene la nav fissa */
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Adopt Your Olive | Legal">
+    <meta property="og:image" content="https://adoptyourolive.com/immagini/Albero-hero.webp">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 
-    <nav class="main-nav">
-        <div class="nav-logo-container">
-            <a href="#hero">
-                <img src="immagini/logo.svg" alt="Adopt Your Olive Logo" class="nav-logo-image">
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="logo-wrapper">
+                <img src="/immagini/logo.webp" alt="AYO Logo" class="logo-img">
             </a>
-            <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <i class="fas fa-bars"></i>
-        </button>
-        <ul class="nav-links">
-            <li><a href="index.html#products" data-i18n-key="navAdoptShort">Adotta</a></li>
-        <li><a href="index.html#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
-        <li><a href="index.html#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Perché Peranzana</a></li>
-                   <!--<li><a href="index.html#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
-        <li><a href="index.html#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-        <li><a href="index.html#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
-        <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
-        <li><a href="club.html">Club</a></li>
-        </ul>
-        <div class="language-switcher">
-            <select id="language-selector">
-    <option value="it">Italiano</option>
-    <option value="en">English</option>
-    <option value="de">Deutsch</option>
-    <option value="nl">Nederlands</option>
-    <option value="no">Norsk</option>
-    <option value="fr">Français</option>
-</select>
+            
+            <div class="nav-links">
+                <a href="/#how-it-works">Process</a>
+                <a href="/#story">Family</a>
+                <a href="/#faq">FAQ</a>
+
+                <a href="#" onclick="openCorporateModal(); return false;">Corporate & Weddings</a>
+                
+                <a href="/it/" class="shipping-alert">
+                    <span>🇮🇹 Spedisci in Italia?</span>
+                </a>
+
+                <a href="/#adoption-kits" class="btn-nav">Adopt Now</a>
+            </div>
+            
+            <div class="mobile-menu-icon">☰</div>
         </div>
     </nav>
 
-<main class="container legal-page">
-    <h1 data-i18n-key="termsTitle">Termini e Condizioni di Vendita</h1>
-<p data-i18n-key="legalLastUpdatedLine"><strong>Ultimo aggiornamento:</strong> 23 giugno 2025</p>
-    <p data-i18n-key="termsIntro">I presenti Termini e Condizioni regolano l’acquisto dei servizi di adozione simbolica di un albero di ulivo e dei relativi benefici tramite il sito web https://www.adoptyourolive.com, gestito da Michele Ezio de Sinno (di seguito “Adopt Your Olive”), con sede legale in Via Morgagni, 84, 71016 San Severo (FG), Italia. Email: info@adoptyourolive.com. [Partita IVA: da aggiungere quando disponibile].</p>
+    <main style="padding-top: 120px; padding-bottom: 80px; min-height: 60vh;">
+        <section class="legal-content" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-green); margin-bottom: 20px;">Terms of Service</h1>
+    <p><strong>Last Updated:</strong> January 2026</p>
 
-    <h2 data-i18n-key="termsS1_title">1. Oggetto del Contratto</h2>
-<p data-i18n-key="termsS1_p1">1.1. Il presente contratto regola l'acquisto del servizio di adozione simbolica a distanza di un albero di ulivo, offerto da Adopt Your Olive, per una durata di 12 (dodici) mesi a partire dalla data di acquisto. L'adozione non costituisce un trasferimento di proprietà dell'albero o del terreno, ma un patrocinio finalizzato al sostegno delle pratiche agricole sostenibili dell'azienda e alla ricezione dei benefici descritti di seguito.</p>
-<p data-i18n-key="termsS1_p2">1.2. Ogni pacchetto di adozione, indipendentemente dal livello, include i seguenti servizi e beni ("Benefici Base"):
-<ul>
-    <li data-i18n-key="termsS1_l1">L'apposizione di una targa fisica, personalizzata con il nome fornito dal cliente, sull'albero di ulivo designato per l'adozione.</li>
-    <li data-i18n-key="termsS1_l2">La spedizione di un pacco di benvenuto contenente: un certificato di adozione cartaceo personalizzato, una fotografia dell'albero, una lettera di benvenuto e una card di adesione all' "AYO Adopters Club".</li>
-    <li data-i18n-key="termsS1_l3">L'invio tramite posta elettronica di aggiornamenti periodici (in numero di 4 o 5) durante l'anno di adozione, riguardanti lo stato dell'albero e le attività agricole.</li>
-<li data-i18n-key="termsS1_l4_new">L'accesso a una pagina web riservata ("AYO Adopters Club") tramite un link con token univoco fornito sulla card di adozione, contenente contenuti esclusivi, e la possibilità di iscriversi a un canale Telegram opzionale per ricevere aggiornamenti e offerte.</li></ul>
-</p>
-<p data-i18n-key="termsS1_p3">1.3. In aggiunta ai Benefici Base, alcuni pacchetti di adozione includono la fornitura di beni fisici, come specificato nelle schede prodotto del sito e qui riepilogato:
-<ul>
-    <li data-i18n-key="termsS1_l5"><strong>Pacchetto "Ulivo Giovane":</strong> Non include la fornitura di olio d'oliva.</li>
-    <li data-i18n-key="termsS1_l6"><strong>Pacchetto "Ulivo Maturo":</strong> Include la fornitura di 5 litri di olio extra vergine di oliva Peranzana, confezionati in una lattina da 3 litri e 4 bottiglie da 500ml, con etichettatura personalizzata.</li>
-    <li data-i18n-key="termsS1_l7"><strong>Pacchetto "Ulivo Antico":</strong> Include la fornitura di 10 litri di olio extra vergine di oliva Peranzana, confezionati in due lattine da 3 litri e 8 bottiglie da 500ml, con etichettatura personalizzata.</li>
-    <li data-i18n-key="termsS1_l8"><strong>Pacchetto "Ulivo Secolare":</strong> Include la fornitura di 15 litri di olio extra vergine di oliva Peranzana, confezionati in una lattina da 5 litri e 10 bottiglie da 500ml, con etichettatura personalizzata.</li>
-</ul>
-</p>
-<p data-i18n-key="termsS1_p4">1.4. La tempistica di spedizione dei beni fisici, in particolare dell'olio d'oliva, è regolata come dettagliato nella pagina <a href="shipping-returns.html">Spedizioni e Resi</a> e costituisce parte integrante del presente contratto.</p>
-    <h2 data-i18n-key="termsS2_title">2. Conclusione del Contratto</h2>
-    <p data-i18n-key="termsS2_p1">2.1. Per acquistare, il cliente compila il modulo d’ordine elettronico sul sito, seguendo le istruzioni.</p>
-    <p data-i18n-key="termsS2_p2">2.2. Il contratto si considera concluso quando Adopt Your Olive riceve il pagamento e invia una email di conferma all’indirizzo fornito dal cliente.</p>
-    <p data-i18n-key="termsS2_p3">2.3. Adopt Your Olive si riserva il diritto di rifiutare ordini incompleti, errati o in caso di indisponibilità del servizio.</p>
+    <p>These Terms and Conditions govern the purchase of symbolic olive tree adoption services and products via the website <strong>adoptyourolive.com</strong>, managed by <strong>Adopt Your Olive di Michele Ezio de Sinno</strong>, with registered office at Via Morgagni, 84, 71016 San Severo (FG), Italy, VAT ID 04563000712. Email: <a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a>.</p>
 
-    <h2 data-i18n-key="termsS3_title">3. Durata e Rinnovo</h2>
-    <p data-i18n-key="termsS3_p1">3.1. L’adozione ha validità di 12 mesi dalla conclusione del contratto.</p>
-    <p data-i18n-key="termsS3_p2">3.2. Non è previsto il rinnovo automatico. Prima della scadenza, il cliente riceverà email di promemoria con la proposta di rinnovo.</p>
-
-    <h2 data-i18n-key="termsS4_title">4. Prezzi e Pagamenti</h2>
-    <p data-i18n-key="termsS4_p1">4.1. I prezzi sono espressi in Euro (€) e includono IVA e spese di spedizione, salvo diversa indicazione.</p>
-    <p data-i18n-key="termsS4_p2">4.2. I pagamenti sono accettati tramite Stripe. I dettagli sono specificati nella pagina di checkout.</p>
-    <p data-i18n-key="termsS4_p3">4.3. Adopt Your Olive si riserva il diritto di modificare i prezzi, ma il prezzo applicato sarà quello indicato al momento dell’ordine.</p>
-    <p data-i18n-key="termsS4_p4">4.4. Essendo Adopt Your Olive in regime forfettario, l’IVA potrebbe non essere applicata per i clienti italiani, ma sarà gestita secondo le normative dei paesi target per i clienti esteri.</p>
-
-<div class="legal-warning-box">
-    <p>
-        <strong data-i18n-key="customsWarningTitle">Nota per Spedizioni Extra-UE (Regno Unito e Svizzera):</strong>
-        <span data-i18n-key="legalCustomsDisclaimer">Per le spedizioni destinate a paesi extra-UE, come Regno Unito e Svizzera, eventuali dazi doganali, tasse di importazione e oneri locali sono a completo carico del destinatario e verranno richiesti dal corriere al momento della consegna.</span>
-    </p>
-</div>
-
-    <h2 data-i18n-key="termsS5_title">5. Spedizione</h2>
-    <p data-i18n-key="termsS5_p1">5.1. L’olio è prodotto a Novembre e spedito a Dicembre. I dettagli su tempi, costi e modalità sono nella pagina <a href="shipping-returns.html">Spedizioni e Resi</a>.</p>
-    <p data-i18n-key="termsS5_p2">5.2. Le spedizioni sono effettuate tramite corrieri come Poste Italiane o altri, a discrezione di Adopt Your Olive.</p>
-
-    <h2 data-i18n-key="termsS6_title">6. Diritto di Recesso</h2>
-    <p data-i18n-key="termsS6_p1">6.1. Il diritto di recesso è escluso per beni personalizzati e servizi iniziati, come specificato nella pagina <a href="shipping-returns.html">Spedizioni e Resi</a>.</p>
-    <p data-i18n-key="termsS6_p2">6.2. In caso di prodotti difettosi o danneggiati, consultare la pagina <a href="shipping-returns.html">Spedizioni e Resi</a>.</p>
-
-    <h2 data-i18n-key="termsS7_title">7. Garanzia Legale di Conformità</h2>
-    <p data-i18n-key="termsS7_p1">7.1. I prodotti sono coperti dalla garanzia legale di conformità (Artt. 128-135, Codice del Consumo). In caso di difetti, il cliente può richiedere la sostituzione o il rimborso, contattando info@adoptyourolive.com entro 2 mesi dalla scoperta del difetto.</p>
-    <p data-i18n-key="termsS7_p2">7.2. A prescindere dalle condizioni degli alberi e dal rendimento della produzione, Adopt Your Olive fornirà olio della stessa cultivar e qualità come indicato nella scheda di ogni prodotto.</p>
-
-    <h2 data-i18n-key="termsS8_title">8. Obblighi del Cliente</h2>
-    <p data-i18n-key="termsS8_p1">Il cliente garantisce la correttezza dei dati forniti per l’ordine, la spedizione e la personalizzazione. Adopt Your Olive non è responsabile per errori derivanti da dati errati.</p>
-
-    <h2 data-i18n-key="termsS9_title">9. Proprietà Intellettuale</h2>
-    <p data-i18n-key="termsS9_p1">9.1. Tutti i contenuti del sito (es. foto, video, testi, certificati) sono di proprietà di Adopt Your Olive e non possono essere copiati, distribuiti o usati senza autorizzazione scritta.</p>
-    <p data-i18n-key="termsS9_p2">9.2. Il cliente non può rivendere o sfruttare commercialmente i materiali ricevuti (es. certificato, targa).</p>
-
-    <h2 data-i18n-key="termsS10_title">10. Limitazioni di Responsabilità</h2>
-    <p data-i18n-key="termsS10_p1">10.1. Adopt Your Olive non è responsabile per ritardi o danni causati dai corrieri, salvo quanto previsto dalla garanzia legale.</p>
-    <p data-i18n-key="termsS10_p2">10.2. In caso di eventi fuori dal controllo di Adopt Your Olive (es. calamità naturali), l’azienda si impegna a fornire soluzioni alternative.</p>
-
-    <h2 data-i18n-key="termsS11_title">11. Risoluzione delle Controversie</h2>
-    <p data-i18n-key="termsS11_p1">11.1. Il contratto è regolato dalla legge italiana.</p>
-    <p data-i18n-key="termsS11_p2">11.2. Per i consumatori, il foro competente è quello del loro luogo di residenza o domicilio. Per i non consumatori, il foro esclusivo è il Tribunale di Foggia.</p>
-    <p data-i18n-key="termsS11_p3">11.3. I consumatori europei possono usare la piattaforma ODR: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.</p>
-
-    <h2 data-i18n-key="termsS12_title">12. Modifiche ai Termini</h2>
-    <p data-i18n-key="termsS12_p1">12.1. Adopt Your Olive si riserva il diritto di aggiornare i Termini, pubblicando le modifiche su questa pagina. I clienti saranno informati via email in caso di modifiche sostanziali.</p>
-
-    <h2 data-i18n-key="termsS13_title">13. Contatti</h2>
-    <p data-i18n-key="termsS13_p1">Per domande o richieste:<br>Adopt Your Olive<br>Via Morgagni, 84, 71016 San Severo (FG), Italia<br>Email: info@adoptyourolive.com</p>
-</main>
-
-    <footer class="footer">
-        <div class="container">
-             <div class="footer-content">
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerAboutTitle">Chi Siamo</h4>
-                    <p data-i18n-key="footerAboutText">Adopt Your Olive ti connette direttamente al cuore della Puglia, offrendo un modo unico per sostenere l'olivicoltura sostenibile e gustare l'autentico olio d'oliva italiano con packaging personalizzato.</p>
-                 </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
-                    <ul>
-        <li><a href="index.html#products" data-i18n-key="navAdoptShort">Adotta</a></li>
-        <li><a href="index.html#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
-        <li><a href="index.html#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Perché Peranzana</a></li>
-                   <!--<li><a href="index.html#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
-        <li><a href="index.html#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-        <li><a href="index.html#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
-        <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
-        <li><a href="club.html">Club</a></li>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">1. Subject of the Contract</h2>
+    <p><strong>1.1.</strong> This contract governs the purchase of the "Symbolic Adoption" service of an olive tree for a duration of 12 (twelve) months. The adoption is a sponsorship aimed at supporting sustainable agricultural practices.</p>
+    
+    <p><strong>1.2. Core Benefits:</strong> Every adoption includes:</p>
+    <ul>
+        <li>Physical <strong>Welcome Certificate</strong> and Tree Photo.</li>
+        <li>Periodic email updates regarding the grove's status.</li>
     </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerLegalTitle">Legale</h4>
-                    <ul>
-                         <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
-                        <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Termini di Servizio</a></li>
-                        <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Spedizioni & Resi</a></li>
-                        <li><a href="#" id="modify-cookie-preferences-link" data-i18n-key="footerCookiePrefs">Modifica Preferenze Cookie</a></li>
-                     </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerFollowTitle">Seguici</h4>
-                    <p data-i18n-key="footerFollowText">Seguici sui social per aggiornamenti dagli uliveti!</p>
-                     <div class="social-links">
-                        <a href="https://www.instagram.com/adoptyourolive/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    </div>
-                 </div>
+
+    <p><strong>1.3. Available Packages:</strong> The service is sold in combination with Extra Virgin Olive Oil (EVOO) in the following formats:</p>
+    <ul>
+        <li><strong>Welcome Kit:</strong> Includes the Adoption Service + <strong>2 Bottles (0.50L each)</strong> of EVOO.</li>
+        <li><strong>Reserve Kit:</strong> Includes the Adoption Service + <strong>4 Bottles (0.50L each)</strong> of EVOO.</li>
+    </ul>
+    <p>Both kits include custom labels personalized with the name provided by the customer.</p>
+
+    <p><strong>1.4. Corporate & Special Events:</strong> We offer customized solutions for weddings and corporate gifts (e.g., favors). These orders are subject to specific quotes and agreements concluded via email.</p>
+
+    <p><strong>1.5.</strong> The shipping timing of physical goods, particularly Olive Oil, is regulated as detailed in the <a href="shipping-returns.html">Shipping and Returns</a> page and constitutes an integral part of this contract.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">2. Conclusion of the Contract</h2>
+    <p><strong>2.1.</strong> The contract is concluded when Adopt Your Olive receives the payment and sends an Order Confirmation email.</p>
+    <p><strong>2.2.</strong> We reserve the right to refuse orders that are incomplete or if the product is temporarily unavailable.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">3. Duration and Renewal</h2>
+    <p><strong>3.1.</strong> The adoption is valid for 12 months from the date of purchase.</p>
+    <p><strong>3.2.</strong> There is <strong>no automatic renewal</strong>. You will be invited to renew voluntarily via email before expiration.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">4. Prices and Payments</h2>
+    <p><strong>4.1.</strong> Prices are in Euros (€) and include VAT and shipping costs, unless otherwise indicated.</p>
+    <p><strong>4.2.</strong> Payments are processed securely via <strong>Stripe</strong>. Details are specified on the checkout page.</p>
+    
+    <div style="background: #f4f4f4; padding: 15px; border-left: 4px solid var(--primary-green); margin: 20px 0;">
+        <strong>Invoicing & VAT:</strong><br>
+        Adopt Your Olive operates under the Italian <em>"Regime Forfettario"</em> (Law 190/2014), therefore VAT may not be applied for Italian customers, but will be managed according to the regulations of the target countries for foreign customers. <strong>Invoices are issued only upon specific request</strong> by the customer at the time of order or immediately after via email.
+    </div>
+
+    <div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 5px; margin: 20px 0; border: 1px solid #ffeeba;">
+        <strong>Customs Notice (Non-EU):</strong><br>
+        For shipments to <strong>Non-EU countries</strong>, local authorities may apply Import Duties and Customs Fees. These costs are not included in our price and are the sole responsibility of the recipient.
+    </div>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">5. Shipping</h2>
+    <p><strong>5.1.</strong> We ship via tracked couriers. Delivery times depend on the courier. Details on times, costs, and methods are on the <a href="shipping-returns.html">Shipping and Returns</a> page.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">6. Right of Withdrawal</h2>
+    <p><strong>6.1.</strong> The right of withdrawal is excluded for personalized goods and initiated services, as specified on the <a href="shipping-returns.html">Shipping and Returns</a> page.</p>
+    <p><strong>6.2.</strong> In case of defective or damaged products, please consult the <a href="shipping-returns.html">Shipping and Returns</a> page.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">7. Legal Guarantee of Conformity</h2>
+    <p><strong>7.1.</strong> The products are covered by the legal guarantee of conformity (Arts. 128-135, Consumer Code). In case of defects, the customer can request a replacement or refund by contacting <a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a> within 2 months of discovering the defect.</p>
+    <p><strong>7.2.</strong> Regardless of the condition of the trees and the production yield, Adopt Your Olive will provide oil of the same cultivar and quality as indicated in each product's description.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">8. Customer's Obligations</h2>
+    <p>The customer guarantees the correctness of the data provided for the order, shipping, and personalization. Adopt Your Olive is not responsible for errors resulting from incorrect data.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">9. Intellectual Property</h2>
+    <p><strong>9.1.</strong> All contents of the site (e.g., photos, videos, texts, certificates) are the property of Adopt Your Olive and may not be copied, distributed, or used without written authorization.</p>
+    <p><strong>9.2.</strong> The customer may not resell or commercially exploit the received materials (e.g., certificate, plaque).</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">10. Limitations of Liability</h2>
+    <p><strong>10.1.</strong> Adopt Your Olive is not responsible for delays or damages caused by couriers, except as provided by the legal guarantee.</p>
+    <p><strong>10.2.</strong> In case of events beyond the control of Adopt Your Olive (e.g., natural disasters), the company commits to providing alternative solutions.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">11. Dispute Resolution</h2>
+    <p><strong>11.1.</strong> The contract is governed by Italian law.</p>
+    <p><strong>11.2.</strong> For consumers, the competent court is that of their place of residence or domicile. For non-consumers, the exclusive jurisdiction is the Court of Foggia.</p>
+    <p><strong>11.3.</strong> European consumers can use the ODR platform: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">12. Changes to the Terms</h2>
+    <p><strong>12.1.</strong> Adopt Your Olive reserves the right to update the Terms by publishing the changes on this page. Customers will be informed by email in case of substantial changes.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">13. Contact</h2>
+    <p>For questions or requests:</p>
+    <p style="background: #f9f9f9; padding: 20px; border-left: 4px solid var(--primary-green);">
+        <strong>Adopt Your Olive di Michele Ezio de Sinno</strong><br>
+        Registered Office: Via Morgagni, 84 - 71016 San Severo (FG), Italy<br>
+        VAT no: 04563000712<br>
+        Email: <a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a>
+    </p>
+</section>
+        </main>
+    <footer class="site-footer bg-dark text-white">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <span class="logo-text">AYO.</span>
+                <p>Your Tree. Your Oil. Your Story.</p>
             </div>
-            <div class="footer-bottom">
-                <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
-                <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
-                <div class="footer-legal-info">
-                    <p>
-                        <span data-i18n-key="footerLegalCompanyName">Adopt Your Olive</span><br>
-                        <span data-i18n-key="footerLegalAddress">Via Morgagni, 84 - 71016 San Severo (FG)</span><br>
-                        <span data-i18n-key="footerLegalVatNumber">P.IVA: 04563000712</span> | <span data-i18n-key="footerLegalContactEmail">Email: info@adoptyourolive.com</span>
-                    </p>
+            
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#adoption-kits">Adopt</a></li>
+                    <li><button onclick="openCorporateModal()" class="text-link" style="background:none; border:none; color:#999; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Corporate & Weddings</button></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms & Service</a></li>
+                    <li><a href="shipping-returns.html">Shipping & Returns</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>San Severo, Puglia (IT)</p>
+                <p><a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a></p>
+                <div class="social-links" style="margin-top:10px;">
+                    <a href="https://instagram.com/adoptyourolive" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i> IG
+                    </a>
+                    <a href="https://wa.me/390882606222" target="_blank" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i> WA
+                    </a>
                 </div>
             </div>
+        </div>
+        
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 Adopt Your Olive. All rights reserved.</p>
         </div>
     </footer>
 
-        <div id="cookie-banner">
-        <div class="cookie-banner-content">
-            <p>
-                <span data-i18n-key="cookieBannerText">Questo sito utilizza cookie per migliorare l'esperienza.</span>
-                <a href="/privacy-policy.html" data-i18n-key="cookieBannerLink">Leggi la nostra privacy policy</a>.
-            </p>
-            <div class="cookie-banner-buttons">
-                <button id="customize-cookies-btn" class="btn btn-tertiary" data-i18n-key="cookieBannerCustomize">Personalizza</button>
-                <button id="decline-cookies-all-btn" class="btn btn-secondary" data-i18n-key="cookieBannerDecline">Rifiuta Tutti</button>
-                <button id="accept-cookies-all-btn" class="btn btn-primary" data-i18n-key="cookieBannerAccept">Accetta Tutti</button>
+    <dialog id="corporate-modal" class="modal modal-wide">
+        <div class="modal-box modal-split-layout">
+            <button class="close-modal" onclick="closeCorporateModal()">✕</button>
+            
+            <div class="modal-visual">
+                <img src="/immagini/Foto-bottiglie-certificato.webp" alt="Puglia Olive Oil Favor" class="modal-img">
+                <div class="modal-desc">
+                    <h4>The Gourmet Favor</h4>
+                    <ul class="kit-list small-list">
+                        <li>🫒 <strong>Bottle 500ml</strong> (EVO Oil)</li>
+                        <li>🏷️ <strong>Event Label</strong> (Names + Date)</li>
+                        <li>📜 <strong>Adoption Mini-Certificate</strong></li>
+                    </ul>
+                    <p class="small-note">A living, useful, and memorable gift for your guests.</p>
+                </div>
+            </div>
+
+            <div class="modal-form-content">
+                <div class="modal-header">
+                    <h3>Events & Weddings</h3>
+                    <p class="modal-subtitle">Request a custom quote.</p>
+                </div>
+                
+                <form id="corporate-form">
+                    <input type="hidden" name="lang" value="en">
+<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+</div>
+                    <div class="form-group">
+                        <label>Name or Agency:</label>
+                        <input type="text" name="name" placeholder="e.g. Sarah & James" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" name="email" placeholder="name@email.com" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label>Event Type:</label>
+                            <input type="text" name="eventType" placeholder="Wedding, Baptism, Corporate..." required>
+                        </div>
+                        <div class="form-group half-width">
+                            <label>Est. Quantity:</label>
+                            <input type="number" name="quantity" placeholder="e.g. 50" min="10" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes (Date, Location, Ideas):</label>
+                        <textarea name="message" rows="2" placeholder="We are getting married on July 15th in..."></textarea>
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4; text-align: center;">
+                        By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                    </p>
+
+                    <button type="submit" id="corp-btn" class="btn-primary btn-full">Request Quote</button>
+                    <p class="secure-note">Response within 24/48h.</p>
+                </form>
             </div>
         </div>
-        <button id="close-cookie-banner-btn" aria-label="Chiudi banner cookie">×</button>
+    </dialog>
+
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <div class="cookie-content">
+            <h3>We value your privacy 🍪</h3>
+            <p>We use cookies to enhance your experience, serve personalized content, and analyze our traffic. You can choose to accept all or customize your preferences.</p>
+        </div>
+        <div class="cookie-actions">
+            <button id="cookie-customize" class="btn-link">Customize</button>
+            <button id="cookie-reject" class="btn-outline-light">Reject All</button>
+            <button id="cookie-accept" class="btn-primary">Accept All</button>
+        </div>
     </div>
 
-    <div id="cookie-preferences-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 data-i18n-key="cookieModalTitle">Preferenze Cookie</h3>
-            <p data-i18n-key="cookieModalText">Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.</p>
-            <div class="cookie-options">
-                <div class="cookie-option">
-                    <label for="consent-necessary" data-i18n-key="cookieModalNecessary">Cookie Necessari</label>
-                    <label class="switch"><input type="checkbox" id="consent-necessary" checked disabled><span class="slider round"></span></label>
-                </div>
-                <div class="cookie-option">
-                    <label for="consent-analytics" data-i18n-key="cookieModalAnalytics">Cookie di Analisi</label>
-                    <label class="switch"><input type="checkbox" id="consent-analytics"><span class="slider round"></span></label>
-                </div>
-                <div class="cookie-option">
-                    <label for="consent-functional" data-i18n-key="cookieModalFunctional">Cookie Funzionali</label>
-                    <label class="switch"><input type="checkbox" id="consent-functional"><span class="slider round"></span></label>
-                </div>
+    <dialog id="cookie-modal" class="modal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeCookieModal()">✕</button>
+            <div class="modal-header">
+                <h3>Cookie Preferences</h3>
+                <p>Manage your consent settings.</p>
             </div>
-            <button id="save-preferences-btn" class="btn btn-primary" data-i18n-key="cookieModalSave">Salva Preferenze</button>
-        </div>
-    </div>
+            
+            <form id="cookie-form">
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Strictly Necessary</strong>
+                        <p>Essential for the website to function (e.g. cart, login). Cannot be disabled.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider locked"></span>
+                    </div>
+                </div>
 
-    <div id="exit-intent-popup">
-        <div class="exit-intent-content">
-            <button id="close-exit-popup">×</button>
-            <h3 data-i18n-key="exitPopupTitle">Non Andare Via!</h3>
-            <p data-i18n-key="exitPopupSubtitle">Unisciti alla nostra famiglia! Adotta un ulivo o iscriviti alla newsletter per rimanere aggiornato sulle novità dalla Puglia e ricevere offerte esclusive.</p>
-            <div class="exit-intent-buttons">
-                <a href="#products" class="btn btn-primary" data-i18n-key="exitPopupAdopt">Adotta un Ulivo</a>
-                <a href="#contact" class="btn btn-secondary" data-i18n-key="exitPopupNewsletter">Iscriviti alla Newsletter</a>
-            </div>
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Analytics & Performance</strong>
+                        <p>Help us understand how you use the site to improve it.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" id="consent-analytics" name="analytics">
+                        <label for="consent-analytics" class="slider"></label>
+                    </div>
+                </div>
+
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Marketing</strong>
+                        <p>Used to deliver relevant ads and track campaign performance.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" id="consent-marketing" name="marketing">
+                        <label for="consent-marketing" class="slider"></label>
+                    </div>
+                </div>
+
+                <button type="button" id="save-preferences" class="btn-primary btn-full" style="margin-top: 20px;">Save Preferences</button>
+            </form>
         </div>
-    </div>
-    
-    <script src="script.js" defer></script>
+    </dialog>
 
 </body>
 </html>

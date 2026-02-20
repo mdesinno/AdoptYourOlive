@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="it"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,27 +39,8 @@
     <meta name="twitter:description" content="Adopt a tree, receive premium oil. The perfect gift for food lovers.">
     <meta name="twitter:image" content="https://adoptyourolive.com/immagini/Albero-hero.webp">
     <script>
-
-        // Definisce la lingua globale per tutti gli script del sito
+  // Definisce la lingua globale per tutti gli script del sito
   window.currentLang = document.documentElement.lang || (window.location.pathname.includes('/it/') ? 'it' : 'en');
-  
-    (function() {
-        // 1. PRIORITÀ ASSOLUTA: Se c'è un recupero carrello, fermiamo tutto il resto
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('recover_cart')) {
-            console.log("Recupero carrello rilevato, redirect disattivato.");
-            return; 
-        }
-
-        // 2. CONTROLLO PREFERENZE: Se l'utente ha cliccato "English" o arriva da /it/
-        const forceEn = sessionStorage.getItem('force_en');
-        const comingFromIt = document.referrer.includes('/it/');
-
-        // 3. REDIRECT AUTOMATICO: Solo se è italiano, non ha forzato EN e non arriva da /it/
-        if (navigator.language.startsWith('it') && !forceEn && !comingFromIt) {
-            window.location.replace('/it/club.html');
-        }
-    })();
 </script>
 </head>
 <body>
@@ -72,17 +53,17 @@
             </a>
             
             <div class="nav-links">
-                <a href="/club.html#member-perk">Gift an adoption</a>
-                <a href="/club.html#guide-recipes">Tasting guide</a>
-                <a href="/club.html#find-tree">Find your tree</a>
+                <a href="/it/club.html#member-perk">Regala un'adozione</a>
+                <a href="/it/club.html#guide-recipes">Guida alla degustazione</a>
+                <a href="/it/club.html#find-tree">Trova il tuo albero</a>
 
                 <!--<a href="#adoption-kits">Shop</a>
                 
                 <a href="#" onclick="openCorporateModal(); return false;">Corporate & Weddings</a>-->
                 
-                <a href="/it/club.html" class="shipping-alert">
-                    <span>🇮🇹 Italiano</span>
-                </a>
+                <a href="/club.html" onclick="sessionStorage.setItem('force_en', 'true')"; class="shipping-alert">
+    <span>🇬🇧 English</span>
+</a>
             </div>
             
             <div class="mobile-menu-icon">☰</div>
@@ -92,49 +73,49 @@
     <header class="club-hero">
     <div class="hero-content">
         <span class="eyebrow">Adopters Club</span>
-        <h1>Welcome to the Family.</h1>
-        <p>Your certificate is the key. Now unlock the full experience.</p>
+        <h1>Benvenuto in Famiglia.</h1>
+        <p>Il certificato è la tua chiave d'accesso. Ora entra nel vivo.</p>
     </div>
 </header>
 
 <div class="club-container">
 
     <section id="member-perk" class="club-card dark-mode">
-        <div class="ribbon">JUST FOR YOU</div>
+        <div class="ribbon">SOLO PER TE</div>
         <div class="card-text">
-            <h2>Bring a friend to the grove</h2>
-            <p>Good oil is meant to be shared. Gift an adoption to someone you love, and we'll treat you both.</p>
+            <h2>Porta un amico tra gli ulivi</h2>
+            <p>L'olio buono non si tiene per sé. Se regali un'adozione a una persona cara, facciamo un regalo a entrambi.</p>
             <ul class="benefit-list">
-                <li>🎁 <strong>For your Friend:</strong> An extra surprise in the box.</li>
-                <li>💎 <strong>For You:</strong> A special discount on your renewal.</li>
+                <li>🎁 <strong>Per il tuo Amico:</strong> Una sorpresa extra nel pacco.</li>
+                <li>💎 <strong>Per Te:</strong> Uno sconto speciale sul prossimo rinnovo.</li>
             </ul>
         </div>
         
         <button onclick="openGiftModal()" class="btn-club light">
-            Make a Gift
+            Fai un Regalo
         </button>
     </section>
 
     <section id="guide-recipes" class="club-card">
         <div class="card-icon">📖</div>
         <div class="card-text">
-            <h2>Learn how to taste</h2>
-            <p>It's not just oil. Download our tasting manual and secret family recipes.</p>
+            <h2>Impara a gustarlo</h2>
+            <p>Non è solo olio. Scarica il manuale di assaggio e i nostri ricettari segreti.</p>
         </div>
         
         <form id="guideForm" class="club-form">
-            <input type="hidden" name="lang" id="guideLang" value="en">
+            <input type="hidden" name="lang" id="guideLang" value="it">
             <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
     <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
 </div>
             <div class="input-group">
-                <input type="text" name="MEMBER_ID" placeholder="Your Member ID (e.g. M-24-88)" required>
+                <input type="text" name="MEMBER_ID" placeholder="Il tuo Member ID (es. M-24-88)" required>
             </div>
             <div class="input-group">
-                <input type="email" name="EMAIL" placeholder="Your Email" required>
+                <input type="email" name="EMAIL" placeholder="La tua Email" required>
             </div>
             
-            <button type="submit" class="btn-club primary">Send me the Guides</button>
+            <button type="submit" class="btn-club primary">Inviami le Guide</button>
         </form>
         
         <p id="guideSuccessMsg" class="tiny-note" style="display:none; color: green;"></p>
@@ -143,21 +124,21 @@
     <section id="find-tree" class="club-card highlight-border">
         <div class="card-header-row">
             <div class="card-icon">🛰️</div>
-            <h2>Fly to your Tree</h2>
+            <h2>Vola sul tuo Albero</h2>
         </div>
-        <p>Want to see where your oil grows? Enter your code and we'll take you there via satellite.</p>
+        <p>Vuoi vedere dove cresce il tuo olio? Inserisci il codice e ti ci portiamo via satellite.</p>
         
         <div class="input-group">
-            <input type="text" id="treeSearchInput" placeholder="Ex: IT-PUG-1234">
+            <input type="text" id="treeSearchInput" placeholder="Es: IT-PUG-1234">
         </div>
 
-        <p id="searchFeedback" style="display:none; font-size: 0.8rem; color: #666; margin-bottom: 10px;">Checking coordinates...</p>
+        <p id="searchFeedback" style="display:none; font-size: 0.8rem; color: #666; margin-bottom: 10px;">Controllo le coordinate...</p>
 
         <button onclick="findTreeFromSheet()" class="btn-club outline">
-            Locate the Grove
+            Localizza l'Uliveto
         </button>
         
-        <p class="tiny-note">Can't find the code? Check your certificate or email us.</p>
+        <p class="tiny-note">Non trovi il codice? Guarda sul certificato o scrivici.</p>
     </section>
 
 </div>
@@ -168,8 +149,8 @@
     <div class="container">
         
         <div class="section-header text-center" style="margin-bottom: 30px;">
-            <span class="eyebrow">Our Local Supply Chain</span>
-            <h3 style="font-size: 1.5rem;">Crafted with Family & Friends</h3>
+            <span class="eyebrow">La Nostra Filiera Corta</span>
+            <h3 style="font-size: 1.5rem;">Realizzato con Amici e Famiglia</h3>
         </div>
         
         <div class="slider-wrapper" id="partners-slider">
@@ -185,7 +166,7 @@
                     </li>
 
                     <li class="slide partner-slide">
-                        <a  target="_blank">
+                        <a target="_blank">
                             <img src="/immagini/Parente-logo.webp" alt="Partner 2">
                         </a>
                     </li>
@@ -215,53 +196,53 @@
             <div class="contacts-wrapper">
                 
                 <div class="contact-form-col">
-                    <h3>Contact Us</h3>
-                    <p class="mb-20">Questions? Custom orders? Write to us.</p>
+                    <h3>Contattaci</h3>
+                    <p class="mb-20">Domande? Ordini su misura? Scrivici.</p>
                     
                     <form id="contact-form" class="contact-form">
-                        <input type="hidden" name="lang" value="en">
+                        <input type="hidden" name="lang" value="it">
 <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
     <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
 </div>
                         <div class="form-group">
-                            <input type="text" name="name" placeholder="Your Name" required class="input-dark">
+                            <input type="text" name="name" placeholder="Il Tuo Nome" required class="input-dark">
                         </div>
     
                         <div class="form-group">
-                            <input type="email" name="email" placeholder="Your Email" required class="input-dark">
+                            <input type="email" name="email" placeholder="La Tua Email" required class="input-dark">
                         </div>
     
                         <div class="form-group">
-                            <textarea name="message" rows="3" placeholder="How can we help?" required class="input-dark"></textarea>
+                            <textarea name="message" rows="3" placeholder="Come possiamo aiutarti?" required class="input-dark"></textarea>
                         </div>
 
                         <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4;">
-                            By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                            Cliccando qui sotto, accetti la nostra <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
                         </p>
 
-                        <button type="submit" id="contact-btn" class="btn-primary">Send Message</button>
+                        <button type="submit" id="contact-btn" class="btn-primary">Invia Messaggio</button>
                     </form>
                 </div>
 
                 <div class="newsletter-col">
                     <div class="newsletter-box">
-                        <h3>Join the Family</h3>
-                        <p>Receive updates on the harvest, recipes, and exclusive offers.</p>
+                        <h3>Unisciti alla Famiglia</h3>
+                        <p>Ricevi aggiornamenti sul raccolto, ricette e offerte esclusive.</p>
                         
                         <form id="newsletter-form" class="newsletter-form">
-                            <input type="hidden" name="lang" value="en">
+                            <input type="hidden" name="lang" value="it">
         <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
     <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
 </div>
                             <div class="newsletter-input-group">
-                                <input type="email" name="email" placeholder="name@example.com" required class="input-dark">
-                                <button type="submit" class="btn-primary" id="newsletter-btn">Subscribe</button>
+                                <input type="email" name="email" placeholder="nome@esempio.com" required class="input-dark">
+                                <button type="submit" class="btn-primary" id="newsletter-btn">Iscriviti</button>
                             </div>
 
                             <div class="privacy-check">
                                 <input type="checkbox" id="priv-news" name="privacy" required>
                                 <label for="priv-news">
-                                    I have read and agree to the <a href="privacy-policy.html" style="text-decoration:underline;">Privacy Policy</a>
+                                    Ho letto e accetto la <a href="privacy-policy.html" style="text-decoration:underline;">Privacy Policy</a>
                                 </label>
                             </div>
         
@@ -278,31 +259,31 @@
         <div class="container footer-content">
             <div class="footer-col">
                 <span class="logo-text">AYO.</span>
-                <p>Your Tree. Your Oil. Your Story.</p>
+                <p>Il tuo Albero. Il tuo Olio. La tua Storia.</p>
             </div>
             
             <div class="footer-col">
-                <h4>Links</h4>
+                <h4>Link</h4>
                 <ul>
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#adoption-kits">Adopt</a></li>
-                    <!--<li><button onclick="openCorporateModal()" class="text-link" style="background:none; border:none; color:#999; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Corporate & Weddings</button></li>
-                    <li><a href="shop.html">Shop</a></li>-->
-                </ul>
+                    <li><a href="#adoption-kits">Adotta</a></li>
+                    <!--<li><button onclick="openCorporateModal()" class="text-link" style="background:none; border:none; color:#999; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Matrimoni & Eventi</button></li>
+                    <li><a href="/shop.html">Shop</a></li>-->
+                    </ul>
             </div>
 
             <div class="footer-col">
-                <h4>Legal</h4>
+                <h4>Legale</h4>
                 <ul>
                     <li><a href="privacy-policy.html">Privacy Policy</a></li>
                     <li><a href="cookie-policy.html">Cookie Policy</a></li>
-                    <li><a href="terms-of-service.html">Terms & Service</a></li>
-                    <li><a href="shipping-returns.html">Shipping & Returns</a></li>
+                    <li><a href="terms-of-service.html">Termini e Condizioni</a></li>
+                    <li><a href="shipping-returns.html">Spedizioni e Resi</a></li>
                 </ul>
             </div>
             
             <div class="footer-col">
-                <h4>Contact</h4>
+                <h4>Contatti</h4>
                 <p>San Severo, Puglia (IT)</p>
                 <p><a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a></p>
                 <div class="social-links" style="margin-top:10px;">
@@ -317,89 +298,90 @@
         </div>
         
         <div class="footer-bottom text-center">
-            <p>&copy; 2026 Adopt Your Olive. All rights reserved.</p>
+            <p>&copy; 2026 Adopt Your Olive. Tutti i diritti riservati.</p>
         </div>
     </footer>
+
 
 <div id="giftModal" class="modal-overlay" style="display: none;">
         <div class="modal-content" style="max-width: 550px; text-align: left;">
         <span class="close-modal" onclick="closeGiftModal()">×</span>
         
-        <h3 style="text-align: center; color: var(--primary-green); margin-bottom: 5px;">Gift an Adoption</h3>
+        <h3 style="text-align: center; color: var(--primary-green); margin-bottom: 5px;">Regala un'Adozione</h3>
         <p style="text-align: center; margin-bottom: 25px; font-size: 0.9rem; color: #666;">
-            Activate the <strong>Referral Bonus</strong> for both you and your friend.
+            Attiva il <strong>Referral Bonus</strong> per te e per il tuo amico.
         </p>
         
         <form id="referralCheckoutForm" onsubmit="handleReferralCheckout(event)">
-            <input type="hidden" name="lang" value="en">
-        <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+            <input type="hidden" name="lang" value="it">
+            <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
     <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
-</div>    
+</div>
             <div class="input-group">
-                <label style="font-weight: bold; font-size: 0.9rem;">1. Select Kit</label>
+                <label style="font-weight: bold; font-size: 0.9rem;">1. Scegli il Kit</label>
                 <select id="kitSelect" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-top: 5px; background: #fff;">
-                    <option value="" disabled selected>-- Select --</option>
-                    <option value="welcome-kit">🎁 Welcome Kit (1L) - €79 (Global)</option>
-                    <option value="reserve-kit">❤️ Reserve Kit (2L) - €129 (Global)</option>
-                    <option value="family-kit">👨‍👩‍👧 Family Kit (5L) - €219 (Global)</option>
+                    <option value="" disabled selected>-- Seleziona --</option>
+                    <option value="welcome-kit">🎁 Welcome Kit (1L) - 49€ (Italia)</option>
+                    <option value="reserve-kit">❤️ Reserve Kit (2L) - 79€ (Italia)</option>
+                    <option value="family-kit">👨‍👩‍👧 Family Kit (5L) - 129€ (Italia)</option>
                 </select>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
                 <div>
-                    <label style="font-size: 0.8rem;">Your Name</label>
-                    <input type="text" name="buyerFirstName" placeholder="John" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    <label style="font-size: 0.8rem;">Il tuo Nome</label>
+                    <input type="text" name="buyerFirstName" placeholder="Mario" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
                 </div>
                 <div>
-                    <label style="font-size: 0.8rem;">Your Surname</label>
-                    <input type="text" name="buyerLastName" placeholder="Doe" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    <label style="font-size: 0.8rem;">Il tuo Cognome</label>
+                    <input type="text" name="buyerLastName" placeholder="Rossi" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
                 </div>
             </div>
             <div style="margin-top: 10px;">
-                <label style="font-size: 0.8rem;">Your Email</label>
-                <input type="email" name="email" placeholder="john@email.com" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                <label style="font-size: 0.8rem;">La tua Email</label>
+                <input type="email" name="email" placeholder="mario@email.com" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
             </div>
 
             <hr style="border:0; border-top: 1px dashed #ddd; margin: 20px 0;">
 
             <div style="background: #f9f9f9; padding: 15px; border-radius: 8px;">
-                <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.9rem;">2. Gift Details</p>
+                <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.9rem;">2. Dati del Regalo</p>
                 
                 <div style="margin-bottom: 10px;">
-                    <label style="font-size: 0.8rem;">Name on Certificate</label>
-                    <input type="text" name="certName" placeholder="Mary Smith" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    <label style="font-size: 0.8rem;">Nome sul Certificato</label>
+                    <input type="text" name="certName" placeholder="Luigi Bianchi" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
                 </div>
 
                 <div style="margin-bottom: 10px;">
-                    <label style="font-size: 0.8rem;">Name on Label</label>
+                    <label style="font-size: 0.8rem;">Nome sull'Etichetta</label>
                     <div style="display: flex; align-items: center;">
                         <span style="background: #e9e9e9; padding: 10px; border: 1px solid #ddd; border-right: 0; border-radius: 6px 0 0 6px; font-size: 0.9rem;">Olio</span>
-                        <input type="text" name="labelName" placeholder="Smith" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 0 6px 6px 0;">
+                        <input type="text" name="labelName" placeholder="Bianchi" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 0 6px 6px 0;">
                     </div>
                 </div>
 
                 <div>
-                    <label style="font-size: 0.8rem;">Gift Note</label>
-                    <textarea name="giftMessage" rows="2" placeholder="Happy Birthday Mary!..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+                    <label style="font-size: 0.8rem;">Messaggio di Auguri</label>
+                    <textarea name="giftMessage" rows="2" placeholder="Tanti auguri Luigi!..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
                 </div>
             </div>
 
             <div style="margin-top: 20px; background: #e8f5e9; padding: 15px; border-radius: 8px; border: 1px solid #2c5e2e;">
                 <label style="font-weight: bold; color: #2c5e2e; display: block; margin-bottom: 5px;">
-                    Member ID (Referral Code)
+                    Member ID (Codice Amico)
                 </label>
-                <input type="text" id="referralInput" name="memberId" placeholder="Ex: M-2024-88" required 
+                <input type="text" id="referralInput" name="memberId" placeholder="Es: M-2024-88" required 
                        style="width: 100%; padding: 12px; border: 2px solid #2c5e2e; border-radius: 6px; font-weight: bold;">
-                <small style="color: #2c5e2e;">Enter your code to activate bonuses.</small>
+                <small style="color: #2c5e2e;">Inserisci il tuo codice per attivare i bonus.</small>
             </div>
 
             <div class="modal-actions" style="margin-top: 25px;">
                 <button type="submit" class="btn-club primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
-                    Go to Secure Payment &rarr;
+                    Vai al Pagamento Sicuro &rarr;
                 </button>
             </div>
             <p class="tiny-note" style="text-align: center; margin-top: 10px;">
-                🔒 Payment processed by Stripe. Shipping requested at next step.
+                🔒 Pagamento gestito da Stripe. Spedizione richiesta al passaggio successivo.
             </p>
         </form>
     </div>
@@ -409,62 +391,62 @@
     <div class="modal-box modal-split-layout">
         
         <div class="modal-visual">
-            <img src="/immagini/Foto-bottiglie-certificato.webp" alt="Puglia Olive Oil Favor" class="modal-img-cover">
+            <img src="../immagini/Foto-bottiglie-certificato.webp" alt="Bomboniera Olio Puglia" class="modal-img-cover">
         </div>
 
         <div class="modal-form-content">
             <button class="close-modal" onclick="closeCorporateModal()">✕</button>
 
             <div class="modal-header">
-                <h3>Events & Weddings</h3>
-                <p class="modal-subtitle">Request a custom quote for your special day.</p>
+                <h3>Matrimoni & Eventi</h3>
+                <p class="modal-subtitle">Richiedi un preventivo personalizzato per il tuo giorno speciale.</p>
             </div>
 
             <div class="kit-info-box">
-                <strong>The Gourmet Favor includes:</strong>
+                <strong>La Bomboniera Gourmet include:</strong>
                 <ul class="kit-list-inline">
-                    <li>🫒 Bottle 500ml</li>
-                    <li>🏷️ Event Label</li>
-                    <li>📜 Mini-Certificate</li>
+                    <li>🫒 Bottiglia 500ml</li>
+                    <li>🏷️ Etichetta Evento</li>
+                    <li>📜 Mini-Certificato</li>
                 </ul>
             </div>
             
             <form id="corporate-form">
-                <input type="hidden" name="lang" value="en">
+                <input type="hidden" name="lang" value="it">
 <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
     <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
 </div>
                 <div class="form-group">
-                    <label>Name or Agency:</label>
-                    <input type="text" name="name" placeholder="e.g. Sarah & James" required>
+                    <label>Nome o Agenzia:</label>
+                    <input type="text" name="name" placeholder="es. Marco & Giulia" required>
                 </div>
 
                 <div class="form-group">
                     <label>Email:</label>
-                    <input type="email" name="email" placeholder="name@email.com" required>
+                    <input type="email" name="email" placeholder="nome@email.com" required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group half-width">
-                        <label>Event Type:</label>
-                        <input type="text" name="eventType" placeholder="Wedding..." required>
+                        <label>Tipo Evento:</label>
+                        <input type="text" name="eventType" placeholder="Matrimonio..." required>
                     </div>
                     <div class="form-group half-width">
-                        <label>Est. Quantity:</label>
-                        <input type="number" name="quantity" placeholder="e.g. 50" min="10" required>
+                        <label>Quantità stimata:</label>
+                        <input type="number" name="quantity" placeholder="es. 50" min="10" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Notes (Date, Location):</label>
-                    <textarea name="message" rows="2" placeholder="Tell us about your event..."></textarea>
+                    <label>Note (Data, Luogo):</label>
+                    <textarea name="message" rows="2" placeholder="Raccontaci del tuo evento..."></textarea>
                 </div>
 
                 <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; text-align: center;">
-                    By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                    Cliccando qui sotto, accetti la nostra <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
                 </p>
 
-                <button type="submit" id="corp-btn" class="btn-primary btn-full">Request Quote</button>
+                <button type="submit" id="corp-btn" class="btn-primary btn-full">Richiedi Preventivo</button>
             </form>
         </div>
     </div>
@@ -472,13 +454,13 @@
 
     <div id="cookie-banner" class="cookie-banner" style="display: none;">
         <div class="cookie-content">
-            <h3>We value your privacy 🍪</h3>
-            <p>We use cookies to enhance your experience, serve personalized content, and analyze our traffic. You can choose to accept all or customize your preferences.</p>
+            <h3>Teniamo alla tua privacy 🍪</h3>
+            <p>Utilizziamo i cookie per migliorare la tua esperienza, fornire contenuti personalizzati e analizzare il traffico. Puoi scegliere di accettare tutto o personalizzare.</p>
         </div>
         <div class="cookie-actions">
-            <button id="cookie-customize" class="btn-link">Customize</button>
-            <button id="cookie-reject" class="btn-outline-light">Reject All</button>
-            <button id="cookie-accept" class="btn-primary">Accept All</button>
+            <button id="cookie-customize" class="btn-link">Personalizza</button>
+            <button id="cookie-reject" class="btn-outline-light">Rifiuta Tutti</button>
+            <button id="cookie-accept" class="btn-primary">Accetta Tutti</button>
         </div>
     </div>
 
@@ -486,15 +468,15 @@
         <div class="modal-box">
             <button class="close-modal" onclick="closeCookieModal()">✕</button>
             <div class="modal-header">
-                <h3>Cookie Preferences</h3>
-                <p>Manage your consent settings.</p>
+                <h3>Preferenze Cookie</h3>
+                <p>Gestisci le impostazioni del consenso.</p>
             </div>
             
             <form id="cookie-form">
                 <div class="cookie-option">
                     <div class="cookie-info">
-                        <strong>Strictly Necessary</strong>
-                        <p>Essential for the website to function (e.g. cart, login). Cannot be disabled.</p>
+                        <strong>Strettamente Necessari</strong>
+                        <p>Essenziali per il funzionamento del sito (es. carrello, login). Non possono essere disabilitati.</p>
                     </div>
                     <div class="cookie-toggle">
                         <input type="checkbox" checked disabled>
@@ -504,8 +486,8 @@
 
                 <div class="cookie-option">
                     <div class="cookie-info">
-                        <strong>Analytics & Performance</strong>
-                        <p>Help us understand how you use the site to improve it.</p>
+                        <strong>Analisi & Prestazioni</strong>
+                        <p>Ci aiutano a capire come usi il sito per migliorarlo.</p>
                     </div>
                     <div class="cookie-toggle">
                         <input type="checkbox" id="consent-analytics" name="analytics">
@@ -516,7 +498,7 @@
                 <div class="cookie-option">
                     <div class="cookie-info">
                         <strong>Marketing</strong>
-                        <p>Used to deliver relevant ads and track campaign performance.</p>
+                        <p>Usati per mostrare annunci pertinenti e tracciare le campagne.</p>
                     </div>
                     <div class="cookie-toggle">
                         <input type="checkbox" id="consent-marketing" name="marketing">
@@ -524,11 +506,10 @@
                     </div>
                 </div>
 
-                <button type="button" id="save-preferences" class="btn-primary btn-full" style="margin-top: 20px;">Save Preferences</button>
+                <button type="button" id="save-preferences" class="btn-primary btn-full" style="margin-top: 20px;">Salva Preferenze</button>
             </form>
         </div>
     </dialog>
-
 
     <script>
     // ==========================================

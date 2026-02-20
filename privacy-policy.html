@@ -1,287 +1,369 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en"> 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n-key="privacyPolicyPageTitle">Informativa sulla Privacy - Adopt Your Olive</title>
-    <meta name="description" content="" data-i18n-key="privacyPolicyMetaDescription">
+    
+    <title>Privacy Policy | Adopt Your Olive</title>
+    <meta name="description" content="Learn how Adopt Your Olive collects, uses, and protects your personal data in compliance with GDPR regulations.">
+    
+    <link rel="alternate" hreflang="en" href="https://adoptyourolive.com/" />
+    <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/" />
+    <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/" />
+    <link rel="canonical" href="https://adoptyourolive.com/privacy-policy.html" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <meta name="google-site-verification" content="Y85AARKVRz6ltP7evzrwVD9khwUHW-t15SLTXBLH_Os" />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="AYO" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <style>
-        body { padding-top: 80px; }
-        .legal-page { max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: var(--shadow-light); }
-        .legal-page h1 { font-size: 2.5rem; margin-bottom: 20px; }
-        .legal-page h2 { font-size: 1.8rem; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid var(--primary-green); padding-bottom: 5px;}
-        .legal-page p, .legal-page li { line-height: 1.7; }
-        .legal-page table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
-        .legal-page th, .legal-page td { border: 1px solid var(--medium-grey); padding: 10px; text-align: left; }
-        .legal-page th { background-color: var(--light-grey); }
-        .main-nav { position: fixed; } /* Mantiene la nav fissa */
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Adopt Your Olive | Legal">
+    <meta property="og:image" content="https://adoptyourolive.com/immagini/Albero-hero.webp">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-    <nav class="main-nav">
-        <div class="nav-logo-container">
-            <a href="#hero">
-                <img src="immagini/logo.svg" alt="Adopt Your Olive Logo" class="nav-logo-image">
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="logo-wrapper">
+                <img src="/immagini/logo.webp" alt="AYO Logo" class="logo-img">
             </a>
-            <span class="nav-logo-text" data-i18n-key="navLogoText">Adopt Your Olive</span>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <i class="fas fa-bars"></i>
-        </button>
-        <ul class="nav-links">
-            <li><a href="index.html#products" data-i18n-key="navAdoptShort">Adotta</a></li>
-        <li><a href="index.html#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
-        <li><a href="index.html#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Perché Peranzana</a></li>
-                   <!--<li><a href="index.html#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
-        <li><a href="index.html#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-        <li><a href="index.html#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
-        <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
-        <li><a href="club.html">Club</a></li>
-        </ul>
-        <div class="language-switcher">
-            <select id="language-selector">
-    <option value="it">Italiano</option>
-    <option value="en">English</option>
-    <option value="de">Deutsch</option>
-    <option value="nl">Nederlands</option>
-    <option value="no">Norsk</option>
-    <option value="fr">Français</option>
-</select>
+            
+            <div class="nav-links">
+                <a href="/#how-it-works">Process</a>
+                <a href="/#story">Family</a>
+                <a href="/#faq">FAQ</a>
+
+                <a href="#" onclick="openCorporateModal(); return false;">Corporate & Weddings</a>
+                
+                <a href="/it/" class="shipping-alert">
+                    <span>🇮🇹 Spedisci in Italia?</span>
+                </a>
+
+                <a href="/#adoption-kits" class="btn-nav">Adopt Now</a>
+            </div>
+            
+            <div class="mobile-menu-icon">☰</div>
         </div>
     </nav>
 
-<main class="container legal-page">
-    <h1 data-i18n-key="privacyTitle">Informativa sulla Privacy</h1>
-<p data-i18n-key="legalLastUpdatedLine"><strong>Ultimo aggiornamento:</strong> 23 giugno 2025</p>
-    <p data-i18n-key="privacyIntro_1">La presente Informativa sulla privacy descrive come Adopt Your Olive (di seguito “noi”, “nostro” o “Adopt Your Olive”) raccoglie, utilizza, protegge e condivide i dati personali degli utenti del sito web `https://www.adoptyourolive.com`. Operiamo in conformità al Regolamento Generale sulla Protezione dei Dati (GDPR) dell’Unione Europea, al UK GDPR per il Regno Unito e alla Legge Federale sulla Protezione dei Dati (LPD) svizzera.</p>
+    <main style="padding-top: 120px; padding-bottom: 80px; min-height: 60vh;">
+        <section class="legal-content" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-green); margin-bottom: 20px;">Privacy Policy</h1>
+    <p><strong>Last Updated:</strong> January 2026</p>
 
-    <h2 data-i18n-key="privacySection1_title">1. Titolare del Trattamento dei Dati</h2>
-    <p data-i18n-key="privacySection1_text_1">Il Titolare del Trattamento dei dati è Michele Ezio de Sinno, operante come Adopt Your Olive, con sede legale in Via Morgagni, 84, 71016 San Severo (FG), Italia.</p>
-    <p><strong data-i18n-key="privacyContactLabel">Contatti:</strong> info@adoptyourolive.com</p>
+    <p>This Privacy Policy describes how <strong>Adopt Your Olive</strong> (hereinafter “we”, “us”, or “our”) collects, uses, protects, and shares your personal data when you visit or make a purchase from <strong>adoptyourolive.com</strong>. We operate in compliance with the EU General Data Protection Regulation (GDPR), the UK GDPR, and the Swiss Federal Act on Data Protection (FADP).</p>
 
-    <h2 data-i18n-key="privacySection2_title">2. Tipi di Dati Raccolti</h2>
-<p data-i18n-key="privacySection2_intro">Raccogliamo diverse categorie di dati personali per fornire e migliorare i nostri servizi:</p>
-<ul>
-    <li data-i18n-key="privacySection2_list1_item1"><strong>Dati forniti volontariamente dall’utente:</strong><ul><li><strong>Form di adozione e acquisto:</strong> Nome, cognome, indirizzo email, indirizzo di spedizione completo (via, città, CAP, nazione), ed eventuali dati necessari alla personalizzazione del prodotto, come il nome da incidere sul certificato o sulla targhetta e messaggi personali.</li><li><strong>Form di contatto e Iscrizione alla newsletter:</strong> Nome, indirizzo email e contenuto del messaggio.</li></ul></li>
-</ul>
-<ul>
-    <li data-i18n-key="privacySection2_list2_item1"><strong>Dati raccolti automaticamente (Dati di Utilizzo):</strong><ul><li>Indirizzi IP (trattati in forma anonimizzata), tipo di browser, sistema operativo, pagine visitate e orari di accesso. Questi dati vengono raccolti in forma aggregata tramite servizi di analisi.</li><li>Cookie e tecnologie simili, come descritto nella nostra <a href='cookie-policy.html'>Cookie Policy</a>.</li></ul></li>
-</ul>
-<ul>
-     <li data-i18n-key="privacySection2_list3_item1"><strong>Dati relativi alle transazioni:</strong><ul><li>Non raccogliamo né memorizziamo direttamente i dati completi della tua carta di credito. Le transazioni sono processate in modo sicuro dal nostro fornitore di servizi di pagamento (Stripe), che ci comunica solo l'esito del pagamento e i dati necessari alla fatturazione.</li></ul></li>
-</ul>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">1. Data Controller</h2>
+    <p>The Data Controller responsible for your personal information is:</p>
+    <p>
+        <strong>Adopt Your Olive di Michele Ezio de Sinno</strong><br>
+        Via Morgagni, 84 - 71016 San Severo (FG), Italy<br>
+        VAT ID: 04563000712<br>
+        Email: <a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a>
+    </p>
 
-<ul>
-    <li data-i18n-key="privacySection2_list4_item1"></li>
-</ul>
-<p data-i18n-key="privacySection2_outro">Non trattiamo deliberatamente dati sensibili (come definiti dall'Art. 9 del GDPR) né dati relativi a minori di 16 anni senza il consenso esplicito di un genitore o tutore legale.</p>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">2. Types of Data Collected</h2>
+    <p>We collect different categories of data to provide our services:</p>
 
-    <h2 data-i18n-key="privacySection3_title">3. Finalità e Base Giuridica del Trattamento</h2>
-    <p data-i18n-key="privacySection3_intro">Trattiamo i tuoi dati personali per le seguenti finalità:</p>
-    <table>
-        <thead>
-            <tr>
-                <th data-i18n-key="privacyTable_th_purpose">Finalità del Trattamento</th>
-                <th data-i18n-key="privacyTable_th_basis">Base Giuridica (GDPR)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td data-i18n-key="privacyTable_r1_purpose">Gestire l'adozione o l'acquisto, processare il pagamento, creare i prodotti personalizzati (certificato, targa, etichette) e spedire l'ordine.</td>
-                <td data-i18n-key="privacyTable_r1_basis">Esecuzione di un contratto (Art. 6.1.b)</td>
-            </tr>
-            <tr>
-                <td data-i18n-key="privacyTable_r2_purpose">Inviare comunicazioni di servizio relative al tuo albero (aggiornamenti, foto, notizie dall'uliveto) come parte integrante dell'esperienza di adozione.</td>
-                <td data-i18n-key="privacyTable_r2_basis">Esecuzione di un contratto (Art. 6.1.b)</td>
-            </tr>
-            <tr>
-                <td data-i18n-key="privacyTable_r3_purpose">Rispondere a richieste di informazioni o assistenza inviate tramite il form di contatto.</td>
-                <td data-i18n-key="privacyTable_r3_basis">Esecuzione di misure precontrattuali o Legittimo interesse (Art. 6.1.f) a fornire un servizio clienti efficiente.</td>
-            </tr>
-            <tr>
-                <td data-i18n-key="privacyTable_r4_purpose">Inviare newsletter e comunicazioni di marketing su nostri prodotti, offerte speciali o novità.</td>
-                <td data-i18n-key="privacyTable_r4_basis">Consenso esplicito (Art. 6.1.a)</td>
-            </tr>
-            <tr>
-                <td data-i18n-key="privacyTable_r5_purpose">Adempiere a obblighi legali, fiscali e contabili (es. emissione fatture).</td>
-                <td data-i18n-key="privacyTable_r5_basis">Obbligo legale (Art. 6.1.c)</td>
-            </tr>
-            <tr>
-                <td data-i18n-key="privacyTable_r6_purpose">Analizzare l'utilizzo del sito in forma aggregata e anonima per migliorare la navigazione e i nostri servizi.</td>
-                <td data-i18n-key="privacyTable_r6_basis">Consenso (Art. 6.1.a), raccolto tramite banner cookie, o Legittimo Interesse (Art. 6.1.f) per analisi puramente statistiche e anonime.</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2 data-i18n-key="privacySection3b_title">3-bis. Dati Relativi all'AYO Adopters Club</h2>
-<p data-i18n-key="privacySection3b_text">L'accesso all'area riservata del nostro sito, denominata "AYO Adopters Club", avviene tramite un link contenente un token di autenticazione. Quando utilizzi questo link, il nostro sistema verifica la validità del token per garantirti l'accesso. Non colleghiamo questo token ad altri tuoi dati personali. All'interno dell'area club, ti verrà offerta la possibilità di iscriverti al nostro canale sulla piattaforma di terze parti Telegram. La tua eventuale iscrizione e interazione con Telegram sono soggette esclusivamente all'informativa sulla privacy di Telegram stessa.</p>
-
-    <h2 data-i18n-key="privacySection4_title">4. Condivisione e Comunicazione dei Dati</h2>
-    <p data-i18n-key="privacySection4_intro">Non vendiamo i tuoi dati personali. Condividiamo i dati solo quando è strettamente necessario per fornire i nostri servizi, nominando tali soggetti come Responsabili del Trattamento:</p>
+    <h3 style="margin-top:20px;">A. Data provided voluntarily by you</h3>
     <ul>
-        <li data-i18n-key="privacySection4_list_item1"><strong>Processori di Pagamento:</strong> <strong>Stripe</strong> per processare in modo sicuro le transazioni. Stripe riceve i dati dell'ordine (importo, nome, indirizzo di fatturazione) per validare il pagamento e per le normative antiriciclaggio, ma noi non abbiamo accesso ai dati completi della tua carta.</li>
-        <li data-i18n-key="privacySection4_list_item2"><strong>Fornitori di Infrastruttura e Hosting:</strong> <strong>Netlify</strong> per l'hosting del sito e la gestione sicura dei dati inviati tramite i form.</li>
-        <li data-i18n-key="privacySection4_list_item3"><strong>Piattaforme di Automazione e Email Marketing:</strong> <strong>Brevo, Zapier e Make.com</strong> per automatizzare i flussi di lavoro (es. inviare i dati di un nuovo iscritto alla newsletter a Brevo) e per l'invio di email transazionali (conferme d'ordine) e di marketing (newsletter).</li>
-        <li data-i18n-key="privacySection4_list_item4"><strong>Servizi di Analisi e Archiviazione:</strong> <strong>Google LLC</strong> per Google Analytics (con IP anonimizzato) e per l'archiviazione sicura dei dati degli ordini su Google Sheets, con accesso limitato al solo personale autorizzato.</li>
-        <li data-i18n-key="privacySection4_list_item5"><strong>Corrieri e Servizi Logistici:</strong> Per la spedizione dei prodotti fisici (olio e certificati).</li>
-        <li data-i18n-key="privacySection4_list_item6"><strong>Artigiani e Partner di Produzione:</strong> Per la realizzazione fisica delle targhette e delle etichette personalizzate, ai quali viene comunicato solo il nome necessario per la personalizzazione.</li>
-        <li data-i18n-key="privacySection4_list_item7"><strong>Google Fonts:</strong> Per la fornitura dei caratteri tipografici del sito. Questo servizio potrebbe raccogliere il tuo indirizzo IP e i dati del tuo browser per ottimizzare la consegna dei file.</li>
-<li data-i18n-key="privacySection4_list_item8"><strong>Cloudflare (per Font Awesome):</strong> Per la fornitura delle icone utilizzate nel sito. Questo servizio di CDN (Content Delivery Network) raccoglie dati di accesso per motivi di sicurezza e performance.</li>
-    <li data-i18n-key="privacySection4_list_item9"><strong>Google Tag Manager:</strong> Utilizziamo questo servizio per gestire e implementare script di marketing e analisi in modo centralizzato. Google Tag Manager non raccoglie dati personali di per sé, ma facilita l'esecuzione di altri script (come Google Analytics) che potrebbero farlo.</li>
-</ul>
+        <li><strong>Adoption & Purchase Forms:</strong> First name, last name, email address, full shipping address, and personalization data (e.g., the name to be printed on the certificate/label and gift messages).</li>
+        <li><strong>Corporate & Wedding Request Form:</strong> Name, email address, event details (date, type of event), estimated quantities, and specific requests entered in the message field.</li>
+        <li><strong>Contact Form:</strong> Name, email address, and the content of your inquiry.</li>
+        <li><strong>Newsletter:</strong> Email address (collected only with your explicit consent).</li>
+    </ul>
 
-    <h2 data-i18n-key="privacySection5_title">5. Trasferimenti Internazionali di Dati</h2>
-    <p data-i18n-key="privacySection5_text">Alcuni dei nostri fornitori (es. Google, Netlify, Brevo) hanno sede o infrastrutture al di fuori dello Spazio Economico Europeo (SEE), principalmente negli Stati Uniti. Garantiamo che ogni trasferimento sia conforme al GDPR attraverso l'adozione di meccanismi legali adeguati, come le Clausole Contrattuali Standard (SCC) approvate dalla Commissione Europea o l'adesione al Data Privacy Framework (DPF) UE-USA.</p>
+    <h3 style="margin-top:20px;">B. Transaction Data</h3>
+    <p>We <strong>do not</strong> collect or store your full credit card details. Transactions are securely processed by our payment provider (<strong>Stripe</strong>), which only shares with us the payment status and billing details necessary for invoicing.</p>
 
-    <h2 data-i18n-key="privacySection6_title">6. Periodo di Conservazione dei Dati</h2>
-    <p data-i18n-key="privacySection6_intro">Conserviamo i tuoi dati personali solo per il tempo necessario a conseguire le finalità per cui sono stati raccolti:</p>
+    <h3 style="margin-top:20px;">C. Automated Data (Usage & Cookies)</h3>
     <ul>
-        <li data-i18n-key="privacySection6_list_item1"><strong>Dati relativi a ordini e fatturazione:</strong> 10 anni, come richiesto dalla normativa fiscale italiana.</li>
-        <li data-i18n-key="privacySection6_list_item2"><strong>Dati per comunicazioni di marketing (Newsletter):</strong> Fino alla revoca del tuo consenso. Puoi disiscriverti in qualsiasi momento tramite il link presente in ogni email.</li>
-        <li data-i18n-key="privacySection6_list_item3"><strong>Dati di contatto per richieste generiche:</strong> 24 mesi dall'ultima interazione.</li>
-        <li data-i18n-key="privacySection6_list_item4"><strong>Dati di utilizzo e cookie:</strong> Secondo quanto specificato nella nostra <a href='cookie-policy.html'>Cookie Policy</a>.</li>
+        <li><strong>Technical Data:</strong> IP address (anonymized), browser type, operating system, and interaction data.</li>
+        <li><strong>Cookies:</strong> As described in our <a href="cookie-policy.html">Cookie Policy</a>.</li>
+    </ul>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">3. Purpose and Legal Basis</h2>
+    <p>We process your data for the following purposes:</p>
+    
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9rem;">
+            <thead>
+                <tr style="background:#f4f4f4; text-align:left;">
+                    <th style="padding:10px; border-bottom:2px solid #ddd;">Purpose</th>
+                    <th style="padding:10px; border-bottom:2px solid #ddd;">Legal Basis (Why we do it)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Order Fulfillment:</strong> Processing payments, creating custom products (including Wedding Favors), and shipping your order.</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><em>Performance of Contract</em> (Necessary to fulfill the service you purchased).</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Customer Support & Quotes:</strong> Replying to your requests sent via Contact or Corporate forms.</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><em>Pre-contractual measures</em> (Steps taken at your request before entering into a contract).</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Service Updates:</strong> Sending photos of your tree and news from the grove.</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><em>Performance of Contract</em> (Part of the adoption experience).</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Newsletter Marketing:</strong> Sending offers and recipes via email (Resend).</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><em>Explicit Consent</em> (You opted in).</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Advertising (Pixels):</strong> Using Meta/TikTok pixels to show you relevant ads and measure campaign success.</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><em>Explicit Consent</em> (via Cookie Banner).</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><strong>Legal Compliance:</strong> Invoicing and tax records.</td>
+                    <td style="padding:10px; border-bottom:1px solid #eee;"><em>Legal Obligation</em>.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">4. Data Sharing (Processors)</h2>
+    <p>We do not sell your data. We share it only with essential service providers acting as Data Processors:</p>
+    <ul>
+        <li><strong>Stripe:</strong> Payment processing and fraud prevention.</li>
+        <li><strong>Netlify:</strong> Website hosting and secure form submission handling.</li>
+        <li><strong>Resend:</strong> Delivery of transactional emails (receipts) and newsletters.</li>
+        <li><strong>Internal Management Systems:</strong> We use secure cloud storage (Google Workspace) to organize orders and manage the production of personalized labels.</li>
+        <li><strong>Logistics Partners:</strong> Couriers (e.g., UPS, Poste Italiane) for delivery.</li>
+        <li><strong>Analytics & Ads:</strong> Google (Analytics), Meta, and TikTok (Pixels), only if you have consented.</li>
     </ul>
     
-    <h2 data-i18n-key="privacySection7_title">7. Misure di Sicurezza</h2>
-    <p data-i18n-key="privacySection7_text">Adottiamo misure di sicurezza tecniche e organizzative adeguate per proteggere i tuoi dati, tra cui l'uso del protocollo HTTPS, la crittografia, policy di accesso restrittive e accordi sulla protezione dei dati con tutti i nostri fornitori.</p>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">5. International Transfers</h2>
+    <p>Some providers (e.g., Stripe, Netlify, Resend, Google) operate infrastructure in the USA. We ensure data transfers comply with GDPR via the <strong>EU-US Data Privacy Framework</strong> or Standard Contractual Clauses (SCC).</p>
 
-    <h2 data-i18n-key="privacySection8_title">8. I Tuoi Diritti</h2>
-    <p data-i18n-key="privacySection8_intro">In base alla normativa applicabile, hai il diritto di:</p>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">6. Data Retention</h2>
+    <p>We retain your data only as long as necessary:</p>
     <ul>
-        <li data-i18n-key="privacySection8_list_item1"><strong>Accedere</strong> ai tuoi dati personali.</li>
-        <li data-i18n-key="privacySection8_list_item2"><strong>Rettificare</strong> i dati inesatti o incompleti.</li>
-        <li data-i18n-key="privacySection8_list_item3"><strong>Cancellare</strong> i tuoi dati ("diritto all'oblio"), fatte salve le eccezioni legali.</li>
-        <li data-i18n-key="privacySection8_list_item4"><strong>Limitare</strong> il trattamento in determinate circostanze.</li>
-        <li data-i18n-key="privacySection8_list_item5"><strong>Opporti</strong> al trattamento basato sul nostro legittimo interesse o per finalità di marketing.</li>
-        <li data-i18n-key="privacySection8_list_item6"><strong>Richiedere la portabilità</strong> dei dati che ci hai fornito.</li>
-        <li data-i18n-key="privacySection8_list_item7"><strong>Revocare il consenso</strong> in qualsiasi momento, senza pregiudicare la liceità del trattamento basato sul consenso prestato prima della revoca.</li>
+        <li><strong>Order & Billing Data:</strong> 10 years (Required by Italian tax law).</li>
+        <li><strong>Marketing Data:</strong> Until you unsubscribe/withdraw consent.</li>
+        <li><strong>Contact/Quote Requests:</strong> 24 months from the last interaction.</li>
     </ul>
-    <p data-i18n-key="privacySection8_outro">Puoi esercitare i tuoi diritti scrivendo a <strong>info@adoptyourolive.com</strong>. Se ritieni che i tuoi diritti non siano stati rispettati, puoi presentare un reclamo all'autorità di protezione dei dati competente (per l'Italia, il Garante per la Protezione dei Dati Personali).</p>
 
-    <h2 data-i18n-key="privacySection9_title">9. Cookie Policy</h2>
-    <p data-i18n-key="privacySection9_text">Per informazioni dettagliate sull'uso dei cookie, visita la nostra <a href='cookie-policy.html'>Cookie Policy</a>.</p>
-
-    <h2 data-i18n-key="privacySection10_title">10. Modifiche a questa Informativa</h2>
-    <p data-i18n-key="privacySection10_text">Ci riserviamo il diritto di aggiornare questa Informativa. Qualsiasi modifica sarà pubblicata su questa pagina e la data di "Ultimo aggiornamento" verrà modificata di conseguenza.</p>
-    
-    <h2 data-i18n-key="privacySection11_title">11. Contatti</h2>
-    <p data-i18n-key="privacySection11_text">Per qualsiasi domanda relativa a questa informativa, puoi contattare il Titolare del Trattamento:<br>Adopt Your Olive<br>Via Morgagni, 84 - 71016 San Severo (FG), Italia<br>Email: info@adoptyourolive.com</p>
-</main>
-
-    <footer class="footer">
-        <div class="container">
-             <div class="footer-content">
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerAboutTitle">Chi Siamo</h4>
-                    <p data-i18n-key="footerAboutText">Adopt Your Olive ti connette direttamente al cuore della Puglia, offrendo un modo unico per sostenere l'olivicoltura sostenibile e gustare l'autentico olio d'oliva italiano con packaging personalizzato.</p>
-                 </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerLinksTitle">Link Utili</h4>
-                    <ul>
-        <li><a href="index.html#products" data-i18n-key="navAdoptShort">Adotta</a></li>
-        <li><a href="index.html#how-it-works" data-i18n-key="navHowItWorksShort">Come Funziona</a></li>
-        <li><a href="index.html#why-peranzana" data-i18n-key="navWhyPeranzanaShort">Perché Peranzana</a></li>
-                   <!--<li><a href="index.html#gallery" data-i18n-key="navGalleryShort">Gallery</a></li>-->
-        <li><a href="index.html#faq" data-i18n-key="navFAQShort">FAQ</a></li>
-        <li><a href="index.html#personalization" data-i18n-key="navPersonalize">Personalizza</a></li>
-        <li><a href="index.html#contact" data-i18n-key="navContactShort">Contatti</a></li>
-        <li><a href="club.html">Club</a></li>
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">7. Security Measures</h2>
+    <p>We adopt appropriate technical and organizational security measures to protect your data, including:</p>
+    <ul>
+        <li>Use of the <strong>HTTPS</strong> protocol for encrypted browsing.</li>
+        <li>Encryption of data in transit and at rest where applicable.</li>
+        <li>Restrictive access policies (only authorized personnel can access order data).</li>
+        <li>Data protection agreements (DPA) with all our third-party providers.</li>
     </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerLegalTitle">Legale</h4>
-                    <ul>
-                         <li><a href="privacy-policy.html" data-i18n-key="footerPrivacy">Privacy Policy</a></li>
-                        <li><a href="terms-of-service.html" data-i18n-key="footerTerms">Termini di Servizio</a></li>
-                        <li><a href="shipping-returns.html" data-i18n-key="footerShippingReturns">Spedizioni & Resi</a></li>
-                        <li><a href="#" id="modify-cookie-preferences-link" data-i18n-key="footerCookiePrefs">Modifica Preferenze Cookie</a></li>
-                     </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 data-i18n-key="footerFollowTitle">Seguici</h4>
-                    <p data-i18n-key="footerFollowText">Seguici sui social per aggiornamenti dagli uliveti!</p>
-                     <div class="social-links">
-                        <a href="https://www.instagram.com/adoptyourolive/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    </div>
-                 </div>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">8. Your Rights</h2>
+    <p>Under applicable law (GDPR), you have the right to:</p>
+    <ul>
+        <li><strong>Access</strong> your personal data held by us.</li>
+        <li><strong>Rectify</strong> inaccurate or incomplete data.</li>
+        <li><strong>Erase</strong> your data ("Right to be forgotten"), subject to legal retention obligations.</li>
+        <li><strong>Restrict</strong> the processing of your data in certain circumstances.</li>
+        <li><strong>Object</strong> to processing based on legitimate interest or direct marketing.</li>
+        <li><strong>Data Portability:</strong> Request a copy of the data you provided to us.</li>
+        <li><strong>Withdraw Consent</strong> at any time (e.g., for newsletters or cookies), without affecting the lawfulness of processing before the withdrawal.</li>
+    </ul>
+    <p>You can exercise your rights by writing to <a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a>. If you believe your rights have been violated, you have the right to lodge a complaint with the competent supervisory authority (in Italy: <em>Garante per la Protezione dei Dati Personali</em>).</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">9. Cookie Policy</h2>
+    <p>For detailed information on the use of cookies and how to manage your preferences, please visit our <a href="cookie-policy.html">Cookie Policy</a>.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">10. Changes to this Policy</h2>
+    <p>We reserve the right to update this Privacy Policy. Any changes will be posted on this page, and the "Last Updated" date will be revised accordingly.</p>
+
+    <h2 style="font-family: 'Playfair Display', serif; margin-top: 30px;">11. Contact Us</h2>
+    <p>For any questions regarding this policy or your privacy, please contact the Data Controller:</p>
+    <p style="background: #f9f9f9; padding: 20px; border-left: 4px solid var(--primary-green);">
+        <strong>Adopt Your Olive di Michele Ezio de Sinno</strong><br>
+        Registered Office: Via Morgagni, 84 - 71016 San Severo (FG), Italy<br>
+        VAT ID: 04563000712<br>
+        Email: <a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a>
+    </p>
+</section>
+        </main>
+    <footer class="site-footer bg-dark text-white">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <span class="logo-text">AYO.</span>
+                <p>Your Tree. Your Oil. Your Story.</p>
             </div>
-            <div class="footer-bottom">
-                <span data-i18n-key="footerCopyright">© 2025 Adopt Your Olive. Tutti i diritti riservati.</span>
-                <span><span data-i18n-key="footerCraftedPrefix">Realizzato con</span> <i class="fas fa-heart" style="color: var(--accent-red);"></i> <span data-i18n-key="footerCrafted">in Puglia.</span></span>
-                <div class="footer-legal-info">
-                    <p>
-                        <span data-i18n-key="footerLegalCompanyName">Adopt Your Olive</span><br>
-                        <span data-i18n-key="footerLegalAddress">Via Morgagni, 84 - 71016 San Severo (FG)</span><br>
-                        <span data-i18n-key="footerLegalVatNumber">P.IVA: 04563000712</span> | <span data-i18n-key="footerLegalContactEmail">Email: info@adoptyourolive.com</span>
-                    </p>
+            
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#adoption-kits">Adopt</a></li>
+                    <li><button onclick="openCorporateModal()" class="text-link" style="background:none; border:none; color:#999; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Corporate & Weddings</button></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms & Service</a></li>
+                    <li><a href="shipping-returns.html">Shipping & Returns</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>San Severo, Puglia (IT)</p>
+                <p><a href="mailto:info@adoptyourolive.com">info@adoptyourolive.com</a></p>
+                <div class="social-links" style="margin-top:10px;">
+                    <a href="https://instagram.com/adoptyourolive" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i> IG
+                    </a>
+                    <a href="https://wa.me/390882606222" target="_blank" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i> WA
+                    </a>
                 </div>
             </div>
+        </div>
+        
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 Adopt Your Olive. All rights reserved.</p>
         </div>
     </footer>
 
-        <div id="cookie-banner">
-        <div class="cookie-banner-content">
-            <p>
-                <span data-i18n-key="cookieBannerText">Questo sito utilizza cookie per migliorare l'esperienza.</span>
-                <a href="/privacy-policy.html" data-i18n-key="cookieBannerLink">Leggi la nostra privacy policy</a>.
-            </p>
-            <div class="cookie-banner-buttons">
-                <button id="customize-cookies-btn" class="btn btn-tertiary" data-i18n-key="cookieBannerCustomize">Personalizza</button>
-                <button id="decline-cookies-all-btn" class="btn btn-secondary" data-i18n-key="cookieBannerDecline">Rifiuta Tutti</button>
-                <button id="accept-cookies-all-btn" class="btn btn-primary" data-i18n-key="cookieBannerAccept">Accetta Tutti</button>
+    <dialog id="corporate-modal" class="modal modal-wide">
+        <div class="modal-box modal-split-layout">
+            <button class="close-modal" onclick="closeCorporateModal()">✕</button>
+            
+            <div class="modal-visual">
+                <img src="/immagini/Foto-bottiglie-certificato.webp" alt="Puglia Olive Oil Favor" class="modal-img">
+                <div class="modal-desc">
+                    <h4>The Gourmet Favor</h4>
+                    <ul class="kit-list small-list">
+                        <li>🫒 <strong>Bottle 500ml</strong> (EVO Oil)</li>
+                        <li>🏷️ <strong>Event Label</strong> (Names + Date)</li>
+                        <li>📜 <strong>Adoption Mini-Certificate</strong></li>
+                    </ul>
+                    <p class="small-note">A living, useful, and memorable gift for your guests.</p>
+                </div>
+            </div>
+
+            <div class="modal-form-content">
+                <div class="modal-header">
+                    <h3>Events & Weddings</h3>
+                    <p class="modal-subtitle">Request a custom quote.</p>
+                </div>
+                
+                <form id="corporate-form">
+                    <input type="hidden" name="lang" value="en">
+<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+</div>
+                    <div class="form-group">
+                        <label>Name or Agency:</label>
+                        <input type="text" name="name" placeholder="e.g. Sarah & James" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" name="email" placeholder="name@email.com" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label>Event Type:</label>
+                            <input type="text" name="eventType" placeholder="Wedding, Baptism, Corporate..." required>
+                        </div>
+                        <div class="form-group half-width">
+                            <label>Est. Quantity:</label>
+                            <input type="number" name="quantity" placeholder="e.g. 50" min="10" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes (Date, Location, Ideas):</label>
+                        <textarea name="message" rows="2" placeholder="We are getting married on July 15th in..."></textarea>
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4; text-align: center;">
+                        By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                    </p>
+
+                    <button type="submit" id="corp-btn" class="btn-primary btn-full">Request Quote</button>
+                    <p class="secure-note">Response within 24/48h.</p>
+                </form>
             </div>
         </div>
-        <button id="close-cookie-banner-btn" aria-label="Chiudi banner cookie">×</button>
+    </dialog>
+
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <div class="cookie-content">
+            <h3>We value your privacy 🍪</h3>
+            <p>We use cookies to enhance your experience, serve personalized content, and analyze our traffic. You can choose to accept all or customize your preferences.</p>
+        </div>
+        <div class="cookie-actions">
+            <button id="cookie-customize" class="btn-link">Customize</button>
+            <button id="cookie-reject" class="btn-outline-light">Reject All</button>
+            <button id="cookie-accept" class="btn-primary">Accept All</button>
+        </div>
     </div>
 
-    <div id="cookie-preferences-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 data-i18n-key="cookieModalTitle">Preferenze Cookie</h3>
-            <p data-i18n-key="cookieModalText">Seleziona quali tipi di cookie acconsenti a utilizzare. I cookie necessari non possono essere disabilitati.</p>
-            <div class="cookie-options">
-                <div class="cookie-option">
-                    <label for="consent-necessary" data-i18n-key="cookieModalNecessary">Cookie Necessari</label>
-                    <label class="switch"><input type="checkbox" id="consent-necessary" checked disabled><span class="slider round"></span></label>
-                </div>
-                <div class="cookie-option">
-                    <label for="consent-analytics" data-i18n-key="cookieModalAnalytics">Cookie di Analisi</label>
-                    <label class="switch"><input type="checkbox" id="consent-analytics"><span class="slider round"></span></label>
-                </div>
-                <div class="cookie-option">
-                    <label for="consent-functional" data-i18n-key="cookieModalFunctional">Cookie Funzionali</label>
-                    <label class="switch"><input type="checkbox" id="consent-functional"><span class="slider round"></span></label>
-                </div>
+    <dialog id="cookie-modal" class="modal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeCookieModal()">✕</button>
+            <div class="modal-header">
+                <h3>Cookie Preferences</h3>
+                <p>Manage your consent settings.</p>
             </div>
-            <button id="save-preferences-btn" class="btn btn-primary" data-i18n-key="cookieModalSave">Salva Preferenze</button>
-        </div>
-    </div>
+            
+            <form id="cookie-form">
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Strictly Necessary</strong>
+                        <p>Essential for the website to function (e.g. cart, login). Cannot be disabled.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider locked"></span>
+                    </div>
+                </div>
 
-    <div id="exit-intent-popup">
-        <div class="exit-intent-content">
-            <button id="close-exit-popup">×</button>
-            <h3 data-i18n-key="exitPopupTitle">Non Andare Via!</h3>
-            <p data-i18n-key="exitPopupSubtitle">Unisciti alla nostra famiglia! Adotta un ulivo o iscriviti alla newsletter per rimanere aggiornato sulle novità dalla Puglia e ricevere offerte esclusive.</p>
-            <div class="exit-intent-buttons">
-                <a href="#products" class="btn btn-primary" data-i18n-key="exitPopupAdopt">Adotta un Ulivo</a>
-                <a href="#contact" class="btn btn-secondary" data-i18n-key="exitPopupNewsletter">Iscriviti alla Newsletter</a>
-            </div>
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Analytics & Performance</strong>
+                        <p>Help us understand how you use the site to improve it.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" id="consent-analytics" name="analytics">
+                        <label for="consent-analytics" class="slider"></label>
+                    </div>
+                </div>
+
+                <div class="cookie-option">
+                    <div class="cookie-info">
+                        <strong>Marketing</strong>
+                        <p>Used to deliver relevant ads and track campaign performance.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <input type="checkbox" id="consent-marketing" name="marketing">
+                        <label for="consent-marketing" class="slider"></label>
+                    </div>
+                </div>
+
+                <button type="button" id="save-preferences" class="btn-primary btn-full" style="margin-top: 20px;">Save Preferences</button>
+            </form>
         </div>
-    </div>
-    
-    <script src="script.js" defer></script>
+    </dialog>
+
 </body>
 </html>

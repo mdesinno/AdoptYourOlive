@@ -1,8 +1,4 @@
 User-agent: *
-Disallow: /club.html
-Disallow: /club-login.html
-Disallow: /guida-degustazione.html
-Disallow: /ricette.html
 Allow: /
 
-Sitemap: https://www.adoptyourolive.com/sitemap.xml
+Sitemap: https://adoptyourolive.com/sitemap.xml

@@ -1,1067 +1,2047 @@
-/* --- Base Styles & Variables --- */
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
 :root {
-    --primary-green: #6B8E23; /* Olive Green */
-    --secondary-green: #8FBC8F; /* Light Olive Green */
-    --accent-red: #e74c3c; /* Red for discounts/accents */
-    --dark-text: #2c3e50; /* Dark Blue/Grey for headings */
-    --light-text: #34495e; /* Slightly lighter for body text */
-    --white: #ffffff;
-    --dark-background: #2A3122;
-    --light-grey: #f8f9fa;
-    --medium-grey: #dee2e6;
-    --border-radius-sm: 10px;
-    --border-radius-md: 20px;
-    --border-radius-lg: 50px;
-    --shadow-light: 0 5px 15px rgba(0,0,0,0.08);
-    --shadow-medium: 0 10px 30px rgba(0,0,0,0.1);
-    --shadow-strong: 0 15px 35px rgba(0,0,0,0.15);
-    --transition-speed: 0.3s ease;
+    /* Palette Colori "Sartoria dell'Olio" */
+    --primary-green: #3A5F0B; /* Verde Oliva Profondo */
+    --primary-dark: #243b05;  /* Verde ancora più scuro per hover */
+    --cream-bg: #F9F8F6;      /* Carta pregiata */
+    --text-main: #1D1D1D;     /* Nero non assoluto */
+    --text-light: #555555;    /* Grigio per sottotitoli */
+    --white: #FFFFFF;
+    --border-color: #E0E0E0;
+
+    /* Fonts */
+    --font-heading: 'Playfair Display', serif; /* Eleganza */
+    --font-body: 'Inter', sans-serif;          /* Leggibilità */
+    
+    /* Spaziature */
+    --container-width: 1100px;
+    --section-padding: 80px 0;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
 html { scroll-behavior: smooth; }
-body { font-family: 'Montserrat', sans-serif; line-height: 1.6; color: var(--light-text); background-color: var(--light-grey); overflow-x: hidden; }
-h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark-text); line-height: 1.2; }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* --- Navigation Menu --- */
-.main-nav { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background-color: rgba(255, 255, 255, 0.9); z-index: 1000; transition: background-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease; backdrop-filter: blur(8px); height: 80px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.main-nav.scrolled { background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 3px 12px rgba(0,0,0,0.1); padding: 12px 30px; }
-.nav-logo-container { display: flex; align-items: center; }
-.nav-logo-image { width: 50px; height: auto; margin-right: 12px; }
-.nav-logo-text { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--dark-text); text-shadow: none; }
-.nav-links { list-style: none; display: flex; gap: 20px; align-items: center; justify-content: flex-end; }
-.nav-links li a { color: var(--dark-text); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.3s ease; padding: 8px 10px; position: relative; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
-.nav-links li a::after { content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: var(--primary-green); transition: width 0.3s ease; }
-.nav-links li a:hover::after, .nav-links li a.active-link::after { width: 100%; }
-.nav-links li a:hover, .nav-links li a.active-link { color: var(--primary-green); }
-.nav-toggle { display: none; color: var(--dark-text); font-size: 1.8rem; cursor: pointer; background: none; border: none; }
-.language-switcher { position: relative; margin-left: 20px; }
-.language-switcher select { background-color: transparent; color: var(--dark-text); border: 1px solid var(--medium-grey); padding: 6px 10px; border-radius: var(--border-radius-sm); font-family: 'Montserrat', sans-serif; font-size: 0.85rem; cursor: pointer; outline: none; }
-.language-switcher select:hover { border-color: var(--primary-green); }
+body {
+    font-family: var(--font-body);
+    background-color: var(--cream-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
 
-/* --- Banner di Urgenza Sticky in Alto --- */
-#urgent-countdown-banner {
-    background-color: var(--primary-green); /* Usa il tuo verde primario per il contrasto */
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* =========================================
+   2. TYPOGRAPHY & UTILITIES
+   ========================================= */
+h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.2; font-weight: 600; }
+
+h1 { font-size: 3.5rem; margin-bottom: 20px; }
+h2 { font-size: 2.8rem; margin-bottom: 15px; color: var(--text-main); }
+h3 { font-size: 1.8rem; margin-bottom: 10px; }
+
+.text-center { text-align: center; }
+.container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+.section-padded { padding: var(--section-padding); }
+
+.eyebrow {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Sfondi alternati */
+.bg-cream { background-color: var(--cream-bg); }
+.bg-white { background-color: var(--white); }
+.bg-dark { background-color: #111; color: var(--white); }
+
+/* Bottoni */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--primary-green);
     color: var(--white);
-    padding: 10px 0;
-    position: sticky; /* Rende il banner "appiccicoso" in alto */
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-outline-dark {
+    display: inline-block;
+    border: 1px solid var(--text-main);
+    color: var(--text-main);
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    background: transparent;
+    cursor: pointer;
+}
+.btn-outline-dark:hover {
+    background-color: var(--text-main);
+    color: var(--white);
+}
+
+.btn-full { width: 100%; text-align: center; }
+
+
+/* =========================================
+   3. NAVBAR (Corretta e Funzionante)
+   ========================================= */
+
+/* CONTENITORE PRINCIPALE (La striscia orizzontale) */
+.navbar {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Assicura che sia sopra ogni altro elemento */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    text-align: center;
-    font-size: 0.95rem; 
-    transition: all 0.3s ease-in-out; /* Per animazioni fluide se appare/scompare */
+    /* STATO INIZIALE: Trasparente e Alta */
+    background-color: transparent;
+    padding: 30px 0; /* Spazio sopra e sotto */
+    z-index: 1000;
+    transition: all 0.4s ease; /* Transizione fluida */
+    border-bottom: none; /* Nessuna riga all'inizio */
 }
 
-.countdown-container {
+/* Aggiungi questo se il logo è nero e vuoi farlo diventare bianco all'inizio */
+.navbar:not(.scrolled) .logo-img {
+    filter: brightness(0) invert(1);
+}
+
+/* STATO SCROLLED (Quando scendi, aggiunto via JS) */
+.navbar.scrolled {
+    background-color: #F9F8F6; /* Colore Crema Solido */
+    padding: 10px 0; /* Si restringe */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.01); /* Ombretta leggera */
+}
+
+/* GRIGLIA INTERNA (Per allineare Logo a SX e Menu a DX) */
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px; /* Margine laterale di sicurezza */
+    display: flex;
+    justify-content: space-between; /* SPINGE GLI ELEMENTI AGLI ESTREMI */
+    align-items: center; /* Centra verticalmente */
+}
+
+/* --- IL LOGO --- */
+.logo-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 15px; /* Spazio tra gli elementi */
-    flex-wrap: wrap; /* Per adattarsi su schermi piccoli */
-    padding: 0 10px; /* Padding laterale per evitare che tocchi i bordi */
+    text-decoration: none;
 }
 
-.banner-message {
-    font-weight: 600;
+.logo-img {
+    height: 90px; /* GRANDE all'inizio */
+    width: auto;
+    display: block;
+    transition: all 0.4s ease; /* Deve animarsi */
 }
 
-.banner-timer {
+/* Quando la navbar si restringe, anche il logo si restringe */
+.navbar.scrolled .logo-img {
+    height: 50px; /* PICCOLO dopo lo scroll */
+}
+
+
+/* --- I LINK (Destra) --- */
+.nav-links {
     display: flex;
-    align-items: baseline;
-    font-weight: 700;
-    gap: 5px;
+    align-items: center;
+    gap: 30px; /* Spazio tra i link */
 }
 
-.banner-timer span {
-    font-size: 1.2rem;
-    color: var(--yellow-highlight); /* Usa un colore di highlight per i numeri */
-}
-
-.banner-timer small {
-    font-size: 0.8rem;
+/* Colore link: Bianco su foto scura, Scuro su sfondo crema */
+.nav-links a:not(.btn-nav) {
+    font-size: 0.95rem;
     font-weight: 500;
-    margin-right: 5px;
+    color: #fff; /* Bianco iniziale */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Ombra per leggere meglio */
+    transition: color 0.3s;
 }
 
-.btn-cta-banner {
-    background-color: var(--yellow-highlight); /* Pulsante in forte risalto */
-    color: var(--primary-dark); /* Testo scuro sul giallo */
-    padding: 6px 15px;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    text-transform: uppercase;
-    font-weight: 700;
-    transition: background-color 0.3s ease;
-    text-decoration: none; /* Rimuove sottolineatura link */
-}
-
-.btn-cta-banner:hover {
-    background-color: var(--white);
-}
-
-/* IMPORTANTE: Regola il posizionamento degli elementi sottostanti */
-/* Questo sposta la tua navbar e il resto della pagina sotto il banner sticky */
-body.homepage nav.main-nav, body.homepage #hero { /* Aggiungi qui tutti gli elementi che devono scorrere sotto il banner */
-    margin-top: 68px; /* **REGOLA QUESTO VALORE** in base all'altezza effettiva del tuo banner */
-    /* Potrebbe essere necessario un JavaScript per calcolare l'altezza esatta
-       del banner e applicarla dinamicamente al margin-top della nav/hero.
-       Per ora, usiamo un valore fisso. */
-}
-
-
-/* Media query per schermi più piccoli */
-@media (max-width: 768px) {
-    #urgent-countdown-banner {
-        font-size: 0.85rem;
-        padding: 8px 0;
-    }
-    .countdown-container {
-        flex-direction: column;
-        gap: 5px;
-    }
-    .banner-message {
-        margin-bottom: 5px;
-    }
-    .banner-timer span {
-        font-size: 1.1rem;
-    }
-    .btn-cta-banner {
-        padding: 5px 12px;
-        font-size: 0.8rem;
-    }
-    body.homepage nav.main-nav { /* Aggiorna anche qui se hai un valore fisso */
-        margin-top: 150px; /* Potrebbe servire più spazio su mobile se il banner si estende */
-    }
-    body.homepage #hero { /* Aggiorna anche qui se hai un valore fisso */
-        margin-top: auto; /* Potrebbe servire più spazio su mobile se il banner si estende */
-    }
-}
-
-/* --- Hero Section --- */
-.campaign-video-hidden {
-    display: none !important; /* Forza la sovrascrittura */
-}
-.hero { min-height: 100svh; margin-top: auto; padding-top: 100px; padding-bottom: 60px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-sizing: border-box; background-image: url('immagini/Foto\ esempio\ pacchetto\ Mature.jpg'); /* <-- PERCORSO CORRETTO DELLA TUA IMMAGINE */
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;}
-.video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; background: none;}
-.video-background video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-.hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.75); z-index: 2; }
-.hero-content { max-width: 800px; width: 90%; padding: 20px; z-index: 3; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; animation: fadeInUp 1s ease-out; }
-.hero h1 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; color: var(--white); margin-bottom: 1rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.7); }
-.hero-subtitle { font-size: clamp(0.9rem, 2vw, 1.25rem); color: #f0f0f0; margin-bottom: 1.5rem; text-shadow: 1px 1px 4px rgba(0,0,0,0.7); animation: fadeInUp 1s ease-out 0.3s both; max-width: 650px; margin-left: auto; margin-right: auto; }
-.cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease-out 0.6s both; width: 100%; }
-.btn { padding: 12px 24px; font-size: 0.95rem; font-weight: 600; text-decoration: none; border-radius: var(--border-radius-lg); transition: var(--transition-speed); cursor: pointer; border: none; position: relative; overflow: hidden; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; }
-.btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
-.btn:hover::before { left: 100%; }
-.btn-primary { background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: var(--white); box-shadow: 0 8px 25px rgba(107, 142, 35, 0.3); }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(107, 142, 35, 0.4); }
-.btn-secondary { background: rgba(255, 255, 255, 0.1); color: var(--white); border: 2px solid var(--white); backdrop-filter: blur(10px); }
-.btn-secondary:hover { transform: translateY(-3px); }
-.trust-signals { margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; animation: fadeInUp 1s ease-out 0.9s both; }
-.trust-item { color: #f0f0f0; font-size: 0.85rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); display: flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.15); padding: 8px 15px; border-radius: var(--border-radius-lg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); }
-.trust-item i { color: var(--secondary-green); font-size: 1rem; }
-
-/* --- Generic Section Styles --- */
-.content-section { padding: 80px 0; }
-.product-section, .personalization-section, .faq-section { background-color: var(--light-grey); }
-#our-story, #team, #customer-reviews { background-color: var(--white); }
-#contact { background-color: #f9f9f9; }
-
-/* --- Product Section --- */
-.product-section { padding: 80px 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-.section-header { text-align: center; margin-bottom: 60px; }
-.section-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 15px; }
-.section-subtitle { font-size: 1rem; color: var(--accent-red); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; background: linear-gradient(45deg, var(--accent-red), #c0392b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(20px, 3vw, 30px); align-items: stretch; width: 100%; }
-@media (min-width: 1300px) {
-    .products-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-.product-card { background: var(--white); border-radius: var(--border-radius-md); padding: 25px; box-shadow: var(--shadow-medium); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; display: flex; flex-direction: column; text-align: center; border: 3px solid transparent; overflow: hidden; }
-.product-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
-.product-card.selected { border-color: var(--primary-green); box-shadow: 0 20px 40px rgba(107, 142, 35, 0.3); transform: translateY(-8px); }
-.popular-badge { position: absolute; top: 0; right: 0; background: linear-gradient(45deg, var(--primary-green), #5a6b4f); color: var(--white); padding: 8px 20px; border-bottom-left-radius: var(--border-radius-md); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; z-index: 1; }
-.product-image { width: 100%; height: 180px; object-fit: cover; border-radius: var(--border-radius-sm); margin-bottom: 20px; }
-.product-title { font-size: 1.6rem; margin-bottom: 15px; }
-.product-age { font-size: 0.9rem; font-weight: 600; color: var(--light-text); margin-bottom: 15px; }
-.product-age i { color: var(--primary-green); margin-right: 6px; }
-.price-container { margin-bottom: 20px; }
-.current-price { font-size: 2rem; font-weight: 800; color: var(--primary-green); }
-.benefits-list { list-style: none; margin-bottom: 25px; text-align: left; flex-grow: 1; }
-.benefits-list li { margin-bottom: 10px; font-size: 0.9rem; line-height: 1.5; position: relative; padding-left: 28px; }
-.benefits-list li::before { content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--primary-green); font-size: 1rem; }
-.ideal-for { font-style: italic; color: var(--light-text); font-size: 0.85rem; margin-bottom: 20px; border-top: 1px solid var(--medium-grey); padding-top: 12px; }
-.select-button { width: 100%; background: linear-gradient(45deg, var(--primary-green), #5a6b4f); color: var(--white); border: none; padding: 14px 22px; border-radius: var(--border-radius-lg); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition-speed); text-transform: uppercase; letter-spacing: 1px; margin-top: auto; }
-.select-button:hover { background: linear-gradient(45deg, #5a6b4f, #4a5a43); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(107, 124, 91, 0.4); }
-.shipping-note { text-align: center; margin-top: 50px; padding: 20px; background: rgba(107, 124, 91, 0.1); border-radius: var(--border-radius-md); color: var(--dark-text); font-size: 0.95rem; font-style: italic; border: 1px dashed var(--primary-green); }
-
-/* --- Parallax Sections --- */
-#how-it-works, #why-peranzana, #final-cta { position: relative; padding: 80px 0; background-image: linear-gradient(rgba(42, 49, 34, 0.7), rgba(42, 49, 34, 0.7)), url('immagini/sfondo-uliveto.webp'); background-attachment: fixed; background-position: center center; background-repeat: no-repeat; background-size: cover; color: var(--white); }
-#how-it-works .section-title, #how-it-works h3, #how-it-works p, #why-peranzana .section-title, #why-peranzana h3, #why-peranzana p { color: var(--white); text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); }
-.how-it-works-grid, .why-peranzana-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: center; }
-.step-icon, .value-icon { color: var(--secondary-green); margin-bottom: 20px; font-size: 2.5rem; }
-.how-it-works-step, .why-peranzana-item { padding: 25px; background-color: var(--white); border-radius: var(--border-radius-md); box-shadow: var(--shadow-light); transition: transform 0.3s ease; }
-.how-it-works-step:hover, .why-peranzana-item:hover { transform: translateY(-8px); }
-.how-it-works-step h3, .how-it-works-step p, .why-peranzana-item h3, .why-peranzana-item p { color: var(--dark-text); text-shadow: none; }
-/* SOLUZIONE CORRETTA: Forza il colore del solo testo dentro le card */
-#how-it-works .how-it-works-step h3,
-#how-it-works .how-it-works-step p,
-#why-peranzana .why-peranzana-item h3,
-#why-peranzana .why-peranzana-item p {
-    color: var(--dark-text);
+/* Quando scrolli, i link diventano scuri */
+.navbar.scrolled .nav-links a:not(.btn-nav) {
+    color: #1D1D1D;
     text-shadow: none;
 }
 
-.note-spedizione {
-    text-align: center;
-    margin: 30px;
+/* Tasto Lingua */
+.lang-switch {
+    border: 1px solid rgba(255,255,255,0.6);
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: #fff;
+}
+.navbar.scrolled .lang-switch {
+    border-color: #ccc;
+    color: #1D1D1D;
 }
 
-.note-spedizione p {
-    display: inline-block; /* Permette al background di adattarsi al testo */
-    background-color: rgba(255, 255, 255, 0.85); /* Sfondo bianco semi-trasparente */
-    color: var(--dark-text)!important; /* Colore testo scuro per contrasto */
-    padding: 10px 15px; /* Spaziatura interna */
-    border-radius: 8px; /* Angoli arrotondati, come i riquadri sopra */
-    max-width: 800px;
-    margin: 0 auto;
-    font-style: italic;
+/* Bottone "Adopt Now" */
+.btn-nav {
+    background-color: var(--primary-green);
+    color: #fff !important; /* Sempre bianco */
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     text-shadow: none !important;
 }
 
-/* --- What You Get Section --- */
-#what-you-get { background-color: var(--dark-background); color: var(--white); padding: 80px 0; }
-#what-you-get .container { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; }
-#what-you-get .section-title, #what-you-get .section-subtitle, #what-you-get p { color: var(--white); text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
-#what-you-get ul { list-style: none; }
-#what-you-get ul li { margin-bottom: 1rem; position: relative; padding-left: 28px; }
-#what-you-get ul li i { position: absolute; left: 0; top: 4px; color: var(--secondary-green); }
-#what-you-get ul li strong { color: var(--secondary-green); }
-.what-title { flex: 1 1 35%; }
-.what-content { flex: 1 1 60%; }
-.what-you-get-highlight { width: 100%; margin-top: 2rem; background-color: rgba(255, 255, 255, 0.15); border-left: 4px solid var(--secondary-green); padding: 25px; border-radius: var(--border-radius-sm); }
-.what-you-get-highlight p, .what-you-get-highlight strong { text-shadow: none; }
+/* Link Shop semplice */
+.nav-links a[href="#adoption-kits"] { font-weight: 500; }
 
-/* --- Sezione Personalizzazione (Codice Definitivo) --- */
-
-.personalization-section { 
-    padding: 80px 0; 
+/* Tasto "Shipping to Italy" */
+.shipping-alert {
+    font-size: 0.85rem !important;
+    border: 1px solid rgba(255,255,255,0.3); /* Bordo sottile */
+    padding: 8px 15px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    white-space: normal; /* Evita che vada a capo */
 }
 
-/* Contenitore principale: non ha bisogno di regole speciali 
-   perché l'ordine ora è corretto nell'HTML */
-.personalization-layout {
-    width: 100%;
+.shipping-alert:hover {
+    background: #fff;
+    color: #3A5F0B !important; /* Verde al passaggio */
+    border-color: #fff;
 }
 
-/* Form Container */
-.form-container h2 {
-    text-align: center;
-    margin-bottom: 2rem;
+/* Quando la navbar diventa bianca (scrolled), adattiamo il tasto */
+.navbar.scrolled .shipping-alert {
+    border-color: #ddd;
+    color: #555 !important;
 }
-.adoption-form { 
-    background: var(--white); 
-    padding: 2rem; 
-    border-radius: var(--border-radius-md); 
-    box-shadow: var(--shadow-medium); 
-}
-
-/* Contenitore interno del form (gestisce le 2 colonne) */
-.personalization-content {
-    display: grid;
-    grid-template-columns: 1fr; /* Default: una colonna per mobile */
-    gap: 2rem;
-    width: 100%;
+.navbar.scrolled .shipping-alert:hover {
+    border-color: #3A5F0B;
+    color: #3A5F0B !important;
+    background: transparent;
 }
 
-/* Display del prodotto selezionato */
-.selected-tree-display { 
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); 
-    padding: 1.5rem; 
-    border-radius: var(--border-radius-md); 
-    text-align: center; 
-    margin-bottom: 2rem; 
-    border: 2px solid #2196f3; 
-}
-.selected-tree-display h3 { 
-    color: #1976d2; 
-    margin-bottom: 0.6rem; 
-    font-size: 1.4rem; 
-}
-.price-display { 
-    font-size: 2.2rem; 
-    font-weight: bold; 
-    color: #1976d2; 
+
+/* --- MENU MOBILE (Hamburger) --- */
+/* FONDAMENTALE: Nascondilo su Desktop! */
+.mobile-menu-icon {
+    display: none; 
 }
 
-/* Stili generici per i campi del form */
-.form-group { 
-    margin-bottom: 1.5rem; 
-}
-.form-row { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 1.2rem; 
-}
-.form-group label { 
-    display: block; 
-    margin-bottom: 0.6rem; 
-    font-weight: 600; 
-    font-size: 0.9rem; 
-}
-.form-group input, .form-group select, .form-group textarea { 
-    width: 100%; 
-    padding: 12px 16px; 
-    border: 1px solid #ced4da; 
-    border-radius: var(--border-radius-sm); 
-    font-size: 0.95rem; 
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { 
-    outline: none; 
-    border-color: var(--primary-green); 
-    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.2); 
-}
-.char-count { 
-    color: #6c757d; 
-    font-size: 0.8rem; 
-    text-align: right; 
-    display: block; 
-    margin-top: 6px; 
-}
-.form-section h4 { 
-    margin: 2rem 0 1.2rem 0; 
-    padding-bottom: 0.6rem; 
-    border-bottom: 2px solid var(--medium-grey); 
-    font-size: 1.3rem; 
-}
 
-/* Sezione Codice Sconto */
-.discount-section {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-.discount-input-group {
-    display: flex;
-    gap: 10px;
-}
-.discount-input-group input {
-    flex-grow: 1;
-}
-.discount-input-group button {
-    padding: 0 20px;
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--primary-green);
-    background-color: var(--primary-green);
-    color: var(--white);
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    white-space: nowrap;
-}
-.discount-input-group button:hover:not(:disabled) {
-    background-color: var(--secondary-green);
-    border-color: var(--secondary-green);
-}
-.discount-input-group button:disabled {
-    background-color: #ccc;
-    border-color: #ccc;
-    cursor: not-allowed;
-}
-.discount-feedback {
-    display: block;
-    margin-top: 8px;
-    font-weight: 600;
-    height: 1.2em;
-    transition: color 0.3s ease;
-}
-.discount-feedback.success {
-    color: #28a745;
-}
-.discount-feedback.error {
-    color: var(--accent-red);
-}
+/* --- MEDIA QUERY NAVBAR MOBILE (Solo < 900px) --- */
+@media (max-width: 900px) {
+    /* Navbar Mobile: Trasparente all'inizio (come desktop) */
+    .navbar {
+        background-color: transparent;
+        padding: 15px 0;
+    }
 
-/* Riepilogo Ordine */
-.order-summary { 
-    background: var(--light-grey); 
-    padding: 1.8rem; 
-    border-radius: var(--border-radius-md); 
-    margin-top: 2rem; 
-}
+    /* Logo Mobile: Parte grande il giusto */
+    .logo-img {
+        height: 50px; 
+    }
 
-.order-summary-note {
-    display: block;
-    text-align: right;
-    font-size: 0.85rem;
-    font-style: italic;
-    color: var(--light-text);
-    margin-top: 5px;
-    padding-right: 5px;
-}
-
-.summary-line, .summary-total { 
-    display: flex; 
-    justify-content: space-between; 
-}
-.summary-total { 
-    font-weight: bold; 
-    font-size: 1.2rem; 
-    padding-top: 1.2rem; 
-    border-top: 2px solid var(--medium-grey); 
-    margin-top: 1.2rem; 
-}
-.free { 
-    color: #28a745; 
-    font-weight: bold; 
-}
-
-/* Pulsante Completa Adozione */
-.btn-complete { 
-    width: 100%; 
-    background: #007bff; 
-    color: var(--white); 
-    padding: 16px; 
-    border-radius: var(--border-radius-lg); 
-    font-size: 1.1rem; 
-    margin-top: 30px;
-}
-.btn-complete:hover:not(:disabled) { 
-    transform: translateY(-3px); 
-    box-shadow: 0 10px 30px rgba(0,123,255,0.3); 
-}
-.btn-complete:disabled { 
-    background: #aeb5bd; 
-    cursor: not-allowed; 
-}
-
-/* Media query per schermi più grandi (tablet e pc) */
-@media (min-width: 768px) {
-    /* Fa diventare il form a due colonne */
-    .personalization-content {
-        grid-template-columns: 1fr 1fr;
+    /* Quando si scrolla O si apre il menu, diventa color crema */
+    .navbar.scrolled, 
+    .navbar.menu-open {
+        background-color: #F9F8F6;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        padding: 30px 0 10px 0 !important; /* Era 10px (ereditato dal desktop), lo portiamo a 20px */
     }
     
-    /* Mantiene la divisione a metà per le righe interne */
-    .form-row {
-        grid-template-columns: 1fr 1fr;
+    /* Il logo su mobile segue le stesse regole del desktop:
+       - Se NON è scrolled e NON è menu aperto -> Bianco (filter invert)
+       - Altrimenti -> Colore originale */
+    .navbar:not(.scrolled):not(.menu-open) .logo-img {
+        filter: brightness(0) invert(1);
+    }
+
+    /* MENU HAMBURGER (Icona) */
+    .mobile-menu-icon {
+        display: block;
+        font-size: 2rem;
+        cursor: pointer;
+        /* Colore Icona: Bianca all'inizio, Scura dopo */
+        color: #fff; 
+        transition: color 0.3s ease;
+        z-index: 1001; /* Sopra al menu che si apre */
+    }
+    
+    /* Icona scura quando sfondo è chiaro */
+    .navbar.scrolled .mobile-menu-icon,
+    .navbar.menu-open .mobile-menu-icon {
+        color: var(--primary-green);
+    }
+
+    /* --- IL MENU A TENDINA MOBILE (Aggiornato) --- */
+    .nav-links {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: -100%; /* Nascosto a destra */
+        width: 100%;  /* ORA PRENDE TUTTO LO SCHERMO */
+        background-color: #F9F8F6; /* Sfondo crema */
+        
+        /* Flexbox per centrare tutto perfettamente */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* I link partono dall'alto, non dal centro */
+        align-items: center; /* Centrati orizzontalmente */
+        padding-bottom: 40px; /* Spazio giusto per non finire sotto la X di chiusura */
+
+        padding-top: 40px; /* Spazio giusto per non finire sotto la X di chiusura */
+        transition: right 0.4s ease-in-out;
+        z-index: 999; /* Sotto all'icona del menu */
+    }
+
+    /* Quando è attivo entra tutto */
+    .nav-links.active {
+        right: 0;
+    }
+
+    /* I Link nel menu mobile */
+    .nav-links a:not(.btn-nav) {
+        font-size: 1.5rem; /* Testo un po' più grande per leggibilità */
+        margin: 0px 0;    /* Meno spazio tra i link per compattezza */
+    color: #1D1D1D !important; /* Colore scuro (quasi nero) */
+        text-shadow: none !important; /* Toglie l'ombra del testo se presente */
+    }
+    
+    /* Il bottone Adopt nel menu */
+    .nav-links .btn-nav {
+        margin-top: 20px;
+        width: 80%;       /* Bottone largo bello da premere */
+        text-align: center;
+        color: #fff !important;
+    }
+    
+    /* Bottone shipping e altri adattamenti */
+    .shipping-alert {
+        color: #555 !important;
+        border-color: #ccc;
     }
 }
 
-/* Su mobile, le righe interne diventano a colonna singola */
-@media (max-width: 767px) {
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* --- Other Sections (Story, Gallery, Team, FAQ, CTA, Contact, Footer) --- */
-.story-layout { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
-.story-image { flex: 1 1 40%; }
-.story-text { flex: 1 1 55%; }
-#gallery { position: relative; padding: 0; height: 85vh; min-height: 500px; overflow: hidden; background-color: #222; }
-.slideshow-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-.slide { display: none; width: 100%; height: 100%; animation: fadeEffect 1.5s; }
-.slide.active { display: block; }
-.slide img { width: 100%; height: 100%; object-fit: contain; }
-.prev-slide, .next-slide { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 18px; margin-top: -25px; color: white; font-weight: bold; font-size: 24px; transition: 0.6s ease; border-radius: 0 5px 5px 0; user-select: none; background-color: rgba(0,0,0,0.4); z-index: 2; }
-.next-slide { right: 0; border-radius: 5px 0 0 5px; }
-.gallery-header-overlay { position: absolute; top: 100px; left: 50%; transform: translateX(-50%); z-index: 3; text-align: center; width: 90%; }
-.gallery-header-overlay .section-title, .gallery-header-overlay .section-subtitle { color: var(--white); text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
-.slide-dots { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 3; }
-.dot { cursor: pointer; height: 12px; width: 12px; margin: 0 4px; background-color: rgba(255,255,255,0.5); border-radius: 50%; display: inline-block; transition: background-color 0.6s ease; }
-.dot.active, .dot:hover { background-color: var(--white); }
-@keyframes fadeEffect { from {opacity: .4} to {opacity: 1} }
-#customer-reviews { display: none; }
-#team { display: none; }
-.team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-.team-member { background: var(--white); padding: 25px; border-radius: var(--border-radius-md); box-shadow: var(--shadow-light); flex: 1 1 300px; text-align: center; }
-.team-member img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; box-shadow: 0 0 0 5px var(--white), 0 0 0 7px var(--secondary-green); }
-.faq-section { margin-top: 100px}
-.faq-item { background: var(--white); border-radius: var(--border-radius-md); margin-bottom: 15px; overflow: hidden; }
-.faq-question { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; cursor: pointer; font-weight: 600; }
-.faq-question i { transition: transform 0.3s ease; }
-.faq-question.active i { transform: rotate(180deg); }
-.faq-answer { padding: 0 22px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
-.faq-answer p { padding: 18px 0; }
-.faq-answer.open { max-height: 1000px; }
-#final-cta { background-color: var(--dark-background); text-align: center; padding: 100px 20px; }
-#final-cta .section-title, #final-cta .hero-subtitle { color: var(--white); text-shadow: none; }
-.contact-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-.contact-form-container h3, .contact-details-container h3, .newsletter-container h3 { font-size: 1.8rem; margin-bottom: 25px; }
-.newsletter-container { background-color: var(--light-grey); padding: 30px; border-radius: var(--border-radius-md); margin-top: 40px; }
-.contact-grid-top { display: grid; grid-template-columns: 1.5fr 1fr; gap: 50px; }
-.map-container { position: relative; padding-bottom: 75%; height: 0; overflow: hidden; border-radius: var(--border-radius-sm); }
-.map-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-.footer { background: var(--dark-text); color: #ecf0f1; padding: 50px 0 25px 0; }
-.footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-bottom: 30px; }
-.footer-col h4 { color: var(--secondary-green); margin-bottom: 15px; }
-.footer-col ul { list-style: none; }
-.footer-col ul li a { color: #ecf0f1; text-decoration: none; }
-.footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; font-size: 0.8rem; }
-.footer-legal-info { margin-top: 15px; font-size: 0.8rem; opacity: 0.7; }
-.social-links { display: flex; gap: 12px; margin-top: 15px; }
-.social-links a { color: var(--white); font-size: 1.3rem; }
-
-/* --- Modals and Popups --- */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
-.modal-overlay.visible { display: flex; opacity: 1; }
-.modal-content { background: var(--white); padding: 30px 40px; border-radius: var(--border-radius-md); text-align: center; max-width: 450px; transform: scale(0.9); transition: transform 0.3s ease; }
-.modal-overlay.visible .modal-content { transform: scale(1); }
-#cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--dark-text); color: var(--white); padding: 1rem 1.5rem; z-index: 2000; box-shadow: 0 -2px 10px rgba(0,0,0,0.2); display: none; grid-template-columns: 1fr auto; align-items: center; gap: 1rem; }
-#cookie-banner.visible { display: grid; }
-.cookie-banner-content { display: flex; align-items: center; justify-content: flex-start; gap: 1.5rem; flex-wrap: wrap; }
-.cookie-banner-buttons { display: flex; gap: 0.75rem; }
-#close-cookie-banner-btn { background: none; border: none; font-size: 2.2rem; color: white; cursor: pointer; }
-/* Aggiungi questo nuovo selettore */
-#cookie-banner a {
-    color: var(--white);
-    text-decoration: underline;
-}
-#cookie-preferences-modal .modal-content { max-width: 550px; }
-.cookie-options { margin: 25px 0; text-align: left; }
-.cookie-option { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--medium-grey); }
-.switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
-.slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-input:checked + .slider { background-color: var(--primary-green); }
-input:disabled + .slider { background-color: #a0a0a0; }
-input:checked + .slider:before { transform: translateX(22px); }
-#exit-intent-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 3000; justify-content: center; align-items: center; }
-.exit-intent-content { background-color: var(--white); padding: 30px 40px; border-radius: var(--border-radius-md); text-align: center; max-width: 550px; position: relative; animation: fadeInUp 0.5s ease-out; }
-.exit-intent-buttons {
-    display: flex; /* Allinea i pulsanti su una riga */
-    justify-content: center; /* Li centra orizzontalmente */
-    gap: 15px; /* Aggiunge spazio tra i pulsanti */
-    flex-wrap: wrap; /* Manda a capo su schermi piccoli */
-}
-
-/* Rende visibile il secondo pulsante sul popup */
-#exit-intent-popup .btn-secondary {
-    background-color: var(--white);
-    color: var(--primary-green);
-    border: 2px solid var(--primary-green);
-}
-#close-exit-popup { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 2rem; }
-
-/* --- Animations & Responsive --- */
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-.animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-.animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
-@media (max-width: 992px) { .nav-toggle { display: block; } .nav-links { position: absolute; top: 100%; right: 0; width: 100%; background-color: rgba(255, 255, 255, 0.98); flex-direction: column; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; } .nav-links.open { max-height: 500px; } .form-container { order: 0; } .contact-grid-top { grid-template-columns: 1fr; } }
-@media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .story-layout { flex-direction: column; }  
-.video-background {
-    display: none; /* Nasconde il contenitore del video */
-  }
-  
-  .hero {
-    /* Applica l'immagine di anteprima come sfondo statico */
-    background-image: url('immagini/Foto\ esempio\ pacchetto\ Mature.jpg');
-    background-size: cover;
-    background-position: center center;
-  }
-}
-/* --- Soluzione Navigazione Mobile --- */
-@media (max-width: 992px) {
-  
-  /* 1. Nasconde il testo del logo ("Adopt Your Olive") su schermi piccoli */
-  .nav-logo-text {
-    display: none;
-  }
-
-  /* 2. Inverte la posizione di selettore lingua e hamburger */
-  .language-switcher {
-    order: 1; /* Viene visualizzato per primo */
-  }
-
-  .nav-toggle {
-    order: 2; /* Viene visualizzato per secondo */
-  }
-
-  /* 3. Aggiusta i margini per la nuova disposizione */
-  .language-switcher {
-    margin-left: 0;      /* Rimuove il margine sinistro esistente */
-    margin-right: 15px; /* Aggiunge spazio tra il selettore e l'hamburger */
-  }
-}
-
-/* --- STILI AGGIUNTIVI PER LA PAGINA CLUB --- */
-
-/* Stile per la sezione parallax */
-.club-parallax {
+/* =========================================
+   4. HERO SECTION
+   ========================================= */
+.hero {
     position: relative;
-    padding: 100px 0;
-    background-image: linear-gradient(rgba(42, 49, 34, 0.8), rgba(42, 49, 34, 0.8)), url('immagini/sfondo-uliveto.webp');
-    background-attachment: fixed;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: var(--white);
-}
-
-.club-parallax .section-title, 
-.club-parallax p {
-    color: var(--white);
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
-}
-
-.club-offer-box {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: var(--border-radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(5px);
+    height: 90vh; /* Quasi tutto lo schermo */
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    font-size: 1.1rem;
+    color: var(--white);
+    margin-top: 0px; /* Compensa la navbar fixed */
+    padding-top: 80px !important;
 }
 
-/* Stile per la griglia delle ricette */
-.club-grid {
+.hero-bg { position: absolute; inset: 0; z-index: -1; }
+.hero-bg picture, .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+/* Sostituisci la vecchia classe .overlay con questa */
+.overlay {
+    position: absolute;
+    inset: 0;
+    /* Gradiente Verticale: Scuro in alto (0.7), Medio al centro (0.4), Chiaro in fondo */
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.7) 0%,   /* Molto scuro in alto per il Logo */
+        rgba(0,0,0,0.4) 50%,  /* Medio al centro per il Titolo */
+        rgba(0,0,0,0.1) 100%  /* Quasi trasparente in basso */
+    );
+    z-index: 1;
+}
+
+/* Aggiungiamo anche un'ombra più forte al testo per staccarlo dal cielo */
+.hero h1, .hero-sub, .eyebrow {
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 800px; }
+.hero-content .eyebrow { color: rgba(255,255,255,0.9); }
+.hero-sub { font-size: 1.25rem; margin-bottom: 30px; opacity: 0.95; font-weight: 300; }
+
+
+/* =========================================
+   6. PRODUCTS (ADOPTION KITS) - FIX ACCORDION & COLORI
+   ========================================= */
+
+.products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: clamp(20px, 3vw, 30px);
-    align-items: stretch;
+    gap: 40px;
+    margin-top: 50px;
+    /* FIX CRUCIALE: flex-start permette alle card di avere altezze diverse */
+    align-items: flex-start; 
 }
 
-/* Stile per le card delle ricette (basato su .product-card) */
-.club-card {
-    background: var(--white);
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-medium);
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+.product-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    /* FIX: Rimosso height: 100% per permettere l'adattamento */
+    height: auto; 
+    position: relative; /* Per il badge top */
+}
+
+.product-card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+}
+
+/* Bordo per card in evidenza */
+.product-card.featured { 
+    border: 2px solid #2c5e2e; 
+}
+
+/* Badge Top (Verde) */
+.badge-top {
+    position: absolute; top: 0; right: 0;
+    background: #2c5e2e; color: #ffffff;
+    padding: 6px 15px; font-size: 0.8rem; font-weight: 600;
+    border-bottom-left-radius: 10px; z-index: 2;
+}
+
+.card-image { 
+    height: 300px; 
+    overflow: hidden; 
+    flex-shrink: 0; 
+}
+.card-image img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s; 
+}
+.product-card:hover .card-image img { transform: scale(1.05); }
+
+/* --- DETTAGLI INTERNI --- */
+.card-details { 
+    padding: 30px; 
+    flex-grow: 1; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.card-details h3 { 
+    font-size: 1.6rem; 
+    margin-bottom: 5px; 
+    text-align: center; 
+}
+/* Stile base (Mobile first) */
+.card-details .subtitle { 
+    font-size: 0.9rem; 
+    color: #888; 
+    margin-bottom: 20px; 
+    text-align: center; 
+    line-height: 1.4;
+    
+    /* Su mobile lasciamo l'altezza automatica per evitare testi tagliati */
+    min-height: auto; 
+    display: block; 
+}
+
+/* SOLO su schermi più grandi di 768px (Tablet e Desktop) */
+@media (min-width: 768px) {
+    .card-details .subtitle {
+        /* Qui attiviamo la griglia rigida per l'allineamento perfetto */
+        min-height: 65px; 
+        display: flex;    
+        align-items: center; 
+        justify-content: center; 
+    }
+}
+
+/* HEADER ACCORDION */
+.kit-toggle-header { 
+    cursor: pointer; 
+    margin-bottom: 10px; 
+    text-align: center; 
+    user-select: none;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+.kit-toggle-header:hover {
+    background-color: #f9f9f9;
+}
+
+/* FRECCIA */
+.arrow { 
+    display: inline-block; 
+    font-size: 0.8em; 
+    color: #2c5e2e; 
+    margin-left: 8px; 
+    transition: transform 0.3s ease; 
+}
+.kit-toggle-header.active .arrow { 
+    transform: rotate(180deg); 
+}
+
+/* CONTENUTO NASCOSTO */
+.kit-dropdown-content { 
+    max-height: 0; 
+    overflow: hidden; 
+    opacity: 0; 
+    transition: all 0.4s ease-out; 
+    margin-bottom: 0;
+}
+
+/* CLASSE OPEN (AGGIUNTA DAL JS) */
+.kit-dropdown-content.open { 
+    max-height: 600px; 
+    opacity: 1; 
+    margin-bottom: 20px; 
+}
+
+/* LISTA GIALLINA (Fix Colore) */
+.kit-list { 
+    margin: 0; 
+    text-align: left; 
+    background-color: #fdf6e3 !important; /* !important per forzare il giallino */
+    padding: 20px; 
+    border-radius: 8px; 
+    border: 1px solid #faebcc; 
+}
+.kit-list li { 
+    margin-bottom: 8px; 
+    font-size: 0.95rem; 
+    display: flex; 
+    gap: 10px; 
+    color: #333;
+}
+
+/* SPACER */
+.spacer-block {
+    flex-grow: 1; 
+}
+
+/* --- PREZZI --- */
+.price-block { 
+    margin-top: 20px; 
+    text-align: center; 
+    margin-bottom: 20px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.price { 
+    font-size: 2.2rem; 
+    font-weight: 700; 
+    color: #2c5e2e; 
+    line-height: 1; 
+}
+.price-note { 
+    display: block; 
+    font-size: 0.85rem; 
+    color: #999; 
+    margin-top: 5px; 
+}
+
+/* PILLOLA SCONTO */
+.save-pill {
+    background-color: #d32f2f;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-top: 5px; 
+    display: inline-block;
+}
+
+/* =========================================
+   7. CORPORATE STRIP
+   ========================================= */
+.corporate-strip { background-color: #EAE8E4; padding: 80px 0; margin: 0px 0; }
+.strip-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+.text-side h3 { margin: 0; font-size: 1.5rem; }
+.text-side p { margin: 0; color: var(--text-light); }
+
+
+/* =========================================
+   8. STORY & SPLIT SECTIONS (Slider + Text)
+   ========================================= */
+
+/* 1. IL CONTENITORE GENERALE */
+.section-split { 
+    display: flex; 
+    flex-wrap: wrap; 
+    background: var(--white);
+    align-items: center; 
+    padding: 60px 0;    
     overflow: hidden;
 }
 
-.club-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-strong);
-}
-
-.club-card-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.club-card-title {
-    font-size: 1.6rem;
-    margin: 20px 20px 10px 20px;
-}
-
-.club-card-text {
-    font-size: 0.95rem;
-    padding: 0 20px;
-    margin-bottom: 25px;
-    flex-grow: 1; /* Fa in modo che il testo occupi lo spazio disponibile */
-}
-
-.club-card .btn-secondary {
-    background-color: transparent;
-    color: var(--primary-green);
-    border: 2px solid var(--primary-green);
-    margin: 0 20px 20px 20px; /* Spazio per il pulsante */
-}
-
-.club-card .btn-secondary:hover {
-    background-color: var(--primary-green);
-    color: var(--white);
-    transform: none; /* Rimuove il transform ereditato da .btn */
-}
-
-.club-card .btn.disabled {
-    background-color: var(--medium-grey);
-    border-color: var(--medium-grey);
-    color: var(--light-text);
-    opacity: 0.7;
-}
-
-/* Aggiunta per le immagini nelle sezioni "story-layout" */
-.story-layout .story-image img {
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-light);
-}
-
-/* Rende bianco il testo di descrizione per il CTA di Telegram nella pagina Club */
-.club-telegram-cta p {
-    color: var(--white);
-}
-
-.guide-section {
-    padding: 30px 0;
-    border-bottom: 1px solid var(--medium-grey);
-}
-.guide-section:last-child {
-    border-bottom: none;
-}
-.guide-section h2 {
-    margin-bottom: 15px;
-}
-.guide-highlight-box {
-    background-color: #f8f9fa;
-    padding: 25px;
-    border-radius: var(--border-radius-md);
-    border: 2px dashed var(--primary-green);
-}
-.guide-highlight-box ul, .guide-section ul {
-    list-style-position: inside;
-    padding-left: 10px;
-}
-.guide-highlight-box ul li, .guide-section ul li {
-    margin-bottom: 10px;
-}
-
-/* --- STILI PER LO SLIDER DELLE RICETTE --- */
-
-/* Contenitore principale dello slider, necessario per posizionare i pulsanti */
-.recipe-slider-container {
+/* 2. IL LATO VISIVO (Contenitore Slider) */
+.split-visual { 
+    width: 45%;          /* Un po' più largo del 40% precedente per dare spazio alle foto */
+    margin-left: 5%;     /* Margine sinistro desktop */
     position: relative;
 }
 
-/* La "pista" che scorre orizzontalmente */
-.recipe-slider-track {
+/* Stile specifico per lo slider dentro la storia (Il "Quadro") */
+.story-slider-wrapper {
+    height: 450px;       /* Altezza fissa del "quadro" */
+    border-radius: 15px; /* Angoli arrotondati */
+    overflow: hidden;    /* Taglia le immagini agli angoli */
+    margin: 0;           /* Rimuove margini default */
+    width: 100%;
+}
+
+/* Forza le immagini a riempire il quadro */
+.story-slider-wrapper .slide img {
+    height: 450px !important; /* Forza altezza uguale al contenitore */
+    width: 100%;
+    object-fit: cover;
+}
+
+/* 3. IL TESTO */
+.split-content { 
+    flex: 1;             
+    padding: 0 5% 0 8%;  /* Padding bilanciato */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+.split-content p { 
+    margin-bottom: 20px; 
+    color: var(--text-light); 
+}
+
+/* 4. MOBILE RESPONSIVE */
+@media (max-width: 900px) {
+    .section-split {
+        padding: 40px 0;
+        flex-direction: column; /* Impila verticale */
+    }
+
+    .split-visual {
+        width: 90%;          
+        margin: 0 auto 40px auto; 
+    }
+
+    .story-slider-wrapper,
+    .story-slider-wrapper .slide img {
+        height: 350px !important; /* Un po' più basso su mobile */
+    }
+
+    .split-content {
+        padding: 0 20px;
+        text-align: center; 
+    }
+}
+
+/* =========================================
+   9. FORMS & FOOTER
+   ========================================= */
+.contacts-grid { display: flex; gap: 50px; flex-wrap: wrap; }
+.contacts-grid > div { flex: 1; min-width: 300px; }
+
+input, textarea, select {
+    width: 100%; padding: 12px; margin-bottom: 15px;
+    border: 1px solid #ddd; border-radius: 6px;
+    font-family: inherit; font-size: 1rem;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none; border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(58, 95, 11, 0.1);
+}
+
+.site-footer { background: #111; color: #666; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid #222; }
+.site-footer a:hover { color: var(--white); }
+
+
+/* =========================================
+   10. MODALS (DIALOG)
+   ========================================= */
+.modal {
+    margin: auto; padding: 0; border: none; border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 550px; width: 90%;
+    background: var(--white);
+    opacity: 0; transform: translateY(20px); transition: 0.3s allow-discrete;
+}
+
+.modal[open] { opacity: 1; transform: translateY(0); }
+.modal::backdrop { background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
+
+.modal-box { padding: 40px; position: relative; }
+.close-modal {
+    position: absolute; top: 15px; right: 20px;
+    background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #999;
+}
+.close-modal:hover { color: var(--text-main); }
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+.form-group small { display: block; font-size: 0.8rem; color: #777; margin-top: 4px; }
+.checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.checkbox-group input { width: auto; margin: 0; }
+
+.secure-note { text-align: center; font-size: 0.8rem; color: #888; margin-top: 15px; display: block;}
+
+/* =========================================
+   INPUT GROUP (Prefisso Fisso)
+   ========================================= */
+.input-group-prefix {
     display: flex;
-    overflow-x: auto; /* Abilita lo scorrimento orizzontale */
-    scroll-snap-type: x mandatory; /* Fa "agganciare" le card quando si scorre */
-    -webkit-overflow-scrolling: touch; /* Migliora lo scorrimento su iOS */
-    scrollbar-width: none; /* Nasconde la barra di scorrimento per Firefox */
-    padding-bottom: 20px; /* Spazio per l'ombra delle card */
+    align-items: stretch; /* Stessa altezza */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden; /* Per i bordi arrotondati */
 }
 
-/* Nasconde la barra di scorrimento per Chrome/Safari */
-.recipe-slider-track::-webkit-scrollbar {
+.input-group-prefix:focus-within {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(58, 95, 11, 0.1);
+}
+
+.input-group-prefix .prefix {
+    background-color: #eee;
+    color: #555;
+    padding: 12px 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #ddd;
+    font-family: var(--font-heading); /* Stile elegante */
+}
+
+/* L'input vero e proprio perde i bordi perché li ha il genitore */
+.input-group-prefix input {
+    border: none;
+    margin: 0;
+    flex-grow: 1; /* Occupa tutto lo spazio rimanente */
+}
+
+.input-group-prefix input:focus {
+    box-shadow: none; /* Rimuoviamo l'ombra standard dell'input */
+}
+
+/* =========================================
+   GRID FORM (Nome e Cognome affiancati)
+   ========================================= */
+.form-row {
+    display: flex;
+    gap: 20px; /* Spazio tra i due campi */
+    width: 100%;
+}
+
+.half-width {
+    flex: 1; /* Ognuno prende il 50% dello spazio */
+}
+
+/* Su mobile tornano uno sotto l'altro per comodità */
+@media (max-width: 500px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+/* =========================================
+   MODALE CORPORATE (Scroll Fix Definitivo)
+   ========================================= */
+
+/* 1. IL CONTENITORE PRINCIPALE (DIALOG) */
+.modal-wide {
+    max-width: 900px;
+    width: 95%;
+    padding: 0;
+    
+    /* DESKTOP: Altezza massima fissa (90% schermo) */
+    height: 90vh; 
+    max-height: 900px;
+    
     display: none;
+    overflow: hidden; /* Nasconde bordi */
+    background: #fff;
 }
 
-/* Stile delle card all'interno dello slider */
-.recipe-slider-track .club-card {
-    flex: 0 0 90%; /* Ogni card occupa il 90% della larghezza */
-    max-width: 340px; /* Larghezza massima per schermi grandi */
-    scroll-snap-align: start; /* Punto di "aggancio" dello scroll */
-    margin: 10px 15px; /* Spaziatura tra le card */
+/* APPLICHIAMO IL LAYOUT SOLO QUANDO È APERTA */
+.modal-wide[open] {
+    display: flex;          /* <--- ECCO LA CHIAVE */
+    flex-direction: column;
 }
 
-@media (min-width: 768px) {
-    .recipe-slider-track .club-card {
-        flex-basis: 45%; /* Due card visibili su tablet */
+/* 2. IL LAYOUT INTERNO */
+/* Questo div deve riempire tutto lo spazio del dialog */
+.modal-box.modal-split-layout {
+    display: flex;
+    flex: 1;           /* Occupa tutto lo spazio disponibile */
+    min-height: 0;     /* TRUCCO FLEXBOX: Permette ai figli di scrollare! */
+    padding: 0 !important; /* Via la cornice bianca */
+    width: 100%;
+}
+
+/* --- COLONNA SINISTRA (Fissa) --- */
+.modal-visual {
+    width: 40%;
+    background-color: #f0f0f0;
+    position: relative;
+    /* L'immagine copre tutto il lato sinistro */
+}
+
+.modal-img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- COLONNA DESTRA (SCORREVOLE) --- */
+.modal-form-content {
+    width: 60%;
+    
+    /* ABILITA LO SCROLL QUI */
+    overflow-y: auto; 
+    height: 100%; /* Importante per attivare lo scroll */
+    
+    padding: 40px;
+    /* Spazio extra in fondo per non far attaccare il bottone */
+    padding-bottom: 60px; 
+}
+
+/* Header e Testi */
+.modal-header h3 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: var(--primary-green);
+    margin-top: 0;
+}
+
+.modal-subtitle {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* BOX INFO KIT */
+.kit-info-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border-left: 3px solid var(--primary-green);
+    font-size: 0.9rem;
+}
+
+.kit-info-box strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.kit-list-inline {
+    list-style: none;
+    padding: 0; margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    color: #555;
+}
+
+/* Tasto chiudi */
+.close-modal {
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    z-index: 10;
+    background: none; border: none; font-size: 1.5rem; color: #999; cursor: pointer;
+}
+.close-modal:hover { color: #000; }
+
+
+/* --- MOBILE RESPONSIVE (Scroll Fix) --- */
+@media (max-width: 768px) {
+    
+    /* 1. Il contenitore esterno (Dialog) diventa quello che scrolla */
+    .modal-wide {
+        display: none;          /* Layout a blocco semplice */
+        width: 90%;              /* Margine ai lati */
+        margin: 5vh auto;        /* Centrata verticalmente */
+        
+        /* IL FIX È QUI: */
+        max-height: 85vh;        /* Non può essere più alta dell'85% dello schermo */
+        overflow-y: auto;        /* Se il contenuto sfora, SCROLLA LA MODALE */
+        height: auto;            /* Si adatta al contenuto finché può */
+        overscroll-behavior: contain; /* Impedisce che lo scroll passi alla pagina sotto */
+    }
+
+    /* SOLO QUANDO APERTA diventa block */
+    .modal-wide[open] {
+        display: block; 
+    }
+
+    /* 2. Il layout interno si limita a impilare i pezzi */
+    .modal-box.modal-split-layout { 
+        display: block;          /* Impila verticale (Foto sopra, Form sotto) */
+        height: auto;            /* Altezza libera */
+        overflow: visible;       /* Nessun taglio qui */
+        padding: 0 !important;
+    }
+    
+    /* 3. La Foto (Header) */
+    .modal-visual { 
+        width: 100%; 
+        height: 200px;           /* Altezza fissa */
+        flex-shrink: 0;
+    }
+    
+    /* 4. Il Form (Contenuto) */
+    .modal-form-content { 
+        width: 100%; 
+        height: auto;            /* Si allunga quanto serve */
+        overflow: visible;       /* Niente scroll interno (usa quello del padre .modal-wide) */
+        padding: 25px;
+        padding-bottom: 80px;    /* Spazio extra in fondo per il bottone */
+    }
+
+    .kit-list-inline {
+        flex-direction: column;
+        gap: 5px;
     }
 }
 
-@media (min-width: 992px) {
-    .recipe-slider-track .club-card {
-        flex-basis: 30%; /* Tre card visibili su desktop */
+/* =========================================
+   11. MOBILE RESPONSIVE
+   ========================================= */
+@media (max-width: 900px) {
+    h1 {
+        font-size: 2.5rem; 
+        margin-bottom: 10px;
     }
+    
+    .hero { height: auto; padding: 100px 0 60px; align-items: flex-start; padding-top: 140px; min-height: auto; }
+  .hero-bg picture, .hero-bg img { height: 100%; }
+    .hero-content {
+        padding: 80px 20px; /* Un po' di margine ai lati per non toccare i bordi */
+    }
+        
+    .split-content { padding: 40px 20px; }
+    .split-image { height: 350px; }
+    
+    .strip-content { flex-direction: column; text-align: center; gap: 20px; }
 }
 
-/* Stile dei pulsanti di navigazione */
+/* =========================================
+   GALLERY GRID
+   ========================================= */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 colonne su desktop */
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.gallery-item {
+    height: 300px; /* Altezza fissa */
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05); /* Zoom leggero all'hover */
+}
+
+/* Mobile Gallery: 2x2 */
+@media (max-width: 768px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item { height: 200px; }
+}
+
+/* =========================================
+   CAROUSEL / SLIDESHOW (Gallery & Reviews)
+   ========================================= */
+.carousel-container {
+    width: 100%;
+    overflow: hidden; /* Nasconde scrollbar brutta */
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Abilita scroll orizzontale */
+    scroll-snap-type: x mandatory; /* Effetto Calamita */
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch; /* Fluidità su iOS */
+    scrollbar-width: none; /* Nasconde scrollbar su Firefox */
+}
+.carousel-track::-webkit-scrollbar { display: none; /* Nasconde scrollbar su Chrome/Safari */ }
+
+.carousel-item {
+    flex: 0 0 80%; /* Su mobile mostra l'80% così vedi che c'è altro dopo */
+    max-width: 400px;
+    height: 350px;
+    scroll-snap-align: center; /* Si ferma al centro */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.carousel-item img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+
+.swipe-hint {
+    text-align: center; font-size: 0.8rem; color: #999; margin-top: 10px;
+}
+
+/* Stile specifico per le Card Recensioni */
+.review-card {
+    flex: 0 0 80%;
+    max-width: 350px;
+    scroll-snap-align: center;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    text-align: center;
+}
+.stars { color: #f4c150; margin-bottom: 15px; letter-spacing: 2px; }
+.review-text { font-style: italic; font-size: 1rem; margin-bottom: 15px; color: var(--text-main); }
+.review-author { font-size: 0.85rem; font-weight: 600; color: #888; text-transform: uppercase; }
+
+/* Desktop: Mostriamo più elementi */
+@media (min-width: 900px) {
+    .carousel-item, .review-card { flex: 0 0 300px; } /* Più piccoli su desktop */
+}
+
+
+/* =========================================
+   REVIEWS
+   ========================================= */
+
+/* Utility Class per nascondere sezioni temporaneamente */
+.hidden {
+    display: none !important;
+}
+
+/* Fix estetico per le card recensioni (Sfondo bianco su sfondo crema) */
+.review-card {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); /* Ombra molto delicata */
+    border: 1px solid rgba(0,0,0,0.02);
+    /* Dimensioni fisse per uniformità */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =========================================
+   UNIVERSAL SLIDER / CAROUSEL
+   ========================================= */
+.slider-wrapper {
+    position: relative;
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 0 40px; /* Spazio per le frecce */
+}
+
+.slider-track-container {
+    overflow: hidden; /* Nasconde quello che esce */
+    width: 100%;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* LE SLIDE: Calcolo larghezza */
+.slide {
+    min-width: 100%; /* Mobile: 1 per volta */
+    padding: 0 10px; /* Spazio tra le slide */
+    box-sizing: border-box;
+}
+
+.slide img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+/* Card Review dentro lo slider */
+.review-slide .review-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    height: 100%; /* Altezza uniforme */
+    display: flex; flex-direction: column; justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* BOTTONI (Frecce) */
 .slider-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid #ddd;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    width: 40px; height: 40px;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--dark-text);
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.3s ease;
     z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    color: #333;
+    display: flex; align-items: center; justify-content: center;
+}
+.slider-btn:hover { background: #3A5F0B; color: #fff; }
+
+.prev-btn { left: 0; }
+.next-btn { right: 0; }
+
+/* =========================================
+   DIFFERENZIAZIONE SLIDER (Desktop)
+   ========================================= */
+
+/* Default Mobile: Tutto è 100% (1 slide) */
+.slide {
+    min-width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
-.slider-btn:hover {
-    background-color: var(--white);
-    transform: translateY(-50%) scale(1.1);
-}
+/* DESKTOP (Schermi > 900px) */
+@media (min-width: 900px) {
+    
+    /* CASO 1: LA GALLERY (Vogliamo 1 foto grande ed elegante) */
+    #gallery-slider .slide {
+        min-width: 100%; /* Resta 1 sola foto anche su desktop */
+        padding: 0 100px; /* Aggiungiamo aria ai lati per non farla "esplodere" */
+    }
+    
+    #gallery-slider .slide img {
+        height: 500px; /* La facciamo più alta per godersi la foto */
+        object-fit: cover; /* Ritaglia elegantemente */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Ombra profonda */
+    }
 
-.slider-btn.prev {
-    left: -20px;
-}
-
-.slider-btn.next {
-    right: -20px;
-}
-
-/* Nasconde i pulsanti su schermi molto piccoli dove si usa solo il tocco */
-@media (max-width: 576px) {
-    .slider-btn {
-        display: none;
+    /* CASO 2: LE RECENSIONI (Vogliamo vederne 3 per fiducia) */
+    #reviews-slider .slide {
+        min-width: 33.333%; /* Qui ne mostriamo 3 */
     }
 }
 
-/* --- STILI PER PAGINA RICETTE --- */
-.recipe-section {
-    padding: 40px 0;
-    border-bottom: 2px solid var(--light-grey);
+
+/* --- AGGIUNTA PER MOBILE SWIPE --- */
+/* Incolla questo alla fine del tuo CSS */
+
+@media (max-width: 900px) {
+    /* 1. Nascondiamo le frecce su mobile */
+    .slider-btn {
+        display: none !important;
+    }
+
+    /* 2. Abilitiamo lo swipe nativo col dito */
+    .slider-track-container {
+        overflow-x: auto !important;       /* Permette lo scroll orizzontale */
+        scroll-snap-type: x mandatory;     /* Effetto "calamita" sulle card */
+        -webkit-overflow-scrolling: touch; /* Fluidità su iPhone */
+        scrollbar-width: none;             /* Nasconde barra scroll (Firefox) */
+        width: 100%;
+    }
+
+    /* Rimuoviamo gap dal flex container per evitare calcoli errati */
+    .slider-track {
+        gap: 0 !important; 
+    }
+
+    /* Nasconde barra scroll (Chrome/Safari) */
+    .slider-track-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* 3. La Slide PERFETTA */
+    .slide {
+        /* Larghezza: deve essere ESATTAMENTE il 100% del contenitore */
+        min-width: 100% !important; 
+        
+        /* Margini: ZERO. Questo elimina l'accumulo di errore ("drifting") */
+        margin: 0 !important; 
+        
+        /* Padding: Usiamo questo per staccare le foto visivamente */
+        /* 0px sopra/sotto, 10px ai lati per non far toccare i bordi schermo */
+        padding: 0 10px !important; 
+        
+        /* Fondamentale: include il padding nel calcolo del 100% */
+        box-sizing: border-box; 
+        
+        /* Allineamento dello scroll */
+        scroll-snap-align: center;
+    }
 }
-.recipe-section:last-of-type {
-    border-bottom: none;
+
+/* =========================================
+   FAQ ACCORDION
+   ========================================= */
+.small-container { max-width: 800px; margin: 0 auto; }
+
+.accordion { margin-top: 40px; border-top: 1px solid #eee; }
+
+.accordion-item { border-bottom: 1px solid #eee; }
+
+.accordion-header {
+    width: 100%;
+    padding: 20px 0;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-main);
 }
-.recipe-section h2 {
-    text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 10px;
+
+.accordion-header .icon {
+    font-size: 1.5rem;
+    font-weight: 300;
+    transition: transform 0.3s;
 }
-.recipe-section > p { /* Selettore per il solo paragrafo di intro */
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 30px auto;
+
+/* Quando è aperto, ruota la X */
+.accordion-item.active .icon { transform: rotate(45deg); }
+
+.accordion-content {
+    max-height: 0; /* Chiuso di default */
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-content p {
+    padding-bottom: 25px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+    LAST CTA
+   ========================================= */
+.last-cta {
+    background-color: #F9F8F6; /* Crema, o usa var(--primary-green) con testo bianco */
+    padding: 80px 0;
+}
+.btn-large {
+    padding: 15px 40px;
     font-size: 1.1rem;
-    font-style: italic;
 }
-.recipe-content {
+
+
+/* =========================================
+   CONTACTS & NEWSLETTER SECTION
+   ========================================= */
+.contacts-wrapper {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
 }
-@media (min-width: 768px) {
-    .recipe-content {
-        grid-template-columns: 1fr 2fr; /* Colonne 1/3 e 2/3 */
+
+.input-dark {
+    background: rgba(255,255,255,0.1); /* Sfondo semitrasparente */
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+}
+.input-dark::placeholder { color: rgba(255,255,255,0.5); }
+.input-dark:focus {
+    background: rgba(255,255,255,0.2);
+    border-color: #fff;
+}
+
+.newsletter-box {
+    background: rgba(255,255,255,0.05);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.newsletter-input-group {
+    display: flex; gap: 10px; margin-top: 20px;
+}
+.newsletter-input-group input { margin-bottom: 0; }
+
+.mb-20 { margin-bottom: 20px; opacity: 0.8; }
+
+/* Mobile Contatti */
+@media (max-width: 768px) {
+    .contacts-wrapper { grid-template-columns: 1fr; gap: 50px; }
+    .newsletter-input-group { flex-direction: column; }
+}
+
+/* Stile Checkbox Privacy (Newsletter) */
+.privacy-check {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.privacy-check a { color: #fff; }
+.privacy-check input { width: auto; margin: 0; cursor: pointer; }
+
+
+/* =========================================
+   FOOTER STYLES
+   ========================================= */
+.site-footer {
+    background-color: #1a1a1a;
+    color: #999;
+    padding: 60px 0 20px;
+    font-size: 0.9rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr; /* Layout asimmetrico */
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.site-footer h4 { color: #fff; margin-bottom: 20px; font-size: 1.1rem; }
+.site-footer a { color: #999; text-decoration: none; display: block; margin-bottom: 10px; }
+.site-footer a:hover, .text-link:hover { color: #fff; }
+.logo-text { color: #fff; font-family: var(--font-heading); font-size: 1.5rem; font-weight: bold; display: block; margin-bottom: 15px; }
+
+.text-link { background: none; border: none; color: #999; cursor: pointer; padding: 0; font-size: inherit; font-family: inherit;}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .footer-content { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+}
+
+/* COOKIE BANNER */
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1a1a1a; /* Dark background */
+    color: #fff;
+    padding: 20px;
+    z-index: 9999;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 2px solid var(--primary-green); /* Gold/Green accent */
+}
+
+.cookie-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.cookie-content h3 {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.cookie-content p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.cookie-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #aaa;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+.btn-outline-light {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-outline-light:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* COOKIE MODAL TOGGLES */
+.cookie-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cookie-info strong { display: block; margin-bottom: 4px; color: var(--text-dark); }
+.cookie-info p { font-size: 0.85rem; color: #666; margin: 0; }
+
+/* Toggle Switch CSS */
+.cookie-toggle { position: relative; width: 50px; height: 26px; }
+.cookie-toggle input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; width: 18px;
+    left: 4px; bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--primary-green); }
+input:checked + .slider:before { transform: translateX(24px); }
+.slider.locked { background-color: #ddd; cursor: not-allowed; opacity: 0.6; }
+.slider.locked:before { background-color: #999; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .cookie-banner { flex-direction: column; text-align: center; }
+    .cookie-actions { width: 100%; flex-direction: column; }
+    .cookie-actions button { width: 100%; }
+    .btn-link { margin-bottom: 10px; }
+}
+
+/* --- MODIFICA HERO LAYOUT --- */
+.hero {
+    /* Cambiamo da row a column per mettere la barra in fondo */
+    flex-direction: column !important; 
+    justify-content: space-between !important; /* Spinge il contenuto al centro e la barra giù */
+    padding-bottom: 0 !important; /* Toglie spazio sotto perché ora c'è la barra */
+}
+
+/* Assicuriamo che il contenuto resti centrato verticalmente nello spazio rimanente */
+.hero-content {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-bottom: 40px; /* Un po' di aria sopra la barra */
+}
+
+/* --- NUOVA BARRA TRUST (Fidelity Banner) --- */
+.hero-trust-bar {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Sfondo scuro trasparente */
+    backdrop-filter: blur(8px);      /* Effetto sfocatura moderno */
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px 20px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    z-index: 2; /* Sopra all'overlay */
+}
+
+.trust-item {
+    color: #fff;
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.5px;
+}
+
+/* --- NUOVO PROCESSO SEMPLIFICATO --- */
+.simple-process {
+    padding: 60px 0;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    align-items: start; /* Allinea in alto */
+}
+
+.process-step {
+    text-align: center;
+    padding: 0 10px;
+}
+
+/* Recupera lo stile del tuo numero esistente ma lo adatta */
+.process-step .step-number {
+    font-family: "Playfair Display", serif; /* O var(--font-heading) */
+    font-size: 3rem;
+    color: #3A5F0B; /* Il tuo verde */
+    opacity: 0.25;
+    line-height: 1;
+    margin-bottom: 15px;
+}
+
+.step-text h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #1D1D1D;
+}
+.step-text p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* --- ADATTAMENTO MOBILE --- */
+@media (max-width: 768px) {
+    /* Barra Trust su Mobile: impilata o più stretta */
+    .hero-trust-bar {
+        display: none;
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.8); /* Più scuro per leggibilità su mobile */
+    }
+    .trust-item { justify-content: center; }
+
+    /* Processo su Mobile: uno sotto l'altro */
+    .process-grid {
+        grid-template-columns: 1fr;
         gap: 50px;
     }
 }
-.recipe-column h3 {
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--primary-green);
+
+/* --- FAQ SECTION TOGGLE (Il contenitore esterno) --- */
+
+/* Il contenitore che avvolge tutte le domande */
+.faq-section-wrapper {
+    max-height: 0;       /* Chiuso di default */
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease-out; /* Apertura fluida */
+}
+
+/* Quando è aperto */
+.faq-section-wrapper.open {
+    max-height: 2000px;  /* Abbastanza alto da contenere tutto */
+    opacity: 1;
+    margin-top: 30px;
+}
+
+/* La freccia grande del titolo */
+.arrow-main {
     display: inline-block;
-}
-.ingredients-list, .instructions-list {
-    padding-left: 20px;
-}
-.ingredients-list li, .instructions-list li {
-    margin-bottom: 10px;
-    line-height: 1.7;
+    font-size: 0.8em;
+    color: var(--primary-green);
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+    vertical-align: middle;
 }
 
-/* Stile per le note nel riepilogo ordine */
-.summary-note {
-    display: block;
-    text-align: right;
-    font-size: 0.8rem;
-    font-style: italic;
-    color: var(--light-text);
-    margin-top: 8px;
-    padding-right: 5px;
+/* Rotazione freccia titolo */
+.section-header.active .arrow-main {
+    transform: rotate(180deg);
 }
 
-/* Stile per l'avviso sui dazi doganali */
-.customs-warning-note {
-    display: none; /* Nascosto di default */
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #fff3cd; /* Giallo chiaro per l'attenzione */
-    border: 1px solid #ffeeba;
-    border-radius: var(--border-radius-sm);
-    color: #856404;
-    font-weight: 600;
-}
+/* --- STILE RECENSIONI "READ MORE" --- */
 
-.legal-warning-box {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #fff3cd;
-    border-left: 5px solid #ffeeba;
-    color: #856404;
-}
-
- @media print {
-
-            /* Impostazioni generali della pagina di stampa */
-            @page {
-                size: A4;
-                margin: 2cm; /* Margini standard per un documento A4 */
-            }
-
-            /* Nasconde tutti gli elementi inutili sulla carta */
-            .main-nav, 
-            .footer, 
-            #guide-pdf, /* Nasconde il pulsante di download stesso */
-            .video-container,
-            video {
-                display: none !important;
-            }
-
-            /* Stile base per il corpo del testo stampato */
-            body {
-                font-family: 'Times New Roman', serif; /* Un font classico e leggibile per la stampa */
-                font-size: 12pt; /* Dimensione standard per documenti */
-                color: #000000; /* Testo nero puro per massima leggibilità */
-                background-color: #ffffff; /* Sfondo bianco puro */
-            }
-
-            /* Rimuove ombre e sfondi colorati */
-            .legal-page, .guide-highlight-box, .guide-tip-box, .guide-info-box {
-                box-shadow: none !important;
-                border: 1px solid #ccc !important; /* Sostituisce i bordi colorati con uno grigio leggero */
-                background-color: transparent !important;
-                padding: 15px !important;
-                margin-bottom: 20px !important;
-            }
-            
-            /* Stile per i titoli */
-            h1, h2, h3 {
-                color: #000000;
-                font-family: 'Georgia', serif;
-                page-break-after: avoid; /* Evita che la pagina si interrompa subito dopo un titolo */
-                page-break-inside: avoid; /* Evita che il titolo si spezzi su due pagine */
-            }
-
-            h1 { font-size: 24pt; }
-            h2 { font-size: 18pt; }
-            h3 { font-size: 14pt; }
-
-            /* All'interno del blocco @media print {...} */
-
-/* Aggiunge interruzioni di pagina forzate prima delle sezioni specificate */
-#guide-visual,
-#guide-olfactory,
-#guide-gustatory,
-#guide-storage {
-    page-break-before: always; /* Vecchia sintassi per massima compatibilità */
-    break-before: page;      /* Nuova sintassi standard */
-}
-
-            /* Stile per i link, che sulla carta non sono cliccabili */
-            a {
-                color: #000000;
-                text-decoration: none;
-            }
-
-            /* Stile per le liste */
-            ul, ol {
-                page-break-inside: avoid; /* Cerca di non spezzare le liste tra due pagine */
-            }
-        }
-
-/* Stili per le nuove opzioni del form */
-.gift-option-group {
-    border-top: 1px solid var(--medium-grey);
-    border-bottom: 1px solid var(--medium-grey);
-    padding: 15px 0;
-    margin: 2rem 0;
-}
-.gift-checkbox-label {
-    display: flex;
-    align-items: center;
+.review-title {
     font-size: 1.1rem;
+    font-weight: 700;
+    margin: 5px 0 10px 0;
+    color: #333;
+    font-family: inherit; /* Usa il font del sito */
+}
+
+/* Contenitore del testo che si espande/comprime */
+.review-content {
+    max-height: 80px; /* Altezza iniziale (circa 3-4 righe) */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.5s ease; /* Animazione fluida */
+    margin-bottom: 10px;
+}
+
+/* Effetto sfumato bianco sul fondo quando è chiuso */
+.review-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), #ffffff 90%);
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+/* Quando è aperto (classe aggiunta via JS) */
+.review-content.expanded {
+    max-height: 1200px; /* Aumentato da 500px a 1200px per sicurezza su mobile */
+    padding-bottom: 0;  /* Assicura che non ci sia padding strano */
+}
+
+/* Quando è aperto, togliamo la sfumatura */
+.review-content.expanded::after {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Stile per le recensioni corte che non hanno bisogno di espansione */
+.review-content.short {
+    max-height: none;
+}
+.review-content.short::after {
+    display: none;
+}
+
+/* Bottone "Read More" */
+.read-more-btn {
+    background: none;
+    border: none;
+    color: #3A5F0B; 
     font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
+    text-decoration: underline;
+    padding: 5px;
+    
+    /* MODIFICA QUI: Aumentiamo il margine sopra */
+    margin-top: 15px; 
+    margin-bottom: 10px;
+    
+    display: inline-block;
+    position: relative; /* Per sicurezza z-index */
+    z-index: 2; 
 }
-.gift-checkbox-label input {
-    width: auto;
-    margin-right: 12px;
-    transform: scale(1.5);
+
+.read-more-btn:hover {
+    color: #2e4a08;
 }
-#gift-fields-container {
-    display: none; /* Nascosto di default */
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: var(--border-radius-sm);
-    margin-bottom: 2rem;
+
+/* Fix per l'autore */
+.review-card small {
+    display: block;
+    margin-top: auto; /* Spinge l'autore in fondo se usi flex */
+    line-height: 1.4;
 }
-#gift-fields-container.visible {
-    display: block; /* Visibile quando la checkbox è spuntata */
+
+/* =========================================
+   PARTNERS SLIDER CUSTOMIZATION
+   ========================================= */
+
+/* Stile base della slide Partner */
+.partner-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
-.form-note {
+
+/* Dimensione e Stile Immagini */
+.partner-slide img {
+    width: 200px;        /* Larghezza fissa richiesta */
+    height: 100px;       /* Altezza fissa richiesta */
+    object-fit: contain; /* Mantiene proporzioni nel box */
+    margin: 0 auto 10px auto;
+    /* --- MODIFICA QUI --- */
+    padding: 15px;          /* (NEW) Crea un cuscinetto vuoto interno */
+    box-sizing: border-box; /* (NEW) Obbliga il padding a stare nei 200x100 */
+    /* -------------------- */
+    
+    /* Effetto Bianco e Nero */
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+/* Hover: Colore e Opacità piena */
+.partner-slide a:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+/* Testo del Ruolo (es. "Bottling") */
+.partner-role {
+    font-size: 0.75rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: var(--font-body);
+}
+
+/* --- REGOLE DI VISUALIZZAZIONE (Override Desktop) --- */
+
+@media (min-width: 900px) {
+    /* Su Desktop ne mostriamo 4 per volta */
+    #partners-slider .slide {
+        min-width: 25%; /* 100% / 4 = 25% */
+        padding: 0 20px;
+    }
+}
+
+/* --- REGOLE DI VISUALIZZAZIONE (Mobile) --- */
+/* Nota: Su mobile eredita il "min-width: 100%" generico che hai già 
+   nel tuo CSS per la classe .slide, quindi ne mostrerà 1 alla volta 
+   con lo swipe, esattamente come le recensioni. */
+   /* --- FIX PER MOBILE --- */
+@media (max-width: 900px) {
+    .partner-slide img {
+        /* Su Mobile togliamo l'effetto fantasma */
+        filter: grayscale(0%); /* Mettiamo 0% se li vuoi a colori, o 100% se li vuoi grigi ma nitidi */
+        opacity: 1; /* Opacità piena: si vedono bene! */
+    }
+}
+
+/* =========================================
+   ADOPTERS CLUB HUB STYLES
+   ========================================= */
+
+/* Wrapper Generale: Sfondo Crema per coerenza */
+.club-page-wrapper {
+    background-color: var(--cream-bg); /* Usa la tua variabile esistente */
+    min-height: 100vh;
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header Emozionale */
+.club-hero {
+    width: 100%;
+    /* Aumentiamo un po' il padding per dare respiro all'immagine */
+    padding: 180px 20px 60px 20px; 
+    text-align: center;
+    position: relative;
+    
+    /* IL TRUCCO: Sfumatura semitrasparente + Immagine */
+    background-image: 
+        /* Livello 1: Una velatura color crema all'85% di opacità */
+        linear-gradient(rgba(0, 0, 0, 0.35), rgba(249, 248, 246, 0.95)),
+        /* Livello 2: La tua immagine (Sostituisci l'URL tra le virgolette) */
+        url(immagini/Albero\ 9\ -\ DSC_2746\ copia.webp);
+        
+    /* Fa sì che l'immagine copra tutto lo spazio senza deformarsi */
+    background-size: cover;
+    /* Centra l'immagine */
+    background-position: center center;
+    /* Evita che l'immagine si ripeta */
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* Centra orizzontalmente i blocchi */
+    justify-content: center; /* Centra verticalmente */
+    text-align: center;
+}
+
+.club-hero h1 {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--primary-green);
+    margin: 10px 0;
+}
+
+.club-hero p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 2px;
     font-size: 0.8rem;
-    font-style: italic;
-    color: var(--light-text);
-    margin-top: 5px;
+    font-weight: 700;
+    color: #999;
 }
 
-/* ==========================================================================
-   Correzione Responsive per il Banner dei Cookie
-   ========================================================================== */
-
-/* Aggiungi questo blocco alla fine del tuo file style.css.
-   Si attiverà solo su schermi con larghezza massima di 768px. */
-
-@media (max-width: 768px) {
-
-    #cookie-banner {
-        /* Manteniamo la griglia, ma riduciamo padding e spazi per compattare */
-        padding: 1rem;
-        gap: 1rem;
-    }
-
-    .cookie-banner-content {
-        /* Riduciamo leggermente la dimensione del testo per risparmiare spazio */
-        font-size: 0.9rem;
-    }
-
-    .cookie-banner-buttons {
-        /* QUESTA È LA MODIFICA CHIAVE:
-           Impiliamo i pulsanti in verticale.
-           Questo rende la colonna dei pulsanti più stretta,
-           lasciando più spazio orizzontale al testo. */
-        flex-direction: column;
-        gap: 0.5rem; /* Riduciamo lo spazio tra i pulsanti impilati */
-    }
-
+/* Contenitore "App-Like": Stretto su desktop, largo su mobile */
+.club-container {
+    width: 100%;
+    max-width: 500px; /* Larghezza massima stile "App" */
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Spazio tra le card */
+    margin-bottom: 50px;
 }
 
-/* FINAL CTA — variante HERO foto */
-#final-cta.cta--photo{
-  position:relative; padding:120px 20px; color:#fff; text-align:center;
-}
-#final-cta.cta--photo::before{
-  content:''; position:absolute; inset:0; 
-}
-#final-cta.cta--photo .container{ position:relative; z-index:1; }
-#final-cta.cta--photo .section-title{ color:#fff; text-shadow: 0 2px 6px rgba(0,0,0,.35); }
-#final-cta.cta--photo .hero-subtitle{ color:#f1f5f9; text-shadow: 0 1px 4px rgba(0,0,0,.35); }
-#final-cta.cta--photo .cta-buttons{ gap:.75rem; }
-#final-cta.cta--photo .btn-secondary{ 
-  border-color:#fff; color:#fff; background:transparent;
-}
-#final-cta.cta--photo .btn-primary{
-  filter: drop-shadow(0 8px 18px rgba(0,0,0,.25));
-}
-/* Final CTA con stesso parallax delle altre sezioni */
-#final-cta {
-  position: relative;
-  padding: 100px 0; /* mantieni la tua spaziatura */
-  background-image:
-    linear-gradient(rgba(42,49,34,0.7), rgba(42,49,34,0.7)),
-    url('immagini/sfondo-uliveto.webp');
-  background-attachment: fixed;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  text-align: center;
+/* LE CARD: Il cuore del design */
+.club-card {
+    background: #fff;
+    border-radius: 16px; /* Angoli stondati moderni */
+    padding: 30px 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04); /* Ombra sofficissima */
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.02);
+    position: relative;
+    overflow: hidden;
 }
 
-/* opzionale: coerenza con le altre sezioni parallax */
-#final-cta .section-title,
-#final-cta .hero-subtitle {
-  color: var(--white);
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+/* Effetto Hover su Desktop */
+.club-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
 
-/* Se NON hai tolto la classe, neutralizza la transform solo qui */
-#final-cta.animate-on-scroll { transform: none !important; }
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
 
-@keyframes onAutoFill {}
-input:-webkit-autofill {
-  animation-name: onAutoFill;
-  animation-duration: 0.01s;
+.club-card h2 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+
+.club-card p {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* FORM STYLES */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #eee;
+    background: #fcfcfc;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-green);
+    background: #fff;
+    outline: none;
+}
+
+/* BOTTONI MODERNI */
+.btn-club {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border-radius: 50px; /* Pill shape */
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+    border: none;
+}
+
+/* Variante Primaria (Verde Pieno) */
+.btn-club.primary {
+    background-color: var(--primary-green);
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(58, 95, 11, 0.2);
+}
+.btn-club.primary:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Variante Outline (Bordo Verde) */
+.btn-club.outline {
+    background-color: transparent;
+    border: 2px solid var(--primary-green);
+    color: var(--primary-green);
+}
+.btn-club.outline:hover {
+    background-color: var(--primary-green);
+    color: #fff;
+}
+
+/* Variante Light (Per sfondo scuro) */
+.btn-club.light {
+    background-color: #fff;
+    color: var(--primary-green);
+}
+
+/* CARD GUEST PASS (Dark Mode) */
+.club-card.dark-mode {
+    background-color: var(--primary-green);
+    color: #fff;
+}
+.club-card.dark-mode h2, 
+.club-card.dark-mode p,
+.club-card.dark-mode strong {
+    color: #fff;
+}
+
+/* Lista Benefit */
+.benefit-list {
+    text-align: left;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    padding-left: 0;
+}
+.benefit-list li {
+    margin-bottom: 10px;
+    list-style: none;
+}
+
+/* Ribbon "VIP" */
+.ribbon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255,255,255,0.2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+/* Helper Text */
+.tiny-note {
+    font-size: 0.75rem !important;
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+
+.coord-example {
+    background: #f4f4f4;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: 15px;
+    color: #555;
+}
+
+.club-footer {
+    padding-bottom: 40px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+}
+.club-footer a {
+    text-decoration: underline;
+}
+
+/* FIX MODALE: SCROLLING & POSIZIONAMENTO */
+
+.modal-overlay {
+    /* Manteniamo le regole di base */
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2000; /* Assicuriamoci stia sopra a tutto */
+    
+    /* GESTIONE CENTRATURA SICURA */
+    display: flex;
+    align-items: center;     /* Centra verticalmente */
+    justify-content: center; /* Centra orizzontalmente */
+    padding: 15px;           /* Margine di sicurezza dai bordi schermo */
+}
+
+.modal-content {
+    background: #fff;
+    width: 100%;
+    max-width: 550px;
+    border-radius: 16px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+
+    /* --- IL TRUCCO PER LO SCROLL --- */
+    max-height: 90vh;       /* Altezza massima: 90% della finestra */
+    overflow-y: auto;       /* Se supera l'altezza, metti la barra di scorrimento */
+    -webkit-overflow-scrolling: touch; /* Scroll fluido su iPhone */
+}
+
+/* Stile barra di scorrimento (opzionale, per renderla più carina) */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+.modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 4px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+    background: #ccc; 
+    border-radius: 4px;
+}
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #bbb; 
 }

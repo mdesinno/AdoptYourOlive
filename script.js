@@ -1,1226 +1,904 @@
-// Registrazione del Service Worker per la PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('AYO Service Worker registrato con successo.');
-      })
-      .catch(error => {
-        console.log('Registrazione Service Worker fallita:', error);
-      });
-  });
-}
+document.addEventListener('DOMContentLoaded', () => {
+console.log("JS Caricato");
 
-// Funzione per caricare la chiave e lo script di Google Maps in modo sicuro
-async function loadGoogleMapsScript() {
-    try {
-        const response = await fetch('/.netlify/functions/get-maps-key');
-        if (!response.ok) throw new Error("Errore nel fetch della chiave API");
-        const data = await response.json();
-        const apiKey = data.apiKey;
-        if (!apiKey) throw new Error("Chiave API di Google Maps non trovata.");
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initAutocomplete`;
-        script.async = true;
-        document.head.appendChild(script);
-    } catch (error) {
-        console.error("Impossibile caricare lo script di Google Maps:", error);
-    }
-}
+// 1. RILEVAMENTO LINGUA (Legge il tag <html lang="it">)
+    const currentLang = document.documentElement.lang || 'en';
+    const isIt = currentLang === 'it';
 
-// --- Caricamento on-demand di Google Analytics (dopo consenso) ---
-window.loadGA = function () {
-  if (window.gaLoaded) return;
-  const s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-FE1BSWKNP8';
-  document.head.appendChild(s);
+    // 2. DIZIONARIO TESTI DINAMICI
+    const txt = {
+        // Messaggi di Caricamento
+        sending: isIt ? "Invio..." : "Sending...",
+        paymentLoading: isIt ? "Attendi..." : "Loading...",
+        
+        // Messaggi di Successo/Errore
+        successMsg: isIt ? "Messaggio inviato! Ti risponderemo presto." : "Message sent successfully! We'll get back to you soon.",
+        // QUI HO AGGIUNTO L'EMAIL:
+        errorMsg: isIt ? "Errore nell'invio. Scrivici a: info@adoptyourolive.com" : "Error. Please email us at: info@adoptyourolive.com",
+        
+        corpSuccess: isIt ? "Richiesta ricevuta! Ti invieremo il preventivo a breve." : "Request received! We'll send you a quote shortly.",
+        newsSuccess: isIt ? "Benvenuto in famiglia! Sei iscritto." : "Welcome to the family! You are subscribed.",
+        newsError: isIt ? "Qualcosa è andato storto. Riprova." : "Something went wrong. Please try again.",
+        promoApplied: isIt ? "Codice applicato!" : "Promo Code applied!",
+        
+        // Smart Form (Placeholder)
+        placeholderName: isIt ? "Mario Rossi" : "John Smith",
+        placeholderSurname: isIt ? "Rossi" : "Smith",
+        giftRecipientName: isIt ? "Nome Destinatario" : "Recipient's Name",
+        giftRecipientSurname: isIt ? "Cognome Destinatario" : "Recipient's Surname",
+        hintOwner: isIt ? "Il nome completo dell'adottante." : "The full name of the person adopting the tree.",
+        hintGift: isIt ? "Inserisci il nome di chi riceverà il regalo." : "Enter the name of the person receiving the gift."
+    };
 
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function(){ dataLayer.push(arguments); };
-  gtag('js', new Date());
-  gtag('config', 'G-FE1BSWKNP8', { anonymize_ip: true });
-  window.gaLoaded = true;
-};
+/* =========================================
+   NAVBAR LOGIC (Scroll + Mobile Toggle)
+   ========================================= */
+const navbar = document.querySelector('.navbar');
+const menuIcon = document.querySelector('.mobile-menu-icon');
+const navLinks = document.querySelector('.nav-links');
 
+// Controllo sicurezza
+if (navbar && menuIcon && navLinks) {
 
-// --- GESTIONE TOKEN CLUB con scadenza "gentile" ---
-// (Se il token NON ha scadenza perché salvato in passato, lo accettiamo lo stesso.)
+    // Variabile per evitare di ingolfare lo scroll
+    let ticking = false;
 
-// (In futuro, quando salverai il token dopo il login, usa questa helper:)
-function saveClubTokenWithExpiry(token, days = 30) {
-  const exp = Date.now() + days * 24 * 60 * 60 * 1000; // 30 giorni
-  localStorage.setItem('ayoClubToken', token);
-  localStorage.setItem('ayoClubTokenExp', String(exp));
-}
-
-// Legge il token e controlla la scadenza (se c'è). 
-// Se non c'è scadenza (vecchio salvataggio), lo considera valido per compatibilità.
-function getValidClubToken() {
-  const t = localStorage.getItem('ayoClubToken');
-  if (!t) return null;
-  const expStr = localStorage.getItem('ayoClubTokenExp');
-  if (!expStr) return t; // compatibilità: token salvati prima della scadenza
-  const exp = parseInt(expStr, 10) || 0;
-  if (Date.now() < exp) return t;
-  // scaduto: pulisco e invalido
-  localStorage.removeItem('ayoClubToken');
-  localStorage.removeItem('ayoClubTokenExp');
-  return null;
-}
-
-// SOSTITUISCI la tua funzione con questa:
-function handleClubLinkClick(event) {
-  event.preventDefault();
-  const token = getValidClubToken();
-  if (token) {
-    window.location.href = `club.html?token=${token}`;
-  } else {
-    window.location.href = 'club-login.html';
-  }
-}
-
-
-function initAutocomplete() {
-    const addressInput = document.getElementById('address');
-    if (!addressInput) return;
-    const options = { types: ['address'], fields: ['address_components', 'name'] };
-    try {
-        const autocomplete = new google.maps.places.Autocomplete(addressInput, options);
-        autocomplete.addListener('place_changed', () => {
-            const place = autocomplete.getPlace();
-            if (!place.address_components) return;
-            // Pulisci i campi prima di popolarli
-            document.getElementById('city').value = '';
-            document.getElementById('postal-code').value = '';
-            document.getElementById('country').value = '';
-            addressInput.value = '';
-            
-            let streetNumber = '', route = '';
-            for (const component of place.address_components) {
-                const componentType = component.types[0];
-                switch (componentType) {
-                    case "street_number": streetNumber = component.long_name; break;
-                    case "route": route = component.long_name; break;
-                    case "locality": document.getElementById('city').value = component.long_name; break;
-                    case "postal_code": document.getElementById('postal-code').value = component.long_name; break;
-                    case "country": document.getElementById('country').value = component.short_name; break;
-                }
-            }
-            addressInput.value = `${route} ${streetNumber}`.trim();
-            document.getElementById('address-2').focus();
-        });
-    } catch (e) {
-        console.warn("Google Maps Autocomplete non ha potuto inizializzarsi.", e);
-    }
-}
-window.initAutocomplete = initAutocomplete;
-
-// --- FUNZIONI DI INTERNAZIONALIZZAZIONE (i18n) ---
-let i18nData = { en: {}, current: {} };
-let currentLang = localStorage.getItem('language') || 'it';
-
-async function fetchTranslations(lang) {
-    try {
-        const response = await fetch(`/traduzioni/${lang}.json`);
-        if (!response.ok) throw new Error(`Non ho potuto caricare ${lang}.json`);
-        return await response.json();
-    } catch (error) {
-        console.error(error);
-        return i18nData.en; // Fallback all'inglese
-    }
-}
-
-function getTranslation(key, replacements = {}) {
-    const fallbackLang = i18nData.en || {};
-    const currentLangData = i18nData.current || fallbackLang;
-    let text = currentLangData[key] || fallbackLang[key] || '';
-    for (const placeholder in replacements) {
-        text = text.replace(`{${placeholder}}`, replacements[placeholder]);
-    }
-    return text;
-}
-
-async function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('language', lang);
-    document.documentElement.lang = lang;
-
-   /* // ==> INIZIO BLOCCO HREFLANG <==
-    // Rimuovi i vecchi tag hreflang per evitare duplicati
-    document.querySelectorAll('link[rel="alternate"]').forEach(el => el.remove());
-
-    const languages = ['it', 'en', 'de', 'nl', 'no', 'fr'];
-    const baseUrl = 'https://www.adoptyourolive.com/'; // Assicurati che l'URL sia corretto
-
-    languages.forEach(langCode => {
-        const link = document.createElement('link');
-        link.rel = 'alternate';
-        link.hreflang = langCode;
-        link.href = baseUrl;
-        document.head.appendChild(link);
-    });
-    // ==> FINE BLOCCO HREFLANG <== */
-
-    if (Object.keys(i18nData.en).length === 0) {
-        i18nData.en = await fetchTranslations('en');
-    }
-    i18nData.current = (lang === 'en') ? i18nData.en : (await fetchTranslations(lang));
-
-    // Questo è il blocco CORRETTO
-    document.querySelectorAll('[data-i18n-key]').forEach(element => {
-        const key = element.getAttribute('data-i18n-key');
-        const translation = getTranslation(key); // Prendi la traduzione PRIMA
-
-        // Controlla se la TRADUZIONE stessa contiene HTML
-        if (translation.includes('<')) { 
-            element.innerHTML = translation;
+    // 1. Funzione Scroll (Desktop & Mobile)
+    function checkScroll() {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
         } else {
-            element.textContent = translation;
+            navbar.classList.remove('scrolled');
+        }
+        ticking = false; // Resetta la variabile
+    }
+
+    // 2. Funzione Toggle Menu Mobile
+    menuIcon.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        navbar.classList.toggle('menu-open');
+        
+        if (navLinks.classList.contains('active')) {
+            menuIcon.textContent = '✕';
+        } else {
+            menuIcon.textContent = '☰';
         }
     });
 
-    document.querySelectorAll('[data-i18n-placeholder-key]').forEach(element => {
-        const key = element.getAttribute('data-i18n-placeholder-key');
-        element.placeholder = getTranslation(key);
-    });
-}
-
-
-// --- FUNZIONI SPECIFICHE PER LA PAGINA PRINCIPALE ---
-let selectedTreeType = '';
-let selectedPrice = 0.0;
-const clickTracker = {
-    young: parseInt(localStorage.getItem('clicks_young') || '0'),
-    mature: parseInt(localStorage.getItem('clicks_mature') || '0'),
-    ancient: parseInt(localStorage.getItem('clicks_ancient') || '0'),
-    historic: parseInt(localStorage.getItem('clicks_historic') || '0')
-};
-
-function updateMostPopular() {
-    document.querySelectorAll('.popular-badge').forEach(badge => badge.style.display = 'none');
-    document.querySelectorAll('.product-card.popular').forEach(card => card.classList.remove('popular'));
-    const mostPopularType = Object.keys(clickTracker).reduce((a, b) => clickTracker[a] > clickTracker[b] ? a : b);
-    const mostPopularCard = document.querySelector(`.product-card[data-tree-type="${mostPopularType}"] .popular-badge`);
-    if (mostPopularCard) {
-        mostPopularCard.style.display = 'block';
-        mostPopularCard.parentElement.classList.add('popular');
-    }
-}
-
-function updatePriceUI(price) {
-    const priceString = `€${price.toFixed(2).replace('.', ',')}`;
-    document.getElementById('selected-tree-price').textContent = priceString;
-    document.getElementById('summary-price').textContent = priceString;
-    document.getElementById('total-price').textContent = priceString;
-}
-
-// Assicurati che la tua funzione selectTree sia questa
-function selectTree(treeType) {
-  // tracking click (se esiste l'oggetto)
-  if (typeof clickTracker === 'object' && clickTracker.hasOwnProperty(treeType)) {
-    clickTracker[treeType]++;
-    localStorage.setItem(`clicks_${treeType}`, String(clickTracker[treeType]));
-  }
-  try { updateMostPopular?.(); } catch(e){}
-
-  // evidenzia card e salva selezione
-  document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
-  const card = document.querySelector(`.product-card[data-tree-type="${treeType}"]`);
-  if (card) {
-    card.classList.add('selected');
-    selectedPrice = parseFloat(card.dataset.price);
-    selectedTreeType = treeType;
-    sessionStorage.setItem('selectedTree', treeType);
-  }
-
-  // aggiorna il select del form
-  const sel = document.getElementById('tree-type');
-  if (sel) sel.value = treeType;
-
-  // 👉 SCROLL SUBITO al form (sempre)
-  const formSection = document.getElementById('personalization');
-  if (formSection) {
-    // scroll semplice + correzione per navbar fissa
-    formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setTimeout(() => {
-      const navH = document.querySelector('.main-nav')?.offsetHeight || 0;
-      window.scrollBy({ top: -navH - 20, left: 0, behavior: 'auto' });
-    }, 350);
-  }
-
-  // il resto (se qualcosa rompe, lo scroll è già partito)
-  try { updatePriceUI?.(selectedPrice); } catch(e){}
-  try { updateTreeSelectionDisplay?.(); } catch(e){}
-
-  // applica codice sconto se già presente
-  try {
-    const input = document.getElementById('discount-code');
-    const btn   = document.getElementById('apply-discount-btn');
-    if (input && input.value && !input.disabled) btn?.click();
-  } catch(e){}
-}
-
-
-window.selectTree = selectTree;
-
-
-function updateTreeSelectionFromForm() {
-    const treeSelect = document.getElementById('tree-type');
-    const selectedOption = treeSelect.options[treeSelect.selectedIndex];
-    if (selectedOption && selectedOption.value) {
-        selectTree(selectedOption.value);
-    } else {
-        selectedTreeType = '';
-        selectedPrice = 0;
-        sessionStorage.removeItem('selectedTree');
-        document.querySelectorAll('.product-card').forEach(card => card.classList.remove('selected'));
-        updatePriceUI(0);
-        updateTreeSelectionDisplay();
-    }
-}
-window.updateTreeSelectionFromForm = updateTreeSelectionFromForm;
-
-
-function updateTreeSelectionDisplay() {
-  const elTitle   = document.getElementById('selected-tree-title');
-  const elSumTree = document.getElementById('summary-tree');
-  const elPrev    = document.getElementById('preview-tree');
-
-  if (!elTitle && !elSumTree && !elPrev) return; // se non siamo nella pagina principale, esci
-
-  const treeNames = {
-    'young':   getTranslation('formTreeYoung').split(' - ')[0],
-    'mature':  getTranslation('formTreeMature').split(' - ')[0],
-    'ancient': getTranslation('formTreeAncient').split(' - ')[0],
-    'historic':getTranslation('formTreeHistoric').split(' - ')[0]
-  };
-  const defaultText = getTranslation('formSelectedTreeDefault');
-  const treeName = (typeof selectedTreeType !== 'undefined' && selectedTreeType) ? (treeNames[selectedTreeType] || defaultText) : defaultText;
-
-  if (elTitle)   elTitle.textContent   = treeName;
-  if (elSumTree) elSumTree.textContent = treeName;
-  if (elPrev)    elPrev.textContent    = selectedTreeType ? (treeNames[selectedTreeType] || '') : getTranslation('certTreeTypePlaceholder');
-
-  if (document.getElementById('preview-name')) {
-    updateCertificatePreview?.();
-  }
-  checkFormValidity?.();
-}
-
-
-function updateCertificatePreview() {
-    if (!document.getElementById('preview-name')) return; // Esce se non è nella pagina principale
-    const certName = document.getElementById('certificate-name').value.trim() || `${document.getElementById('full-name').value.trim()}`.trim() || getTranslation('certYourNamePlaceholder');
-    document.getElementById('preview-name').textContent = certName;
-    document.getElementById('preview-message').textContent = document.getElementById('certificate-message').value.trim() || getTranslation('certMessagePlaceholder');
-}
-
-function updateCharCount() {
-    const textarea = document.getElementById('certificate-message');
-    if (!textarea) return; // Esce se non è nella pagina principale
-    const counter = textarea.parentElement.querySelector('.char-count');
-    if(counter) {
-        counter.textContent = getTranslation('formCharCount', { length: textarea.value.length });
-    }
-}
-
-function checkFormValidity() {
-    const completeBtn = document.getElementById('complete-adoption-btn');
-    if (!completeBtn) return; // Esce se non è nella pagina principale
-
-    const requiredFields = document.querySelectorAll('#adoption-form [required]');
-    let allValid = selectedTreeType !== '';
-    requiredFields.forEach(field => {
-        if (!field.value.trim()) allValid = false;
-    });
-    completeBtn.disabled = !allValid;
-    let buttonTextKey = 'formButtonCompleteFields';
-    if(allValid) {
-        buttonTextKey = selectedPrice > 0 ? 'formButtonCompletePay' : 'formButtonCompleteDefault';
-    }
-    completeBtn.textContent = getTranslation(buttonTextKey, { price: selectedPrice.toFixed(2).replace('.', ',') });
-}
-
-
-// --- PUNTO DI INGRESSO PRINCIPALE ---
-document.addEventListener('DOMContentLoaded', async () => {
-
-    // --- LOGICA GLOBALE (per tutte le pagine) ---
-    await setLanguage(currentLang);
-
-      // --- CLUB: verifica token e redirect a login se mancante/errato ---
-  if (document.body && document.body.id === 'club-body') {
-    const verifying    = document.getElementById('loading-indicator'); // "Verifica in corso..."
-    const clubContent  = document.getElementById('club-content');      // contenuto privato
-    const accessDenied = document.getElementById('access-denied');     // box rosso (non lo useremo)
-
-    // piccole helper per mostrare/nascondere
-    const show = (what) => {
-      if (verifying)    verifying.style.display    = (what === 'loading' ? 'block' : 'none');
-      if (clubContent)  clubContent.style.display  = (what === 'content' ? 'block' : 'none');
-      if (accessDenied) accessDenied.style.display = (what === 'denied'  ? 'block' : 'none');
-    };
-
-    const validate = async (token) => {
-      try {
-        if (!token) return false;
-        const res = await fetch('/.netlify/functions/validate-club-token', {
-          method: 'POST',
-          headers: { 'Content-Type':'application/json' },
-          body: JSON.stringify({ token })
+    // 3. Chiudi menu se clicco un link
+    const allLinks = document.querySelectorAll('.nav-links a');
+    allLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            navbar.classList.remove('menu-open');
+            menuIcon.textContent = '☰';
         });
-        const data = await res.json();
-        return !!data.valid;
-      } catch { return false; }
-    };
-
-    show('loading');
-
-    const params       = new URLSearchParams(location.search);
-    const tokenFromUrl = params.get('token');
-    const savedToken   = localStorage.getItem('ayoClubToken');
-
-    // 1) token via URL → valida e salva
-    if (tokenFromUrl && await validate(tokenFromUrl)) {
-      localStorage.setItem('ayoClubToken', tokenFromUrl);
-      show('content');
-      return;
-    }
-
-    // 2) token salvato → valida
-    if (savedToken && await validate(savedToken)) {
-      show('content');
-      return;
-    }
-
-    // 3) niente token valido → vai alla login
-    localStorage.removeItem('ayoClubToken');
-    window.location.href = 'club-login.html';
-    return; // IMPORTANTISSIMO: non eseguire altro JS della home
-  }
-
-  // --- LOGICA BANNER DI URGENZA STICKY (Sempre Visibile) ---
-const urgentCountdownBanner = document.getElementById('urgent-countdown-banner');
-if (urgentCountdownBanner) {
-    // Imposta la data di scadenza (15 Dicembre dell'anno corrente per la consegna Natale)
-    // Puoi modificare questa data come vuoi, es. per il 10 Dicembre: new Date(new Date().getFullYear(), 11, 10, 23, 59, 59)
-    const countdownDateBanner = new Date(new Date().getFullYear(), 11, 15, 23, 59, 59).getTime(); // 15 Dicembre
-
-    const bannerTimer = setInterval(function() {
-        const now = new Date().getTime();
-        const distance = countdownDateBanner - now;
-
-        // Calcoli per giorni, ore, minuti e secondi
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Aggiorna gli elementi HTML del banner
-        // Usiamo un controllo per assicurarci che gli elementi esistano prima di aggiornarli
-        const bannerDays = document.getElementById("banner-days");
-        const bannerHours = document.getElementById("banner-hours");
-        const bannerMinutes = document.getElementById("banner-minutes");
-        const bannerSeconds = document.getElementById("banner-seconds");
-
-        if (bannerDays) bannerDays.textContent = days < 10 ? '0' + days : days;
-        if (bannerHours) bannerHours.textContent = hours < 10 ? '0' + hours : hours;
-        if (bannerMinutes) bannerMinutes.textContent = minutes < 10 ? '0' + minutes : minutes;
-        if (bannerSeconds) bannerSeconds.textContent = seconds < 10 ? '0' + seconds : seconds;
-
-        // Se il conto alla rovescia è finito, nascondi il banner o mostra un messaggio
-        if (distance < 0) {
-            clearInterval(bannerTimer);
-            urgentCountdownBanner.style.display = 'none'; // Nasconde l'intero banner
-            // Oppure: urgentCountdownBanner.innerHTML = '<div class="container"><span class="banner-message">Offerta scaduta!</span></div>';
-            // Potresti anche voler aggiungere una classe per animare la scomparsa.
-        }
-    }, 1000);
-}
-
-    const languageSelector = document.getElementById('language-selector');
-    if (languageSelector) {
-        languageSelector.value = currentLang;
-        languageSelector.addEventListener('change', (event) => setLanguage(event.target.value).then(() => {
-             // Aggiorna la UI della pagina principale se ci troviamo lì
-            if (document.getElementById('adoption-form')) {
-                updateTreeSelectionDisplay();
-                updateMostPopular();
-                updateCharCount();
-                checkFormValidity();
-            }
-        }));
-    }
-    
-   const handleNetlifyFormSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const submitButton = form.querySelector('button[type="submit"]');
-    const modal = document.getElementById('success-modal');
-
-    // 1. Crea l'oggetto FormData dal form, che conterrà tutti i campi tranne la lingua.
-    const formData = new FormData(form);
-    
-    // 2. AZIONE CHIAVE: Aggiungi la lingua al pacchetto di dati, leggendola
-    //    direttamente dall'attributo <html>, esattamente come fa il form di adozione.
-    formData.set('language', document.documentElement.lang || 'it');
-    
-    if (submitButton) submitButton.disabled = true;
-    try {
-        await fetch('/', {
-            method: 'POST',
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(formData).toString()
-        });
-        if (modal) modal.classList.add('visible');
-        form.reset();
-    } catch (error) {
-        alert('Si è verificato un errore, riprova.');
-    } finally {
-        if (submitButton) submitButton.disabled = false;
-    }
-};
-    // --- Newsletter: invia alla Function newsletter-intake ---
-async function handleNewsletterSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('button[type="submit"]');
-  const modal = document.getElementById('success-modal');
-
-  const email = document.getElementById('newsletter-email')?.value.trim();
-  const language = document.documentElement.lang || 'it';
-  const name = ''; // se vuoi chiedere il nome, cambiamo qui
-
-  if (!email) { alert('Inserisci la tua email'); return; }
-
-  btn && (btn.disabled = true);
-  try {
-    const res = await fetch('/.netlify/functions/newsletter-intake', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json' },
-      body: JSON.stringify({ email, language, name })
-    });
-    if (!res.ok) throw new Error('Errore server');
-    modal?.classList.add('visible');
-    form.reset();
-  } catch (err) {
-    alert('Si è verificato un errore, riprova.');
-  } finally {
-    btn && (btn.disabled = false);
-  }
-}
-
-// --- Contatti: invia alla Function contact-intake ---
-async function handleContactSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('button[type="submit"]');
-  const modal = document.getElementById('success-modal');
-
-  const name = document.getElementById('contact-name')?.value.trim() || '';
-  const email = document.getElementById('contact-email')?.value.trim() || '';
-  const message = document.getElementById('contact-message')?.value.trim() || '';
-  const language = document.documentElement.lang || 'it';
-
-  if (!email || !message) { alert('Email e messaggio sono obbligatori'); return; }
-
-  btn && (btn.disabled = true);
-  try {
-    const res = await fetch('/.netlify/functions/contact-intake', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json' },
-      body: JSON.stringify({ name, email, message, language })
-    });
-    if (!res.ok) throw new Error('Errore server');
-    modal?.classList.add('visible');
-    form.reset();
-  } catch (err) {
-    alert('Si è verificato un errore, riprova.');
-  } finally {
-    btn && (btn.disabled = false);
-  }
-}
-
-// Collega gli handler giusti ai due form
-document.getElementById('newsletter-form')?.addEventListener('submit', handleNewsletterSubmit);
-document.getElementById('contact-form')?.addEventListener('submit', handleContactSubmit);
-
-
-    document.getElementById('close-modal-btn')?.addEventListener('click', () => document.getElementById('success-modal').classList.remove('visible'));
-    document.getElementById('success-modal')?.addEventListener('click', (e) => { if (e.target.id === 'success-modal') e.target.classList.remove('visible'); });
-    
-    // Gestione chiusura Info Modal
-    document.getElementById('close-info-modal-btn')?.addEventListener('click', () => {
-        document.getElementById('info-modal').classList.remove('visible');
     });
 
-    document.getElementById('info-modal')?.addEventListener('click', (e) => {
-        if (e.target.id === 'info-modal') {
-            e.target.classList.remove('visible');
-        }
-    });
-
-    const nav = document.querySelector('.main-nav');
+    // Ascolta lo scroll ottimizzato
     window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 50);
-        let currentSectionId = document.body.id === 'index-body' ? 'hero' : ''; // Default section
-        document.querySelectorAll('section[id]').forEach(section => {
-            if (window.pageYOffset >= section.offsetTop - nav.offsetHeight) currentSectionId = section.id;
-        });
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.classList.toggle('active-link', link.getAttribute('href') === `#${currentSectionId}`);
-        });
+        if (!ticking) {
+            window.requestAnimationFrame(checkScroll);
+            ticking = true;
+        }
     });
     
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    // Esegui subito, ma senza forzare il blocco del rendering
+    window.requestAnimationFrame(checkScroll);
     
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetElement = document.querySelector(this.getAttribute('href'));
-            if (targetElement) {
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight;
-                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-                if (navLinks.classList.contains('open')) navLinks.classList.remove('open');
-            }
-        });
-    });
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-    document.querySelectorAll('.faq-question').forEach(q => {
-        q.addEventListener('click', () => {
-            const wasActive = q.classList.contains('active');
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.querySelector('.faq-question').classList.remove('active');
-                item.querySelector('.faq-answer').classList.remove('open');
-            });
-            if (!wasActive) {
-                q.classList.add('active');
-                q.nextElementSibling.classList.add('open');
-            }
-        });
-    });
-
-    const consentManager = {
-        banner: document.getElementById('cookie-banner'),
-        preferencesModal: document.getElementById('cookie-preferences-modal'),
-        init() {
-            if (!this.banner || !this.preferencesModal) return;
-            const consent = this.getConsent();
-            if (consent) {
-                this.executeConsentedScripts(consent);
-            } else {
-                this.showBanner();
-            }
-            this.addEventListeners();
-        },
-        getConsent: () => JSON.parse(localStorage.getItem('cookieConsentAyo')),
-        saveConsent(consent) {
-            localStorage.setItem('cookieConsentAyo', JSON.stringify(consent));
-            this.hideAll();
-            this.executeConsentedScripts(consent);
-        },
-executeConsentedScripts(consent) {
-    // Funzionali: Google Maps (solo se c'è il form adozione)
-    if (consent.functional && typeof window.loadGoogleMapsScript === 'function') {
-        if (document.getElementById('adoption-form')) window.loadGoogleMapsScript();
-    }
-    // Analitici: Google Analytics
-    if (consent.analytics && typeof window.loadGA === 'function') {
-        window.loadGA();
-    }
-},
-
-        showBanner() { this.banner.classList.add('visible'); },
-        showPreferences() {
-            this.hideAll();
-            const currentConsent = this.getConsent() || { analytics: false, functional: false };
-            document.getElementById('consent-analytics').checked = currentConsent.analytics;
-            document.getElementById('consent-functional').checked = currentConsent.functional;
-            this.preferencesModal.classList.add('visible');
-        },
-        hideAll() {
-            this.banner.classList.remove('visible');
-            this.preferencesModal.classList.remove('visible');
-        },
-        addEventListeners() {
-            document.getElementById('accept-cookies-all-btn')?.addEventListener('click', () => this.saveConsent({ necessary: true, analytics: true, functional: true }));
-            document.getElementById('decline-cookies-all-btn')?.addEventListener('click', () => this.saveConsent({ necessary: true, analytics: false, functional: false }));
-            document.getElementById('close-cookie-banner-btn')?.addEventListener('click', () => this.saveConsent({ necessary: true, analytics: false, functional: false }));
-            document.getElementById('customize-cookies-btn')?.addEventListener('click', () => this.showPreferences());
-            document.getElementById('save-preferences-btn')?.addEventListener('click', () => {
-                this.saveConsent({
-                    necessary: true,
-                    analytics: document.getElementById('consent-analytics').checked,
-                    functional: document.getElementById('consent-functional').checked
-                });
-            });
-            document.getElementById('modify-cookie-preferences-link')?.addEventListener('click', (e) => { e.preventDefault(); this.showPreferences(); });
-        }
-    };
-    consentManager.init();
-
-
-    // --- LOGICA SOLO PER LA PAGINA PRINCIPALE ---
-    // Controlliamo se esiste un elemento chiave della pagina principale.
-    if (document.getElementById('adoption-form')) {
-        let appliedDiscountRate = 0;
-        const discountCodeInput = document.getElementById('discount-code');
-        const applyDiscountBtn = document.getElementById('apply-discount-btn');
-        const discountFeedbackEl = document.getElementById('discount-feedback');
-        const hiddenRefInput = document.getElementById('referral-code-input');
-        const refreshDiscountBtn = document.getElementById('refresh-discount-btn');
-const discountWarning = document.getElementById('discount-warning');
-// Gestione visibilità campi regalo
-const isGiftCheckbox = document.getElementById('is-gift');
-const giftFieldsContainer = document.getElementById('gift-fields-container');
-const recipientEmailInput = document.getElementById('recipient-email');
-
-if (isGiftCheckbox && giftFieldsContainer && recipientEmailInput) {
-    isGiftCheckbox.addEventListener('change', () => {
-        giftFieldsContainer.classList.toggle('visible');
-        // Rende il campo email del ricevente obbligatorio solo se la sezione è visibile
-        recipientEmailInput.required = false;
-        checkFormValidity(); // Ricalcola la validità del form
-    });
-}
-        
-applyDiscountBtn.addEventListener('click', async () => {
-    const code = discountCodeInput.value.trim().toUpperCase();
-    if (!code || selectedPrice === 0) {
-        discountFeedbackEl.textContent = getTranslation('feedbackErrorNoCodeOrProduct');
-        discountFeedbackEl.className = 'discount-feedback error';
-        return;
-    }
-    try {
-        const response = await fetch('/.netlify/functions/validate-code', {
-            method: 'POST', body: JSON.stringify({ code })
-        });
-        const data = await response.json();
-
-        if (data.valid) {
-            let discountedPrice = 0;
-            let feedbackText = '';
-
-            // NUOVA LOGICA PER GESTIRE I DUE TIPI DI SCONTO
-            if (data.discount.type === 'percentage') {
-                const rate = data.discount.value / 100;
-                discountedPrice = selectedPrice * (1 - rate);
-                feedbackText = getTranslation('feedbackSuccess', { rate: data.discount.value });
-            } else if (data.discount.type === 'fixed') {
-                const amount = data.discount.value / 100; // Converte i centesimi in euro
-                discountedPrice = selectedPrice - amount;
-                // Assicurati che il prezzo non vada sotto zero
-                if (discountedPrice < 0) discountedPrice = 0;
-                feedbackText = getTranslation('feedbackSuccessFixed', { amount: amount.toFixed(2).replace('.', ',') });
-            }
-
-            updatePriceUI(discountedPrice);
-            discountFeedbackEl.textContent = feedbackText;
-            discountFeedbackEl.className = 'discount-feedback success';
-            
-            discountCodeInput.disabled = true;
-            applyDiscountBtn.style.display = 'none';
-            refreshDiscountBtn.style.display = 'inline-block';
-            discountWarning.style.display = 'block';
-
-            if(hiddenRefInput) hiddenRefInput.value = code;
-        } else {
-            discountFeedbackEl.textContent = getTranslation('feedbackErrorInvalidCode');
-            discountFeedbackEl.className = 'discount-feedback error';
-        }
-    } catch (error) {
-        discountFeedbackEl.textContent = getTranslation('feedbackErrorServer');
-        discountFeedbackEl.className = 'discount-feedback error';
-    }
-});
-
-refreshDiscountBtn.addEventListener('click', async () => {
-    // Il pulsante Ricalcola funziona come Applica, ma con il campo già bloccato.
-    // Usiamo direttamente il gestore di applyDiscountBtn per non duplicare il codice.
-    await applyDiscountBtn.click();
-});
-
-// Questo nuovo blocco gestisce tutto: prodotto e referral da URL, e selezione da sessione
-const urlParams = new URLSearchParams(window.location.search);
-const productFromUrl = urlParams.get('product');
-const refCodeFromUrl = urlParams.get('ref');
-const storedTreeType = sessionStorage.getItem('selectedTree');
-
-if (refCodeFromUrl) {
-    // Se c'è un codice nell'URL, lo validiamo subito in background
-    (async () => {
-        try {
-            const response = await fetch('/.netlify/functions/validate-code', {
-                method: 'POST', body: JSON.stringify({ code: refCodeFromUrl })
-            });
-            const data = await response.json();
-            if (data.valid) {
-                // SOLO SE è valido, lo scriviamo nel campo e lo applichiamo
-                document.getElementById('discount-code').value = refCodeFromUrl;
-                document.getElementById('apply-discount-btn').click();
-            }
-        } catch (error) {
-            console.error("Errore validazione codice da URL:", error);
-        }
-    })();
-}
-
-if (productFromUrl) {
-    selectTree(productFromUrl);
-} else if (storedTreeType) {
-    selectTree(storedTreeType);
 } else {
-    updateTreeSelectionDisplay();
+    console.error("ERRORE: Elementi Navbar non trovati");
 }
-        
-const adoptionForm = document.getElementById('adoption-form');
-if (adoptionForm) {
-    adoptionForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Impedisce al form di ricaricare la pagina
 
-        const submitButton = adoptionForm.querySelector('button[type="submit"]');
-        submitButton.disabled = true;
-        submitButton.textContent = 'Creazione pagamento...';
-
-        const formData = new FormData(adoptionForm);
-        const treeType = formData.get('tree-type');
-        const customerEmail = formData.get('email');
-const discountCode = document.getElementById('discount-code')?.value.trim() || '';
-
-        const selectedOption = document.querySelector(`#tree-type option[value="${treeType}"]`);
-        const price = selectedOption ? selectedOption.dataset.price : '0';
-
-        // QUESTO BLOCCO È FONDAMENTALE: crea l'oggetto 'shippingDetails'
-        const data = {
-            treeType: treeType,
-            price: parseFloat(price),
-            customerEmail: customerEmail,
-            discountCode: discountCode,
-            shippingDetails: {
-                name: `${formData.get('full-name')}`,
-                address: {
-                    line1: formData.get('address'),
-                    line2: formData.get('address-2'),
-                    city: formData.get('city'),
-                    postal_code: formData.get('postal-code'),
-                    country: formData.get('country'),
-                }
-            },
-            certificateName: formData.get('certificate-name'),
-    certificateMessage: formData.get('certificate-message'),
-    language: document.documentElement.lang || 'it',
     
-    // ===== RIGHE DA AGGIUNGERE =====
-isGift: document.getElementById('is-gift')?.checked || false,
-    recipientEmail: formData.get('recipient-email'),
-    orderNote: formData.get('order-note')
-    // =============================
+    /* =========================================
+   1. GESTIONE MODALE ADOZIONE (Aggiornato per Stripe)
+   ========================================= */
+const adoptionModal = document.getElementById('adoption-modal');
+const hiddenKitInput = document.getElementById('selected-kit-id'); // L'input nascosto che abbiamo messo nel form
+const productNameDisplay = document.getElementById('modal-product-name'); // Se hai un titolo H2/H3 nella modale per il nome prodotto
+
+// Funzione chiamata dai bottoni nell'HTML: openAdoptionModal('Nome', 'id-tecnico')
+window.openAdoptionModal = (productName, technicalId) => {
+    if (adoptionModal) {
+        // 1. Scrive il nome del prodotto (Visivo)
+        // Se nella modale non hai un id="modal-product-name", questa riga verrà ignorata senza errori
+        if(productNameDisplay) productNameDisplay.textContent = productName;
+
+        // 2. Scrive l'ID tecnico nell'input nascosto (FONDAMENTALE)
+        if(hiddenKitInput) {
+            hiddenKitInput.value = technicalId;
+        } else {
+            console.error("ERRORE: Non trovo l'input id='selected-kit-id' nel form!");
+        }
+
+        adoptionModal.showModal();
+    }
+};
+
+window.closeModal = () => {
+    if (adoptionModal) adoptionModal.close();
+};
+
+// Chiudi cliccando fuori
+if (adoptionModal) {
+    adoptionModal.addEventListener('click', (e) => {
+        const dims = adoptionModal.getBoundingClientRect();
+        if (
+            e.clientX < dims.left || e.clientX > dims.right ||
+            e.clientY < dims.top || e.clientY > dims.bottom
+        ) {
+            adoptionModal.close();
+        }
+    });
+}
+
+/* =========================================
+   2. LOGICA "SMART FORM" (Nome Diviso + Regalo)
+   ========================================= */
+const firstNameInput = document.getElementById('buyer-firstname');
+const lastNameInput = document.getElementById('buyer-lastname');
+
+const certInput = document.getElementById('cert-name');
+const labelInput = document.getElementById('label-name');
+const giftCheckbox = document.getElementById('is-gift');
+const giftMessageContainer = document.getElementById('gift-message-container'); // <--- NUOVO
+
+// Flags: Se l'utente tocca un campo, smettiamo di autocompilarlo
+let certManuallyChanged = false;
+let labelManuallyChanged = false;
+
+if (firstNameInput && lastNameInput && certInput && labelInput && giftCheckbox) {
+    
+    // Funzione unica che aggiorna i campi
+    function updateSmartFields() {
+        // Se è regalo, NON fare nulla (i campi devono restare vuoti o manuali)
+        if (giftCheckbox.checked) return;
+
+        const fName = firstNameInput.value.trim();
+        const lName = lastNameInput.value.trim();
+
+        // 1. Certificato = Nome + Cognome
+        if (!certManuallyChanged) {
+            certInput.value = (fName + " " + lName).trim();
+        }
+
+        // 2. Etichetta = Solo Cognome
+        if (!labelManuallyChanged) {
+            labelInput.value = lName;
+        }
+    }
+
+    // Ascoltiamo entrambi i campi nome/cognome
+    firstNameInput.addEventListener('input', updateSmartFields);
+    lastNameInput.addEventListener('input', updateSmartFields);
+
+    // LOGICA REGALO (Svuota tutto e Mostra Messaggio)
+    giftCheckbox.addEventListener('change', (e) => {
+        const isGift = e.target.checked;
+        const hint = document.getElementById('cert-hint');
+        
+        // 1. Mostra/Nascondi la Textarea per il bigliettino
+        if (giftMessageContainer) {
+            giftMessageContainer.style.display = isGift ? 'block' : 'none';
+        }
+
+        if (isGift) {
+            // --- MODALITÀ REGALO ATTIVA ---
+            if (!certManuallyChanged) {
+                certInput.value = '';
+                certInput.setAttribute('placeholder', txt.giftRecipientName); // Usa variabile
+            }
+            if (!labelManuallyChanged) {
+                labelInput.value = '';
+                labelInput.setAttribute('placeholder', txt.giftRecipientSurname); // Usa variabile
+            }
+            if(hint) hint.textContent = txt.hintGift; // Usa variabile
+
+        } else {
+            // --- MODALITÀ REGALO DISATTIVATA ---
+            // Qui c'era il problema: prima rimetteva "John Smith" anche in Italia
+            certInput.setAttribute('placeholder', txt.placeholderName); 
+            labelInput.setAttribute('placeholder', txt.placeholderSurname); 
+            
+            updateSmartFields();
+            
+            if(hint) hint.textContent = txt.hintOwner;
+            
+            const msgInput = document.getElementById('gift-message');
+            if(msgInput) msgInput.value = ''; 
+        }
+    });
+
+    // Se l'utente modifica manualmente i campi target, disattiviamo l'automazione per quel campo
+    certInput.addEventListener('input', () => { certManuallyChanged = true; });
+    labelInput.addEventListener('input', () => { labelManuallyChanged = true; });
+}
+
+
+    /* =========================================
+       3. GESTIONE CODICI SCONTO (URL & INPUT)
+       ========================================= */
+    const urlParams = new URLSearchParams(window.location.search);
+    const discountFromUrl = urlParams.get('discount'); 
+    // Es: ?discount=SUMMER25
+
+    const discountInput = document.getElementById('discount-code');
+    const discountMsg = document.getElementById('discount-message');
+
+    if (discountFromUrl && discountInput) {
+        const cleanCode = discountFromUrl.toUpperCase().trim();
+        discountInput.value = cleanCode;
+        
+        // Feedback Visivo
+        discountInput.style.borderColor = 'var(--primary-green)';
+        discountInput.style.backgroundColor = '#f0f9eb'; // verdino chiaro
+        if(discountMsg) {
+            discountMsg.style.display = 'block';
+            discountMsg.textContent = `${txt.promoApplied} (${cleanCode})`;
+        }
+    }
+
+
+    /* =========================================
+   4. INVIO CHECKOUT (STRIPE)
+   ========================================= */
+const adoptForm = document.getElementById('adoption-form');
+
+if (adoptForm) {
+    adoptForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); 
+
+        const submitBtn = adoptForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        
+        submitBtn.textContent = txt.paymentLoading;
+        submitBtn.disabled = true;
+
+        const formData = new FormData(adoptForm);
+        const kitId = document.getElementById('selected-kit-id').value;
+
+        // --- CORREZIONE QUI SOTTO ---
+        // Le chiavi (a sinistra) devono essere UGUALI a quelle che la function si aspetta
+        const data = {
+            kitId: kitId,
+            buyerFirstName: formData.get('buyerFirstName'), // Era: buyerName
+            buyerLastName: formData.get('buyerLastName'),   // Era: buyerSurname
+            email: formData.get('email'),
+            lang: formData.get('lang') || 'en',
+            isGift: formData.get('isGift') === 'on',
+            giftMessage: formData.get('giftMessage'),
+            certName: formData.get('certName'),
+            labelName: formData.get('labelName'),
+            discountCode: formData.get('discountCode')
         };
+        // ----------------------------
 
         try {
-            // Chiama la funzione Netlify per creare una sessione Stripe
-            const response = await fetch('/.netlify/functions/create-stripe-checkout', {
+            const response = await fetch('/.netlify/functions/checkout', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
             });
 
-            if (!response.ok) {
-                // Se la funzione serverless stessa restituisce un errore, lo gestiamo qui
-                const errorBody = await response.json();
-                throw new Error(errorBody.error || 'Errore dal server durante la creazione del pagamento.');
-            }
+            const result = await response.json();
 
-            const responseData = await response.json();
-
-            // Reindirizza l'utente alla pagina di pagamento sicura di Stripe
-            if (responseData.checkoutUrl) {
-                window.location.href = responseData.checkoutUrl;
+            if (response.ok) {
+                window.location.href = result.url;
             } else {
-                throw new Error('URL di pagamento non ricevuto.');
+                // Mostra l'errore specifico che arriva dal server
+                throw new Error(result.error || 'Errore nel checkout');
             }
 
         } catch (error) {
             console.error(error);
-            alert('Si è verificato un errore imprevisto. Riprova più tardi.');
-            submitButton.disabled = false;
-            checkFormValidity(); // Riattiva il pulsante
+            alert("Errore: " + error.message);
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
         }
     });
 }
 
-        document.querySelectorAll('#adoption-form input, #adoption-form select, #adoption-form textarea').forEach(input => {
-            if(input.id !== 'discount-code'){
-                input.addEventListener((input.tagName === 'SELECT' ? 'change' : 'input'), checkFormValidity);
+    /* =========================================
+   5. GESTIONE MODALE CORPORATE (Logica Completa + Backend)
+   ========================================= */
+const corpModal = document.getElementById('corporate-modal');
+const corpForm = document.getElementById('corporate-form');
+const corpBtn = document.getElementById('corp-btn'); // Assicurati che il bottone nel form abbia id="corp-btn"
+
+// --- APERTURA E CHIUSURA (Logica Vecchia mantenuta) ---
+
+window.openCorporateModal = () => {
+    if (corpModal) corpModal.showModal();
+};
+
+window.closeCorporateModal = () => {
+    if (corpModal) corpModal.close();
+};
+
+// Chiudi cliccando fuori (sullo sfondo grigio)
+if (corpModal) {
+    corpModal.addEventListener('click', (e) => {
+        if (e.target === corpModal) {
+            corpModal.close();
+        }
+    });
+}
+
+// --- INVIO DEL FORM (Logica Nuova collegata al Backend) ---
+
+if (corpForm) {
+    corpForm.addEventListener('submit', async (e) => {
+        // 1. BLOCCO IL REFRESH
+        e.preventDefault(); 
+        
+        // 2. UX: Bottone in caricamento
+        const originalText = corpBtn ? corpBtn.textContent : "Invia";
+        if (corpBtn) {
+            corpBtn.textContent = txt.sending;
+            corpBtn.disabled = true;
+        }
+
+        // 3. RACCOLTA DATI DAL FORM
+        const formData = new FormData(corpForm);
+        
+        // Costruiamo l'oggetto da mandare alla Function
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            lang: formData.get('lang') || 'en', // Default inglese se manca
+            event_type: formData.get('eventType'), // Nota: corrisponde al name nell'HTML
+            quantity: formData.get('quantity'),
+            message: formData.get('message'),
+        };
+
+        try {
+            // 4. CHIAMATA AL SERVER (Netlify Function)
+            const response = await fetch('/.netlify/functions/favors', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                // SUCCESSO
+                alert(txt.corpSuccess);
+                corpForm.reset(); // Pulisce i campi
+                closeCorporateModal(); // Chiude la modale
+            } else {
+                // ERRORE DEL SERVER
+                throw new Error('Errore durante il salvataggio');
             }
-            if (['certificate-name', 'certificate-message', 'full-name'].includes(input.id)) {
-                input.addEventListener('input', updateCertificatePreview);
+        } catch (error) {
+            // ERRORE DI RETE O ALTRO
+            console.error('Errore invio form:', error);
+            alert(txt.errorMsg);
+        } finally {
+            // 5. RIPRISTINO BOTTONE (Sia se va bene, sia se va male)
+            if (corpBtn) {
+                corpBtn.textContent = originalText;
+                corpBtn.disabled = false;
             }
-            if (input.id === 'certificate-message') input.addEventListener('input', updateCharCount);
+        }
+    });
+}
+
+
+/* =========================================
+       LOGICA FAQ COMPLETA (Sezione + Domande)
+       ========================================= */
+
+    // 1. GESTIONE TITOLO PRINCIPALE (Apre/Chiude tutta la sezione)
+    // Cerchiamo l'elemento con classe 'toggle-header' (assicurati di averla messa nell'HTML)
+    const faqMainHeader = document.querySelector('.toggle-header');
+    
+    if (faqMainHeader) {
+        faqMainHeader.addEventListener('click', function() {
+            // Ruota la freccia del titolo
+            this.classList.toggle('active');
+            
+            // Trova il wrapper nascosto subito sotto
+            const wrapper = this.nextElementSibling;
+            if (wrapper) {
+                wrapper.classList.toggle('open');
+            }
+        });
+    }
+
+    // 2. GESTIONE SINGOLE DOMANDE (Accordion interno)
+    const faqQuestions = document.querySelectorAll('.accordion-header');
+
+    faqQuestions.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            // Evita che il click risalga fino al titolo principale
+            e.stopPropagation();
+
+            const item = this.parentElement;         // Il div .accordion-item
+            const content = this.nextElementSibling; // Il div .accordion-content
+            
+            // A. CHIUDI TUTTE LE ALTRE (Logica esclusiva)
+            document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active'); // Resetta il +
+                    const otherContent = otherItem.querySelector('.accordion-content');
+                    if (otherContent) {
+                        otherContent.classList.remove('open');
+                        otherContent.style.maxHeight = null;
+                    }
+                }
+            });
+
+            // B. APRI/CHIUDI QUELLA CLICCATA
+            if (item.classList.contains('active')) {
+                // Se era aperta, chiudi
+                item.classList.remove('active');
+                content.classList.remove('open');
+                content.style.maxHeight = null;
+            } else {
+                // Se era chiusa, apri
+                item.classList.add('active');
+                content.classList.add('open');
+                // Calcola l'altezza esatta per l'animazione smooth
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    });
+
+    // Configurazione
+    const AUTOPLAY_SPEED = 4000; // ms (4 secondi)
+
+    // Inizializza tutti gli slider trovati
+    const sliders = document.querySelectorAll('.slider-wrapper');
+
+    sliders.forEach(slider => {
+        const track = slider.querySelector('.slider-track');
+        const slides = Array.from(track.children);
+        const nextBtn = slider.querySelector('.next-btn');
+        const prevBtn = slider.querySelector('.prev-btn');
+        
+        let currentIndex = 0;
+        let autoPlayInterval;
+        let isTouching = false; // Variabile per sapere se l'utente sta toccando
+        
+        // Capire quante slide vedo contemporaneamente (1 su mobile, 3 su desktop)
+        // Usiamo Math.round per gestire le approssimazioni del browser
+        const getVisibleSlides = () => {
+            return Math.round(slider.querySelector('.slider-track-container').offsetWidth / slides[0].offsetWidth);
+        };
+
+        const updateSliderPosition = () => {
+            const slideWidth = slides[0].offsetWidth;
+            
+            if (window.innerWidth <= 900) {
+                // MOBILE: Usiamo lo scroll nativo, così non blocchiamo il dito
+                const container = slider.querySelector('.slider-track-container');
+                container.scrollTo({
+                    left: slideWidth * currentIndex,
+                    behavior: 'smooth'
+                });
+            } else {
+                // DESKTOP: Usiamo transform come prima
+                track.style.transform = 'translateX(-' + (slideWidth * currentIndex) + 'px)';
+            }
+        };
+
+        const moveToNextSlide = () => {
+            const visibleSlides = getVisibleSlides();
+            const maxIndex = slides.length - visibleSlides;
+
+            if (currentIndex >= maxIndex) {
+                currentIndex = 0; // Torna all'inizio (Loop)
+            } else {
+                currentIndex++;
+            }
+            updateSliderPosition();
+        };
+
+        const moveToPrevSlide = () => {
+            const visibleSlides = getVisibleSlides();
+            const maxIndex = slides.length - visibleSlides;
+
+            if (currentIndex <= 0) {
+                currentIndex = maxIndex; // Va alla fine
+            } else {
+                currentIndex--;
+            }
+            updateSliderPosition();
+        };
+
+        // Event Listeners Frecce
+        nextBtn.addEventListener('click', () => {
+            moveToNextSlide();
+            resetAutoplay();
         });
 
-         const countrySelect = document.getElementById('country');
-        const customsWarning = document.getElementById('customs-warning');
+        prevBtn.addEventListener('click', () => {
+            moveToPrevSlide();
+            resetAutoplay();
+        });
 
-        if (countrySelect && customsWarning) {
-            countrySelect.addEventListener('change', () => {
-                const selectedCountry = countrySelect.value;
-                // Mostra l'avviso solo per Regno Unito (GB) e Svizzera (CH)
-                if (selectedCountry === 'GB' || selectedCountry === 'CH') {
-                    customsWarning.style.display = 'block';
-                } else {
-                    customsWarning.style.display = 'none';
-                }
-            });
-        }
+        // Autoplay Logic
+        const startAutoplay = () => {
+            // Se l'utente sta toccando, NON far partire il timer
+            if (isTouching) return; 
+            
+            stopAutoplay(); // Pulisce eventuali vecchi timer
+            autoPlayInterval = setInterval(moveToNextSlide, AUTOPLAY_SPEED);
+        };
 
-        let slideIndex = 0;
-        const slides = document.querySelectorAll("#gallery .slide");
-        const dots = document.querySelectorAll("#gallery .dot");
-        function showSlides(n) {
-            if (slides.length === 0) return;
-            slideIndex = (n + slides.length) % slides.length;
-            slides.forEach(slide => slide.classList.remove("active"));
-            dots.forEach(dot => dot.classList.remove("active"));
-            slides[slideIndex].classList.add("active");
-            dots[slideIndex].classList.add("active");
-        }
-        window.plusSlides = (n) => showSlides(slideIndex + n);
-        window.currentSlide = (n) => showSlides(n - 1);
-        showSlides(slideIndex);
+        const stopAutoplay = () => {
+            clearInterval(autoPlayInterval);
+        };
 
-        
+        const resetAutoplay = () => {
+            stopAutoplay();
+            startAutoplay();
+        };
 
-// Auto-fill "Nome per il certificato" da "Nome e Cognome"
-// - Funziona anche con autofill (Chrome/Safari/Firefox)
-// - NON sovrascrive dopo che l'utente modifica il certificato
-(function initCertificateAutofill() {
-  const full = document.getElementById('full-name');
-  const cert = document.getElementById('certificate-name');
-  if (!full || !cert) return;
+        // Ferma autoplay se il mouse è sopra (UX friendly)
+        slider.addEventListener('mouseenter', stopAutoplay);
+        slider.addEventListener('mouseleave', startAutoplay);
 
-  // Suggerimenti autofill per evitare che l'indirizzo tocchi il certificato
-  full.setAttribute('autocomplete', 'section-person name');
-  cert.setAttribute('autocomplete', 'nickname');
+        // GESTIONE STANDBY SU MOBILE
+        const container = slider.querySelector('.slider-track-container');
 
-  let userEdited = false;
+        // 1. Dito appoggiato: Ferma tutto e segna che stai toccando
+        container.addEventListener('touchstart', () => {
+            isTouching = true;
+            stopAutoplay();
+        }, { passive: true });
 
-  // Se l'utente tocca/scrive nel certificato → non sincronizzare più
-  ['input', 'change', 'paste'].forEach(evt => {
-    cert.addEventListener(evt, () => {
-      if (cert.dataset.sync !== '1') userEdited = true;
-    }, { passive: true });
-  });
+        // 2. Dito alzato: Aspetta un attimo e riavvia l'autoplay
+        container.addEventListener('touchend', () => {
+            isTouching = false;
+            startAutoplay();
+        }, { passive: true });
 
-  const sync = () => {
-    if (userEdited) return;
-    const v = (full.value || '').trim();
-    if (!v) return;
-    // Aggiorna solo se vuoto o se era già stato autocompilato da noi
-    if (!cert.value.trim() || cert.dataset.sync === '1') {
-      cert.value = v;
-      cert.dataset.sync = '1';
-    }
-  };
+        // 3. (Opzionale) Sincronizza l'indice se l'utente ha scrollato a mano
+        container.addEventListener('scroll', () => {
+            if (window.innerWidth <= 900 && isTouching) {
+                // Calcola quale slide stiamo guardando mentre scrolliamo a mano
+                const slideWidth = slides[0].offsetWidth;
+                const scrollPos = container.scrollLeft;
+                // Aggiorna l'indice senza muovere nulla (così al prossimo scatto parte da qui)
+                currentIndex = Math.round(scrollPos / slideWidth);
+            }
+        }, { passive: true });
 
-  // Aggiorna quando cambia il nome (copre digitazione e molti autofill)
-  ['input', 'change', 'blur'].forEach(evt => {
-    full.addEventListener(evt, sync, { passive: true });
-  });
+        // Gestione ridimensionamento finestra (ricalcola posizioni)
+        window.addEventListener('resize', () => {
+            updateSliderPosition();
+        });
 
-  // Copre gli autofill che avvengono dopo il load/paint
-  const kicks = [0, 100, 300, 800, 1500, 2500];
-  kicks.forEach(t => setTimeout(sync, t));
-
-  // Quando la pagina torna visibile (es. tornato dal password manager)
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) setTimeout(sync, 120);
-  }, { passive: true });
-
-  // Alcuni browser fires 'pageshow' su bfcache/back-forward
-  window.addEventListener('pageshow', () => setTimeout(sync, 120));
-})();
-
-// Aggancio specifico per WebKit quando scatta l'autofill
-document.addEventListener('animationstart', (e) => {
-  if (e.animationName === 'onAutoFill') {
-    // piccolo delay per lasciare completare il riempimento
-    setTimeout(() => {
-      const full = document.getElementById('full-name');
-      if (full) {
-        // forza un ciclo di sync come se l'utente avesse digitato
-        full.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-    }, 0);
-  }
-}, { passive: true });
-
-
-        
-        // === EXIT-INTENT POPUP (versione più educata) ===
-        const exitIntentPopup = document.getElementById('exit-intent-popup');
-        if (exitIntentPopup) {
-            const SESSION_KEY = 'exitIntentShownAyo';
-            let exitDelayOk = false;
-            let scrolledOk = false;
-
-            const showExitPopup = () => {
-                if (!sessionStorage.getItem(SESSION_KEY)) {
-                    exitIntentPopup.style.display = 'flex';
-                    sessionStorage.setItem(SESSION_KEY, 'true');
-                }
-            };
-
-            // Attendi almeno 45s prima di poter mostrare il popup
-            setTimeout(() => { exitDelayOk = true; }, 45000);
-
-            // Mostra solo se l'utente ha scrollato almeno 400px
-            window.addEventListener('scroll', () => {
-                if (!scrolledOk && window.scrollY > 400) scrolledOk = true;
-            }, { passive: true });
-
-            // Trigger di uscita SOLO su desktop e solo se ha “ingaggiato”
-            document.addEventListener('mouseout', (e) => {
-                const isDesktop = window.innerWidth > 992;
-                const leavingTop = e.clientY < 0 && !e.relatedTarget && !e.toElement;
-                if (isDesktop && leavingTop && exitDelayOk && scrolledOk) {
-                    showExitPopup();
-                }
-            });
-
-            document.getElementById('close-exit-popup')?.addEventListener('click', () => {
-                exitIntentPopup.style.display = 'none';
-            });
-        }
-
-        // Selettori “Select” delle card: chiama selectTree leggendo data-tree-type
-document.querySelectorAll('.product-card .select-button').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    const card = e.currentTarget.closest('.product-card');
-    if (!card) return;
-    const type = card.getAttribute('data-tree-type');
-    if (type) window.selectTree(type);
-  });
-});
-
-// Rende globali (se servisse)
-window.selectTree = typeof selectTree === 'function' ? selectTree : window.selectTree;
-window.updateTreeSelectionFromForm = typeof updateTreeSelectionFromForm === 'function' ? updateTreeSelectionFromForm : window.updateTreeSelectionFromForm;
-
-// 1) Bottoni "Seleziona" nelle card prodotto
-document.querySelectorAll('.product-card .select-button').forEach(btn => {
-  btn.removeAttribute('onclick'); // non serve più (CSP lo blocca comunque)
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const card = e.currentTarget.closest('.product-card');
-    const type = card?.getAttribute('data-tree-type');
-    if (type && typeof window.selectTree === 'function') {
-      window.selectTree(type);
-      document.getElementById('personalization')?.scrollIntoView({ behavior:'smooth', block:'start' });
-    }
-  });
-});
-
-// 2) Cambio tipo albero da radio/select
-document.querySelectorAll('input[name="tree-type"]').forEach(r => {
-  r.removeAttribute('onchange');
-  r.addEventListener('change', () => {
-    if (typeof window.updateTreeSelectionFromForm === 'function') window.updateTreeSelectionFromForm();
-  });
-});
-document.getElementById('tree-type')?.addEventListener('change', () => {
-  if (typeof window.updateTreeSelectionFromForm === 'function') window.updateTreeSelectionFromForm();
-});
-
-
-    } // --- FINE BLOCCO IF per la pagina principale
-
-/* Funzione: trovo la "pista" dello slider partendo dal bottone cliccato */
-function AYO_getTrackFromButton(btn){
-  var container = btn.closest('.recipe-slider-container');
-  if(!container) return null;
-  return container.querySelector('.recipe-slider-track');
-}
-
-/* Calcolo lo "step" di scorrimento: larghezza card + i suoi margini reali */
-function AYO_getStep(track){
-  var card = track.querySelector('.club-card');
-  if (!card) return 300; // se non trova la card, scorre di 300px
-  var styles = window.getComputedStyle(card);
-  var margin = parseFloat(styles.marginLeft || 0) + parseFloat(styles.marginRight || 0);
-  return card.offsetWidth + margin;
-}
-
-/* Vai a sinistra */
-function AYO_sliderPrev(btn){
-  var track = AYO_getTrackFromButton(btn);
-  if(!track) return;
-  track.scrollBy({ left: -AYO_getStep(track), behavior: 'smooth' });
-}
-
-/* Vai a destra */
-function AYO_sliderNext(btn){
-  var track = AYO_getTrackFromButton(btn);
-  if(!track) return;
-  track.scrollBy({ left: AYO_getStep(track), behavior: 'smooth' });
-}
-});
-
-// --- Club: cambia email ---
-document.getElementById('club-update-email-form')?.addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const oldEmail = document.getElementById('old-email')?.value.trim();
-  const newEmail = document.getElementById('new-email')?.value.trim();
-  if (!oldEmail || !newEmail) return;
-
-  try{
-    const r = await fetch('/.netlify/functions/club-update-email', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ oldEmail, newEmail })
-    });
-    if(!r.ok) throw 0;
-    document.getElementById('upd-ok').style.display='block';
-    document.getElementById('upd-err').style.display='none';
-    e.target.reset();
-  }catch(_){
-    document.getElementById('upd-ok').style.display='none';
-    document.getElementById('upd-err').style.display='block';
-  }
-});
-
-// --- Club: collega regalo (senza SID) ---
-document.getElementById('club-claim-gift-form')?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const buyerEmail     = document.getElementById('buyer-email')?.value.trim() || '';
-  const recipientEmail = document.getElementById('recipient-email')?.value.trim() || '';
-  const recipientName  = document.getElementById('recipient-name')?.value.trim() || '';
-  const address1 = document.getElementById('address1')?.value.trim() || '';
-  const address2 = document.getElementById('address2')?.value.trim() || '';
-  const city     = document.getElementById('city')?.value.trim() || '';
-  const postal   = document.getElementById('postal')?.value.trim() || '';
-  const country  = document.getElementById('country')?.value.trim() || '';
-
-  if (!buyerEmail || !recipientEmail || !recipientName || !address1 || !city || !postal || !country) {
-    alert('Compila i campi obbligatori.');
-    return;
-  }
-
-  const btn = e.target.querySelector('button[type="submit"]');
-  btn && (btn.disabled = true);
-
-  try {
-    const res = await fetch('/.netlify/functions/club-claim-gift', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json' },
-      body: JSON.stringify({
-        buyerEmail, recipientEmail, recipientName,
-        shipping: {
-          name: recipientName,
-          address: { line1: address1, line2: address2, city, postal_code: postal, country }
-        }
-      })
+        // Avvio iniziale
+        startAutoplay();
     });
 
-    if (!res.ok) throw new Error('Errore server');
-    const data = await res.json();
+    /* =========================================
+   NEWSLETTER SUBMISSION (Collegato a Google Sheet)
+   ========================================= */
+const newsletterForm = document.getElementById('newsletter-form');
+const newsletterFeedback = document.getElementById('newsletter-feedback');
+const newsletterBtn = document.getElementById('newsletter-btn');
 
-    document.getElementById('claim-ok').style.display = 'block';
-    document.getElementById('claim-err').style.display = 'none';
-    if (data?.pending) {
-      document.getElementById('claim-ok').textContent =
-        'Ricevuto! Ti confermiamo via email dopo una breve verifica.';
-    } else {
-      document.getElementById('claim-ok').textContent = 'Fatto! Collegamento eseguito ✅';
-    }
-    e.target.reset();
-  } catch (err) {
-    document.getElementById('claim-ok').style.display = 'none';
-    document.getElementById('claim-err').style.display = 'block';
-  } finally {
-    btn && (btn.disabled = false);
-  }
+if (newsletterForm) {
+    newsletterForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Ferma il ricaricamento della pagina
+
+        // Effetto caricamento
+        const originalBtnText = newsletterBtn.textContent;
+        newsletterBtn.textContent = txt.sending;
+        newsletterBtn.disabled = true;
+        newsletterFeedback.style.display = 'none';
+
+        // Raccogli i dati
+        const formData = new FormData(newsletterForm);
+        const data = {
+            email: formData.get('email'),
+            lang: formData.get('lang'),
+            privacy: formData.get('privacy') === 'on' // Converte checkbox in true
+        };
+
+        try {
+            // CHIAMA LA TUA FUNZIONE
+            const response = await fetch('/.netlify/functions/newsletter', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                // SUCCESSO
+                newsletterForm.reset();
+                newsletterFeedback.style.color = '#4CAF50'; // Verde
+                newsletterFeedback.textContent = txt.newsSuccess;
+                newsletterFeedback.style.display = 'block';
+            } else {
+                // ERRORE LATO SERVER
+                throw new Error('Server error');
+            }
+        } catch (error) {
+            // ERRORE DI RETE
+            console.error(error);
+            newsletterFeedback.style.color = '#ff6b6b'; // Rosso
+            newsletterFeedback.textContent = txt.newsError;
+            newsletterFeedback.style.display = 'block';
+        } finally {
+            // Ripristina bottone
+            newsletterBtn.textContent = originalBtnText;
+            newsletterBtn.disabled = false;
+        }
+    });
+}
+
+/* =========================================
+   CONTACT FORM SUBMISSION (General)
+   ========================================= */
+const contactForm = document.getElementById('contact-form');
+const contactBtn = document.getElementById('contact-btn');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 1. UX: Feedback visivo
+        const originalText = contactBtn.textContent;
+        contactBtn.textContent = txt.sending;
+        contactBtn.disabled = true;
+
+        // 2. Raccolta Dati
+        const formData = new FormData(contactForm);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            lang: formData.get('lang') || 'en',
+            message: formData.get('message')
+            // Non serve inviare 'privacy' perché è implicita col click
+        };
+
+        try {
+            // 3. Invio al Backend
+            const response = await fetch('/.netlify/functions/messages', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                alert(txt.successMsg);
+                contactForm.reset();
+            } else {
+                throw new Error('Server Error');
+            }
+        } catch (error) {
+            console.error('Errore invio messaggi:', error);
+            alert(txt.errorMsg);
+        } finally {
+            // 4. Ripristino
+            contactBtn.textContent = originalText;
+            contactBtn.disabled = false;
+        }
+    });
+}
 });
 
 
-
-
-// --- CLUB: verifica token (funziona anche senza CSP, senza script inline) ---
+/* =========================================
+   6. GDPR COOKIE CONSENT MANAGER (Complete)
+   ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
-  // Siamo nella pagina club se il body ha id="club-body"
-  if (document.body?.id !== 'club-body') return;
+    
+    const cookieBanner = document.getElementById('cookie-banner');
+    const cookieModal = document.getElementById('cookie-modal');
+    const consentKey = 'ayo_cookie_consent_v1'; 
+    
+    // --- FUNZIONE CENTRALE: CARICA GLI SCRIPT IN BASE AL CONSENSO ---
+    function loadScriptsBasedOnConsent(consentData) {
+        console.log("GDPR: Checking consents...", consentData);
 
-  // Nomi giusti degli elementi nella tua pagina
-  const verifying    = document.getElementById('loading-indicator'); // "Verifica in corso..."
-  const clubContent  = document.getElementById('club-content');      // contenuto privato
-  const accessDenied = document.getElementById('access-denied');     // "Accesso negato"
+        // 1. GESTIONE ANALYTICS (Google Analytics 4)
+        // Parte se l'utente accetta "Analytics" o "Tutto"
+        if (consentData.analytics) {
+            if (!document.getElementById('ga4-script')) {
+                console.log("Loading Google Analytics...");
+                
+                const gaScript = document.createElement('script');
+                gaScript.id = 'ga4-script';
+                gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-FE1BSWKNP8"; // TUO CODICE GOOGLE
+                gaScript.async = true;
+                document.head.appendChild(gaScript);
 
-  const showLoading = () => {
-    verifying && (verifying.style.display = 'block');
-    clubContent && (clubContent.style.display = 'none');
-    accessDenied && (accessDenied.style.display = 'none');
-  };
-  const showContent = () => {
-    verifying && (verifying.style.display = 'none');
-    clubContent && (clubContent.style.display = 'block');
-    accessDenied && (accessDenied.style.display = 'none');
-  };
-  const showDenied = () => {
-    verifying && (verifying.style.display = 'none');
-    clubContent && (clubContent.style.display = 'none');
-    accessDenied && (accessDenied.style.display = 'block');
-  };
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-FE1BSWKNP8', { 'anonymize_ip': true });
+            }
+        }
 
-  async function validateToken(token) {
-    try {
-      if (!token) return false;
-      const res = await fetch('/.netlify/functions/validate-club-token', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({ token })
-      });
-      const data = await res.json();
-      return !!data.valid;
-    } catch {
-      return false;
+        // 2. GESTIONE MARKETING (Facebook & TikTok)
+        if (consentData.marketing) {
+            console.log("Loading Marketing Pixels...");
+
+            // --- A. META PIXEL (Facebook/Instagram) ---
+            const META_PIXEL_ID = '1636864481057719'; 
+
+            if (META_PIXEL_ID !== '1636864481057719' && !document.getElementById('fb-pixel')) {
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                
+                fbq('init', META_PIXEL_ID);
+                fbq('track', 'PageView'); 
+                
+                // --- TRACCIAMENTO ACQUISTO DINAMICO ---
+                if (window.location.href.includes('success')) {
+                    // 1. Legge il valore reale dall'URL (es. ?amount=49.00)
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const amountParam = urlParams.get('amount');
+                    
+                    // 2. Se c'è un valore usa quello, altrimenti stima 69
+                    const realValue = amountParam ? parseFloat(amountParam) : 79.00;
+
+                    console.log(`Purchase Tracked: €${realValue}`);
+                    
+                    fbq('track', 'Purchase', { 
+                        currency: "EUR", 
+                        value: realValue 
+                    });
+                }
+                // -------------------------------------------------------------
+
+                const marker = document.createElement('div'); 
+                marker.id = 'fb-pixel'; marker.style.display = 'none';
+                document.body.appendChild(marker);
+            }
+
+            // --- B. TIKTOK PIXEL (Ora attivo!) ---
+            const TIKTOK_PIXEL_ID = 'D5FRT9BC77U2JQE9TDQ0'; // <--- IL TUO ID
+
+            if (TIKTOK_PIXEL_ID && !document.getElementById('tt-pixel')) {
+                !function (w, d, t) {
+                  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t.split(".").forEach(function(e){t=ttq,e.split(".").forEach(function(e){t=t[e]},t)}),t.push([e].concat(Array.prototype.slice.call(arguments,0)))},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+                  
+                  ttq.load(TIKTOK_PIXEL_ID);
+                  ttq.page();
+                  
+                  // TRACCIAMENTO ACQUISTO TIKTOK (CompletePayment)
+                  if (window.location.href.includes('success')) {
+                      const urlParams = new URLSearchParams(window.location.search);
+                      const amountParam = urlParams.get('amount');
+                      const realValue = amountParam ? parseFloat(amountParam) : 79.00;
+                      
+                      ttq.track('CompletePayment', {
+                          content_type: 'product',
+                          quantity: 1,
+                          description: 'Olive Tree Adoption',
+                          value: realValue,
+                          currency: 'EUR'
+                      });
+                  }
+
+                }(window, document, 'ttq');
+
+                const marker = document.createElement('div'); 
+                marker.id = 'tt-pixel'; document.body.appendChild(marker);
+            }
+        }
     }
-  }
 
-  (async () => {
-    showLoading();
+    // --- CONTROLLO INIZIALE ---
+    const savedConsent = localStorage.getItem(consentKey);
 
-    const qp = new URLSearchParams(location.search);
-    const tokenFromUrl = qp.get('token');
-    const savedToken   = localStorage.getItem('ayoClubToken');
-
-    // 1) Se arriva un token via URL (QR), prova quello e salvalo
-    if (tokenFromUrl && await validateToken(tokenFromUrl)) {
-      localStorage.setItem('ayoClubToken', tokenFromUrl);
-      showContent();
-      return;
+    if (!savedConsent) {
+        if (cookieBanner) setTimeout(() => { cookieBanner.style.display = 'flex'; }, 1000);
+    } else {
+        const consentData = JSON.parse(savedConsent);
+        loadScriptsBasedOnConsent(consentData);
     }
 
-    // 2) Prova il token salvato in localStorage
-    if (savedToken && await validateToken(savedToken)) {
-      showContent();
-      return;
+    // --- GESTIONE BOTTONI ---
+    const acceptBtn = document.getElementById('cookie-accept');
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            const consentData = { necessary: true, analytics: true, marketing: true, timestamp: new Date() };
+            localStorage.setItem(consentKey, JSON.stringify(consentData));
+            if(cookieBanner) cookieBanner.style.display = 'none';
+            loadScriptsBasedOnConsent(consentData);
+        });
     }
 
-    // 3) Niente → accesso negato
-    localStorage.removeItem('ayoClubToken');
-    showDenied();
-  })();
+    const rejectBtn = document.getElementById('cookie-reject');
+    if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+            const consentData = { necessary: true, analytics: false, marketing: false, timestamp: new Date() };
+            localStorage.setItem(consentKey, JSON.stringify(consentData));
+            if(cookieBanner) cookieBanner.style.display = 'none';
+        });
+    }
+
+    const customBtn = document.getElementById('cookie-customize');
+    if (customBtn) {
+        customBtn.addEventListener('click', () => { 
+            if(cookieModal) cookieModal.showModal(); 
+        });
+    }
+    
+    const savePrefBtn = document.getElementById('save-preferences');
+    if (savePrefBtn) {
+        savePrefBtn.addEventListener('click', () => {
+            const analyticsConsent = document.getElementById('consent-analytics').checked;
+            const marketingConsent = document.getElementById('consent-marketing').checked;
+            
+            const consentData = { necessary: true, analytics: analyticsConsent, marketing: marketingConsent, timestamp: new Date() };
+            localStorage.setItem(consentKey, JSON.stringify(consentData));
+            
+            if(cookieModal) cookieModal.close();
+            if(cookieBanner) cookieBanner.style.display = 'none';
+            
+            loadScriptsBasedOnConsent(consentData);
+        });
+    }
+});
+
+function closeCookieModal() {
+    const m = document.getElementById('cookie-modal');
+    if(m) m.close();
+}
+
+function toggleKit(headerElement) {
+    // 1. Identifichiamo il contenuto e la freccia della card che abbiamo cliccato
+    const content = headerElement.nextElementSibling;
+    const isOpening = !content.classList.contains('open'); // Stiamo per aprire?
+
+    // 2. PRIMA CHIUDIAMO TUTTI GLI ALTRI (Reset)
+    // Troviamo tutti i contenuti aperti
+    document.querySelectorAll('.kit-dropdown-content.open').forEach(el => {
+        el.classList.remove('open');
+    });
+    // Resettiamo tutte le frecce
+    document.querySelectorAll('.kit-toggle-header.active').forEach(el => {
+        el.classList.remove('active');
+    });
+
+    // 3. ORA APRIAMO SOLO QUELLO CLICCATO (Se non era già aperto)
+    if (isOpening) {
+        content.classList.add('open');
+        headerElement.classList.add('active');
+    }
+}
+
+// --- GESTIONE READ MORE (Versione Multilingua) ---
+document.addEventListener("DOMContentLoaded", () => {
+    const readMoreBtns = document.querySelectorAll('.read-more-btn');
+
+    readMoreBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const content = this.previousElementSibling;
+            content.classList.toggle('expanded');
+            
+            // Controlla il testo attuale per decidere la lingua
+            const currentText = this.textContent.trim();
+
+            if (content.classList.contains('expanded')) {
+                // Se stiamo aprendo:
+                if (currentText === "Leggi tutto") {
+                    this.textContent = "Leggi meno";
+                } else {
+                    this.textContent = "Read Less";
+                }
+            } else {
+                // Se stiamo chiudendo:
+                if (currentText === "Leggi meno") {
+                    this.textContent = "Leggi tutto";
+                } else {
+                    this.textContent = "Read More";
+                }
+            }
+        });
+    });
 });
