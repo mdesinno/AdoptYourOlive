@@ -81,10 +81,22 @@ export const handler = async (event, context) => {
         const customerData = session.customer_details || {};
         const shippingData = session.shipping_details || {}; 
         
-        const fullName = shippingData.name || customerData.name || '';
-        const nameParts = fullName.split(' ');
-        const cognome = nameParts.length > 1 ? nameParts.pop() : '';
-        const nome = nameParts.join(' ');
+        // --- ESTRAZIONE NOME E COGNOME CORRETTA ---
+
+// Il nome completo inserito su Stripe (per eventuali log o confronti)
+const stripeName = shippingData.name || customerData.name || '';
+
+// 1. Usiamo i dati ESATTI e separati provenienti dalla tua modale
+let nome = session.metadata?.buyer_first_name || '';
+let cognome = session.metadata?.buyer_last_name || '';
+
+// 2. Paracadute di emergenza: se per qualche motivo assurdo i metadati non arrivano,
+// usiamo il nome di Stripe dividendo l'ultima parola (ma non succederà, i metadati ci sono)
+if (!nome && !cognome) {
+    const nameParts = stripeName.trim().split(/\s+/);
+    cognome = nameParts.length > 1 ? nameParts.pop() : '';
+    nome = nameParts.join(' ');
+}
 
         const address = shippingData.address || customerData.address || {};
         const unifiedStreet = [address.line1, address.line2].filter(Boolean).join(', ');
@@ -126,20 +138,18 @@ export const handler = async (event, context) => {
         }
 
         // 1. Prova a prendere il codice "umano" che abbiamo salvato noi nel checkout
+// --- LOGICA SCONTO: STRIPE VINCE SEMPRE ---
 let codiceSconto = '';
 
-// 1. Chiediamo a Stripe lo sconto applicato ufficialmente (Verità Finale)
-if (session.total_details?.breakdown?.discounts && session.total_details.breakdown.discounts.length > 0) {
-    codiceSconto = session.total_details.breakdown.discounts
-        .map(d => {
-            const disc = d.discount;
-            // Cerchiamo prima il codice scritto (es. SCONTO10), poi il nome, poi l'ID
-            return disc?.promotion_code?.code || disc?.coupon?.name || disc?.coupon?.id || 'Sconto applicato';
-        })
-        .join(', ');
-} 
+// 1. Controlliamo PRIMA Stripe (La verità ufficiale)
+const discounts = session.total_details?.breakdown?.discounts;
+if (discounts && discounts.length > 0) {
+    const d = discounts[0].discount;
+    // Cerchiamo il codice promozionale o il nome del coupon
+    codiceSconto = d.promotion_code?.code || d.coupon?.name || d.coupon?.id || '';
+}
 
-// 2. Se Stripe non ci dà nulla (ma magari lo sconto c'è nei metadati del sito)
+// 2. SOLO SE Stripe è vuoto, guardiamo cosa arrivava dal sito
 if (!codiceSconto) {
     codiceSconto = session.metadata?.discount_code || '';
 }

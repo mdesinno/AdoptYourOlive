@@ -385,6 +385,8 @@ export const handler = async (event, context) => {
                 cart_id: cartId,
                 kit_id: data.kitId,
                 lang: lang,
+                buyer_first_name: data.buyerFirstName, // <--- INVIAMO IL NOME ESATTO
+    buyer_last_name: data.buyerLastName,   // <--- INVIAMO IL COGNOME ESATTO
                 buyer_name: `${data.buyerFirstName} ${data.buyerLastName}`,
                 buyer_email: data.email,
                 cert_name: data.certName,
