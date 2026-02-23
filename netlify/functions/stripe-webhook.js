@@ -142,19 +142,34 @@ const fullName = `${nome} ${cognome}`.trim();
 
         // 1. Prova a prendere il codice "umano" che abbiamo salvato noi nel checkout
 // --- LOGICA SCONTO: STRIPE VINCE SEMPRE ---
+// --- LOGICA SCONTO DEFINITIVA E BLINDATA ---
 let codiceSconto = '';
 
-// 1. Controlliamo PRIMA Stripe (La verità ufficiale)
-const discounts = session.total_details?.breakdown?.discounts;
-if (discounts && discounts.length > 0) {
-    const d = discounts[0].discount;
-    // Cerchiamo il codice promozionale o il nome del coupon
-    codiceSconto = d.promotion_code?.code || d.coupon?.name || d.coupon?.id || '';
-}
-
-// 2. SOLO SE Stripe è vuoto, guardiamo cosa arrivava dal sito
-if (!codiceSconto) {
-    codiceSconto = session.metadata?.discount_code || '';
+// Controlliamo se Stripe ha effettivamente registrato uno sconto (la verità assoluta)
+if (session.discounts && session.discounts.length > 0) {
+    try {
+        const sconto = session.discounts[0];
+        
+        if (sconto.promotion_code) {
+            // Chiediamo a Stripe di tradurre l'ID nel testo che l'utente ha digitato (es. "SCONTO10")
+            const promoId = typeof sconto.promotion_code === 'string' ? sconto.promotion_code : sconto.promotion_code.id;
+            const promoInfo = await stripe.promotionCodes.retrieve(promoId);
+            codiceSconto = promoInfo.code;
+            
+        } else if (sconto.coupon) {
+            // Se è un coupon diretto, recuperiamo il nome
+            const couponId = typeof sconto.coupon === 'string' ? sconto.coupon : sconto.coupon.id;
+            const couponInfo = await stripe.coupons.retrieve(couponId);
+            codiceSconto = couponInfo.name || couponInfo.id;
+        }
+    } catch (e) {
+        console.error("Errore lettura testo sconto da Stripe:", e);
+        codiceSconto = 'Sconto Applicato (Vedi Stripe)';
+    }
+} else {
+    // Se su Stripe non risulta nessuno sconto applicato (magari ha pagato a prezzo pieno),
+    // la cella DEVE restare vuota. Ignoriamo i codici errati scritti sulla modale.
+    codiceSconto = '';
 }
 
         const lang = session.metadata?.lang || session.locale || 'en';
