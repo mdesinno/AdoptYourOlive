@@ -98,6 +98,9 @@ if (!nome && !cognome) {
     nome = nameParts.join(' ');
 }
 
+// Ricreiamo fullName perché serve per compilare l'indirizzo nell'email dell'admin
+const fullName = `${nome} ${cognome}`.trim();
+
         const address = shippingData.address || customerData.address || {};
         const unifiedStreet = [address.line1, address.line2].filter(Boolean).join(', ');
         
