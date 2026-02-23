@@ -37,7 +37,7 @@ async function generaCertificatoPDF(nomeAdottante) {
         // Nome Adottante centrato a 11.1cm dall'alto
         page.drawText(nomeAdottante, {
             x: (width - textWidth) / 2,
-            y: 282, 
+            y: 265, 
             size: fontSize,
             font: customFont,
             color: rgb(0, 0, 0),
