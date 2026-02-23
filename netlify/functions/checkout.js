@@ -392,6 +392,7 @@ export const handler = async (event, context) => {
                 is_gift: data.isGift ? 'YES' : 'NO',
                 gift_message: data.giftMessage || '',
                 referral_id: data.memberId || '', // <--- NUOVO: Salvato nei metadati Stripe
+                discount_code: data.discountCode || '',
                 // Dati extra per analytics
                 timestamp: new Date().toISOString(),
                 price_tier: lang // Utile per report

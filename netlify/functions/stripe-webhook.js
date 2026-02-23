@@ -125,17 +125,24 @@ export const handler = async (event, context) => {
             regaloString += ` - ${session.metadata.gift_message}`;
         }
 
-        let codiceSconto = '';
-        if (session.total_details?.breakdown?.discounts) {
-            codiceSconto = session.total_details.breakdown.discounts
-                .map(d => {
-                    if (d.discount?.coupon?.name) return d.discount.coupon.name;
-                    if (d.discount?.coupon?.id) return d.discount.coupon.id;
-                    if (d.discount?.promotion_code?.code) return d.discount.promotion_code.code;
-                    return 'Sconto applicato';
-                })
-                .join(', ');
-        }
+        // 1. Prova a prendere il codice "umano" che abbiamo salvato noi nel checkout
+let codiceSconto = '';
+
+// 1. Chiediamo a Stripe lo sconto applicato ufficialmente (Verità Finale)
+if (session.total_details?.breakdown?.discounts && session.total_details.breakdown.discounts.length > 0) {
+    codiceSconto = session.total_details.breakdown.discounts
+        .map(d => {
+            const disc = d.discount;
+            // Cerchiamo prima il codice scritto (es. SCONTO10), poi il nome, poi l'ID
+            return disc?.promotion_code?.code || disc?.coupon?.name || disc?.coupon?.id || 'Sconto applicato';
+        })
+        .join(', ');
+} 
+
+// 2. Se Stripe non ci dà nulla (ma magari lo sconto c'è nei metadati del sito)
+if (!codiceSconto) {
+    codiceSconto = session.metadata?.discount_code || '';
+}
 
         const lang = session.metadata?.lang || session.locale || 'en';
         const isIt = lang.startsWith('it');
