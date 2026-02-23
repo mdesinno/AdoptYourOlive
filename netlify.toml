@@ -6,6 +6,8 @@
 [functions]
   # Usa il bundler moderno "esbuild", perfetto per i moduli ESM
   node_bundler = "esbuild"
+  # Questa è la riga fondamentale che mancava:
+  included_files = ["netlify/functions/assets/**"]
 
 
 # --- GESTIONE ERRORI ---
