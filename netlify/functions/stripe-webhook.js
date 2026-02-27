@@ -212,7 +212,7 @@ if (session.discounts && session.discounts.length > 0) {
                     Prodotto: productDesc,
                     Regalo: regaloString,
                     Codice: codiceSconto,
-                    Prezzo: (session.amount_total / 100).toFixed(2),
+                    Prezzo: (session.amount_total / 100).toFixed(2).replace('.', ','),
                     ID_Carrello: session.metadata?.cart_id || '',
                     ID_Transazione_Stripe: session.payment_intent || session.id,
                     "Referral ID": referralId 
