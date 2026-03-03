@@ -798,6 +798,12 @@ w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","ide
     } else {
         const consentData = JSON.parse(savedConsent);
         loadScriptsBasedOnConsent(consentData);
+
+        // AGGIORNAMENTO VISIVO DEGLI INTERRUTTORI NELLA MODALE
+        const analyticsToggle = document.getElementById('consent-analytics');
+        const marketingToggle = document.getElementById('consent-marketing');
+        if (analyticsToggle) analyticsToggle.checked = consentData.analytics;
+        if (marketingToggle) marketingToggle.checked = consentData.marketing;
     }
 
     // --- GESTIONE BOTTONI ---
