@@ -722,7 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- A. META PIXEL (Facebook/Instagram) ---
             const META_PIXEL_ID = '1636864481057719'; 
 
-            if (META_PIXEL_ID !== '1636864481057719' && !document.getElementById('fb-pixel')) {
+            if (META_PIXEL_ID && !document.getElementById('fb-pixel')) {
                 !function(f,b,e,v,n,t,s)
                 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
                 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
