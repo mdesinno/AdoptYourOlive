@@ -696,24 +696,27 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadScriptsBasedOnConsent(consentData) {
         console.log("GDPR: Checking consents...", consentData);
 
-        // 1. GESTIONE ANALYTICS (Google Analytics 4)
-        // Parte se l'utente accetta "Analytics" o "Tutto"
-        if (consentData.analytics) {
-            if (!document.getElementById('ga4-script')) {
-                console.log("Loading Google Analytics...");
-                
-                const gaScript = document.createElement('script');
-                gaScript.id = 'ga4-script';
-                gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-FE1BSWKNP8"; // TUO CODICE GOOGLE
-                gaScript.async = true;
-                document.head.appendChild(gaScript);
+        // 1. GESTIONE ANALYTICS (Google Analytics 4 + Google Ads)
+if (consentData.analytics) {
+    if (!document.getElementById('ga4-script')) {
+        console.log("Loading Google Analytics..."); // LASCIAMO LA TUA STRINGA ORIGINALE
+        
+        const gaScript = document.createElement('script');
+        gaScript.id = 'ga4-script';
+        // Usiamo l'ID di Google Ads come sorgente principale perché è più completo
+        gaScript.src = "https://www.googletagmanager.com/gtag/js?id=AW-16812891333"; 
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
 
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-FE1BSWKNP8', { 'anonymize_ip': true });
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        // Configuriamo entrambi: sia Analytics che Google Ads
+        gtag('config', 'G-FE1BSWKNP8', { 'anonymize_ip': true });
+        gtag('config', 'AW-16812891333'); 
+    }
+}
 
         // 2. GESTIONE MARKETING (Facebook & TikTok)
         if (consentData.marketing) {
@@ -787,6 +790,21 @@ w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","ide
                 const marker = document.createElement('div'); 
                 marker.id = 'tt-pixel'; document.body.appendChild(marker);
             }
+
+            // --- C. GOOGLE ADS CONVERSION (Tracciamento Acquisto) ---
+if (window.location.href.includes('success')) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const amountParam = urlParams.get('amount');
+    const realValue = amountParam ? parseFloat(amountParam) : 79.00;
+
+    console.log(`Google Ads Purchase Tracked: €${realValue}`);
+
+    gtag('event', 'conversion', {
+        'send_to': 'AW-16812891333/v-ayCK_O9ZEaEMX_qs8-', // Questo è l'ID specifico della tua conversione
+        'value': realValue,
+        'currency': 'EUR'
+    });
+}
         }
     }
 
