@@ -79,7 +79,7 @@ export const handler = async (event, context) => {
 
         // --- ESTRAZIONE DATI ---
         const customerData = session.customer_details || {};
-        const shippingData = session.shipping_details || {}; 
+        const shippingData = session.shipping_details || session.collected_information?.shipping_details || {};
         
         // --- ESTRAZIONE NOME E COGNOME CORRETTA ---
 
