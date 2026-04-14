@@ -718,10 +718,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadScriptsBasedOnConsent(consentData) {
         console.log("GDPR: Checking consents...", consentData);
 
-        // 1. GESTIONE ANALYTICS (Google Analytics 4 + Google Ads)
+        // 1. GESTIONE ANALYTICS (Google Analytics 4 + Google Ads + Clarity)
 if (consentData.analytics) {
     if (!document.getElementById('ga4-script')) {
-        console.log("Loading Google Analytics..."); // LASCIAMO LA TUA STRINGA ORIGINALE
+        console.log("Loading Google Analytics, ADS and Clarity..."); // LASCIAMO LA TUA STRINGA ORIGINALE
         
         const gaScript = document.createElement('script');
         gaScript.id = 'ga4-script';
@@ -738,6 +738,16 @@ if (consentData.analytics) {
         gtag('config', 'G-FE1BSWKNP8', { 'anonymize_ip': true });
         gtag('config', 'AW-16812891333'); 
     }
+
+    // --- INSERIMENTO MICROSOFT CLARITY ---
+            // Aggiungiamo un check per non caricarlo due volte
+            if (!window.clarity) {
+                (function(c,l,a,r,i,t,y){
+                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                })(window, document, "clarity", "script", "wbga1guicq");
+            }
 }
 
         // 2. GESTIONE MARKETING (Facebook & TikTok)
