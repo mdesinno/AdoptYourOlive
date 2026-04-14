@@ -114,6 +114,19 @@ window.openAdoptionModal = (productName, technicalId) => {
 
         adoptionModal.showModal();
     }
+    // Tracciamento Google GA4 e Google Ads
+if (typeof window.gtag === 'function') {
+    window.gtag('event', 'begin_checkout', {
+        items: [{
+            item_name: productName, // o kitName, a seconda di come hai chiamato la variabile
+            item_id: technicalId
+        }]
+    });
+}
+// Tracciamento Meta (Facebook)
+if (typeof window.fbq === 'function') {
+    window.fbq('track', 'InitiateCheckout');
+}
 };
 
 window.closeModal = () => {
@@ -389,7 +402,6 @@ if (corpForm) {
        ========================================= */
 
     // 1. GESTIONE TITOLO PRINCIPALE (Apre/Chiude tutta la sezione)
-    // Cerchiamo l'elemento con classe 'toggle-header' (assicurati di averla messa nell'HTML)
     const faqMainHeader = document.querySelector('.toggle-header');
     
     if (faqMainHeader) {
@@ -401,6 +413,16 @@ if (corpForm) {
             const wrapper = this.nextElementSibling;
             if (wrapper) {
                 wrapper.classList.toggle('open');
+                
+                // EVENTO DI TRACCIAMENTO (Solo se si sta aprendo)
+                if (wrapper.classList.contains('open')) {
+                    if (typeof window.gtag === 'function') {
+                        window.gtag('event', 'select_content', {
+                            content_type: 'faq',
+                            content_id: 'sezione_faq_aperta'
+                        });
+                    }
+                }
             }
         });
     }
@@ -892,6 +914,12 @@ function toggleKit(headerElement) {
     if (isOpening) {
         content.classList.add('open');
         headerElement.classList.add('active');
+        // Da inserire dentro l'if (isOpening) della funzione toggleKit
+if (typeof window.gtag === 'function') {
+    window.gtag('event', 'view_item_list', {
+        item_list_name: 'Dettagli Kit Aperti'
+    });
+}
     }
 }
 
