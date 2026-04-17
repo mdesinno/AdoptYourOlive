@@ -824,18 +824,29 @@ w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","ide
             }
 
             // --- C. GOOGLE ADS CONVERSION (Tracciamento Acquisto) ---
+// --- C. GOOGLE ADS CONVERSION (Tracciamento Acquisto) ---
 if (window.location.href.includes('success')) {
     const urlParams = new URLSearchParams(window.location.search);
     const amountParam = urlParams.get('amount');
     const realValue = amountParam ? parseFloat(amountParam) : 79.00;
 
-    console.log(`Google Ads Purchase Tracked: €${realValue}`);
+    // Funzione di emergenza: se gtag non è ancora pronta, riprova dopo 1 secondo
+    const sendGoogleConversion = () => {
+        if (typeof gtag === 'function') {
+            console.log(`Google Ads Purchase Tracked: €${realValue}`);
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16812891333/v-ayCK_O9ZEaEMX_qs8-',
+                'value': realValue,
+                'currency': 'EUR',
+                'transaction_id': urlParams.get('session_id') || '' // Aggiunto per evitare doppioni
+            });
+        } else {
+            console.log("Gtag non ancora pronta, riprovo tra 1s...");
+            setTimeout(sendGoogleConversion, 1000);
+        }
+    };
 
-    gtag('event', 'conversion', {
-        'send_to': 'AW-16812891333/v-ayCK_O9ZEaEMX_qs8-', // Questo è l'ID specifico della tua conversione
-        'value': realValue,
-        'currency': 'EUR'
-    });
+    sendGoogleConversion();
 }
         }
     }
