@@ -56,7 +56,8 @@ if (data.fax_number && data.fax_number.trim() !== "") {
                 const rows = await sheet.getRows();
                 const row = rows.find(r => {
                     const cellValue = r.get('Member ID') || r['Member ID'];
-                    return cellValue && cellValue.toString().trim().toUpperCase() === inputID;
+const sheetID = cellValue ? String(cellValue).trim().toUpperCase() : '';
+return sheetID === inputID;
                 });
                 if (row) {
                     row.set('Email Ricevente', inputEmail);
@@ -65,6 +66,13 @@ if (data.fax_number && data.fax_number.trim() !== "") {
                     console.log(`✅ Sheet aggiornato per ID ${inputID}`); // Tienilo!
                 } else {
                     console.warn(`⚠️ ID ${inputID} non trovato nel foglio Ordini.`); // Tienilo!
+                    // NUOVO: Invia email di alert a te stesso
+    await resend.emails.send({
+        from: `Alert System <${process.env.EMAIL_MITTENTE}>`,
+        to: process.env.EMAIL_MITTENTE, // O la tua email personale
+        subject: `⚠️ ERRORE GOOGLE SHEET: ID ${inputID} non trovato`,
+        html: `<p>L'utente con email <strong>${inputEmail}</strong> ha cercato di scaricare la guida con ID <strong>${inputID}</strong>, ma l'ID non è stato trovato nel foglio Ordini.</p>`
+    });
                 }
             }
         } catch (sheetError) {
