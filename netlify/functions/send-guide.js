@@ -92,7 +92,7 @@ return sheetID === inputID;
             } catch (e) { console.log('ℹ️ Resend Contact Skip:', e.message); }
         }
 
-       /* // === 4. CONFIGURAZIONE LINK TRACCIATI E INVIO ===
+       // === 4. CONFIGURAZIONE LINK TRACCIATI E INVIO ===
         const TRACK_URL = "https://adoptyourolive.com/.netlify/functions/track";
         const isIt = (lang === 'it');
         
@@ -135,41 +135,7 @@ return sheetID === inputID;
                 </p>
             </div>
         `;
-        // === FINE CONFIGURAZIONE LINK TRACCIATI E INVIO ===*/
-
-        // === NUOVO CODICE TEMPORANEO: EMAIL "COMING SOON" ===
-        const isIt = (lang === 'it');
-        
-        const subject = isIt ? "La tua Guida alla Degustazione 🌿 Adopt Your Olive" : "Your Tasting Guide 🌿 Adopt Your Olive";
-
-        const htmlContent = isIt ? `
-            <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6; border: 1px solid #eee; padding: 20px;">
-                <h1 style="color: #2c5e2e; text-align: center;">Adopt Your Olive Club</h1>
-                <p>Ciao,</p>
-                <p>Grazie per aver registrato il tuo certificato (ID: <strong>${inputID}</strong>) e aver richiesto la nostra Guida Ufficiale alla Degustazione! 🌿</p>
-                <p>Stiamo ultimando una nuovissima versione della guida: non sarà un semplice foglio di istruzioni, ma una vera e propria <strong>Masterclass in PDF</strong> dedicata alla nostra preziosa oliva Peranzana.</p>
-                <div style="background-color: #fdf6e3; padding: 20px; border-left: 4px solid #b58900; margin: 25px 0;">
-                    <p style="margin: 0; font-weight: bold; color: #b58900;">Sei ufficialmente nella nostra lista prioritaria.</p>
-                    <p style="margin: 5px 0 0 0;">Riceverai la guida direttamente in questa casella di posta non appena sarà pronta (questione di pochissimi giorni!).</p>
-                </div>
-                <p>A prestissimo,<br>
-                <strong>Michele - Il Team di Adopt Your Olive</strong></p>
-            </div>
-        ` : `
-            <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6; border: 1px solid #eee; padding: 20px;">
-                <h1 style="color: #2c5e2e; text-align: center;">Adopt Your Olive Club</h1>
-                <p>Hi,</p>
-                <p>Thank you for registering your certificate (ID: <strong>${inputID}</strong>) and requesting our Official Tasting Guide! 🌿</p>
-                <p>We are currently putting the finishing touches on a brand new version. It won't be just a simple instruction sheet, but a real <strong>PDF Masterclass</strong> dedicated to our precious Peranzana olive.</p>
-                <div style="background-color: #fdf6e3; padding: 20px; border-left: 4px solid #b58900; margin: 25px 0;">
-                    <p style="margin: 0; font-weight: bold; color: #b58900;">You are officially on our priority list.</p>
-                    <p style="margin: 5px 0 0 0;">You will receive the guide right here in your inbox as soon as it's ready (in just a few days!).</p>
-                </div>
-                <p>Talk soon,<br>
-                <strong>Michele - The Adopt Your Olive Team</strong></p>
-            </div>
-        `;
-        // === FINE NUOVO CODICE TEMPORANEO ===
+        // === FINE CONFIGURAZIONE LINK TRACCIATI E INVIO ===
 
         // INVIO EMAIL CON RESEND
         await resend.emails.send({
