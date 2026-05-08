@@ -92,49 +92,50 @@ return sheetID === inputID;
             } catch (e) { console.log('ℹ️ Resend Contact Skip:', e.message); }
         }
 
-        // --- 4. CONFIGURAZIONE LINK TRACCIATI ---
-       /* const TRACK_URL = "https://adoptyourolive.com/.netlify/functions/track";
+       /* // === 4. CONFIGURAZIONE LINK TRACCIATI E INVIO ===
+        const TRACK_URL = "https://adoptyourolive.com/.netlify/functions/track";
+        const isIt = (lang === 'it');
         
-        // Generiamo i link dinamici includendo l'email per il tracciamento
-        const linkGuidaIT = `${TRACK_URL}?dest=guida_it&email=${encodeURIComponent(inputEmail)}&lang=it`;
-        const linkRicetteIT = `${TRACK_URL}?dest=ricette_it&email=${encodeURIComponent(inputEmail)}&lang=it`;
-        const linkGuidaEN = `${TRACK_URL}?dest=guida_en&email=${encodeURIComponent(inputEmail)}&lang=en`;
-        const linkRicetteEN = `${TRACK_URL}?dest=ricette_en&email=${encodeURIComponent(inputEmail)}&lang=en`;
+        // 1. Generiamo un solo link dinamico in base alla lingua dell'utente
+        const linkGuida = isIt 
+            ? `${TRACK_URL}?dest=guida_it&email=${encodeURIComponent(inputEmail)}&lang=it`
+            : `${TRACK_URL}?dest=guida_en&email=${encodeURIComponent(inputEmail)}&lang=en`;
 
-        const subject = "Your Tasting Guides / Le tue Guide 🫒";
-        const btnStyle = "background-color: #3A5F0B; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 14px; display: inline-block; margin: 10px 5px;";
+        const subject = isIt ? "La tua Guida Esclusiva 🌿 Adopt Your Olive" : "Your Exclusive Guide 🌿 Adopt Your Olive";
+        const btnStyle = "background-color: #2c5e2e; color: white; padding: 14px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px; display: inline-block; margin: 20px 0;";
 
-        const htmlContent = `
-            <div style="font-family: sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px;">
-                <h1 style="color: #3A5F0B; text-align: center;">Adopt Your Olive Club</h1>
-                
-                <div style="margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
-                    <p><strong>EN:</strong> Thank you for registering your certificate (ID: <strong>${inputID}</strong>).<br>
-                    You can download your exclusive guides and recipes below:</p>
-                    
-                    <div style="text-align: center;">
-                        <a href="${linkGuidaEN}" style="${btnStyle}">📖 Tasting Guide (EN)</a>
-                        <a href="${linkRicetteEN}" style="${btnStyle}">🍳 Recipe Book (EN)</a>
-                    </div>
+        const htmlContent = isIt ? `
+            <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6; border: 1px solid #eee; padding: 20px; margin: 0 auto;">
+                <h1 style="color: #2c5e2e; text-align: center;">Adopt Your Olive Club</h1>
+                <p>Ciao,</p>
+                <p>Grazie per aver confermato il tuo certificato (ID: <strong>${inputID}</strong>). Benvenuto ufficialmente nel club! 🌿</p>
+                <p>Clicca sul pulsante qui sotto per scaricare la tua <strong>Masterclass sulla Degustazione dell'Olio</strong> in formato PDF.</p>
+                <div style="text-align: center;">
+                    <a href="${linkGuida}" style="${btnStyle}">Scarica la Guida</a>
                 </div>
-
-                <div>
-                    <p><strong>IT:</strong> Grazie per aver registrato il tuo certificato (ID: <strong>${inputID}</strong>).<br>
-                    Puoi scaricare le tue guide e i ricettari esclusivi qui sotto:</p>
-                    
-                    <div style="text-align: center;">
-                        <a href="${linkGuidaIT}" style="${btnStyle}">📖 Guida Degustazione (IT)</a>
-                        <a href="${linkRicetteIT}" style="${btnStyle}">🍳 Ricettario (IT)</a>
-                    </div>
+                <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
+                <p style="font-size: 11px; color: #999; text-align: center;">
+                    Ricevi questa email perché hai registrato il tuo Member ID.<br>
+                    Adopt Your Olive - Puglia, Italia
+                </p>
+            </div>
+        ` : `
+            <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6; border: 1px solid #eee; padding: 20px; margin: 0 auto;">
+                <h1 style="color: #2c5e2e; text-align: center;">Adopt Your Olive Club</h1>
+                <p>Hi,</p>
+                <p>Thank you for registering your certificate (ID: <strong>${inputID}</strong>). Welcome officially to the club! 🌿</p>
+                <p>Click the button below to download your <strong>Olive Oil Tasting Masterclass</strong> in PDF format.</p>
+                <div style="text-align: center;">
+                    <a href="${linkGuida}" style="${btnStyle}">Download the Guide</a>
                 </div>
-
                 <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
                 <p style="font-size: 11px; color: #999; text-align: center;">
                     You are receiving this because you registered your Member ID.<br>
                     Adopt Your Olive - Puglia, Italy
                 </p>
             </div>
-        `;*/
+        `;
+        // === FINE CONFIGURAZIONE LINK TRACCIATI E INVIO ===*/
 
         // === NUOVO CODICE TEMPORANEO: EMAIL "COMING SOON" ===
         const isIt = (lang === 'it');

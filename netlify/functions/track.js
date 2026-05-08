@@ -9,10 +9,10 @@ export const handler = async (event) => {
     // --- CONFIGURAZIONE LINK ---
     // Sostituisci i placeholder con i tuoi link reali di Google Drive
     const destinations = {
-        'guida_it': 'https://drive.google.com/file/d/1JtgL8hSUGjuWiSi06XI-UF9PYoU1ygbc/view?usp=drive_link',
-        'guida_en': 'https://drive.google.com/file/d/1wH2h0vL_kqbrwFVFI1_mIob-_tYDl3m4/view?usp=drive_link',
-        'ricette_it': 'https://drive.google.com/file/d/1HTWiSpS8iq0InjpzpRIC5jGNx5UU2eio/view?usp=drive_link',
-        'ricette_en': 'https://drive.google.com/file/d/1kxumxa3L2jdq41eDFTjU6KaUAzAcKPcc/view?usp=drive_link',
+        'guida_it': 'https://drive.google.com/file/d/17Cx9P4Ij-fhRZ2lwS2rh2WBAcdsQPjQ8/view?usp=drive_link',
+        'guida_en': 'https://drive.google.com/file/d/1VgOB7jiefZPmBKyBUbs_SjQKN8wMF_sV/view?usp=drive_link',
+        /*'ricette_it': 'https://drive.google.com/file/d/1HTWiSpS8iq0InjpzpRIC5jGNx5UU2eio/view?usp=drive_link',
+        'ricette_en': 'https://drive.google.com/file/d/1kxumxa3L2jdq41eDFTjU6KaUAzAcKPcc/view?usp=drive_link',*/
         'folder': 'https://drive.google.com/drive/folders/10Ht0naoEt1maogDr2QBiGSAgfg17K4Bw?usp=sharing'
     };
 
