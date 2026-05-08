@@ -230,27 +230,43 @@ if (firstNameInput && lastNameInput && certInput && labelInput && giftCheckbox) 
 
 
     /* =========================================
-       3. GESTIONE CODICI SCONTO (URL & INPUT)
-       ========================================= */
-    const urlParams = new URLSearchParams(window.location.search);
-    const discountFromUrl = urlParams.get('discount'); 
-    // Es: ?discount=SUMMER25
+   3. GESTIONE CODICI SCONTO (URL & INPUT)
+   ========================================= */
+// A. Logica Mostra/Nascondi Campo Sconto
+const toggleDiscountBtn = document.getElementById('toggle-discount-btn');
+const discountContainerDiv = document.getElementById('discount-container');
 
-    const discountInput = document.getElementById('discount-code');
-    const discountMsg = document.getElementById('discount-message');
+if (toggleDiscountBtn && discountContainerDiv) {
+    toggleDiscountBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        discountContainerDiv.style.display = 'block';
+        this.style.display = 'none'; // Fa sparire il link dopo il click
+    });
+}
 
-    if (discountFromUrl && discountInput) {
-        const cleanCode = discountFromUrl.toUpperCase().trim();
-        discountInput.value = cleanCode;
-        
-        // Feedback Visivo
-        discountInput.style.borderColor = 'var(--primary-green)';
-        discountInput.style.backgroundColor = '#f0f9eb'; // verdino chiaro
-        if(discountMsg) {
-            discountMsg.style.display = 'block';
-            discountMsg.textContent = `${txt.promoApplied} (${cleanCode})`;
-        }
+// B. Logica Sconto da URL (?discount=PROMO)
+const urlParams = new URLSearchParams(window.location.search);
+const discountFromUrl = urlParams.get('discount'); 
+
+const discountInput = document.getElementById('discount-code');
+const discountMsg = document.getElementById('discount-message');
+
+if (discountFromUrl && discountInput) {
+    const cleanCode = discountFromUrl.toUpperCase().trim();
+    discountInput.value = cleanCode;
+    
+    // Mostriamo subito il contenitore se c'è un codice nell'URL
+    if (discountContainerDiv) discountContainerDiv.style.display = 'block';
+    if (toggleDiscountBtn) toggleDiscountBtn.style.display = 'none';
+    
+    // Feedback Visivo
+    discountInput.style.borderColor = 'var(--primary-green)';
+    discountInput.style.backgroundColor = '#f0f9eb'; 
+    if(discountMsg) {
+        discountMsg.style.display = 'block';
+        discountMsg.textContent = `${txt.promoApplied} (${cleanCode})`;
     }
+}
 
 
     /* =========================================
@@ -974,3 +990,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+/* =========================================
+   7. FUNZIONI GLOBALI CHIAMATE DALL'HTML
+   ========================================= */
+window.toggleShippingNote = function() {
+    // Cerchiamo quale radio button è attualmente selezionato
+    const checkedOption = document.querySelector('input[name="shipTarget"]:checked');
+    const noteBox = document.getElementById('shipping-note-them');
+    
+    // Se gli elementi esistono (siamo in una pagina con la modale)
+    if (checkedOption && noteBox) {
+        // Se il valore è 'them' (destinatario), mostra la nota, altrimenti nascondila
+        const isDirect = checkedOption.value === 'them';
+        noteBox.style.display = isDirect ? 'block' : 'none';
+    }
+};

@@ -292,7 +292,7 @@
             <h1>Your Name.<br>Our Tradition.</h1>
             <p class="hero-sub">
                 Adopt a centuries-old olive tree in Puglia. Receive your <strong>personalized Extra Virgin Olive Oil</strong> immediately. 
-                A timeless bond, ready to be tasted.
+                A timeless bond, ready to be tasted.<br>The most meaningful gift from Italy.
             </p>
             <div class="hero-buttons">
                 <a href="#adoption-kits" class="btn-primary">Choose your Tree</a>
@@ -360,10 +360,10 @@
                     
                     <div class="kit-dropdown-content">
                         <ul class="kit-list">
-                            <li>📜 <strong>Adoption Certificate</strong></li>
+                            <li>📜 <strong>Handwritten Adoption Certificate</strong></li>
                             <li>📸 <strong>Photo of your Tree</strong></li>
                             <li>🫒 <strong>1 Liter Premium EVO Oil</strong></li>
-                            <li>🏷️ <strong>Custom Label with YOUR Name</strong></li>
+                            <li>🏷️ <strong>Handwritten Custom Label</strong></li>
                         </ul>
                     </div>
 
@@ -395,10 +395,10 @@
                     
                     <div class="kit-dropdown-content">
                         <ul class="kit-list">
-                            <li>📜 <strong>Adoption Certificate</strong></li>
+                            <li>📜 <strong>Handwritten Adoption Certificate</strong></li>
                             <li>📸 <strong>Photo of your Tree</strong></li>
                             <li>🫒 <strong>2 Liters Premium EVO Oil</strong></li>
-                            <li>🏷️ <strong>Custom Label with YOUR Name</strong></li>
+                            <li>🏷️ <strong>Handwritten Custom Label</strong></li>
                         </ul>
                     </div>
 
@@ -431,10 +431,10 @@
                     
                     <div class="kit-dropdown-content">
                         <ul class="kit-list">
-                            <li>📜 <strong>Adoption Certificate</strong></li>
+                            <li>📜 <strong>Handwritten Adoption Certificate</strong></li>
                             <li>📸 <strong>Photo of your Tree</strong></li>
                             <li>🫒 <strong>5 Liters Premium EVO Oil</strong></li>
-                            <li>🏷️ <strong>Custom Label with YOUR Name</strong></li>
+                            <li>🏷️ <strong>Handwritten Custom Label</strong></li>
                         </ul>
                     </div>
 
@@ -453,6 +453,17 @@
             </article>
 
         </div>
+
+        <div class="trust-badges" style="display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap; text-align: center;">
+    <div class="badge" style="display: flex; align-items: center; gap: 10px; color: var(--text-light); font-size: 0.9rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-green)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+        <span>Safe & Tracked EU Delivery</span>
+    </div>
+    <div class="badge" style="display: flex; align-items: center; gap: 10px; color: var(--text-light); font-size: 0.9rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-green)" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <span>Anti-Breakage Premium Packaging</span>
+    </div>
+</div>
         
         <div class="text-center" style="margin-top: 40px;">
             <a href="/it/" class="shipping-alert" style="display: inline-block;">
@@ -889,17 +900,36 @@
                     </div>
                 </div>
 
-                <div class="form-group checkbox-group" style="background: #f9f9f9; border-radius: 5px;">
-                    <input type="checkbox" id="is-gift" name="isGift" onchange="toggleGiftMessage()">
-                    <label for="is-gift" style="cursor:pointer; font-weight: normal;">
-                        🎁 Is this a gift?
-                    </label>
-                    
-                    <div id="gift-message-container" style="display:none">
-                        <label style="font-size: 0.9rem;">Personal Note for the recipient:</label>
-                        <textarea id="gift-message" name="giftMessage" rows="2" placeholder="Write your wish here... We will print it for you!"></textarea>
-                    </div>
-                </div>
+                <div class="form-group checkbox-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <input type="checkbox" id="is-gift" name="isGift" onchange="toggleGiftMessage()">
+        <label for="is-gift" style="cursor:pointer; font-weight: normal; margin: 0;">
+            🎁 Is this a gift?
+        </label>
+    </div>
+    
+    <div id="gift-message-container" style="display:none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+        <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; display: block;">Where are we shipping the gift?</label>
+        
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 8px; cursor: pointer; font-weight: normal;">
+            <input type="radio" name="shipTarget" value="me" checked onchange="toggleShippingNote()"> 
+            Ship to me (I will deliver it in person)
+        </label>
+        
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; font-weight: normal;">
+            <input type="radio" name="shipTarget" value="them" onchange="toggleShippingNote()"> 
+            Ship directly to the recipient
+        </label>
+
+        <div id="shipping-note-them" style="display: none; margin-bottom: 15px; font-size: 0.85rem; color: #5c4000; background: #fffdf5; padding: 10px; border-left: 3px solid #ffcc00; border-radius: 3px;">
+            <strong>Important for direct shipping:</strong><br>
+            In the next step (Checkout), please enter the <strong>recipient's delivery address and phone number</strong> (for the courier), but use <strong>your own email</strong> so the receipt comes to you and the surprise is safe!
+        </div>
+
+        <label style="font-size: 0.9rem; margin-top: 10px;">Personal Note for the recipient (Optional):</label>
+        <textarea id="gift-message" name="giftMessage" rows="2" placeholder="Write your wish here... We will print it for you! Don't forget to sign it!"></textarea>
+    </div>
+</div>
 
                 <div class="form-group">
                     <label>Name on Certificate (Adopter):</label>
@@ -922,13 +952,17 @@
                     <input type="email" id="buyer-email" name="email" placeholder="name@email.com" required>
                 </div>
 
-                <div class="form-group discount-group" style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd;">
-                    <label>Do you have a discount code?</label>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="discount-code" name="discountCode" placeholder="PROMO CODE" style="text-transform: uppercase; margin-bottom: 0;">
-                    </div>
-                    <small id="discount-message" style="display: none; color: var(--primary-green); margin-top: 5px;">Code applied!</small>
-                </div>
+                <div class="form-group discount-group" style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd; text-align: center;">
+    <a href="javascript:void(0)" id="toggle-discount-btn" style="font-size: 0.85rem; color: var(--text-light); text-decoration: underline;">Do you have a promo code?</a>
+    
+    <div id="discount-container" style="display: none; margin-top: 10px; text-align: left;">
+        <label>Discount Code:</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="discount-code" name="discountCode" placeholder="PROMO CODE" style="text-transform: uppercase; margin-bottom: 0;">
+        </div>
+        <small id="discount-message" style="display: none; color: var(--primary-green); margin-top: 5px;">Code applied!</small>
+    </div>
+</div>
 
                 <div style="margin-top: 20px; font-size: 0.85rem; color: #555; background: #eef; padding: 10px; border-radius: 5px; text-align: center;">
                     🌍 <strong>Shipping Zone:</strong> This kit ships to <strong>European Union</strong> countries.
