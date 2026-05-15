@@ -3,52 +3,9 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
 import { Resend } from 'resend';
 import Stripe from 'stripe';
-import { PDFDocument, rgb } from 'pdf-lib'; // Per PDF
-import fontkit from '@pdf-lib/fontkit';      // Per Font custom
-import fs from 'fs';
-import path from 'path';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-// --- FUNZIONE GENERAZIONE PDF (Eseguita in memoria) ---
-async function generaCertificatoPDF(nomeAdottante) {
-    try {
-        const pathToBase = path.resolve(__dirname, 'assets/certificato_base.png');
-        const pathToFont = path.resolve(__dirname, 'assets/PlayfairDisplay-BoldItalic.ttf');
-        
-        const baseImageBytes = fs.readFileSync(pathToBase);
-        const fontBytes = fs.readFileSync(pathToFont);
-
-        const pdfDoc = await PDFDocument.create();
-        pdfDoc.registerFontkit(fontkit);
-        const customFont = await pdfDoc.embedFont(fontBytes);
-
-        // Formato A4 Orizzontale in punti
-        const page = pdfDoc.addPage([841.89, 595.28]); 
-        const { width, height } = page.getSize();
-
-        const embeddedImage = await pdfDoc.embedPng(baseImageBytes);
-        page.drawImage(embeddedImage, { x: 0, y: 0, width, height });
-
-        const fontSize = 42;
-        const textWidth = customFont.widthOfTextAtSize(nomeAdottante, fontSize);
-        
-        // Nome Adottante centrato a 11.1cm dall'alto
-        page.drawText(nomeAdottante, {
-            x: (width - textWidth) / 2,
-            y: 265, 
-            size: fontSize,
-            font: customFont,
-            color: rgb(0, 0, 0),
-        });
-
-        return await pdfDoc.saveAsBase64();
-    } catch (e) {
-        console.error("❌ Errore Generazione PDF:", e);
-        return null;
-    }
-}
 
 export const handler = async (event, context) => {
     if (event.httpMethod !== 'POST') {
@@ -175,13 +132,6 @@ if (session.discounts && session.discounts.length > 0) {
         const lang = session.metadata?.lang || session.locale || 'en';
         const isIt = lang.startsWith('it');
 
-        // --- GENERAZIONE PDF ---
-        const pdfBase64 = await generaCertificatoPDF(certificatoNome);
-        const pdfAttachment = pdfBase64 ? [{
-            filename: `Certificato_Adozione_${certificatoNome.replace(/\s+/g, '_')}.pdf`,
-            content: pdfBase64,
-        }] : [];
-
         // --- 1. GOOGLE SHEET ---
         try {
             const decodedCreds = Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT_ENCODED, 'base64').toString('utf-8');
@@ -256,10 +206,10 @@ if (session.discounts && session.discounts.length > 0) {
                 <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6;">
                     <h1 style="color: #2c5e2e;">Grazie, ${nome}!</h1>
                     <p>Siamo felici di darti il benvenuto nella nostra famiglia di custodi degli ulivi in Puglia.</p>
-                    <p>Abbiamo ricevuto correttamente la tua adozione. <strong>In allegato a questa email trovi la copia digitale del tuo Certificato.</strong></p>
+                    <p>Abbiamo ricevuto correttamente la tua adozione. In questo momento stiamo preparando il tuo kit.</p>
                     
                     <p style="background: #fdf6e3; padding: 15px; border-left: 4px solid #b58900; margin: 20px 0;">
-                        <strong>Nota importante:</strong> La versione fisica ufficiale arriverà a casa tua insieme alla <strong>Club Card</strong>. 
+                        <strong>Nota importante:</strong> Il tuo certificato fisico ufficiale arriverà a casa tua insieme alla <strong>Club Card</strong>. 
                         Sulla card troverai il tuo <strong>Member ID</strong> e un QR Code per accedere all'area riservata e scaricare guide e ricettari.
                     </p>
 
@@ -282,7 +232,7 @@ if (session.discounts && session.discounts.length > 0) {
             html: `
                 <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6;">
                     <h1 style="color: #2c5e2e;">Thank you, ${nome}!</h1>
-                    <p>We successfully received your adoption. <strong>Your digital Adoption Certificate is attached to this email.</strong></p>
+                    <p>We successfully received your adoption. We are currently preparing your kit.</p>
                     
                     <p style="background: #fdf6e3; padding: 15px; border-left: 4px solid #b58900; margin: 20px 0;">
                         <strong>Important:</strong> Your official physical certificate will arrive with your <strong>Club Card</strong>. 
@@ -311,7 +261,6 @@ if (session.discounts && session.discounts.length > 0) {
                 to: session.customer_details.email,
                 subject: emailContent.subj,
                 html: emailContent.html,
-                attachments: pdfAttachment
             });
             console.log('✅ Email Cliente inviata');
         } catch (e) { console.error('❌ Errore Email Cliente:', e); }
@@ -322,7 +271,6 @@ if (session.discounts && session.discounts.length > 0) {
                 from: `Adopt Your Olive <${process.env.EMAIL_MITTENTE}>`,
                 to: process.env.EMAIL_ADMIN,
                 subject: `💰 [ORDINE] ${nome} ${cognome} - €${(session.amount_total / 100).toFixed(0)}`,
-                attachments: pdfAttachment, // Allegato anche per l'admin
                 html: `
                     <div style="font-family: monospace; color: #333; max-width: 600px;">
                         <h2 style="background: #e6fffa; padding: 10px; border: 1px solid #2c5e2e; color: #2c5e2e;">✅ Pagamento Ricevuto: € ${(session.amount_total / 100).toFixed(2)}</h2>
