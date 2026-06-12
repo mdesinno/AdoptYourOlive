@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>La Bottega | Adopt Your Olive</title>
+    <meta name="description" content="Discover La Bottega by Adopt Your Olive. Tasting boxes with authentic Apulian specialties, creams, jams, and preserves.">
+
+    <link rel="alternate" hreflang="en" href="https://adoptyourolive.com/shop.html" />
+    <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/shop.html" />
+    <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/shop.html" />
+    <link rel="canonical" href="https://adoptyourolive.com/shop.html" />
+
+    <meta name="google-site-verification" content="Y85AARKVRz6ltP7evzrwVD9khwUHW-t15SLTXBLH_Os" />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <link rel="stylesheet" href="/style.css?v=2.0">
+    <script src="/script.js?v=2.0" defer></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adoptyourolive.com/shop.html">
+    <meta property="og:title" content="La Bottega | Adopt Your Olive">
+    <meta property="og:description" content="Tasting boxes with Apulian specialties. The perfect pairing for your extra virgin olive oil.">
+    <meta property="og:image" content="https://adoptyourolive.com/immagini/Albero-hero.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La Bottega | Adopt Your Olive">
+    <meta name="twitter:description" content="Apulian specialties delivered directly to your door.">
+    <meta name="twitter:image" content="https://adoptyourolive.com/immagini/Albero-hero.webp">
+    
+    <script>
+        window.currentLang = document.documentElement.lang || (window.location.pathname.includes('/it/') ? 'it' : 'en');
+    </script>
+</head>
+<body class="bg-cream">
+
+    <nav class="navbar scrolled">
+        <div class="container nav-content">
+            <a href="index.html" class="logo-wrapper">
+                <img src="immagini/logo.webp" alt="AYO Logo" class="logo-img" style="filter: invert(1); height: 50px;">
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html#how-it-works">Process</a>
+                <a href="index.html#story">Family</a>
+                <a href="index.html#faq">FAQ</a>
+                <a href="/it/shop.html" class="shipping-alert">
+                    <span>🇮🇹 Spedisci in Italia?</span>
+                </a>
+                <a href="index.html#adoption-kits" class="btn-nav">Adopt Now</a>
+            </div>
+            
+            <div class="mobile-menu-icon">☰</div>
+        </div>
+    </nav>
+
+    <header class="hero" style="min-height: 400px; padding-top: 120px; background-color: #243b05;">
+        <div class="container hero-content text-center" style="margin: auto;">
+            <span class="eyebrow" style="color: #fff;">La Bottega</span>
+            <h1 style="color: #fff;">The Flavors of Our Land</h1>
+            <p style="color: #eee; max-width: 600px; margin: 0 auto;">Authentic Apulian preserves, creams, and jams prepared according to tradition. EU Shipping included in every box.</p>
+        </div>
+    </header>
+
+    <section class="shop-access-strip" style="background: #fdf6e3; padding: 40px 0; border-bottom: 1px solid #faebcc;">
+        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: center;">
+            
+            <div class="access-box" style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <h3 style="color: #2c5e2e; margin-bottom: 10px; font-size: 1.3rem;">Already in the family?</h3>
+                <p style="font-size: 0.95rem; color: #555; margin-bottom: 20px;">Enter your Member ID to unlock your exclusive pricing.</p>
+                
+                <div style="display: flex; justify-content: center; gap: 10px; max-width: 100%;">
+                    <input type="text" id="member-id-input" placeholder="e.g. 123-2026" style="margin-bottom: 0; width: 100%; border: 1px solid #ccc; padding: 12px; border-radius: 6px;">
+                    <button class="btn-primary" style="padding: 12px 24px; border-radius: 6px; white-space: nowrap;" onclick="verifyMemberId()">Apply</button>
+                </div>
+                <p id="adopter-feedback" style="display: none; font-size: 0.85rem; color: #2c5e2e; margin-top: 15px; font-weight: 600;"></p>
+            </div>
+
+            <div class="access-box" style="background: #243b05; color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <h3 style="color: #fff; margin-bottom: 10px; font-size: 1.3rem;">Not an Adopter yet?</h3>
+                <p style="font-size: 0.95rem; color: #eee; margin-bottom: 20px;">Adopt an olive tree to unlock exclusive benefits and reserved pricing on all our tasting boxes.</p>
+                
+                <div>
+                    <a href="index.html#adoption-kits" class="btn-primary" style="background: #fff; color: #243b05; display: inline-block; padding: 12px 24px; border-radius: 6px; font-weight: 600; text-decoration: none;">Adopt a Tree Now</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section-padded">
+        <div class="container">
+            <div class="products-grid">
+                
+                <article class="product-card" data-bundle="base">
+                    <div class="card-image">
+                        <img src="immagini/box-base.webp" alt="The Tasting Box" loading="lazy">
+                    </div>
+                    <div class="card-details">
+                        <h3>The Tasting Box <span style="font-size: 1rem; color: #666; display: block;">6 Specialties</span></h3>
+                        <p class="subtitle" style="min-height: auto;">An authentic taste: sun-dried tomatoes, artichokes, lampascioni, bomba pugliese, olive cream, and mandarin marmalade.</p>
+                        
+                        <div class="spacer-block"></div>
+
+                        <div class="price-block">
+                            <span class="price normal-price">€69</span>
+                            <span class="price adopter-price" style="display: none; color: #2c5e2e;">€54</span>
+                            <span class="price-note">EU Shipping Included</span>
+                        </div>
+                        
+                        <button class="btn-primary btn-full" onclick="openBottegaModal('The Tasting Box (6 pcs)', 'bundle-base')">Buy Now</button>
+                    </div>
+                </article>
+
+                <article class="product-card featured" data-bundle="intermedio">
+                    <div class="badge-top">Most Popular</div>
+                    <div class="card-image">
+                        <img src="immagini/box-intermedio.webp" alt="The Pantry Box" loading="lazy">
+                    </div>
+                    <div class="card-details">
+                        <h3>The Pantry Box <span style="font-size: 1rem; color: #666; display: block;">9 Specialties</span></h3>
+                        <p class="subtitle" style="min-height: auto;">The complete selection for Puglia lovers. Includes sweet jams, savory creams, and traditional preserves.</p>
+                        
+                        <div class="spacer-block"></div>
+
+                        <div class="price-block">
+                            <span class="price normal-price">€94</span>
+                            <span class="price adopter-price" style="display: none; color: #2c5e2e;">€74</span>
+                            <span class="save-pill" style="background: #2c5e2e;">Save €20</span>
+                            <span class="price-note">EU Shipping Included</span>
+                        </div>
+                        
+                        <button class="btn-primary btn-full" onclick="openBottegaModal('The Pantry Box (9 pcs)', 'bundle-intermedio')">Buy Now</button>
+                    </div>
+                </article>
+
+                <article class="product-card" data-bundle="completo">
+                    <div class="card-image">
+                        <img src="immagini/box-completo.webp" alt="The Grand Harvest" loading="lazy">
+                    </div>
+                    <div class="card-details">
+                        <h3>The Grand Harvest <span style="font-size: 1rem; color: #666; display: block;">15 Specialties</span></h3>
+                        <p class="subtitle" style="min-height: auto;">The total experience. The perfect pantry stock or a high-end corporate gift.</p>
+                        
+                        <div class="spacer-block"></div>
+
+                        <div class="price-block">
+                            <span class="price normal-price">€129</span>
+                            <span class="price adopter-price" style="display: none; color: #2c5e2e;">€99</span>
+                            <span class="price-note">EU Shipping Included</span>
+                        </div>
+                        
+                        <button class="btn-primary btn-full" onclick="openBottegaModal('The Grand Harvest (15 pcs)', 'bundle-completo')">Buy Now</button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALE LA BOTTEGA (Acquisto Rapido) -->
+    <dialog id="bottega-modal" class="ayo-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeBottegaModal()">&times;</span>
+            <h2 id="bottega-product-name" style="margin-top:0;">The Tasting Box</h2>
+            <p class="modal-subtitle" style="margin-bottom: 20px;">Enter your details to proceed to secure payment.</p>
+
+            <form id="bottega-form">
+                <input type="hidden" id="bottega-kit-id" name="kitId">
+                <input type="hidden" id="bottega-lang" name="lang" value="en">
+
+                <!-- DATI ACQUIRENTE -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bottega-firstname">First Name</label>
+                        <input type="text" id="bottega-firstname" name="buyerFirstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bottega-lastname">Last Name</label>
+                        <input type="text" id="bottega-lastname" name="buyerLastName" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="bottega-email">Email</label>
+                    <input type="email" id="bottega-email" name="email" required>
+                </div>
+
+                <!-- OPZIONE REGALO -->
+                <div class="form-group checkbox-group" style="margin-top: 15px;">
+                    <input type="checkbox" id="bottega-is-gift" name="isGift">
+                    <label for="bottega-is-gift">Is this a gift?</label>
+                </div>
+
+                <div class="form-group" id="bottega-gift-message-container" style="display: none;">
+                    <label for="bottega-gift-message">Gift message (optional)</label>
+                    <textarea id="bottega-gift-message" name="giftMessage" rows="2" placeholder="Write a note..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="bottega-submit-btn" style="margin-top: 20px;">Proceed to Checkout</button>
+            </form>
+        </div>
+    </dialog>
+
+</body>
+</html>

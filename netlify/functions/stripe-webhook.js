@@ -79,10 +79,19 @@ const fullName = `${nome} ${cognome}`.trim();
         let qtyDescIT = "";
         let qtyDescEN = "";
         const pName = (productDesc || "").toLowerCase();
+        // IDENTIFICA SE È UN BUNDLE O UN'ADOZIONE
+        const isBundle = session.metadata?.kit_id && session.metadata.kit_id.startsWith('bundle-');
+
         if (pName.includes('family')) {
             qtyDescIT = "Family Kit (5 Litri)"; qtyDescEN = "Family Kit (5 Liters)";
         } else if (pName.includes('reserve') || pName.includes('riserva')) {
             qtyDescIT = "Reserve Kit (2 Litri)"; qtyDescEN = "Reserve Kit (2 Liters)";
+        } else if (pName.includes('tasting')) {
+            qtyDescIT = "L'Assaggio (6 pz)"; qtyDescEN = "The Tasting Box (6 pcs)";
+        } else if (pName.includes('pantry')) {
+            qtyDescIT = "La Dispensa (9 pz)"; qtyDescEN = "The Pantry Box (9 pcs)";
+        } else if (pName.includes('harvest')) {
+            qtyDescIT = "Il Gran Raccolto (15 pz)"; qtyDescEN = "The Grand Harvest (15 pcs)";
         } else {
             qtyDescIT = "Welcome Kit (1 Litro)"; qtyDescEN = "Welcome Kit (1 Liter)";
         }
@@ -200,56 +209,112 @@ if (session.discounts && session.discounts.length > 0) {
             </div>
         `) : '';
 
+        // IDENTIFICA SE HA IL MEMBER ID
+        const hasMemberId = session.metadata?.referral_id && session.metadata.referral_id.length > 2;
+        const shortOrderId = session.payment_intent ? session.payment_intent.slice(-4) : 'WEB';
+
+        // TESTI DINAMICI IN BASE AL TIPO DI PRODOTTO
+        let subjIT, subjEN;
+
+        if (isBundle) {
+            if (hasMemberId) {
+                subjIT = `Bentornato in Bottega! 🌿 Ordine #${shortOrderId}`;
+                subjEN = `Welcome back to La Bottega! 🌿 Order #${shortOrderId}`;
+            } else {
+                subjIT = `Ordine confermato 🌿 (E un invito speciale per te)`;
+                subjEN = `Order confirmed 🌿 (And a special invitation for you)`;
+            }
+        } else {
+            subjIT = `Benvenuto in Famiglia! 🌿 Ordine #${shortOrderId}`;
+            subjEN = `Welcome to the Family! 🌿 Order #${shortOrderId}`;
+        }
+
+        const emailIntroIT = isBundle 
+            ? "Abbiamo ricevuto correttamente il tuo ordine. In questo momento stiamo preparando con cura la tua Box." 
+            : "Abbiamo ricevuto correttamente la tua adozione. In questo momento stiamo preparando il tuo kit.";
+            
+        const emailIntroEN = isBundle 
+            ? "We successfully received your order. We are currently preparing your Box with care." 
+            : "We successfully received your adoption. We are currently preparing your kit.";
+
+        const emailNoteIT = isBundle 
+            ? "" // Nessuna nota per i Box
+            : `<p style="background: #fdf6e3; padding: 15px; border-left: 4px solid #b58900; margin: 20px 0;">
+                <strong>Nota importante:</strong> Il tuo certificato fisico ufficiale arriverà a casa tua insieme alla <strong>Club Card</strong>. 
+                Sulla card troverai il tuo <strong>Member ID</strong> e un QR Code per accedere all'area riservata e scaricare guide e ricettari.
+               </p>`;
+               
+        const emailNoteEN = isBundle 
+            ? "" // Nessuna nota per i Box
+            : `<p style="background: #fdf6e3; padding: 15px; border-left: 4px solid #b58900; margin: 20px 0;">
+                <strong>Important:</strong> Your official physical certificate will arrive with your <strong>Club Card</strong>. 
+                The card features your <strong>Member ID</strong> and a QR Code to access your private area and download the guides and recipes.
+               </p>`;
+
+        // INVITO AL CLUB (Visibile solo se comprano un Box e NON sono VIP)
+        const emailInvitoIT = (isBundle && !hasMemberId)
+            ? `<div style="background:#f0f9eb; padding:15px; border-radius:8px; margin: 20px 0; color:#2c5e2e;">
+                <h4 style="margin-top:0; font-size:16px;">🌿 Lo sapevi?</h4>
+                <p style="margin-bottom:0; font-size: 14px;">I membri del nostro Club (chi adotta un ulivo) hanno accesso a un listino riservato su tutta La Bottega. <a href="https://adoptyourolive.com/it/#adoption-kits" style="color:#b58900; font-weight:bold;">Scopri le Adozioni</a> e unisciti alla famiglia.</p>
+               </div>`
+            : ``;
+
+        const emailInvitoEN = (isBundle && !hasMemberId)
+            ? `<div style="background:#f0f9eb; padding:15px; border-radius:8px; margin: 20px 0; color:#2c5e2e;">
+                <h4 style="margin-top:0; font-size:16px;">🌿 Did you know?</h4>
+                <p style="margin-bottom:0; font-size: 14px;">Members of our Club (those who adopt an olive tree) get access to exclusive pricing across La Bottega. <a href="https://adoptyourolive.com/#adoption-kits" style="color:#b58900; font-weight:bold;">Discover our Adoptions</a> and join the family.</p>
+               </div>`
+            : ``;
+
+        const emailStepsIT = isBundle
+            ? `<li style="margin-bottom: 10px;"><strong>Spedizione:</strong> Il tuo pacco partirà entro <strong>5 giorni lavorativi</strong>.</li>`
+            : `<li style="margin-bottom: 10px;"><strong>Personalizzazione:</strong> Stiamo preparando i tuoi documenti e l'etichetta personalizzata.</li>
+               <li style="margin-bottom: 10px;"><strong>Spedizione:</strong> Il tuo pacco partirà entro <strong>5 giorni lavorativi</strong>.</li>
+               <li style="margin-bottom: 10px;"><strong>Member ID:</strong> Appena riceverai il pacco, usa il QR code sulla card per sbloccare i contenuti digitali.</li>`;
+
+        const emailStepsEN = isBundle
+            ? `<li style="margin-bottom: 10px;"><strong>Shipping:</strong> Your package will be shipped within <strong>5 business days</strong>.</li>`
+            : `<li style="margin-bottom: 10px;"><strong>Preparation:</strong> We are customizing your certificate and bottle labels.</li>
+               <li style="margin-bottom: 10px;"><strong>Shipping:</strong> Your package will be shipped within <strong>5 business days</strong>.</li>
+               <li style="margin-bottom: 10px;"><strong>Member ID:</strong> Once you receive your kit, use the QR code on the card to unlock digital content.</li>`;
+
         const emailContent = isIt ? {
-            subj: `Benvenuto in Famiglia! 🌿 Ordine #${session.payment_intent ? session.payment_intent.slice(-4) : 'WEB'}`,
+            subj: subjIT,
             html: `
                 <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6;">
                     <h1 style="color: #2c5e2e;">Grazie, ${nome}!</h1>
-                    <p>Siamo felici di darti il benvenuto nella nostra famiglia di custodi degli ulivi in Puglia.</p>
-                    <p>Abbiamo ricevuto correttamente la tua adozione. In questo momento stiamo preparando il tuo kit.</p>
-                    
-                    <p style="background: #fdf6e3; padding: 15px; border-left: 4px solid #b58900; margin: 20px 0;">
-                        <strong>Nota importante:</strong> Il tuo certificato fisico ufficiale arriverà a casa tua insieme alla <strong>Club Card</strong>. 
-                        Sulla card troverai il tuo <strong>Member ID</strong> e un QR Code per accedere all'area riservata e scaricare guide e ricettari.
-                    </p>
-
+                    <p>${emailIntroIT}</p>
+                    ${emailNoteIT}
                     <div style="background:#f4f4f4; padding:15px; border-radius:8px; margin: 20px 0; color:#333;">
-                        <p style="margin:0;"><strong>📦 Kit Scelto:</strong> ${qtyDescIT}</p>
+                        <p style="margin:0;"><strong>📦 Prodotto:</strong> ${qtyDescIT}</p>
                         <p style="margin:5px 0 0 0;"><strong>💳 Totale:</strong> € ${(session.amount_total / 100).toFixed(2)}</p>
                     </div>
                     ${giftSection}
                     <h3 style="color: #2c5e2e; border-bottom: 1px solid #eee; padding-bottom: 10px;">Cosa succede ora?</h3>
                     <ol style="padding-left: 20px; color: #555;">
-                        <li style="margin-bottom: 10px;"><strong>Personalizzazione:</strong> Stiamo preparando i tuoi documenti e l'etichetta personalizzata.</li>
-                        <li style="margin-bottom: 10px;"><strong>Spedizione:</strong> Il tuo pacco partirà entro <strong>5 giorni lavorativi</strong>.</li>
-                        <li style="margin-bottom: 10px;"><strong>Member ID:</strong> Appena riceverai il pacco, usa il QR code sulla card per sbloccare i contenuti digitali.</li>
+                        ${emailStepsIT}
                     </ol>
+                    ${emailInvitoIT}
                     <hr style="border:0; border-top:1px solid #eee; margin: 30px 0;">
                     <p style="font-size:12px; color:#999; text-align: center;">Adopt Your Olive - Puglia, Italia</p>
                 </div>`
         } : {
-            subj: `Welcome to the Family! 🌿 Order #${session.payment_intent ? session.payment_intent.slice(-4) : 'WEB'}`,
+            subj: subjEN,
             html: `
                 <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; max-width: 600px; line-height: 1.6;">
                     <h1 style="color: #2c5e2e;">Thank you, ${nome}!</h1>
-                    <p>We successfully received your adoption. We are currently preparing your kit.</p>
-                    
-                    <p style="background: #fdf6e3; padding: 15px; border-left: 4px solid #b58900; margin: 20px 0;">
-                        <strong>Important:</strong> Your official physical certificate will arrive with your <strong>Club Card</strong>. 
-                        The card features your <strong>Member ID</strong> and a QR Code to access your private area and download the guides and recipes.
-                    </p>
-
+                    <p>${emailIntroEN}</p>
+                    ${emailNoteEN}
                     <div style="background:#f4f4f4; padding:15px; border-radius:8px; margin: 20px 0; color:#333;">
-                        <p style="margin:0;"><strong>📦 Selected Kit:</strong> ${qtyDescEN}</p>
+                        <p style="margin:0;"><strong>📦 Product:</strong> ${qtyDescEN}</p>
                         <p style="margin:5px 0 0 0;"><strong>💳 Total:</strong> € ${(session.amount_total / 100).toFixed(2)}</p>
                     </div>
                     ${giftSection}
                     <h3 style="color: #2c5e2e; border-bottom: 1px solid #eee; padding-bottom: 10px;">What happens next?</h3>
                     <ol style="padding-left: 20px; color: #555;">
-                        <li style="margin-bottom: 10px;"><strong>Preparation:</strong> We are customizing your certificate and bottle labels.</li>
-                        <li style="margin-bottom: 10px;"><strong>Shipping:</strong> Your package will be shipped within <strong>5 business days</strong>.</li>
-                        <li style="margin-bottom: 10px;"><strong>Member ID:</strong> Once you receive your kit, use the QR code on the card to unlock digital content.</li>
+                        ${emailStepsEN}
                     </ol>
+                    ${emailInvitoEN}
                     <hr style="border:0; border-top:1px solid #eee; margin: 30px 0;">
                     <p style="font-size:12px; color:#999; text-align: center;">Adopt Your Olive - Puglia, Italy</p>
                 </div>`

@@ -1006,3 +1006,156 @@ window.toggleShippingNote = function() {
         noteBox.style.display = isDirect ? 'block' : 'none';
     }
 };
+
+/* =========================================
+   8. LOGICA SHOP E VERIFICA VIP ADOPTERS
+   ========================================= */
+
+// Funzione agganciata al bottone "Apply"
+window.verifyMemberId = async function() {
+    const inputField = document.getElementById('member-id-input');
+    const feedbackText = document.getElementById('adopter-feedback');
+    if (!inputField || !feedbackText) return;
+
+    let memberId = inputField.value.trim();
+    if (!memberId) return;
+
+    inputField.disabled = true;
+    feedbackText.style.display = 'block';
+    feedbackText.style.color = '#555';
+    feedbackText.innerText = (document.documentElement.lang === 'it') ? 'Verifica in corso...' : 'Verifying...';
+
+    try {
+        const response = await fetch('/.netlify/functions/check-vip', {
+            method: 'POST',
+            body: JSON.stringify({ memberId: memberId })
+        });
+
+        const result = await response.json();
+
+        if (result.valid) {
+            const expirationTime = new Date(result.expiration).getTime();
+            localStorage.setItem('ayo_vip_id', memberId);
+            localStorage.setItem('ayo_vip_expiration', expirationTime);
+            
+            feedbackText.style.color = '#2c5e2e';
+            feedbackText.innerText = (document.documentElement.lang === 'it') ? 'Welcome back! Listino esclusivo sbloccato.' : 'Welcome back! Exclusive pricing unlocked.';
+            
+            window.applyVipPrices();
+        } else {
+            feedbackText.style.color = '#d32f2f';
+            feedbackText.innerText = (document.documentElement.lang === 'it') ? 'Codice non valido o scaduto.' : 'Invalid or expired code.';
+            localStorage.removeItem('ayo_vip_id');
+            localStorage.removeItem('ayo_vip_expiration');
+        }
+    } catch (error) {
+        feedbackText.style.color = '#d32f2f';
+        feedbackText.innerText = 'Errore di connessione. Riprova.';
+    } finally {
+        inputField.disabled = false;
+    }
+};
+
+// Funzione visiva per tagliare i prezzi vecchi
+window.applyVipPrices = function() {
+    document.querySelectorAll('.normal-price').forEach(el => {
+        el.style.textDecoration = 'line-through';
+        el.style.color = '#999';
+        el.style.fontSize = '0.9em';
+    });
+    document.querySelectorAll('.adopter-price').forEach(el => {
+        el.style.display = 'inline-block';
+        el.style.marginLeft = '10px';
+    });
+    
+    const accessStrip = document.querySelector('.shop-access-strip');
+    if (accessStrip) accessStrip.style.display = 'none';
+};
+
+// Controllo silenzioso al caricamento della pagina Shop
+document.addEventListener('DOMContentLoaded', () => {
+    const vipExpiration = localStorage.getItem('ayo_vip_expiration');
+    const vipId = localStorage.getItem('ayo_vip_id');
+
+    // Assicuriamoci di essere sulla pagina shop prima di agire sul DOM
+    const isShopPage = document.querySelector('.products-grid') !== null;
+
+    if (vipId && vipExpiration && isShopPage) {
+        const now = new Date().getTime();
+        if (now < parseInt(vipExpiration)) {
+            window.applyVipPrices();
+        } else {
+            localStorage.removeItem('ayo_vip_id');
+            localStorage.removeItem('ayo_vip_expiration');
+        }
+    }
+});
+
+/* =========================================
+   9. GESTIONE MODALE BOTTEGA (SHOP)
+   ========================================= */
+const bottegaModal = document.getElementById('bottega-modal');
+const bottegaForm = document.getElementById('bottega-form');
+
+window.openBottegaModal = (productName, technicalId) => {
+    if (bottegaModal) {
+        document.getElementById('bottega-product-name').textContent = productName;
+        document.getElementById('bottega-kit-id').value = technicalId;
+        bottegaModal.showModal();
+    }
+};
+
+window.closeBottegaModal = () => {
+    if (bottegaModal) bottegaModal.close();
+};
+
+const bottegaGiftCheckbox = document.getElementById('bottega-is-gift');
+if (bottegaGiftCheckbox) {
+    bottegaGiftCheckbox.addEventListener('change', (e) => {
+        document.getElementById('bottega-gift-message-container').style.display = e.target.checked ? 'block' : 'none';
+    });
+}
+
+if (bottegaForm) {
+    bottegaForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); 
+        const submitBtn = document.getElementById('bottega-submit-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Loading...';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(bottegaForm);
+        const savedMemberId = localStorage.getItem('ayo_vip_id') || '';
+
+        const data = {
+            kitId: formData.get('kitId'),
+            buyerFirstName: formData.get('buyerFirstName'),
+            buyerLastName: formData.get('buyerLastName'),
+            email: formData.get('email'),
+            lang: formData.get('lang'),
+            isGift: formData.get('isGift') === 'on',
+            giftMessage: formData.get('giftMessage'),
+            memberId: savedMemberId 
+        };
+
+        try {
+            const response = await fetch('/.netlify/functions/checkout', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                window.location.href = result.url;
+            } else {
+                throw new Error(result.error || 'Checkout Error');
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error: " + error.message);
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+}

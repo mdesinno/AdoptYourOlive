@@ -18,6 +18,19 @@ const INVENTORY = {
     'family-kit': { 
         prices: { en: 21900, it: 12900 }, 
         name: 'Family Kit (5 Liters)' // Era 4 Bottles + 1 tin
+    },
+    // La Bottega - Linea A (Prezzi Normal / VIP)
+    'bundle-base': { 
+        prices: { normal: { en: 6900, it: 3900 }, vip: { en: 5400, it: 3400 } }, 
+        name: 'The Tasting Box (6 pcs)' 
+    },
+    'bundle-intermedio': { 
+        prices: { normal: { en: 9400, it: 5400 }, vip: { en: 7400, it: 4400 } }, 
+        name: 'The Pantry Box (9 pcs)' 
+    },
+    'bundle-completo': { 
+        prices: { normal: { en: 12900, it: 7900 }, vip: { en: 9900, it: 6400 } }, 
+        name: 'The Grand Harvest (15 pcs)' 
     }
 };
 
@@ -51,21 +64,22 @@ function normalizeLang(rawLang) {
  * @returns {Object} - { valid: boolean, error?: string }
  */
 function validateCheckoutData(data) {
-    const required = [
-        'kitId', 'email', 'buyerFirstName', 'buyerLastName', 
-        'certName', 'labelName'
-    ];
+    const isBundle = data.kitId && data.kitId.startsWith('bundle-');
+    
+    // Campi obbligatori per tutti
+    const required = ['kitId', 'email', 'buyerFirstName', 'buyerLastName'];
+    
+    // Campi obbligatori SOLO per le adozioni
+    if (!isBundle) {
+        required.push('certName', 'labelName');
+    }
     
     for (const field of required) {
         if (!data[field] || data[field].trim() === '') {
-            return { 
-                valid: false, 
-                error: `Campo obbligatorio mancante: ${field}` 
-            };
+            return { valid: false, error: `Campo obbligatorio mancante: ${field}` };
         }
     }
     
-    // Valida email base
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
         return { valid: false, error: 'Email non valida' };
@@ -107,9 +121,13 @@ async function getExistingCart(cartId) {
 
         // Mappatura inversa Nome Prodotto -> kitId
         const prodName = row.get('Prodotto').toLowerCase();
-        let kitId = 'welcome-kit';
+        let kitId = 'welcome-kit'; // Fallback predefinito
+        
         if (prodName.includes('family')) kitId = 'family-kit';
-        if (prodName.includes('reserve')) kitId = 'reserve-kit';
+        else if (prodName.includes('reserve')) kitId = 'reserve-kit';
+        else if (prodName.includes('tasting')) kitId = 'bundle-base';
+        else if (prodName.includes('pantry')) kitId = 'bundle-intermedio';
+        else if (prodName.includes('harvest')) kitId = 'bundle-completo';
 
         return {
             kitId: kitId,
@@ -248,6 +266,34 @@ async function handleDiscountCode(discountCode) {
     return result;
 }
 
+/**
+ * Verifica in tempo reale se il Member ID è valido nel database Google Sheet
+ */
+async function verifyVipOnBackend(memberId) {
+    try {
+        const scriptUrl = process.env.GOOGLE_SCRIPT_URL; // La nuova variabile su Netlify!
+        if (!scriptUrl) return false;
+        
+        const response = await fetch(scriptUrl, {
+            method: 'POST',
+            body: JSON.stringify({ memberId: memberId }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const result = await response.json();
+        
+        if (result.valid) {
+            const now = new Date().getTime();
+            const exp = new Date(result.expiration).getTime();
+            return now < exp; // Ritorna true solo se non è scaduto
+        }
+        return false;
+    } catch (e) {
+        console.error("Errore verifica VIP backend:", e);
+        return false; // In caso di errore di rete, nega lo sconto per sicurezza
+    }
+}
+
 // ========== HANDLER PRINCIPALE ==========
 export const handler = async (event, context) => {
     // 1. METODO HTTP
@@ -296,64 +342,70 @@ export const handler = async (event, context) => {
             };
         }
         
-        // 3. VERIFICA PRODOTTO
+        // 3. VERIFICA PRODOTTO E LINGUA
         const product = INVENTORY[data.kitId];
         if (!product) {
-            return { 
-                statusCode: 400, 
-                body: JSON.stringify({ error: 'Prodotto non valido' }) 
-            };
+            return { statusCode: 400, body: JSON.stringify({ error: 'Prodotto non valido' }) };
         }
         
-        // 4. NORMALIZZAZIONE LINGUA E PRICING
         const lang = normalizeLang(data.lang);
-        const finalPrice = product.prices[lang];
         const allowedCountries = lang === 'it' ? COUNTRIES_IT_ONLY : COUNTRIES_EU_ALL;
         
+        // 4. BIVIO LOGICO (Adozione vs Bundle) E CALCOLO PREZZO
+        const isBundle = data.kitId.startsWith('bundle-');
+        let finalPrice;
+        let isVip = false;
+let productName = product.name;
+        if (isBundle) {
+            // BIVIO B: È UN BOX. Controlliamo il Member ID sul database
+            if (data.memberId && data.memberId.length > 2) {
+                isVip = await verifyVipOnBackend(data.memberId);
+            }
+            finalPrice = isVip ? product.prices.vip[lang] : product.prices.normal[lang];
+        } else {
+            // BIVIO A: È UN'ADOZIONE. Prezzo standard fisso
+            finalPrice = product.prices[lang];
+        }
+
         // 5. URL CONFIGURAZIONE
         const SITE_URL = process.env.SITE_URL || 'https://adoptyourolive.com';
         const cancelBaseUrl = lang === 'it' ? `${SITE_URL}/it` : SITE_URL;
         
-        // 6. ID CARRELLO (Già gestito sopra nella logica di recupero)
-        // Non serve ri-dichiararlo, usiamo il valore di cartId definito all'inizio
-        
-        // 7. LOG ASINCRONO (Ma atteso, per evitare che Netlify chiuda il processo)
-        // Nota: logToSheet ha il suo try/catch interno, quindi se fallisce 
-        // non blocca lo script, ma dobbiamo aspettare che finisca.
+        // 7. LOG ASINCRONO SU SHEET
         if (!isRecovery) {
-        await logToSheet({
-            cartId,
-            buyerFirstName: data.buyerFirstName,
-            buyerLastName: data.buyerLastName,
-            email: data.email,
-            lang,
-            certName: data.certName,
-            labelName: data.labelName,
-            productName: product.name,
-            isGift: data.isGift,
-            giftMessage: data.giftMessage,
-            discountCode: data.discountCode,
-            memberId: data.memberId, // <--- NUOVO: Passiamo il Member ID al log
-            price: (finalPrice / 100).toFixed(2)
-        });
-    }
-        // LOGICA REFERRAL vs SCONTI
-        let sessionDiscounts = [];
-        let enablePromoCodes = true; // Default: permetti codici
+            await logToSheet({
+                cartId,
+                buyerFirstName: data.buyerFirstName,
+                buyerLastName: data.buyerLastName,
+                email: data.email,
+                lang,
+                certName: data.certName || '', // Evita errori se è un bundle
+                labelName: data.labelName || '',
+                productName: productName,
+                isGift: data.isGift || false,
+                giftMessage: data.giftMessage || '',
+                discountCode: data.discountCode || '',
+                memberId: data.memberId || '', 
+                price: (finalPrice / 100).toFixed(2)
+            });
+        }
 
-        // 1. Se c'è un Member ID valido, blocchiamo i codici sconto
-        if (data.memberId && data.memberId.length > 2) {
+        // 8. LOGICA REFERRAL VS SCONTI
+        let sessionDiscounts = [];
+        let enablePromoCodes = true;
+
+        if (data.memberId && data.memberId.length > 2 && !isBundle) {
+            // BIVIO A: Adozione + Member ID -> Niente sconti (Logica Regalo Bonus Club)
             enablePromoCodes = false; 
-            // Non cerchiamo nemmeno sconti se c'è un referral
+        } else if (isBundle && isVip) {
+            // BIVIO B: Box Bottega + VIP Approvato -> Niente sconti extra, ha già il listino riservato
+            enablePromoCodes = false;
         } else {
-            // 2. Se NON c'è Referral, gestiamo gli sconti normalmente
+            // Nessun conflitto: cerchiamo codici promozionali normalmente
             const discResult = await handleDiscountCode(data.discountCode);
             sessionDiscounts = discResult.discounts;
-            // Se abbiamo applicato uno sconto manuale, disabilitiamo il campo promo di Stripe
-            if (sessionDiscounts.length > 0) {
+            if (sessionDiscounts.length > 0 || discResult.allowPromo === false) {
                 enablePromoCodes = false;
-            } else if (discResult.allowPromo === false) {
-                 enablePromoCodes = false;
             }
         }
         
@@ -371,8 +423,8 @@ export const handler = async (event, context) => {
                 price_data: {
                     currency: 'eur',
                     product_data: {
-                        name: product.name,
-                        description: `Adoption for: ${data.certName}`,
+                        name: productName,
+                        description: isBundle ? 'Box Bottega Adopt Your Olive' : `Adoption for: ${data.certName}`,
                     },
                     unit_amount: finalPrice,
                 },
@@ -389,8 +441,8 @@ export const handler = async (event, context) => {
     buyer_last_name: data.buyerLastName,   // <--- INVIAMO IL COGNOME ESATTO
                 buyer_name: `${data.buyerFirstName} ${data.buyerLastName}`,
                 buyer_email: data.email,
-                cert_name: data.certName,
-                label_name: data.labelName,
+                cert_name: data.certName || '',
+                label_name: data.labelName || '',
                 is_gift: data.isGift ? 'YES' : 'NO',
                 gift_message: data.giftMessage || '',
                 referral_id: data.memberId || '', // <--- NUOVO: Salvato nei metadati Stripe
