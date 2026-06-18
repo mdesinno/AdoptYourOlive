@@ -69,11 +69,11 @@ const fullName = `${nome} ${cognome}`.trim();
         `;
 
         // --- 1. IDENTIFICAZIONE FLUSSO E RECUPERO PRODOTTI ---
-        const isBundle = session.metadata?.flow === 'bottega';
-        
-        // Leggiamo la magica stringa del carrello che checkout.js ha preparato per noi
-        // Esempio: "2x bundle-base, 1x bundle-completo" oppure "1x welcome-kit (Adoption)"
+        // Leggiamo la magica stringa del carrello preparata da checkout.js
         let productDesc = session.metadata?.order_summary || "Ordine Generico";
+
+        // FIX: Riconoscimento infallibile del flusso. Se nel riepilogo c'è la parola "bundle", parliamo di Bottega
+        const isBundle = session.metadata?.flow === 'bottega' || productDesc.toLowerCase().includes('bundle');
         
         // Assegniamo la stringa direttamente alle descrizioni
         // (Il tuo CRM leggerà questo in automatico)
