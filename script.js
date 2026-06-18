@@ -1971,7 +1971,7 @@ document.getElementById('cart-is-gift')?.addEventListener('change', (e) => {
     document.getElementById('cart-gift-message').style.display = e.target.checked ? 'block' : 'none';
 });
 
-indow.proceedToCheckout = async () => {
+window.proceedToCheckout = async () => {
     if (bottegaCart.length === 0) return;
 
     const checkoutBtn = document.getElementById('checkout-btn');
