@@ -2043,3 +2043,33 @@ window.addEventListener('pageshow', (event) => {
         }
     }
 });
+
+// Gestione Accordion Pagina FAQ (con chiusura automatica degli altri)
+document.addEventListener('DOMContentLoaded', () => {
+    const accordionBtns = document.querySelectorAll('.ayo-accordion-btn');
+
+    accordionBtns.forEach(button => {
+        button.addEventListener('click', () => {
+            const currentItem = button.parentElement;
+            const currentContent = currentItem.querySelector('.ayo-accordion-content');
+            
+            // Controlla se l'elemento cliccato è già aperto
+            const isActive = currentItem.classList.contains('active');
+
+            // 1. Chiudi TUTTI gli accordion aperti nella pagina
+            document.querySelectorAll('.ayo-accordion-item').forEach(item => {
+                item.classList.remove('active');
+                const content = item.querySelector('.ayo-accordion-content');
+                if (content) {
+                    content.style.maxHeight = "0";
+                }
+            });
+
+            // 2. Se l'elemento cliccato NON era già aperto, aprilo
+            if (!isActive) {
+                currentItem.classList.add('active');
+                currentContent.style.maxHeight = currentContent.scrollHeight + "px";
+            }
+        });
+    });
+});

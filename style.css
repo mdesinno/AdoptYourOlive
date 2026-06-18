@@ -2257,3 +2257,127 @@ input:checked + .slider:before { transform: translateX(24px); }
     line-height: 1.1;
     margin-bottom: 15px;
 }
+
+/* =========================================
+   FAQ PAGE STYLES (faq.html)
+   ========================================= */
+.faq-page-wrapper {
+    padding: 160px 0 80px;
+    background-color: #fcfbfa;
+    font-family: 'Inter', sans-serif;
+}
+.faq-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 50px;
+    align-items: start;
+}
+/* Sidebar Menu Navigazione */
+.faq-sidebar {
+    position: sticky;
+    top: 120px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    border: 1px solid #eee;
+}
+.faq-sidebar h3 {
+    font-family: 'Playfair Display', serif;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+.faq-nav-link {
+    display: block;
+    padding: 10px 15px;
+    color: #666;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+.faq-nav-link:hover, .faq-nav-link.active {
+    background-color: #f0f4ee;
+    color: #2c5e2e;
+    font-weight: 500;
+}
+/* Blocco Contenuti */
+.faq-category-block {
+    background: #fff;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    margin-bottom: 40px;
+}
+.faq-block-title {
+    font-family: 'Playfair Display', serif;
+    color: #2c5e2e;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f4f4f4;
+    padding-bottom: 12px;
+}
+/* Accordion Custom Isolati (No conflitti) */
+.ayo-accordion-item {
+    border-bottom: 1px solid #edf2ed;
+    padding: 18px 0;
+}
+.ayo-accordion-item:last-child {
+    border-bottom: none;
+}
+.ayo-accordion-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-family: inherit;
+}
+.ayo-accordion-btn:hover {
+    color: #2c5e2e;
+}
+.ayo-accordion-btn .faq-icon {
+    font-size: 1.2rem;
+    color: #b58900;
+    transition: transform 0.3s ease;
+}
+.ayo-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+.ayo-accordion-content p {
+    color: #555;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    padding-top: 15px;
+    margin: 0;
+}
+/* Stato Attivo */
+.ayo-accordion-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+.ayo-accordion-item.active .ayo-accordion-btn {
+    color: #2c5e2e;
+}
+
+@media (max-width: 991px) {
+    .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .faq-sidebar {
+        position: relative;
+        top: 0;
+    }
+}
