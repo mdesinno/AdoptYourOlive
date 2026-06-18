@@ -48,29 +48,33 @@
 
 <body class="bg-cream">
 
-    <nav class="navbar scrolled">
-        <div class="container nav-content">
-            <a href="/it/index.html" class="logo-wrapper">
-                <img src="/immagini/logo.webp" alt="AYO Logo" class="logo-img" style="filter: invert(1); height: 50px;">
-            </a>
+    <nav class="navbar">
+    <div class="container nav-content">
+        <a href="/it/" class="logo-wrapper">
+            <img src="/immagini/logo.webp" width="250" height="100" alt="AYO Logo" class="logo-img">
+        </a>
+        
+        <div class="nav-links">
+            <a href="/it/">Adozioni</a>
+            <!-- Pagine future commentate -->
+            <!-- <a href="/it/favors.html">Bomboniere</a> -->
+            <!-- <a href="/it/solidale.html">Adozione Solidale</a> -->
+            <a href="/it/faq.html">FAQ</a>
             
-            <div class="nav-links">
-                <a href="/it/index.html#how-it-works">Come Funziona</a>
-                <a href="/it/index.html#story">La Famiglia</a>
-                <a href="/it/index.html#faq">FAQ</a>
-                <a href="/shop.html" class="shipping-alert">
-                    <span>🇬🇧 Ship Abroad?</span>
-                </a>
+            <a href="/" class="shipping-alert">
+                <span>🇬🇧 Ship Abroad?</span>
+            </a>
                 <div class="cart-icon-wrapper" onclick="openCart()" style="cursor:pointer; position:relative; margin-right:15px; display: flex; align-items: center;">
     <i class="fa-solid fa-shopping-cart" style="font-size: 1.4rem; color: #243b05;"></i>
     <span id="cart-badge" style="position: absolute; top: -8px; right: -10px; background: #d32f2f; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; display: none;">0</span>
 </div>
-                <a href="/it/index.html#adoption-kits" class="btn-nav">Adotta Ora</a>
-            </div>
-            
-            <div class="mobile-menu-icon">☰</div>
+                <!-- CTA Shop -->
+            <a href="/it/shop.html" class="btn-nav">La Bottega</a>
         </div>
-    </nav>
+        
+        <div class="mobile-menu-icon">☰</div>
+    </div>
+</nav>
 
     <header class="hero" style="min-height: 400px; padding-top: 120px; background-color: #243b05;">
         <div class="container hero-content text-center" style="margin: auto;">
@@ -299,11 +303,12 @@
             <div class="footer-col">
                 <h4>Link</h4>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#adoption-kits">Adotta</a></li>
-                    <!--<li><button onclick="openCorporateModal()" class="text-link" style="background:none; border:none; color:#999; cursor:pointer; padding:0; font-family:inherit; font-size:inherit;">Matrimoni & Eventi</button></li>
-                    <li><a href="/shop.html">Shop</a></li>-->
-                    </ul>
+    <li><a href="/it/">Adozioni</a></li>
+    <li><a href="/it/shop.html">La Bottega</a></li>
+    <!--<li><a href="/it/favors.html">Bomboniere</a></li>-->
+    <!--<li><a href="/it/solidale.html">Adozione Solidale</a></li>-->
+    <li><a href="/it/faq.html">FAQ</a></li>
+</ul>
             </div>
 
             <div class="footer-col">
