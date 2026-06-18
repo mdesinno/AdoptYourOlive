@@ -429,10 +429,10 @@ export const handler = async (event, context) => {
         let sessionDiscounts = [];
         let enablePromoCodes = true;
 
-        if (data.memberId && data.memberId.length > 2 && !isBundle) {
+        if (data.memberId && data.memberId.length > 2 && !isBottega) {
             // BIVIO A: Adozione + Member ID -> Niente sconti (Logica Regalo Bonus Club)
             enablePromoCodes = false; 
-        } else if (isBundle && isVip) {
+        } else if (isBottega && isVip) {
             // BIVIO B: Box Bottega + VIP Approvato -> Niente sconti extra, ha già il listino riservato
             enablePromoCodes = false;
         } else {
