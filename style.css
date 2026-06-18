@@ -779,8 +779,8 @@ input:focus, textarea:focus, select:focus {
     padding: 0;
     
     /* DESKTOP: Altezza massima fissa (90% schermo) */
-    height: 90vh; 
-    max-height: 900px;
+    height: auto; 
+    max-height: 90vh;
     
     display: none;
     overflow: hidden; /* Nasconde bordi */
@@ -2044,4 +2044,216 @@ input:checked + .slider:before { transform: translateX(24px); }
 }
 .modal-content::-webkit-scrollbar-thumb:hover {
     background: #bbb; 
+}
+
+/* =========================================
+   12. SLIDE-OUT CART (CARRELLO LATERALE)
+   ========================================= */
+.slideout-cart {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Nascosto fuori dallo schermo */
+    width: 400px;
+    max-width: 100%;
+    height: 100vh;
+    background: #fff;
+    box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+    z-index: 3000; /* Sopra tutto */
+    transition: right 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.slideout-cart.open {
+    right: 0; /* Entra nello schermo */
+}
+
+/* Overlay scuro dietro il carrello */
+.cart-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 2999; /* Subito sotto il carrello */
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.cart-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+/* Struttura interna del Carrello */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+.cart-header h3 { margin: 0; font-size: 1.5rem; }
+.close-cart { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
+
+.cart-items-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Stile del singolo prodotto nel carrello */
+.cart-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.cart-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cart-item-title { font-weight: 600; margin-bottom: 5px; color: #333; }
+.cart-item-price { color: var(--primary-green); font-weight: bold; }
+
+/* Controlli Quantità */
+.qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.qty-btn {
+    background: #f0f0f0;
+    border: none;
+    width: 25px; height: 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.remove-btn {
+    margin-left: auto;
+    background: none; border: none; color: #d32f2f;
+    font-size: 0.8rem; cursor: pointer; text-decoration: underline;
+}
+
+/* Footer Carrello */
+.cart-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    background: #fdf6e3; /* Leggero giallino */
+}
+.cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+.gift-option-container {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* =========================================
+   13. SLIDE PRODOTTO (Modale Carosello)
+   ========================================= */
+.product-slide-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px 60px 40px; /* Aumentato il padding in basso (60px) per staccare il bottone */
+    text-align: center;
+    width: 100%;
+}
+.product-slide-img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+.product-desc { color: #666; margin-bottom: 20px; max-width: 500px; }
+.ingredients-list { font-size: 0.85rem; color: #888; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; width: 100%; max-width: 500px; margin-bottom: 20px;}
+
+/* =========================================
+   13. SLIDE PRODOTTO (Modale Carosello)
+   ========================================= */
+
+/* Contenitore che scorre */
+.modal-slider-container {
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;          /* Abilita lo scorrimento orizzontale */
+    overflow-y: hidden;        /* Blocca quello verticale */
+    scroll-snap-type: x mandatory; /* Effetto calamita */
+    scroll-behavior: smooth;   /* Scorrimento fluido */
+    -webkit-overflow-scrolling: touch;
+    
+    /* NASCONDE LA BARRA DI SCORRIMENTO */
+    scrollbar-width: none;     /* Firefox */
+}
+.modal-slider-container::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari, Edge */
+}
+
+/* Fissa le dimensioni dei figli */
+#product-slides-container {
+    height: 100%;
+    display: flex;
+    align-items: center;       /* Centra verticalmente il contenuto */
+}
+
+/* La singola Slide */
+#product-slides-container .slide {
+    flex: 0 0 100%;            
+    max-width: 100%;
+    scroll-snap-align: center; 
+    padding: 0;                /* <--- CAMBIATO DA 20px A 0 */
+    box-sizing: border-box;
+    display: flex;             /* Aggiunto per centrare il contenuto */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenuto interno */
+.product-slide-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;             /* <--- IL PADDING È QUI ADESSO */
+    box-sizing: border-box;
+    max-height: 80vh;          /* Assicura che il contenuto non superi la modale */
+    overflow-y: auto;          /* Se il testo è troppo lungo, scrolla qui dentro */
+}
+.product-slide-img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+.product-desc { 
+    color: #666; 
+    margin-bottom: 20px; 
+}
+
+.product-slide-content h2 {
+    font-size: 2rem; /* Riduciamo leggermente il font del titolo nella modale */
+    line-height: 1.1;
+    margin-bottom: 15px;
 }

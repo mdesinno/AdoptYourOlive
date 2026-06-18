@@ -92,13 +92,13 @@
     <main class="message-container">
         <i class="fas fa-check-circle icon-success"></i>
         
-        <h1 class="page-title">Welcome to the Family! 🌱</h1>
+        <h1 class="page-title">Thank You! 🌿</h1>
         
         <div class="page-text">
-            <p><strong>Thank you for your adoption.</strong><br>
-            Your payment was successful and your tree is officially sponsored.</p>
-            <p style="margin-top: 15px;">We are generating your certificate and preparing your order.<br>
-            You will receive a confirmation email with all details in a few minutes.</p>
+            <p><strong>Your order has been successfully confirmed.</strong></p>
+            <p style="margin-top: 15px;">We are already at work preparing your package with care.<br>
+            You will receive a confirmation email shortly with all the details of your order.</p>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #777;">Welcome to the extended Adopt Your Olive family!</p>
         </div>
 
         <a href="/" class="btn-primary">Back to Home</a>
@@ -273,6 +273,17 @@
             </form>
         </div>
     </dialog>
+
+    <script>
+        // Svuota il carrello della Bottega SOLO se l'acquisto proveniva dallo shop
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('flow') === 'bottega') {
+                localStorage.removeItem('ayo_bottega_cart');
+                console.log("Carrello Bottega svuotato con successo.");
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -66,12 +66,12 @@ function normalizeLang(rawLang) {
 function validateCheckoutData(data) {
     const isBundle = data.kitId && data.kitId.startsWith('bundle-');
     
-    // Campi obbligatori per tutti
-    const required = ['kitId', 'email', 'buyerFirstName', 'buyerLastName'];
+    // Il kitId è sempre obbligatorio
+    let required = ['kitId'];
     
-    // Campi obbligatori SOLO per le adozioni
+    // Nomi, email, certificato ed etichetta sono obbligatori SOLO per le Adozioni
     if (!isBundle) {
-        required.push('certName', 'labelName');
+        required.push('email', 'buyerFirstName', 'buyerLastName', 'certName', 'labelName');
     }
     
     for (const field of required) {
@@ -80,9 +80,12 @@ function validateCheckoutData(data) {
         }
     }
     
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-        return { valid: false, error: 'Email non valida' };
+    // Controllo regex email solo per le adozioni
+    if (!isBundle) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+            return { valid: false, error: 'Email non valida' };
+        }
     }
     
     return { valid: true };
@@ -412,7 +415,6 @@ let productName = product.name;
         // 9. CREAZIONE SESSIONE STRIPE
         const sessionParams = {
             payment_method_types: ['card', 'paypal', 'klarna', 'revolut_pay'],
-            customer_email: data.email,
             
             phone_number_collection: { enabled: true },
             shipping_address_collection: {
@@ -428,7 +430,8 @@ let productName = product.name;
                     },
                     unit_amount: finalPrice,
                 },
-                quantity: 1,
+                // Quantità dinamica! (Se non c'è, usa 1)
+                quantity: data.quantity ? parseInt(data.quantity) : 1,
             }],
             
             mode: 'payment',
@@ -437,27 +440,34 @@ let productName = product.name;
                 cart_id: cartId,
                 kit_id: data.kitId,
                 lang: lang,
-                buyer_first_name: data.buyerFirstName, // <--- INVIAMO IL NOME ESATTO
-    buyer_last_name: data.buyerLastName,   // <--- INVIAMO IL COGNOME ESATTO
-                buyer_name: `${data.buyerFirstName} ${data.buyerLastName}`,
-                buyer_email: data.email,
+                buyer_first_name: data.buyerFirstName || '',
+                buyer_last_name: data.buyerLastName || '',
+                buyer_name: data.buyerFirstName ? `${data.buyerFirstName} ${data.buyerLastName}` : 'Da Stripe',
+                buyer_email: data.email || '',
                 cert_name: data.certName || '',
                 label_name: data.labelName || '',
                 is_gift: data.isGift ? 'YES' : 'NO',
                 gift_message: data.giftMessage || '',
-                referral_id: data.memberId || '', // <--- NUOVO: Salvato nei metadati Stripe
+                referral_id: data.memberId || '', 
                 discount_code: data.discountCode || '',
-                // Dati extra per analytics
                 timestamp: new Date().toISOString(),
-                price_tier: lang // Utile per report
+                price_tier: lang
             },
             
-            success_url: `${SITE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&amount=${(finalPrice / 100).toFixed(2)}`,
-            cancel_url: `${cancelBaseUrl}/index.html?recover_cart=${cartId}#adoption-kits`,
+            success_url: `${SITE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&amount=${(finalPrice / 100).toFixed(2)}&flow=${isBundle ? 'bottega' : 'adoption'}`,
+            // Se è un bundle, torniamo allo shop. Se è un'adozione, torniamo alla home.
+            cancel_url: isBundle 
+                ? `${cancelBaseUrl}/shop.html?payment=cancelled` 
+                : `${cancelBaseUrl}/index.html?recover_cart=${cartId}#adoption-kits`,
 
-            // Tracking Referral nativo di Stripe (opzionale ma utile)
             client_reference_id: data.memberId || undefined
         };
+
+        // Aggiunge la customer_email solo se l'abbiamo raccolta sul sito (es. Adozioni)
+        // Se è vuota (es. Bottega), Stripe chiederà l'email nella sua pagina
+        if (data.email && data.email.trim() !== '') {
+            sessionParams.customer_email = data.email;
+        }
         
         // Aggiungi sconti solo se presenti (usando i nomi corretti delle tue variabili)
 if (sessionDiscounts.length > 0) {
