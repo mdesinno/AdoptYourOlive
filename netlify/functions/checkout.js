@@ -64,12 +64,12 @@ function normalizeLang(rawLang) {
  * @returns {Object} - { valid: boolean, error?: string }
  */
 function validateCheckoutData(data) {
-    const isBundle = data.kitId && data.kitId.startsWith('bundle-');
+    // SE ESISTE IL CARRELLO, SALTA IL CONTROLLO DEL kitId SINGOLO
+    if (data.cart && Array.isArray(data.cart)) return { valid: true };
     
-    // Il kitId è sempre obbligatorio
+    const isBundle = data.kitId && data.kitId.startsWith('bundle-');
     let required = ['kitId'];
     
-    // Nomi, email, certificato ed etichetta sono obbligatori SOLO per le Adozioni
     if (!isBundle) {
         required.push('email', 'buyerFirstName', 'buyerLastName', 'certName', 'labelName');
     }
@@ -80,7 +80,6 @@ function validateCheckoutData(data) {
         }
     }
     
-    // Controllo regex email solo per le adozioni
     if (!isBundle) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
@@ -345,30 +344,58 @@ export const handler = async (event, context) => {
             };
         }
         
-        // 3. VERIFICA PRODOTTO E LINGUA
-        const product = INVENTORY[data.kitId];
-        if (!product) {
-            return { statusCode: 400, body: JSON.stringify({ error: 'Prodotto non valido' }) };
-        }
-        
+        // 3 e 4. BIVIO LOGICO (CARRELLO VS ADOZIONE) E CALCOLO PREZZI
         const lang = normalizeLang(data.lang);
-        const allowedCountries = lang === 'it' ? COUNTRIES_IT_ONLY : COUNTRIES_EU_ALL;
+        const isItalian = lang === 'it';
+        const allowedCountries = isItalian ? COUNTRIES_IT_ONLY : COUNTRIES_EU_ALL;
         
-        // 4. BIVIO LOGICO (Adozione vs Bundle) E CALCOLO PREZZO
-        const isBundle = data.kitId.startsWith('bundle-');
-        let finalPrice;
+        let lineItems = [];
+        let orderSummary = [];
+        let totalAmount = 0;
         let isVip = false;
-let productName = product.name;
-        if (isBundle) {
-            // BIVIO B: È UN BOX. Controlliamo il Member ID sul database
-            if (data.memberId && data.memberId.length > 2) {
-                isVip = await verifyVipOnBackend(data.memberId);
-            }
-            finalPrice = isVip ? product.prices.vip[lang] : product.prices.normal[lang];
-        } else {
-            // BIVIO A: È UN'ADOZIONE. Prezzo standard fisso
-            finalPrice = product.prices[lang];
+        let isBottega = false;
+
+        // Controllo VIP
+        if (data.memberId && data.memberId.length > 2) {
+            isVip = await verifyVipOnBackend(data.memberId);
         }
+
+        if (data.cart && Array.isArray(data.cart)) {
+            // È IL CARRELLO DELLA BOTTEGA
+            isBottega = true;
+            for (const item of data.cart) {
+                const product = INVENTORY[item.id];
+                if (!product) continue;
+                const amount = isVip ? product.prices.vip[lang] : product.prices.normal[lang];
+                
+                lineItems.push({
+                    price_data: { currency: 'eur', product_data: { name: product.name }, unit_amount: amount },
+                    quantity: item.qty
+                });
+                orderSummary.push(`${item.qty}x ${item.id}`);
+                totalAmount += amount * item.qty;
+            }
+        } else {
+            // È UN'ADOZIONE SINGOLA
+            const product = INVENTORY[data.kitId];
+            if (!product) return { statusCode: 400, body: JSON.stringify({ error: 'Prodotto non valido' }) };
+            isBottega = data.kitId.startsWith('bundle-');
+            let amount = isBottega ? (isVip ? product.prices.vip[lang] : product.prices.normal[lang]) : product.prices[lang];
+            const qty = data.quantity ? parseInt(data.quantity) : 1;
+
+            lineItems.push({
+                price_data: {
+                    currency: 'eur',
+                    product_data: { name: product.name, description: isBottega ? '' : `Adoption for: ${data.certName}` },
+                    unit_amount: amount,
+                },
+                quantity: qty
+            });
+            orderSummary.push(`${qty}x ${data.kitId}`);
+            totalAmount = amount * qty;
+        }
+        
+        if (lineItems.length === 0) return { statusCode: 400, body: JSON.stringify({ error: 'Carrello vuoto' }) };
 
         // 5. URL CONFIGURAZIONE
         const SITE_URL = process.env.SITE_URL || 'https://adoptyourolive.com';
@@ -384,12 +411,12 @@ let productName = product.name;
                 lang,
                 certName: data.certName || '', // Evita errori se è un bundle
                 labelName: data.labelName || '',
-                productName: productName,
+                productName: orderSummary.join(', '), // INVIA LA STRINGA DEL CARRELLO
                 isGift: data.isGift || false,
                 giftMessage: data.giftMessage || '',
                 discountCode: data.discountCode || '',
                 memberId: data.memberId || '', 
-                price: (finalPrice / 100).toFixed(2)
+                price: (totalAmount / 100).toFixed(2) // USA IL NUOVO TOTALE
             });
         }
 
@@ -413,32 +440,17 @@ let productName = product.name;
         }
         
         // 9. CREAZIONE SESSIONE STRIPE
+        const successPath = isItalian ? '/it/success.html' : '/success.html';
+
         const sessionParams = {
             payment_method_types: ['card', 'paypal', 'klarna', 'revolut_pay'],
-            
             phone_number_collection: { enabled: true },
-            shipping_address_collection: {
-                allowed_countries: allowedCountries,
-            },
-            
-            line_items: [{
-                price_data: {
-                    currency: 'eur',
-                    product_data: {
-                        name: productName,
-                        description: isBundle ? 'Box Bottega Adopt Your Olive' : `Adoption for: ${data.certName}`,
-                    },
-                    unit_amount: finalPrice,
-                },
-                // Quantità dinamica! (Se non c'è, usa 1)
-                quantity: data.quantity ? parseInt(data.quantity) : 1,
-            }],
-            
+            shipping_address_collection: { allowed_countries: allowedCountries },
+            line_items: lineItems, // USA L'ARRAY DINAMICO
             mode: 'payment',
-            
+            locale: lang,
             metadata: {
                 cart_id: cartId,
-                kit_id: data.kitId,
                 lang: lang,
                 buyer_first_name: data.buyerFirstName || '',
                 buyer_last_name: data.buyerLastName || '',
@@ -451,15 +463,13 @@ let productName = product.name;
                 referral_id: data.memberId || '', 
                 discount_code: data.discountCode || '',
                 timestamp: new Date().toISOString(),
-                price_tier: lang
+                price_tier: lang,
+                order_summary: orderSummary.join(', ') // <-- IL TUO CRM LEGGE QUESTO CAMPO
             },
-            
-            success_url: `${SITE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&amount=${(finalPrice / 100).toFixed(2)}&flow=${isBundle ? 'bottega' : 'adoption'}`,
-            // Se è un bundle, torniamo allo shop. Se è un'adozione, torniamo alla home.
-            cancel_url: isBundle 
+            success_url: `${SITE_URL}${successPath}?session_id={CHECKOUT_SESSION_ID}&amount=${(totalAmount / 100).toFixed(2)}&flow=${isBottega ? 'bottega' : 'adoption'}`,
+            cancel_url: isBottega 
                 ? `${cancelBaseUrl}/shop.html?payment=cancelled` 
                 : `${cancelBaseUrl}/index.html?recover_cart=${cartId}#adoption-kits`,
-
             client_reference_id: data.memberId || undefined
         };
 

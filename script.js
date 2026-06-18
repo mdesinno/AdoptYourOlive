@@ -1894,7 +1894,8 @@ window.addToCart = (bundleId, qty = 1) => {
     if (existing) {
         existing.qty += qty;
     } else {
-        bottegaCart = [{ id: bundleId, qty: qty }];
+        // FIX CRUCIALE: usiamo .push() per aggiungere, invece di = per sovrascrivere
+        bottegaCart.push({ id: bundleId, qty: qty }); 
     }
     closeProductModal();
     openCart();
@@ -1913,6 +1914,7 @@ window.updateQty = (bundleId, delta) => {
 window.updateCartUI = () => {
     const isVip = !!localStorage.getItem('ayo_vip_id');
     let total = 0;
+    let itemCount = 0; // Contatore totale pezzi
     cartItemsContainer.innerHTML = '';
 
     const txtEmpty = window.currentLang === 'it' ? 'Il tuo carrello è vuoto.' : 'Your cart is empty.';
@@ -1922,9 +1924,10 @@ window.updateCartUI = () => {
         cartItemsContainer.innerHTML = `<p style="text-align:center; color:#999; margin-top:40px;">${txtEmpty}</p>`;
     } else {
         bottegaCart.forEach(item => {
-            const product = BOTTEGA_CATALOG[item.id];
+            const product = CATALOG_EN[item.id] || CATALOG_IT[item.id]; // Cerca in entrambi per sicurezza
             const price = isVip ? product.vipPrice : product.price;
             total += price * item.qty;
+            itemCount += item.qty;
 
             cartItemsContainer.innerHTML += `
                 <div class="cart-item">
@@ -1944,6 +1947,17 @@ window.updateCartUI = () => {
         });
     }
 
+    // Aggiorna Badge Navbar
+    const badge = document.getElementById('cart-badge');
+    if (badge) {
+        if (itemCount > 0) {
+            badge.textContent = itemCount;
+            badge.style.display = 'block';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
     cartTotalPrice.textContent = `€${total.toFixed(2)}`;
     document.getElementById('checkout-btn').disabled = bottegaCart.length === 0;
     localStorage.setItem('ayo_bottega_cart', JSON.stringify(bottegaCart));
@@ -1957,7 +1971,7 @@ document.getElementById('cart-is-gift')?.addEventListener('change', (e) => {
     document.getElementById('cart-gift-message').style.display = e.target.checked ? 'block' : 'none';
 });
 
-window.proceedToCheckout = async () => {
+indow.proceedToCheckout = async () => {
     if (bottegaCart.length === 0) return;
 
     const checkoutBtn = document.getElementById('checkout-btn');
@@ -1965,14 +1979,13 @@ window.proceedToCheckout = async () => {
     checkoutBtn.textContent = window.currentLang === 'it' ? 'Reindirizzamento a Stripe...' : 'Redirecting to Stripe...';
     checkoutBtn.disabled = true;
 
-    const item = bottegaCart[0];
     const isGift = document.getElementById('cart-is-gift').checked;
     const giftMessage = document.getElementById('cart-gift-message').value;
     const memberId = localStorage.getItem('ayo_vip_id') || '';
 
+    // FIX CRUCIALE: Inviamo TUTTO l'array del carrello, non solo il primo item
     const payload = {
-        kitId: item.id,
-        quantity: item.qty,
+        cart: bottegaCart, // <-- Questo ora è un array con tutti i prodotti e le quantità
         isGift: isGift,
         giftMessage: giftMessage,
         memberId: memberId,

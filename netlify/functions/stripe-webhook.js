@@ -68,33 +68,17 @@ const fullName = `${nome} ${cognome}`.trim();
             ${address.country || ''}
         `;
 
-        let productDesc = "Adozione";
-        try {
-            const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-            if (lineItems.data.length > 0) {
-                productDesc = lineItems.data.map(item => item.description).join(' + ');
-            }
-        } catch (e) { console.error("Errore recupero prodotti:", e); }
-
-        let qtyDescIT = "";
-        let qtyDescEN = "";
-        const pName = (productDesc || "").toLowerCase();
-        // IDENTIFICA SE È UN BUNDLE O UN'ADOZIONE
-        const isBundle = session.metadata?.kit_id && session.metadata.kit_id.startsWith('bundle-');
-
-        if (pName.includes('family')) {
-            qtyDescIT = "Family Kit (5 Litri)"; qtyDescEN = "Family Kit (5 Liters)";
-        } else if (pName.includes('reserve') || pName.includes('riserva')) {
-            qtyDescIT = "Reserve Kit (2 Litri)"; qtyDescEN = "Reserve Kit (2 Liters)";
-        } else if (pName.includes('tasting')) {
-            qtyDescIT = "L'Assaggio (6 pz)"; qtyDescEN = "The Tasting Box (6 pcs)";
-        } else if (pName.includes('pantry')) {
-            qtyDescIT = "La Dispensa (9 pz)"; qtyDescEN = "The Pantry Box (9 pcs)";
-        } else if (pName.includes('harvest')) {
-            qtyDescIT = "Il Gran Raccolto (15 pz)"; qtyDescEN = "The Grand Harvest (15 pcs)";
-        } else {
-            qtyDescIT = "Welcome Kit (1 Litro)"; qtyDescEN = "Welcome Kit (1 Liter)";
-        }
+        // --- 1. IDENTIFICAZIONE FLUSSO E RECUPERO PRODOTTI ---
+        const isBundle = session.metadata?.flow === 'bottega';
+        
+        // Leggiamo la magica stringa del carrello che checkout.js ha preparato per noi
+        // Esempio: "2x bundle-base, 1x bundle-completo" oppure "1x welcome-kit (Adoption)"
+        let productDesc = session.metadata?.order_summary || "Ordine Generico";
+        
+        // Assegniamo la stringa direttamente alle descrizioni
+        // (Il tuo CRM leggerà questo in automatico)
+        let qtyDescIT = productDesc; 
+        let qtyDescEN = productDesc;
 
         const certificatoNome = session.metadata?.cert_name || '';
         const etichettaMsg = session.metadata?.label_name || '';
