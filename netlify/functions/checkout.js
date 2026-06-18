@@ -370,7 +370,7 @@ export const handler = async (event, context) => {
                 
                 lineItems.push({
                     price_data: { currency: 'eur', product_data: { name: product.name }, unit_amount: amount },
-                    quantity: item.qty
+                    quantity: parseInt(item.qty, 10) || 1
                 });
                 orderSummary.push(`${item.qty}x ${item.id}`);
                 totalAmount += amount * item.qty;
@@ -383,10 +383,15 @@ export const handler = async (event, context) => {
             let amount = isBottega ? (isVip ? product.prices.vip[lang] : product.prices.normal[lang]) : product.prices[lang];
             const qty = data.quantity ? parseInt(data.quantity) : 1;
 
+            const productData = { name: product.name };
+            if (!isBottega && data.certName) {
+                productData.description = `Adoption for: ${data.certName}`;
+            }
+
             lineItems.push({
                 price_data: {
                     currency: 'eur',
-                    product_data: { name: product.name, description: isBottega ? '' : `Adoption for: ${data.certName}` },
+                    product_data: productData,
                     unit_amount: amount,
                 },
                 quantity: qty
