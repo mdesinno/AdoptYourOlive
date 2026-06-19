@@ -1574,36 +1574,9 @@ input:checked + .slider:before { transform: translateX(24px); }
     }
 }
 
-/* --- FAQ SECTION TOGGLE (Il contenitore esterno) --- */
-
-/* Il contenitore che avvolge tutte le domande */
+/* --- FAQ SECTION WRAPPER --- */
 .faq-section-wrapper {
-    max-height: 0;       /* Chiuso di default */
-    overflow: hidden;
-    opacity: 0;
-    transition: all 0.5s ease-out; /* Apertura fluida */
-}
-
-/* Quando è aperto */
-.faq-section-wrapper.open {
-    max-height: 2000px;  /* Abbastanza alto da contenere tutto */
-    opacity: 1;
     margin-top: 30px;
-}
-
-/* La freccia grande del titolo */
-.arrow-main {
-    display: inline-block;
-    font-size: 0.8em;
-    color: var(--primary-green);
-    margin-left: 10px;
-    transition: transform 0.3s ease;
-    vertical-align: middle;
-}
-
-/* Rotazione freccia titolo */
-.section-header.active .arrow-main {
-    transform: rotate(180deg);
 }
 
 /* --- STILE RECENSIONI "READ MORE" --- */
