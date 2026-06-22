@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Ambassador Access - Adopt Your Olive</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. VARIABILI CSS E RESET ASSOLUTO
+           ========================================= */
+        :root {
+            --primary-green: #3A5F0B; 
+            --primary-dark: #243b05;  
+            --cream-bg: #F9F8F6;      
+            --text-main: #1D1D1D;     
+            --text-light: #555555;    
+            --white: #FFFFFF;
+            --border-color: #E0E0E0;
+            --font-heading: 'Playfair Display', serif; 
+            --font-body: 'Inter', sans-serif;          
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Forza il blocco totale di qualsiasi overflow laterale casuale */
+        html, body { 
+            width: 100%; 
+            overflow-x: clip; 
+            scroll-behavior: smooth;
+            background-color: var(--primary-dark);
+            color: var(--white);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Transizione fluida globale per il cambio colore dello sfondo della pagina */
+        body {
+            transition: background-color 1s ease, color 1s ease;
+        }
+
+        body.theme-cream {
+            background-color: var(--cream-bg);
+            color: var(--text-main);
+        }
+        body.theme-dark {
+            background-color: var(--primary-dark);
+            color: var(--white);
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+        
+        h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.2; font-weight: 600; }
+        h1 { font-size: 3.5rem; margin-bottom: 20px; text-align: center; }
+        h2 { font-size: 3rem; margin-bottom: 25px; text-align: center; }
+        h3 { font-size: 2rem; margin-bottom: 15px; }
+
+        .text-center { text-align: center; }
+        .container { width: 100%; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Sezioni a schermo intero staccate e ariose */
+        .fullscreen-section {
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .eyebrow {
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #d4af37; 
+            display: block;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: #3A5F0B; 
+            color: #FFFFFF !important;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* =========================================
+           2. EFFETTI DI COMPARSA REALE (REVEAL)
+           ========================================= */
+        .reveal {
+            opacity: 0 !important;
+            transform: translateY(60px) !important;
+            transition: opacity 1.2s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.610, 0.355, 1) !important;
+        }
+        .reveal.active {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        @keyframes bounce-down {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-12px);}
+            60% {transform: translateY(-6px);}
+        }
+        .arrow-down { animation: bounce-down 2s infinite; display: inline-block; font-size: 2rem; margin-top: 20px; opacity: 0.6; }
+
+        /* =========================================
+           3. STRUTTURA TRACOLA ORIZZONTALE (BOTTEGA)
+           ========================================= */
+        .bottega-scroll-container {
+            height: 450vh; /* Crea lo spazio verticale per scorrere i 6 vasetti */
+            position: relative;
+            width: 100vw;
+        }
+        .bottega-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .bottega-track {
+            display: flex;
+            align-items: center;
+            gap: 20vw; 
+            padding-left: calc(50vw - 130px); /* Centra esattamente il primo vasetto */
+            padding-right: calc(50vw - 160px); /* Centra esattamente il blocco testo finale */
+            will-change: transform;
+        }
+        .bottega-item {
+            width: 260px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .glowing-jar {
+            width: 100%;
+            filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.35));
+            transition: transform 0.3s ease;
+        }
+        .glowing-jar:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 35px rgba(212, 175, 55, 0.5));
+        }
+
+        /* =========================================
+           4. STRUTTURA WEDDING A INCROCIO PERFETTO
+           ========================================= */
+        .parallax-container {
+            position: relative;
+            height: 250vh; /* Spazio sufficiente per la rincorsa */
+            width: 100%;
+            overflow: hidden;
+        }
+        .parallax-text {
+            color: rgba(58, 95, 11, 0.05); 
+            font-size: 16vw; 
+            position: absolute; 
+            top: 50%; /* Punto di ancoraggio esatto */
+            left: 50%;
+            z-index: 1;
+            white-space: nowrap;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            user-select: none;
+            transform: translate(-50%, -50%); 
+            will-change: transform;
+        }
+        .floating-bottle {
+            position: absolute;
+            width: 450px; 
+            max-width: 85vw;
+            top: 50%; /* Punto di ancoraggio esatto */
+            left: 50%;
+            z-index: 2;
+            transform: translate(-50%, -50%); 
+            will-change: transform; 
+        }
+
+        /* Tabella */
+        .commission-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: var(--white);
+            color: var(--text-main);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+        .commission-table th, .commission-table td { padding: 18px; border-bottom: 1px solid var(--border-color); text-align: left; }
+        .commission-table th { background-color: var(--cream-bg); color: var(--primary-green); }
+    </style>
+</head>
+<body>
+
+<main>
+    <section class="fullscreen-section" data-theme="theme-dark" style="background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('immagini/Albero-welcome-kit.webp'); background-size: cover; background-position: center;">
+        <div class="container text-center">
+            <span class="eyebrow reveal">Private Ambassador Access</span>
+            <h1 class="reveal" style="color: var(--white); transition-delay: 0.1s;">Bentornata in famiglia, Deirdre.</h1>
+            <p class="reveal" style="font-size: 1.3rem; max-width: 650px; margin: 0 auto 40px auto; color: #ddd; transition-delay: 0.2s;">Abbiamo lavorato in silenzio per mesi. Ora siamo pronti a svelarti il futuro di Adopt Your Olive per la stagione 2026.</p>
+            <div class="reveal" style="transition-delay: 0.3s;">
+                <p style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #aaa;">Scorri per iniziare</p>
+                <span class="arrow-down" style="color: #aaa;">↓</span>
+            </div>
+        </div>
+    </section>
+<!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
+    <div style="height: 50vh; width: 100vw; background: transparent;"></div>
+    <section class="fullscreen-section" data-theme="theme-cream">
+        <div class="container text-center">
+            <div class="reveal">
+                <span class="eyebrow" style="color: var(--primary-green);">Il tuo Albero è confermato</span>
+                <h2 style="color: var(--text-main);">Un nuovo tocco Artigianale</h2>
+                <p style="font-size: 1.25rem; max-width: 750px; margin: 0 auto 25px auto; color: var(--text-light); line-height: 1.8;">Abbiamo deciso di rendere la nostra produzione ancora più esclusiva. Niente più stampe industriali: da oggi <strong>ogni singola etichetta del Kit di Adozione viene personalizzata rigorosamente a mano</strong>, bottiglia per bottiglia.</p>
+                <p style="font-size: 1.25rem; max-width: 750px; margin: 0 auto; color: var(--text-light); line-height: 1.8;">A Settembre <strong>ti spediremo un Kit di Adozione nuovo di zecca</strong>, con la tua Club Card aggiornata e le bottiglie della nostra Riserva firmate a mano appositamente per te, così potrai mostrare alla tua community la reale esperienza artigianale.</p>
+                <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+            </div>
+        </div>
+    </section>
+<!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
+    <div style="height: 50vh; width: 100vw; background: transparent;"></div>
+    <section class="bottega-scroll-container" data-theme="theme-dark">
+        <div class="bottega-sticky">
+            <div class="bottega-track" id="bottegaTrack">
+                
+                <div class="bottega-item">
+                    <img src="immagini/bomba-pugliese-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/carciofi-alla-brace-removebg-preview.png" alt="Bottega 2" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/lampascioni-alla-brace-removebg-preview.png" alt="Bottega 3" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/crema-di-olive-nere-removebg-preview.png" alt="Bottega 4" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/pomodori-secchi-removebg-preview.png" alt="Bottega 5" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/marmellata-di-mandarini-removebg-preview.png" alt="Bottega 6" class="glowing-jar">
+                </div>
+                
+                <div class="bottega-item" style="width: 320px; text-align: center;">
+                    <h3 style="color: #d4af37; font-family: var(--font-heading); margin-bottom: 10px;">La Bottega</h3>
+                    <p style="color: #ccc; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Scoperta completata</p>
+                    <span class="arrow-down" style="color: #d4af37; margin-top: 15px;">↓</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+<!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
+    <div style="height: 50vh; width: 100vw; background: transparent;"></div>
+    <section class="fullscreen-section" data-theme="theme-cream">
+        <div class="container text-center">
+            <div class="reveal">
+                <span class="eyebrow" style="color: var(--primary-green);">La Dispensa Online</span>
+                <h2 style="color: var(--text-main);">I Sapori della nostra Terra</h2>
+                <p style="font-size: 1.3rem; max-width: 750px; margin: 0 auto 30px auto; color: var(--text-light); line-height: 1.8;">Abbiamo creato una dispensa online ricca di prodotti tipici pugliesi autentici, per permettere ai tuoi follower di ordinare e ricevere le nostre specialità gastronomiche in pochi giorni.</p>
+                <p style="font-size: 1.3rem; max-width: 750px; margin: 0 auto; color: var(--text-main); font-weight: 500;"><strong>Cosa significa per te:</strong><br>Abbiamo esteso la tua collaborazione! Da oggi avrai il <strong>15% di commissione</strong> su ogni acquisto effettuato nella Bottega. I tuoi follower avranno un codice sconto del 10% dedicato.</p>
+                <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+            </div>
+        </div>
+    </section>
+<!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
+    <div style="height: 50vh; width: 100vw; background: transparent;"></div>
+    <!-- 5A. TITOLO WEDDING -->
+    <section class="fullscreen-section" data-theme="theme-cream">
+        <div class="container text-center reveal">
+            <span class="eyebrow" style="color: var(--primary-green);">Eventi & Matrimoni</span>
+            <h2 style="color: var(--text-main);">Wedding & Corporate Favors</h2>
+            <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+        </div>
+    </section>
+<!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
+    <div style="height: 50vh; width: 100vw; background: transparent;"></div>
+    <!-- 5B. BOTTIGLIA CHE VOLA VIA -->
+    <section class="parallax-container" id="weddingSection" data-theme="theme-cream">
+        <div class="parallax-text">ELEGANCE</div>
+        <img src="immagini/pomelli_bdna_image_0622-removebg-preview.png" alt="Bomboniera Adopt Your Olive" class="floating-bottle" id="parallaxBottle">
+    </section>
+<!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
+    <div style="height: 50vh; width: 100vw; background: transparent;"></div>
+    <!-- 5C. TESTO CHE COMPARE DOPO -->
+    <section class="fullscreen-section" data-theme="theme-cream">
+        <div class="container text-center reveal">
+            <p style="max-width: 700px; margin: 0 auto; color: var(--text-light); font-size: 1.25rem; line-height: 1.8;">Il nostro Olio EVO d'eccellenza diventa un'elegantissima bomboniera nel formato da 250ml per celebrare matrimoni ed eventi aziendali prestigiosi.<br><br>La gestione di grandi volumi significa ordini importanti e commissioni di assoluto rilievo per te, fissate al <strong>15%</strong>.</p>
+            <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+        </div>
+    </section>
+<!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
+    <div style="height: 50vh; width: 100vw; background: transparent;"></div>
+    <section class="fullscreen-section" data-theme="theme-dark">
+        <div class="container text-center">
+            <div class="reveal">
+                <span class="eyebrow" style="color: #d4af37;">La Nostra Missione</span>
+                <h2 style="color: var(--white);">L'Albero della Solidarietà</h2>
+                <p style="font-size: 1.2rem; color: #ddd; max-width: 750px; margin: 0 auto 40px auto; line-height: 1.8;">C'è un ultimo progetto a cui stiamo lavorando, ed è quello a cui tengo di più in assoluto. Non è marketing, è la storia vera della mia famiglia.</p>
+                <p style="font-size: 1.1rem; color: #bbb; text-align: left; max-width: 750px; margin: 0 auto 25px auto; line-height: 1.8;">Trent'anni fa, la mia famiglia ha affrontato un dolore inimmaginabile. Mia sorella ci ha lasciati a soli 11 anni a causa della leucemia. Io ne avevo 5. Mio padre ha deciso di incanalare quel vuoto devastante in qualcosa di vitale: ha fondato l'Associazione A.G.A.P.E., che da oltre tre decenni supporta le famiglie e i bambini del reparto di oncoematologia pediatrica del Poliambulatorio di San Giovanni Rotondo.</p>
+                <p style="font-size: 1.1rem; color: #bbb; text-align: left; max-width: 750px; margin: 0 auto 40px auto; line-height: 1.8;">Entro fine anno lanceremo le <strong>Adozioni Solidali</strong>: un servizio 100% digitale dove l'80% del ricavato va direttamente all'Associazione. Noi tratteniamo solo i costi minimi di tasse e piattaforma.</p>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; border-left: 4px solid #d4af37; text-align: left; max-width: 750px; margin: 0 auto;">
+                    <p style="color: var(--white); font-style: italic; font-size: 1.1rem; line-height: 1.7;">"Per questo, e so che capirai, questo sarà l'unico progetto che non prevede sconti o commissioni. Non sei assolutamente obbligata a parlarne, a sponsorizzarlo o a proporlo. Se un giorno vorrai farlo, avrai la nostra più profonda gratitudine."</p>
+                </div>
+                <span class="arrow-down" style="color: #aaa; margin-top: 50px;">↓</span>
+            </div>
+        </div>
+    </section>
+<!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
+    <div style="height: 50vh; width: 100vw; background: transparent;"></div>
+    <section class="fullscreen-section" data-theme="theme-cream" style="justify-content: flex-start;">
+        <div class="container">
+            <div class="reveal">
+                <h2 style="color: var(--text-main); text-align: center;">Le Regole del Gioco (2026)</h2>
+                <p style="text-align: center; margin-bottom: 40px; font-size: 1.1rem; color: var(--text-light);">Ecco lo specchietto riepilogativo del tuo codice sconto personalizzato <strong>BLONDEELIVING</strong>.</p>
+                
+                <div style="overflow-x: auto;">
+                    <table class="commission-table">
+                        <thead>
+                            <tr>
+                                <th>Prodotto</th>
+                                <th>La Tua Commissione</th>
+                                <th>Sconto Follower</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Adozioni Classiche</strong></td>
+                                <td style="font-weight: bold; color: var(--primary-green);">15%</td>
+                                <td style="font-weight: bold;">10%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>La Bottega</strong></td>
+                                <td style="font-weight: bold; color: var(--primary-green);">15%</td>
+                                <td><strong>10%</strong> <br><small style="color: var(--text-light); font-weight: normal;"><em>(Non cumulabile per chi è già Adopter e possiede i prezzi del Club VIP)</em></small></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wedding & Favors</strong></td>
+                                <td style="font-weight: bold; color: var(--primary-green);">15%</td>
+                                <td><strong>0%</strong> <br><small style="color: var(--text-light); font-weight: normal;"><em>(Il prezzo include già 1€ devoluto ad A.G.A.P.E. a bottiglia)</em></small></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Adozioni Solidali</strong></td>
+                                <td>0%</td>
+                                <td>0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="background: var(--white); padding: 35px; border-radius: 12px; margin-top: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                    <h3 style="color: var(--primary-green); margin-bottom: 15px;">Il tuo "Piano di Volo" per la Box</h3>
+                    <p style="color: var(--text-light); margin-bottom: 15px;">A Settembre riceverai una grande box a nostre spese. Ecco la roadmap ideale che abbiamo studiato insieme:</p>
+                    <ul style="margin-left: 20px; list-style-type: square; color: var(--text-light); line-height: 1.8;">
+                        <li><strong>A Settembre:</strong> Apri e assaggia subito i prodotti de <em>La Bottega</em>. Fai un unboxing e mostra le specialità pugliesi. <em>(Nota: mantieni sigillata la cartellina dell'adozione!)</em></li>
+                        <li><strong>A Novembre (Regali di Natale):</strong> Apri la cartellina, mostra il nuovo <em>Certificato</em> e le bottiglie firmate a mano. Spiegherai che chi ordina a Natale riceve subito il certificato cartaceo, e a Gennaio riscatterà l'<strong>Olio Novello</strong> freschissimo appena franto!</li>
+                        <li><strong>Quando vuoi:</strong> Parla liberamente delle nostre Bomboniere o del progetto Solidale.</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 70px; text-align: center;">
+                    <h3 style="color: var(--text-main);">Conferma l'indirizzo per la tua Box</h3>
+                    <p style="color: var(--text-light); margin-bottom: 35px;">Controlla che i tuoi dati precompilati siano corretti e invia il modulo per ricevere i prodotti a Settembre.</p>
+                    
+                    <form name="vip-confirm" method="POST" data-netlify="true" style="max-width: 500px; margin: 0 auto; text-align: left; display: flex; flex-direction: column; gap: 20px;">
+                        <input type="hidden" name="form-name" value="vip-confirm" />
+                        <input type="hidden" name="creator-id" value="002-2025" />
+                        
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Nome Completo</label>
+                            <input type="text" name="name" value="Deirdre Mc Eniff" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        </div>
+                        
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Email</label>
+                            <input type="email" name="email" value="dmceniff@gmail.com" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        </div>
+
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Telefono</label>
+                            <input type="text" name="phone" value="00353863663071" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        </div>
+                        
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Indirizzo di Spedizione</label>
+                            <textarea name="address" rows="3" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px; resize: vertical;">38 Crest of the wave, Bundoran, Co. Donegal F94 CH05, Ireland</textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" style="margin-top: 10px; padding: 20px; text-transform: uppercase; letter-spacing: 1px; width: 100%;">Sì, mandatemi la Box!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    // 1. GESTIONE DEI CAMBI COLORE DI SFONDO (DISSOLVENZA FLUIDA)
+    const themeSections = document.querySelectorAll('section[data-theme], fieldset[data-theme]');
+    const themeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const theme = entry.target.getAttribute('data-theme');
+                document.body.className = ''; 
+                document.body.classList.add(theme); 
+            }
+        });
+    }, { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+    themeSections.forEach(section => themeObserver.observe(section));
+
+    // 2. APPARIZIONE E SCOMPARSA DEGLI ELEMENTI (FANTASMA)
+    const revealElements = document.querySelectorAll(".reveal");
+    const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Quando l'elemento entra nello schermo, appare
+                entry.target.classList.add("active");
+            } else {
+                // Quando l'elemento esce dallo schermo, scompare di nuovo
+                entry.target.classList.remove("active");
+            }
+        });
+    // threshold: 0.3 significa che aspetta che almeno il 30% dell'elemento sia visibile prima di farlo apparire
+}, { threshold: 0.15, rootMargin: "-10% 0px -15% 0px" });
+
+    revealElements.forEach(element => revealObserver.observe(element));
+
+    // 3. TRACOLA ORIZZONTALE DELLA BOTTEGA (BLOCCO E SCORRIMENTO PERFETTO)
+    const bottegaContainer = document.querySelector('.bottega-scroll-container');
+    const bottegaTrack = document.getElementById('bottegaTrack');
+
+    window.addEventListener('scroll', () => {
+        if (!bottegaContainer || !bottegaTrack) return;
+        
+        const rect = bottegaContainer.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        let progress = -rect.top / (rect.height - viewportHeight);
+        
+        if (progress >= 0 && progress <= 1) {
+            const maxScroll = bottegaTrack.scrollWidth - window.innerWidth;
+            bottegaTrack.style.transform = `translateX(-${progress * maxScroll}px)`;
+        } else if (progress < 0) {
+            bottegaTrack.style.transform = `translateX(0px)`;
+        } else if (progress > 1) {
+            const maxScroll = bottegaTrack.scrollWidth - window.innerWidth;
+            bottegaTrack.style.transform = `translateX(-${maxScroll}px)`;
+        }
+    });
+
+    // 4. PARALLAX A INCROCIO CENTRALE
+    window.addEventListener("scroll", function() {
+        const weddingSection = document.getElementById("weddingSection");
+        const parallaxBottle = document.getElementById("parallaxBottle");
+        const parallaxText = document.querySelector(".parallax-text");
+        
+        if(parallaxBottle && weddingSection && parallaxText) {
+            let rect = weddingSection.getBoundingClientRect();
+            
+            // Verifica se la sezione è nello schermo
+            if(rect.top < window.innerHeight && rect.bottom > 0) {
+                // Calcola la distanza dal centro esatto dello schermo
+                // centerOffset è esattamente 0 quando sei a metà della sezione
+                let centerOffset = (rect.top + rect.height / 2) - (window.innerHeight / 2);
+                
+                // Il testo ha un moltiplicatore basso (0.3), quindi si allontana poco dal centro
+                parallaxText.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.3}px)`;
+                
+                // La bottiglia ha un moltiplicatore alto (0.85). Parte da molto più in basso,
+                // corre più veloce, si incrocia col testo a 0, e schizza via in alto.
+                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.85}px)`;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
