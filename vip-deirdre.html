@@ -496,11 +496,11 @@
                 let centerOffset = (rect.top + rect.height / 2) - (window.innerHeight / 2);
                 
                 // Il testo ha un moltiplicatore basso (0.3), quindi si allontana poco dal centro
-                parallaxText.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.3}px)`;
+                parallaxText.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.1}px)`;
                 
                 // La bottiglia ha un moltiplicatore alto (0.85). Parte da molto più in basso,
                 // corre più veloce, si incrocia col testo a 0, e schizza via in alto.
-                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.85}px)`;
+                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.4}px)`;
             }
         }
     });
