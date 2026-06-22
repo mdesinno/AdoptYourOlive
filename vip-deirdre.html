@@ -175,7 +175,7 @@
            ========================================= */
         .parallax-container {
             position: relative;
-            height: 250vh; /* Spazio sufficiente per la rincorsa */
+            height: 150vh; /* Spazio sufficiente per la rincorsa */
             width: 100%;
             overflow: hidden;
         }
@@ -196,7 +196,7 @@
         .floating-bottle {
             position: absolute;
             width: 450px; 
-            max-width: 85vw;
+            max-width: 115vw;
             top: 50%; /* Punto di ancoraggio esatto */
             left: 50%;
             z-index: 2;
@@ -492,11 +492,11 @@
                 let centerOffset = (rect.top + rect.height / 2) - (window.innerHeight / 2);
                 
                 // Il testo ha un moltiplicatore basso (0.3), quindi si allontana poco dal centro
-                parallaxText.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.1}px)`;
+                parallaxText.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.05}px)`;
                 
                 // La bottiglia ha un moltiplicatore alto (0.85). Parte da molto più in basso,
                 // corre più veloce, si incrocia col testo a 0, e schizza via in alto.
-                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.4}px)`;
+                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.2}px)`;
             }
         }
     });
