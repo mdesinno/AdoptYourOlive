@@ -179,19 +179,25 @@
             width: 100%;
             overflow: hidden;
         }
-        .parallax-text {
-            color: rgba(58, 95, 11, 0.05); 
-            font-size: 16vw; 
-            position: absolute; 
-            top: 50%; /* Punto di ancoraggio esatto */
+        .parallax-words-container {
+            position: absolute;
+            top: 50%;
             left: 50%;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 35vh; /* Crea molto spazio vuoto tra una parola e l'altra */
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+        .parallax-word {
+            color: rgba(58, 95, 11, 0.05); 
+            font-size: 11vw; 
             white-space: nowrap;
             font-family: var(--font-heading);
             font-weight: 700;
             user-select: none;
-            transform: translate(-50%, -50%); 
-            will-change: transform;
         }
         .floating-bottle {
             position: absolute;
@@ -305,7 +311,14 @@
     </section>
     <!-- 5B. BOTTIGLIA CHE VOLA VIA -->
     <section class="parallax-container" id="weddingSection" data-theme="theme-cream">
-        <div class="parallax-text">ELEGANCE</div>
+        <div class="parallax-words-container" id="parallaxTesto">
+            <div class="parallax-word">WEDDINGS</div>
+            <div class="parallax-word">BAPTISMS</div>
+            <div class="parallax-word">GRADUATIONS</div>
+            <div class="parallax-word">CORPORATE EVENTS</div>
+            <div class="parallax-word">ANNIVERSARIES</div>
+            <div class="parallax-word">BOUTIQUE GIFTS</div>
+        </div>
         <img src="immagini/pomelli_bdna_image_0622-removebg-preview.png" alt="Bomboniera Adopt Your Olive" class="floating-bottle" id="parallaxBottle">
     </section>
     <!-- 5C. TESTO CHE COMPARE DOPO -->
@@ -476,27 +489,24 @@
         }
     });
 
-    // 4. PARALLAX A INCROCIO CENTRALE
+    // 4. PARALLAX: RULLO DI PAROLE E BOTTIGLIA LENTA
     window.addEventListener("scroll", function() {
         const weddingSection = document.getElementById("weddingSection");
         const parallaxBottle = document.getElementById("parallaxBottle");
-        const parallaxText = document.querySelector(".parallax-text");
+        const parallaxTesto = document.getElementById("parallaxTesto");
         
-        if(parallaxBottle && weddingSection && parallaxText) {
+        if(parallaxBottle && weddingSection && parallaxTesto) {
             let rect = weddingSection.getBoundingClientRect();
             
-            // Verifica se la sezione è nello schermo
             if(rect.top < window.innerHeight && rect.bottom > 0) {
-                // Calcola la distanza dal centro esatto dello schermo
-                // centerOffset è esattamente 0 quando sei a metà della sezione
+                // Calcola lo spostamento
                 let centerOffset = (rect.top + rect.height / 2) - (window.innerHeight / 2);
                 
-                // Il testo ha un moltiplicatore basso (0.3), quindi si allontana poco dal centro
-                parallaxText.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 2.00}px)`;
+                // IL RULLO TESTO CORRE VELOCE (1.2)
+                parallaxTesto.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 1.2}px)`;
                 
-                // La bottiglia ha un moltiplicatore alto (0.85). Parte da molto più in basso,
-                // corre più veloce, si incrocia col testo a 0, e schizza via in alto.
-                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.005}px)`;
+                // LA BOTTIGLIA SALE PIANISSIMO (0.15)
+                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.05}px)`;
             }
         }
     });
