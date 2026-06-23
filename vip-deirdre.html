@@ -175,7 +175,7 @@
            ========================================= */
         .parallax-container {
             position: relative;
-            height: 250vh; /* Spazio sufficiente per la rincorsa */
+            height: 500vh; /* Spazio sufficiente per la rincorsa */
             width: 100%;
             overflow: hidden;
         }
@@ -224,35 +224,141 @@
         }
         .commission-table th, .commission-table td { padding: 18px; border-bottom: 1px solid var(--border-color); text-align: left; }
         .commission-table th { background-color: var(--cream-bg); color: var(--primary-green); }
+        /* Stile Modale Statistiche */
+        .modal-overlay {
+            display: none; /* Nascosta di default */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: var(--cream-bg);
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .stat-box {
+            background: rgba(58, 95, 11, 0.05);
+            padding: 20px 10px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+        
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
 <main>
     <section class="fullscreen-section" data-theme="theme-cream" style="background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('immagini/Albero-welcome-kit.webp'); background-size: cover; background-position: center;">
-        <div class="container text-center">
-            <span class="eyebrow reveal">Private Ambassador Access</span>
-            <h1 class="reveal" style="color: var(--white); transition-delay: 0.1s;">Bentornata in famiglia, Deirdre.</h1>
-            <p class="reveal" style="font-size: 1.3rem; max-width: 650px; margin: 0 auto 40px auto; color: #ddd; transition-delay: 0.2s;">Abbiamo lavorato in silenzio per mesi. Ora siamo pronti a svelarti il futuro di Adopt Your Olive per la stagione 2026.</p>
-            <div class="reveal" style="transition-delay: 0.3s;">
-                <p style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #aaa;">Scorri per iniziare</p>
-                <span class="arrow-down" style="color: #aaa;">↓</span>
-            </div>
+    <div class="container text-center">
+        <span class="eyebrow reveal" style="color: #d4af37;">Private Ambassador Access</span>
+        
+        <h1 class="reveal" style="color: var(--white); transition-delay: 0.1s;">
+            <span id="dyn-nome">Ambassador</span>,<BR>we have news.<br>ELECTRIFYING NEWS!
+        </h1>
+        
+        <p class="reveal" style="font-size: 1.3rem; max-width: 650px; margin: 0 auto 40px auto; color: #ddd; transition-delay: 0.2s;">
+            We’ve been dead silent for months. No spoilers, no hints. Now, the 2026/27 Adopt Your Olive season is coming!<br>I won't even try to explain it. Just scroll, let me show you.
+        </p>
+        
+        <div class="reveal" style="transition-delay: 0.3s;">
+            <p style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #aaa;">Scroll down</p>
+            <span class="arrow-down" style="color: #aaa;">↓</span>
         </div>
-    </section>
+    </div>
+</section>
 <!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
     <div style="height: 50vh; width: 100vw; background: transparent;"></div>
     <section class="fullscreen-section" data-theme="theme-cream">
-        <div class="container text-center">
-            <div class="reveal">
-                <span class="eyebrow" style="color: var(--primary-green);">Il tuo Albero è confermato</span>
-                <h2 style="color: var(--text-main);">Un nuovo tocco Artigianale</h2>
-                <p style="font-size: 1.25rem; max-width: 750px; margin: 0 auto 25px auto; color: var(--text-light); line-height: 1.8;">Abbiamo deciso di rendere la nostra produzione ancora più esclusiva. Niente più stampe industriali: da oggi <strong>ogni singola etichetta del Kit di Adozione viene personalizzata rigorosamente a mano</strong>, bottiglia per bottiglia.</p>
-                <p style="font-size: 1.25rem; max-width: 750px; margin: 0 auto; color: var(--text-light); line-height: 1.8;">A Settembre <strong>ti spediremo un Kit di Adozione nuovo di zecca</strong>, con la tua Club Card aggiornata e le bottiglie della nostra Riserva firmate a mano appositamente per te, così potrai mostrare alla tua community la reale esperienza artigianale.</p>
-                <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+    <div class="container text-center">
+        <div class="reveal">
+            <span class="eyebrow" style="color: var(--primary-green);">Your Tree is Confirmed</span>
+            <h2 style="color: var(--text-main);">A New Artisanal Touch</h2>
+            
+            <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 15px auto; color: var(--text-light); line-height: 1.8;">
+                First things first: we are renewing our partnership. Honestly, I haven't even looked at the numbers or results <a href="#" id="openStatsModal" style="color: var(--primary-green); text-decoration: underline; font-weight: bold;">(if you care about them, click here)</a>.
+            </p>
+            
+            <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 15px auto; color: var(--text-light); line-height: 1.8;">
+                If you've gotten to know me a bit by now, you know I don't care about the math. This is a young project and the human connection is what matters most. We clicked, you trusted me, I discovered a beautiful person, and I intend to keep my new friend close. Consider your adoption confirmed for the new season!
+            </p>
+            
+            <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 15px auto; color: var(--text-light); line-height: 1.8;">
+                This September, we will ship you a brand-new Adoption Kit, complete with your updated Club Card and our Reserve bottles, hand-signed and personalized just for you, so your community can see the real artisanal experience.
+            </p>
+            
+            <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto; color: var(--text-light); line-height: 1.8;">
+                Did I say hand-personalized? Exactly. We are making our production even more exclusive. No more industrial printing: from today, <strong>every single label of the Adoption Kit is strictly customized by hand, bottle by bottle.</strong>
+            </p>
+            
+            <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+        </div>
+    </div>
+</section>
+
+<!-- IL CODICE DELLA MODALE (Nascosta di default) -->
+<div id="statsModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" id="closeStatsModal">&times;</span>
+        <h3 style="margin-bottom: 20px; color: var(--text-main);">Your 2025/26 Impact</h3>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="stat-label">Total Sales</span>
+                <span class="stat-value" id="dyn-sales">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Total Revenue</span>
+                <span class="stat-value" id="dyn-revenue">€0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Your Commissions</span>
+                <span class="stat-value" id="dyn-commissions">€0</span>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 <!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
     <div style="height: 50vh; width: 100vw; background: transparent;"></div>
     <section class="bottega-scroll-container" data-theme="theme-dark">
@@ -260,7 +366,10 @@
             <div class="bottega-track" id="bottegaTrack">
                 
                 <div class="bottega-item">
-                    <img src="immagini/bomba-pugliese-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
+                    <img src="immagini/pomodori-secchi-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/salicornia-in-olio-di-oliva-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
                 </div>
                 <div class="bottega-item">
                     <img src="immagini/carciofi-alla-brace-removebg-preview.png" alt="Bottega 2" class="glowing-jar">
@@ -269,18 +378,33 @@
                     <img src="immagini/lampascioni-alla-brace-removebg-preview.png" alt="Bottega 3" class="glowing-jar">
                 </div>
                 <div class="bottega-item">
+                    <img src="immagini/cipolle-borettane-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/bomba-pugliese-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/crema-di-lampascioni-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
                     <img src="immagini/crema-di-olive-nere-removebg-preview.png" alt="Bottega 4" class="glowing-jar">
                 </div>
                 <div class="bottega-item">
-                    <img src="immagini/pomodori-secchi-removebg-preview.png" alt="Bottega 5" class="glowing-jar">
+                    <img src="immagini/confettura-extra-di-arance-amare-removebg-preview.png" alt="Bottega 5" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/melacotogne-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
+                </div>
+                <div class="bottega-item">
+                    <img src="immagini/fichi-d-india-removebg-preview.png" alt="Bottega 1" class="glowing-jar">
                 </div>
                 <div class="bottega-item">
                     <img src="immagini/marmellata-di-mandarini-removebg-preview.png" alt="Bottega 6" class="glowing-jar">
                 </div>
                 
                 <div class="bottega-item" style="width: 320px; text-align: center;">
-                    <h3 style="color: #d4af37; font-family: var(--font-heading); margin-bottom: 10px;">La Bottega</h3>
-                    <p style="color: #ccc; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Scoperta completata</p>
+                    <h3 style="color: #d4af37; font-family: var(--font-heading); margin-bottom: 10px;">Discover Our New Online "La Bottega"</h3>
+                    <p style="color: #ccc; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">We didn't stop at the EVOO.<br>We have finally opened our e-shop, bringing the most authentic Apulian flavors directly to your table.<br>Scroll to discover.</p>
                     <span class="arrow-down" style="color: #d4af37; margin-top: 15px;">↓</span>
                 </div>
 
@@ -290,23 +414,66 @@
 <!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
     <div style="height: 50vh; width: 100vw; background: transparent;"></div>
     <section class="fullscreen-section" data-theme="theme-cream">
-        <div class="container text-center">
-            <div class="reveal">
-                <span class="eyebrow" style="color: var(--primary-green);">La Dispensa Online</span>
-                <h2 style="color: var(--text-main);">I Sapori della nostra Terra</h2>
-                <p style="font-size: 1.3rem; max-width: 750px; margin: 0 auto 30px auto; color: var(--text-light); line-height: 1.8;">Abbiamo creato una dispensa online ricca di prodotti tipici pugliesi autentici, per permettere ai tuoi follower di ordinare e ricevere le nostre specialità gastronomiche in pochi giorni.</p>
-                <p style="font-size: 1.3rem; max-width: 750px; margin: 0 auto; color: var(--text-main); font-weight: 500;"><strong>Cosa significa per te:</strong><br>Abbiamo esteso la tua collaborazione! Da oggi avrai il <strong>15% di commissione</strong> su ogni acquisto effettuato nella Bottega. I tuoi follower avranno un codice sconto del 10% dedicato.</p>
-                <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+    <div class="container text-center">
+        <div class="reveal">
+            <span class="eyebrow" style="color: var(--primary-green);">The Online Bottega</span>
+            <h2 style="color: var(--text-main);">A True Taste of Puglia</h2>
+            
+            <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 20px auto; color: var(--text-light); line-height: 1.8;">
+                We wanted to bring more of our home directly to you. We’ve built an online pantry packed with authentic Apulian specialties, meaning your community can now order and receive our local gastronomy in just a few days.
+            </p>
+            
+            <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 30px auto; color: var(--text-light); line-height: 1.8;">
+                To make things incredibly easy (and beautiful), we’ve designed pre-curated tasting bundles. The best part? <strong>Shipping is already included in the price</strong>, so there are zero surprises at checkout for your followers.
+            </p>
+            
+            <!-- Griglia Prezzi Bundle -->
+            <div class="bundle-grid" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 40px;">
+                
+                <div class="bundle-card" style="background: rgba(58, 95, 11, 0.05); padding: 25px; border-radius: 8px; min-width: 200px;">
+                    <h3 style="color: var(--text-main); margin-bottom: 5px; font-size: 1.4rem;">The Tasting Box</h3>
+                    <p style="color: var(--text-light); font-size: 0.85rem; ">6 Jars</p>
+                    <p style="color: var(--primary-green); font-size: 1.8rem; font-weight: bold; margin-bottom: 5px;">€69</p>
+                    <p style="color: var(--text-light); font-size: 0.85rem; text-transform: uppercase;">Shipping Included</p>
+                </div>
+                
+                <!-- Questo bundle centrale è leggermente ingrandito e incorniciato per spiccare (Effetto Bestseller) -->
+                <div class="bundle-card" style="background: rgba(58, 95, 11, 0.08); padding: 25px; border-radius: 8px; min-width: 200px; ">
+                    <h3 style="color: var(--text-main); margin-bottom: 5px; font-size: 1.4rem;">The Pantry Box</h3>
+                    <p style="color: var(--text-light); font-size: 0.85rem; ">9 Jars</p>
+                    <p style="color: var(--primary-green); font-size: 1.8rem; font-weight: bold; margin-bottom: 5px;">€94</p>
+                    <p style="color: var(--text-light); font-size: 0.85rem; text-transform: uppercase;">Shipping Included</p>
+                </div>
+                
+                <div class="bundle-card" style="background: rgba(58, 95, 11, 0.05); padding: 25px; border-radius: 8px; min-width: 200px; transform: scale(1.05); border: 1px solid var(--primary-green);">
+                    <h3 style="color: var(--text-main); margin-bottom: 5px; font-size: 1.4rem;">The Grand Harvest</h3>
+                    <p style="color: var(--text-light); font-size: 0.85rem; ">15 Jars</p>
+                    <p style="color: var(--primary-green); font-size: 1.8rem; font-weight: bold; margin-bottom: 5px;">€129</p>
+                    <p style="color: var(--text-light); font-size: 0.85rem; text-transform: uppercase;">Shipping Included</p>
+                </div>
+                
             </div>
+
+            <p style="font-size: 1.2rem; max-width: 750px; margin: 0 auto 20px auto; color: var(--text-main); font-weight: 500; line-height: 1.8;">
+                <strong>What this means for you:</strong><br>
+                We are officially expanding our partnership! From today, you will earn a solid <strong>15% commission</strong> on every single purchase made in the Bottega, and your followers get a dedicated <strong>10% discount code</strong>.
+            </p>
+
+            <p style="font-size: 1.1rem; max-width: 750px; margin: 0 auto; color: var(--text-light); line-height: 1.8; font-style: italic;">
+                And trust me, this is just step one. By the end of the year, we plan to add a stunning selection of infused oils, and we are definitely not stopping there.
+            </p>
+
+            <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
         </div>
-    </section>
+    </div>
+</section>
 <!-- Spazio vuoto per far scomparire i testi prima dei vasetti -->
     <div style="height: 50vh; width: 100vw; background: transparent;"></div>
     <!-- 5A. TITOLO WEDDING -->
     <section class="fullscreen-section" data-theme="theme-cream">
         <div class="container text-center reveal">
-            <span class="eyebrow" style="color: var(--primary-green);">Eventi & Matrimoni</span>
-            <h2 style="color: var(--text-main);">Wedding & Corporate Favors</h2>
+            <span class="eyebrow" style="color: var(--primary-green);">Weddings & Special Events</span>
+            <h2 style="color: var(--text-main);">Bespoke Favors</h2>
             <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
         </div>
     </section>
@@ -325,7 +492,30 @@
     <!-- 5C. TESTO CHE COMPARE DOPO -->
     <section class="fullscreen-section" data-theme="theme-cream">
         <div class="container text-center reveal">
-            <p style="max-width: 700px; margin: 0 auto; color: var(--text-light); font-size: 1.25rem; line-height: 1.8;">Il nostro Olio EVO d'eccellenza diventa un'elegantissima bomboniera nel formato da 250ml per celebrare matrimoni ed eventi aziendali prestigiosi.<br><br>La gestione di grandi volumi significa ordini importanti e commissioni di assoluto rilievo per te, fissate al <strong>15%</strong>.</p>
+            
+            <!-- Descrizione Prodotto e Agape -->
+            <p style="max-width: 800px; margin: 0 auto 30px auto; color: var(--text-light); font-size: 1.15rem; line-height: 1.8;">
+                Our premium EVOO transforms into a stunning 250ml favor to celebrate weddings and corporate milestones. It’s not just a bottle: every piece includes a custom-designed label, a traditional pouch of Italian <em>confetti</em> (sugared almonds), and a mini parchment tied to the neck. The concept? <strong>One real olive tree is adopted for every 20 bottles ordered.</strong>
+            </p>
+            
+            <p style="max-width: 800px; margin: 0 auto 40px auto; color: var(--text-light); font-size: 1.15rem; line-height: 1.8;">
+                The price is fixed at <strong>€19.90 per piece</strong> (minimum order: 20 pieces), and shipping is always on us. But here is the most important detail: for every single bottle created, <strong>€1 will be donated to A.G.A.P.E. Charity</strong> (I will explain what this beautiful reality is in a minute).
+            </p>
+
+            <!-- La parte "Business" e il trucco del tracciamento -->
+            <div style="background: rgba(58, 95, 11, 0.05); padding: 30px; border-radius: 8px; max-width: 800px; margin: 0 auto;">
+                <h3 style="color: var(--text-main); font-size: 1.3rem; margin-bottom: 15px;">How Your Commission Works Here</h3>
+                <p style="color: var(--text-light); font-size: 1.1rem; line-height: 1.7; margin-bottom: 15px;">
+                    Managing large volumes means huge orders and a massive <strong>15% commission</strong> for you. Since standard discount codes don't apply to these tailored orders, here is our clever workaround to track your sales:
+                </p>
+                <p style="color: var(--text-light); font-size: 1.1rem; line-height: 1.7; margin-bottom: 15px;">
+                    Your followers will use your code to order a <strong>Sample Kit</strong>. They pay for the sample to physically touch the bottle and taste the oil. Once they confirm their final event order, we completely deduct the cost of the sample from their total, and that initial code links their final order straight to your dashboard. Smart and perfectly tracked.
+                </p>
+                <p style="color: var(--text-main); font-size: 1.1rem; line-height: 1.7; margin-bottom: 0; font-weight: 500;">
+                    And don't worry, we are not turning you into a wedding planner. Your only job is to be the bridge. We take over immediately, handling the couple, the label design, the logistics, and all the customer service. You just sit back and collect your commission.
+                </p>
+            </div>
+
             <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
         </div>
     </section>
@@ -504,11 +694,35 @@
                 let centerOffset = (rect.top + rect.height / 2) - (window.innerHeight / 2);
                 
                 // IL RULLO TESTO CORRE VELOCE (1.2)
-                parallaxTesto.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 1.2}px)`;
+                parallaxTesto.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.6}px)`;
                 
                 // LA BOTTIGLIA SALE PIANISSIMO (0.15)
-                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.05}px)`;
+                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.02}px)`;
             }
+        }
+    });
+    // GESTIONE MODALE STATISTICHE
+    document.addEventListener("DOMContentLoaded", () => {
+        const openBtn = document.getElementById("openStatsModal");
+        const closeBtn = document.getElementById("closeStatsModal");
+        const modal = document.getElementById("statsModal");
+
+        if(openBtn && closeBtn && modal) {
+            openBtn.addEventListener("click", (e) => {
+                e.preventDefault(); // Evita che la pagina scatti verso l'alto
+                modal.classList.add("active");
+            });
+
+            closeBtn.addEventListener("click", () => {
+                modal.classList.remove("active");
+            });
+
+            // Chiudi cliccando fuori dalla modale
+            modal.addEventListener("click", (e) => {
+                if(e.target === modal) {
+                    modal.classList.remove("active");
+                }
+            });
         }
     });
 </script>
