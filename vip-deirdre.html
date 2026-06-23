@@ -148,12 +148,12 @@
             display: flex;
             align-items: center;
             gap: 20vw; 
-            padding-left: calc(50vw - 130px); /* Centra esattamente il primo vasetto */
+            padding-left: calc(50vw - 225px); /* Centra esattamente il primo vasetto */
             padding-right: calc(50vw - 160px); /* Centra esattamente il blocco testo finale */
             will-change: transform;
         }
         .bottega-item {
-            width: 260px;
+            width: 450px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -492,11 +492,11 @@
                 let centerOffset = (rect.top + rect.height / 2) - (window.innerHeight / 2);
                 
                 // Il testo ha un moltiplicatore basso (0.3), quindi si allontana poco dal centro
-                parallaxText.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.05}px)`;
+                parallaxText.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 2.00}px)`;
                 
                 // La bottiglia ha un moltiplicatore alto (0.85). Parte da molto più in basso,
                 // corre più veloce, si incrocia col testo a 0, e schizza via in alto.
-                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.2}px)`;
+                parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.005}px)`;
             }
         }
     });
