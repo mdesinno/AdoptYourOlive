@@ -561,7 +561,7 @@
         <div class="reveal">
             <h2 style="color: var(--text-main); text-align: center;">Your 2026 Playbook</h2>
             <p style="text-align: center; margin-bottom: 40px; font-size: 1.1rem; color: var(--text-light);">
-                Here is the summary of your personalized discount code <strong id="dyn-codice">BLONDEELIVING</strong>.
+                Here is the summary of your personalized discount code <strong id="dyn-codice">DISCOUNT CODE</strong>.
             </p>
             
             <div style="overflow-x: auto;">
@@ -637,27 +637,26 @@
                 
                 <form name="vip-confirm" method="POST" data-netlify="true" style="max-width: 500px; margin: 0 auto; text-align: left; display: flex; flex-direction: column; gap: 20px;">
                     <input type="hidden" name="form-name" value="vip-confirm" />
-                    <!-- Placeholder ID per Javascript -->
-                    <input type="hidden" name="creator-id" id="form-creator-id" value="002-2025" />
+                    <input type="hidden" name="creator-id" id="form-creator-id" value="" />
                     
                     <div>
                         <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Full Name</label>
-                        <input type="text" name="name" id="form-nome" value="Deirdre Mc Eniff" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        <input type="text" name="name" id="form-nome" value="" placeholder="e.g. Jane Doe" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
                     </div>
                     
                     <div>
                         <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Email</label>
-                        <input type="email" name="email" id="form-email" value="dmceniff@gmail.com" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        <input type="email" name="email" id="form-email" value="" placeholder="e.g. hello@example.com" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
                     </div>
 
                     <div>
                         <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Phone Number (for courier)</label>
-                        <input type="text" name="phone" id="form-phone" value="00353863663071" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        <input type="text" name="phone" id="form-phone" value="" placeholder="e.g. +39 333 1234567" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
                     </div>
                     
                     <div>
                         <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Full Shipping Address</label>
-                        <textarea name="address" id="form-address" rows="3" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px; resize: vertical;">38 Crest of the wave, Bundoran, Co. Donegal F94 CH05, Ireland</textarea>
+                        <textarea name="address" id="form-address" rows="3" placeholder="Street, City, Zip Code, Country" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px; resize: vertical;"></textarea>
                     </div>
                     
                     <button type="submit" class="btn-primary" style="margin-top: 10px; padding: 20px; text-transform: uppercase; letter-spacing: 1px; width: 100%; font-weight: bold;">Yes, send me the Box!</button>
