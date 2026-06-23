@@ -1111,7 +1111,7 @@ const CATALOG_EN = {
         name: 'The Tasting Box (6 pcs)',
         price: 69,
         vipPrice: 54,
-        img: '/immagini/box-base.webp',
+        img: '/immagini/bundle piccolo.png',
         desc: `An authentic taste of Puglia. A carefully selected introduction to our traditional pantry.<br>
                <ul style="text-align:left; font-size:0.9rem; margin-top:15px; padding-left:20px; line-height:1.6; color:#555;">
                    <li>1x Sun-dried Tomatoes in olive oil</li>
@@ -1188,7 +1188,7 @@ const CATALOG_EN = {
         name: 'The Pantry Box (9 pcs)',
         price: 94,
         vipPrice: 74,
-        img: '/immagini/box-intermedio.webp',
+        img: '/immagini/bundle medio.png',
         desc: `The complete selection for Puglia lovers. Sweet jams, savory creams, and traditional preserves.<br>
                <ul style="text-align:left; font-size:0.9rem; margin-top:15px; padding-left:20px; line-height:1.6; color:#555;">
                    <li>1x Sun-dried Tomatoes in olive oil</li>
@@ -1298,7 +1298,7 @@ const CATALOG_EN = {
         name: 'The Grand Harvest (15 pcs)',
         price: 129,
         vipPrice: 99,
-        img: '/immagini/box-completo.webp',
+        img: '/immagini/bundle grande.png',
         desc: `The ultimate experience. The perfect pantry stock or a high-end corporate gift.<br>
                <ul style="text-align:left; font-size:0.9rem; margin-top:15px; padding-left:20px; line-height:1.6; color:#555;">
                    <li>2x Sun-dried Tomatoes in olive oil</li>
@@ -1445,7 +1445,7 @@ const CATALOG_IT = {
         name: 'La Box Degustazione (6 pz)',
         price: 69,
         vipPrice: 54,
-        img: '/immagini/box-base.webp',
+        img: '/immagini/bundle piccolo.png',
         desc: `Un assaggio autentico di Puglia. Un'introduzione accuratamente selezionata alla nostra dispensa tradizionale.<br>
                <ul style="text-align:left; font-size:0.9rem; margin-top:15px; padding-left:20px; line-height:1.6; color:#555;">
                    <li>1x Pomodori secchi in olio di oliva</li>
@@ -1522,7 +1522,7 @@ const CATALOG_IT = {
         name: 'La Box Dispensa (9 pz)',
         price: 94,
         vipPrice: 74,
-        img: '/immagini/box-intermedio.webp',
+        img: '/immagini/bundle medio.png',
         desc: `La selezione completa per gli amanti della Puglia. Confetture dolci, creme salate e conserve della tradizione.<br>
                <ul style="text-align:left; font-size:0.9rem; margin-top:15px; padding-left:20px; line-height:1.6; color:#555;">
                    <li>1x Pomodori secchi in olio di oliva</li>
@@ -1632,7 +1632,7 @@ const CATALOG_IT = {
         name: 'Il Grande Raccolto (15 pz)',
         price: 129,
         vipPrice: 99,
-        img: '/immagini/box-completo.webp',
+        img: '/immagini/bundle grande.png',
         desc: `L'esperienza totale. La scorta perfetta per la dispensa o un regalo aziendale di altissimo livello.<br>
                <ul style="text-align:left; font-size:0.9rem; margin-top:15px; padding-left:20px; line-height:1.6; color:#555;">
                    <li>2x Pomodori secchi in olio di oliva</li>
