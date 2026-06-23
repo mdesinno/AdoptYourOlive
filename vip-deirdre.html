@@ -175,7 +175,7 @@
            ========================================= */
         .parallax-container {
             position: relative;
-            height: 150vh; /* Spazio sufficiente per la rincorsa */
+            height: 400vh; /* Spazio sufficiente per la rincorsa */
             width: 100%;
             overflow: hidden;
         }
@@ -187,7 +187,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 35vh; /* Crea molto spazio vuoto tra una parola e l'altra */
+            gap: 45vh; /* Crea molto spazio vuoto tra una parola e l'altra */
             transform: translate(-50%, -50%);
             will-change: transform;
         }
@@ -198,6 +198,7 @@
             font-family: var(--font-heading);
             font-weight: 700;
             user-select: none;
+            text-align: center;
         }
         .floating-bottle {
             position: absolute;
@@ -315,9 +316,9 @@
             <div class="parallax-word">WEDDINGS</div>
             <div class="parallax-word">BAPTISMS</div>
             <div class="parallax-word">GRADUATIONS</div>
-            <div class="parallax-word">CORPORATE EVENTS</div>
+            <div class="parallax-word">CORPORATE<br>EVENTS</div>
             <div class="parallax-word">ANNIVERSARIES</div>
-            <div class="parallax-word">BOUTIQUE GIFTS</div>
+            <div class="parallax-word">BOUTIQUE<br>GIFTS</div>
         </div>
         <img src="immagini/pomelli_bdna_image_0622-removebg-preview.png" alt="Bomboniera Adopt Your Olive" class="floating-bottle" id="parallaxBottle">
     </section>
@@ -503,7 +504,7 @@
                 let centerOffset = (rect.top + rect.height / 2) - (window.innerHeight / 2);
                 
                 // IL RULLO TESTO CORRE VELOCE (1.2)
-                parallaxTesto.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 1.2}px)`;
+                parallaxTesto.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 1.5}px)`;
                 
                 // LA BOTTIGLIA SALE PIANISSIMO (0.15)
                 parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.05}px)`;
