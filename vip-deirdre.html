@@ -175,7 +175,7 @@
            ========================================= */
         .parallax-container {
             position: relative;
-            height: 400vh; /* Spazio sufficiente per la rincorsa */
+            height: 250vh; /* Spazio sufficiente per la rincorsa */
             width: 100%;
             overflow: hidden;
         }
@@ -504,7 +504,7 @@
                 let centerOffset = (rect.top + rect.height / 2) - (window.innerHeight / 2);
                 
                 // IL RULLO TESTO CORRE VELOCE (1.2)
-                parallaxTesto.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 1.5}px)`;
+                parallaxTesto.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 1.2}px)`;
                 
                 // LA BOTTIGLIA SALE PIANISSIMO (0.15)
                 parallaxBottle.style.transform = `translate(-50%, -50%) translateY(${centerOffset * 0.05}px)`;
