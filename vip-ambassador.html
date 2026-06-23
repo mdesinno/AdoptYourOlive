@@ -286,6 +286,15 @@
         @media (max-width: 600px) {
             .stats-grid { grid-template-columns: 1fr; }
         }
+        /* 5. ADATTAMENTO TITOLI GIGANTI SU MOBILE */
+        @media (max-width: 768px) {
+            h1, h2 { 
+                font-size: clamp(2rem, 12vw, 3.5rem) !important; 
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                hyphens: auto; 
+            }
+        }
     </style>
 </head>
 <body>
