@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Ambassador Access - Adopt Your Olive</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. VARIABILI CSS E RESET ASSOLUTO
+           ========================================= */
+        :root {
+            --primary-green: #3A5F0B;
+            --primary-dark: #243b05;
+            --cream-bg: #F9F8F6;
+            --text-main: #1D1D1D;
+            --text-light: #555555;
+            --white: #FFFFFF;
+            --border-color: #E0E0E0;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%;
+            overflow-x: clip;
+            scroll-behavior: smooth;
+            background-color: var(--primary-dark);
+            color: var(--white);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            transition: background-color 1s ease, color 1s ease;
+        }
+
+        body.theme-cream {
+            background-color: var(--cream-bg);
+            color: var(--text-main);
+        }
+        body.theme-dark {
+            background-color: var(--primary-dark);
+            color: var(--white);
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.2; font-weight: 600; }
+        h1 { font-size: 3.5rem; margin-bottom: 20px; text-align: center; }
+        h2 { font-size: 3rem; margin-bottom: 25px; text-align: center; }
+        h3 { font-size: 2rem; margin-bottom: 15px; }
+
+        .text-center { text-align: center; }
+        .container { width: 100%; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+        .fullscreen-section {
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .eyebrow {
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #d4af37;
+            display: block;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: #3A5F0B;
+            color: #FFFFFF !important;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* =========================================
+           2. EFFETTI DI COMPARSA (REVEAL)
+           ========================================= */
+        .reveal {
+            opacity: 0 !important;
+            transform: translateY(60px) !important;
+            transition: opacity 1.2s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.610, 0.355, 1) !important;
+        }
+        .reveal.active {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        @keyframes bounce-down {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-12px);}
+            60% {transform: translateY(-6px);}
+        }
+        .arrow-down { animation: bounce-down 2s infinite; display: inline-block; font-size: 2rem; margin-top: 20px; opacity: 0.6; }
+
+        /* =========================================
+           3. GRIGLIA VASETTI (semplice, niente scroll-jacking)
+           ========================================= */
+        .jars-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+        }
+        .jar-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .glowing-jar {
+            width: 100%;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
+            transition: transform 0.3s ease;
+        }
+        .glowing-jar:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.45));
+        }
+        @media (max-width: 700px) {
+            .jars-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+        }
+
+        /* =========================================
+           4. SEZIONE WEDDING (statica, no parallax JS)
+           ========================================= */
+        .wedding-bottle {
+            width: 380px;
+            max-width: 70vw;
+            margin: 10px auto 0 auto;
+        }
+
+        /* Tabella */
+        .commission-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: var(--white);
+            color: var(--text-main);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+        .commission-table th, .commission-table td { padding: 18px; border-bottom: 1px solid var(--border-color); text-align: left; }
+        .commission-table th { background-color: var(--cream-bg); color: var(--primary-green); }
+
+        /* Modale Statistiche */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: var(--cream-bg);
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .stat-box {
+            background: rgba(58, 95, 11, 0.05);
+            padding: 20px 10px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Blocchi "approfondisci" a comparsa */
+        .more-details {
+            margin-top: 18px;
+            text-align: left;
+        }
+        .more-details summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary-green);
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .more-details summary::-webkit-details-marker { display: none; }
+        .more-details summary::after {
+            content: "+";
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        .more-details[open] summary::after { content: "−"; }
+        .more-details .more-details-body {
+            padding-top: 14px;
+        }
+
+        /* 5. ADATTAMENTO TITOLI GIGANTI SU MOBILE */
+        @media (max-width: 768px) {
+            h1, h2 {
+                font-size: clamp(2rem, 12vw, 3.5rem) !important;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                hyphens: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<main>
+
+    <section class="fullscreen-section" data-theme="theme-cream" style="background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('immagini/Albero-welcome-kit.webp'); background-size: cover; background-position: center;">
+        <div class="container text-center">
+            <span class="eyebrow reveal" style="color: #d4af37;">Private Ambassador Access</span>
+
+            <h1 class="reveal" style="color: var(--white); transition-delay: 0.1s;">
+                <span id="dyn-nome">Ambassador</span>,<BR>we have news.<br>ELECTRIFYING NEWS!
+            </h1>
+
+            <p class="reveal" style="font-size: 1.3rem; max-width: 650px; margin: 0 auto 40px auto; color: #ddd; transition-delay: 0.2s;">
+                We've been dead silent for months. No spoilers, no hints. Now, the 2026/27 Adopt Your Olive season is coming!<br>I won't even try to explain it. Just scroll, let me show you.
+            </p>
+
+            <div class="reveal" style="transition-delay: 0.3s;">
+                <p style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #aaa;">Scroll down</p>
+                <span class="arrow-down" style="color: #aaa;">↓</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="fullscreen-section" data-theme="theme-cream">
+        <div class="container text-center">
+            <div class="reveal">
+                <span class="eyebrow" style="color: var(--primary-green);">Your Tree is Confirmed</span>
+                <h2 style="color: var(--text-main);">A New Artisanal Touch</h2>
+
+                <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 15px auto; color: var(--text-light); line-height: 1.8;">
+                    First things first: I want to renew our partnership. Honestly, I haven't even looked at the numbers <a href="#" id="openStatsModal" style="color: var(--primary-green); text-decoration: underline; font-weight: bold;">(if you care about them, click here)</a> — this is a young project, and what matters most to me is the human connection. We clicked, you trusted me, and I want to keep my new friend close.
+                </p>
+
+                <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 30px auto; color: var(--text-light); line-height: 1.8;">
+                    This September I'll ship you a brand-new Adoption Kit: updated Club Card, Reserve bottles, and — this is new — <strong>every single label hand-signed and customized by me, bottle by bottle.</strong> No more industrial printing.
+                </p>
+
+                <p style="font-size: 1.1rem; max-width: 650px; margin: 0 auto 10px auto; color: var(--text-main); line-height: 1.7; font-weight: 500;">
+                    So here's the deal: tap the button below to confirm you're in, and I'll get your box moving. If I don't hear from you, I'll take it as a sign and won't renew anything — no hard feelings, I'd just rather know.
+                </p>
+
+                <a href="#confirm-form" class="btn-primary" style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Yes, I'm in — confirm my box</a>
+
+                <div>
+                    <span class="arrow-down" style="color: var(--primary-green); margin-top: 30px;">↓</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALE STATISTICHE -->
+    <div id="statsModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeStatsModal">&times;</span>
+            <h3 style="margin-bottom: 20px; color: var(--text-main);">Your 2025/26 Impact</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-label">Total Sales</span>
+                    <span class="stat-value" id="dyn-sales">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Total Revenue</span>
+                    <span class="stat-value" id="dyn-revenue">€0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Your Commissions</span>
+                    <span class="stat-value" id="dyn-commissions">€0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTEGA: griglia semplice, niente scroll orizzontale a tracola -->
+    <section class="fullscreen-section" data-theme="theme-dark">
+        <div class="container text-center reveal">
+            <span class="eyebrow" style="color: #d4af37;">A Taste of the Bottega</span>
+            <h2 style="color: var(--white);">Discover Our New Online "La Bottega"</h2>
+            <p style="color: #ccc; max-width: 700px; margin: 0 auto; font-size: 1.1rem; line-height: 1.7;">
+                We didn't stop at the EVOO. We have finally opened our e-shop, bringing the most authentic Apulian flavors directly to your table.
+            </p>
+
+            <div class="jars-grid">
+                <div class="jar-item">
+                    <img src="immagini/pomodori-secchi-removebg-preview.png" alt="Pomodori secchi" class="glowing-jar">
+                </div>
+                <div class="jar-item">
+                    <img src="immagini/carciofi-alla-brace-removebg-preview.png" alt="Carciofi alla brace" class="glowing-jar">
+                </div>
+                <div class="jar-item">
+                    <img src="immagini/crema-di-olive-nere-removebg-preview.png" alt="Crema di olive nere" class="glowing-jar">
+                </div>
+                <div class="jar-item">
+                    <img src="immagini/marmellata-di-mandarini-removebg-preview.png" alt="Marmellata di mandarini" class="glowing-jar">
+                </div>
+            </div>
+
+            <p style="color: #999; font-size: 0.85rem; margin-top: 25px; text-transform: uppercase; letter-spacing: 1px;">+ many more Apulian specialties in the shop</p>
+
+            <span class="arrow-down" style="color: #d4af37; margin-top: 40px;">↓</span>
+        </div>
+    </section>
+
+    <section class="fullscreen-section" data-theme="theme-cream">
+        <div class="container text-center">
+            <div class="reveal">
+                <span class="eyebrow" style="color: var(--primary-green);">The Online Bottega</span>
+                <h2 style="color: var(--text-main);">A True Taste of Puglia</h2>
+
+                <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 15px auto; color: var(--text-light); line-height: 1.8;">
+                    We've built an online pantry of authentic Apulian specialties, so your community can now order our local gastronomy and have it in just a few days.
+                </p>
+
+                <p style="font-size: 1.2rem; max-width: 750px; margin: 0 auto 30px auto; color: var(--text-main); font-weight: 500; line-height: 1.8;">
+                    And here's what it means for you: from today, you earn a solid <strong>15% commission</strong> on every Bottega purchase, with a dedicated <strong>10% discount code</strong> for your followers.
+                </p>
+
+                <p style="font-size: 1rem; max-width: 750px; margin: 0 auto 30px auto; color: var(--text-light); line-height: 1.7;">
+                    Three pre-curated tasting bundles, <strong>shipping always included</strong> — zero surprises at checkout:
+                </p>
+
+                <div class="bundle-grid" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+
+                    <div class="bundle-card" style="background: rgba(58, 95, 11, 0.05); padding: 25px; border-radius: 8px; min-width: 200px;">
+                        <h3 style="color: var(--text-main); margin-bottom: 5px; font-size: 1.4rem;">The Tasting Box</h3>
+                        <p style="color: var(--text-light); font-size: 0.85rem; ">6 Jars</p>
+                        <p style="color: var(--primary-green); font-size: 1.8rem; font-weight: bold; margin-bottom: 5px;">€69</p>
+                        <p style="color: var(--text-light); font-size: 0.85rem; text-transform: uppercase;">Shipping Included</p>
+                    </div>
+
+                    <div class="bundle-card" style="background: rgba(58, 95, 11, 0.08); padding: 25px; border-radius: 8px; min-width: 200px;">
+                        <h3 style="color: var(--text-main); margin-bottom: 5px; font-size: 1.4rem;">The Pantry Box</h3>
+                        <p style="color: var(--text-light); font-size: 0.85rem; ">9 Jars</p>
+                        <p style="color: var(--primary-green); font-size: 1.8rem; font-weight: bold; margin-bottom: 5px;">€94</p>
+                        <p style="color: var(--text-light); font-size: 0.85rem; text-transform: uppercase;">Shipping Included</p>
+                    </div>
+
+                    <div class="bundle-card" style="background: rgba(58, 95, 11, 0.05); padding: 25px; border-radius: 8px; min-width: 200px; transform: scale(1.05); border: 1px solid var(--primary-green);">
+                        <h3 style="color: var(--text-main); margin-bottom: 5px; font-size: 1.4rem;">The Grand Harvest</h3>
+                        <p style="color: var(--text-light); font-size: 0.85rem; ">15 Jars</p>
+                        <p style="color: var(--primary-green); font-size: 1.8rem; font-weight: bold; margin-bottom: 5px;">€129</p>
+                        <p style="color: var(--text-light); font-size: 0.85rem; text-transform: uppercase;">Shipping Included</p>
+                    </div>
+
+                </div>
+
+                <p style="font-size: 1.05rem; max-width: 750px; margin: 0 auto; color: var(--text-light); line-height: 1.7; font-style: italic;">
+                    This is just step one — infused oils are coming by year-end, and we're not stopping there.
+                </p>
+
+                <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- WEDDINGS - versione statica, niente parallax a scroll -->
+    <section class="fullscreen-section" data-theme="theme-cream">
+        <div class="container text-center reveal">
+            <span class="eyebrow" style="color: var(--primary-green);">Weddings & Special Events</span>
+            <h2 style="color: var(--text-main);">Bespoke Favors</h2>
+
+            <img src="immagini/pomelli_bdna_image_0622-removebg-preview.png" alt="Bomboniera Adopt Your Olive" class="wedding-bottle">
+
+            <p style="max-width: 800px; margin: 30px auto 20px auto; color: var(--text-light); font-size: 1.15rem; line-height: 1.8;">
+                Our premium EVOO becomes a 250ml favor for weddings, baptisms, graduations and corporate events: custom label, Italian <em>confetti</em>, a parchment tag. <strong>One real tree gets adopted for every 20 bottles ordered.</strong> €19.90/piece (min. 20), shipping always on us, and €1 per bottle goes to A.G.A.P.E. Charity — more on that just below.
+            </p>
+
+            <p style="max-width: 800px; margin: 0 auto 30px auto; color: var(--text-main); font-size: 1.15rem; font-weight: 500; line-height: 1.8;">
+                You earn <strong>15% commission</strong> here too. Your only job is to point your followers our way — we handle the couple, the design, the logistics, all of it.
+            </p>
+
+            <details class="more-details" style="max-width: 800px; margin: 0 auto;">
+                <summary style="font-size: 1.05rem;">How the commission tracking actually works</summary>
+                <div class="more-details-body" style="color: var(--text-light); font-size: 1.05rem; line-height: 1.7;">
+                    <p>Standard discount codes don't work on fully custom orders, so here's our workaround: your followers use your code to order a single Sample Kit at cost, just to touch and taste before committing. When they confirm the real order, we deduct the sample's cost from the total — and that first code is what links the whole thing back to you. A bit convoluted, I know, but it's the only way to track it properly. And don't worry, you don't need to explain any of this to anyone — I handle all the questions.</p>
+                </div>
+            </details>
+
+            <span class="arrow-down" style="color: var(--primary-green); margin-top: 50px;">↓</span>
+        </div>
+    </section>
+
+    <section class="fullscreen-section" data-theme="theme-dark">
+        <div class="container text-center">
+            <div class="reveal">
+                <span class="eyebrow" style="color: #d4af37;">Our Deepest Mission</span>
+                <h2 style="color: var(--white);">The Solidarity Tree</h2>
+
+                <p style="font-size: 1.2rem; color: #ddd; max-width: 800px; margin: 0 auto 30px auto; line-height: 1.8;">
+                    There is one last project we are working on, and it is the one I care about the absolute most. This isn't marketing; this is my family's true story.
+                </p>
+
+                <p style="font-size: 1.1rem; color: #bbb; text-align: left; max-width: 800px; margin: 0 auto 20px auto; line-height: 1.8;">
+                    34 years ago, in 1992, my family faced an unimaginable pain. My sister left us at just 11 years old due to leukemia. I was 5. My father channeled that emptiness into something vital: he founded the A.G.A.P.E. Association, which for over three decades has supported the families and children of the pediatric onco-hematology ward at the San Giovanni Rotondo hospital.
+                </p>
+
+                <p style="font-size: 1.1rem; color: #bbb; text-align: left; max-width: 800px; margin: 0 auto 35px auto; line-height: 1.8;">
+                    By the end of this year, we will launch the <strong>Solidarity Adoptions</strong>: cumulative on one special tree, <em>The Solidarity Tree</em>, growing in symbolic value through the year. It's a 100% digital service at around <strong>€49</strong>, with <strong>80% going directly to the Association</strong> (we only cover taxes and platform fees). The adopter gets a digital certificate, a photo of the tree, a thank-you letter from A.G.A.P.E., and a Club Card with the same benefits as our standard adopters.
+                </p>
+
+                <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; border-left: 4px solid #d4af37; text-align: left; max-width: 800px; margin: 0 auto;">
+                    <p style="color: var(--white); font-style: italic; font-size: 1.1rem; line-height: 1.7; margin: 0;">
+                        "Because of this dynamic — and I know you will understand — this is the only project that involves absolutely zero discount codes and zero creator commissions. You are absolutely not obligated to talk about it, sponsor it, or pitch it to your community. <strong>Our main business remains in our other products</strong>. But if one day you simply feel like sharing this initiative, you will have my deepest gratitude."
+                    </p>
+                </div>
+
+                <span class="arrow-down" style="color: #aaa; margin-top: 50px;">↓</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="fullscreen-section" data-theme="theme-cream" style="justify-content: flex-start;">
+        <div class="container">
+            <div class="reveal">
+                <h2 style="color: var(--text-main); text-align: center;">Your 2026 Playbook</h2>
+                <p style="text-align: center; margin-bottom: 40px; font-size: 1.1rem; color: var(--text-light);">
+                    Here is the summary of your personalized discount code <strong id="dyn-codice">DISCOUNT CODE</strong>.
+                </p>
+
+                <div style="overflow-x: auto;">
+                    <table class="commission-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Your Commission</th>
+                                <th>Follower Discount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Classic Adoptions</strong></td>
+                                <td style="font-weight: bold; color: var(--primary-green);">15%</td>
+                                <td style="font-weight: bold;">10%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>The Bottega</strong></td>
+                                <td style="font-weight: bold; color: var(--primary-green);">15%</td>
+                                <td><strong>10%</strong> *</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bespoke Favors</strong></td>
+                                <td style="font-weight: bold; color: var(--primary-green);">15%</td>
+                                <td><strong>0%</strong> **</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Solidarity Adoptions</strong></td>
+                                <td>0%</td>
+                                <td>0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="max-width: 800px; margin: 20px auto 50px auto; text-align: left; font-size: 0.95rem; color: var(--text-light); line-height: 1.6;">
+                    <p style="margin-bottom: 10px;">
+                        <strong>* The Bottega & Adopters:</strong> A quick note on your existing Adopters. They already possess a Member ID which unlocks extremely privileged, near-wholesale prices in the Bottega. Because we are giving them the absolute maximum margin possible, Member ID purchases cannot be combined with your 10% promo code and do not generate the 15% commission. <strong>Your 15% commission applies to all standard Bottega orders!</strong>
+                    </p>
+                    <p>
+                        <strong>** Bespoke Favors:</strong> Standard discounts don't apply here. Your followers will use your code to order their Sample Kit, which allows us to track their final massive order and assign you the commission. The final price also includes the €1 donation to A.G.A.P.E. per bottle.
+                    </p>
+                </div>
+
+                <div style="background: var(--white); padding: 35px; border-radius: 12px; margin-top: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                    <h3 style="color: var(--primary-green); margin-bottom: 15px;">Your Box "Flight Plan"</h3>
+                    <p style="color: var(--text-light); margin-bottom: 15px;">This September, you'll get a large box entirely on us. Quick roadmap:</p>
+                    <ul style="margin-left: 20px; list-style-type: square; color: var(--text-light); line-height: 1.8; margin-bottom: 0;">
+                        <li><strong>September:</strong> unbox & taste the Bottega goodies — keep the adoption folder sealed for now.</li>
+                        <li><strong>November:</strong> open the folder, show the Certificate and the hand-signed bottles.</li>
+                        <li><strong>Whenever:</strong> mention the Favors or the Solidarity project if it feels right.</li>
+                    </ul>
+
+                    <details class="more-details">
+                        <summary>Full details on the November reveal & the Redemption Model</summary>
+                        <div class="more-details-body" style="color: var(--text-light); line-height: 1.7;">
+                            <p style="margin-bottom: 12px;">Explain to your community that adoptions made from January to September ship immediately alongside the certificate. For orders placed between September and December, though, we activate our <em>Redemption Model</em> to guarantee the freshest oil possible.</p>
+                            <div style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-left: 3px solid #d4af37; border-radius: 4px; font-size: 0.95rem; margin-bottom: 12px;">
+                                <em><strong>Creator Note:</strong> The oil in your box is our current premium Reserve — sent now so you have the real product to shoot. Followers buying for Christmas will get the brand-new harvest instead.</em>
+                            </div>
+                            <p style="margin: 0;"><strong>Action for you:</strong> show them how easy redemption is — scan the QR code on the Club Card, land on our <strong>club</strong> page, enter Member ID and shipping details. Done. The freshly pressed Novello ships in January.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <div style="margin: 70px auto 70px auto; text-align: left; background: rgba(255,255,255,0.4); padding: 40px; border-radius: 12px; border-left: 4px solid var(--primary-green);">
+                    <h3 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.6rem; margin-bottom: 20px;">
+                        A final thought before you confirm...
+                    </h3>
+
+                    <p style="color: var(--text-light); font-size: 1.1rem; line-height: 1.8; margin-bottom: 15px;">
+                        An e-shop, bespoke favors, a charity project... it sounds like what everyone else does. And honestly, you're right — on the surface, it is.
+                    </p>
+
+                    <p style="color: var(--text-light); font-size: 1.1rem; line-height: 1.8; margin-bottom: 15px;">
+                        But my edge isn't being a flawless corporation. I'm small, maybe a bit disorganized — but behind this screen there's just me. No algorithms, no call centers. I answer every message myself, and if I like you, it takes me one second to sneak a bonus product into your box.
+                    </p>
+
+                    <p style="color: var(--text-main); font-size: 1.1rem; line-height: 1.8; font-style: italic;">
+                        The big guys sell cold efficiency; I offer a human connection they can't replicate. That's why I'm thrilled to have you on board for another year.
+                    </p>
+                </div>
+
+                <div id="confirm-form" style="margin-top: 70px; text-align: center;">
+                    <h3 style="color: var(--text-main);">Confirm Your Shipping Details</h3>
+                    <p style="color: var(--text-light); margin-bottom: 35px;">Please check your pre-filled details and submit the form so we can prepare your complimentary box.</p>
+
+                    <form name="vip-confirm" method="POST" data-netlify="true" style="max-width: 500px; margin: 0 auto; text-align: left; display: flex; flex-direction: column; gap: 20px;">
+                        <input type="hidden" name="form-name" value="vip-confirm" />
+                        <input type="hidden" name="creator-id" id="form-creator-id" value="" />
+
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Full Name</label>
+                            <input type="text" name="name" id="form-nome" value="" placeholder="e.g. Jane Doe" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        </div>
+
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Email</label>
+                            <input type="email" name="email" id="form-email" value="" placeholder="e.g. hello@example.com" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        </div>
+
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Phone Number (for courier)</label>
+                            <input type="text" name="phone" id="form-phone" value="" placeholder="e.g. +39 333 1234567" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
+                        </div>
+
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Full Shipping Address</label>
+                            <textarea name="address" id="form-address" rows="3" placeholder="Street, City, Zip Code, Country" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px; resize: vertical;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="margin-top: 10px; padding: 20px; text-transform: uppercase; letter-spacing: 1px; width: 100%; font-weight: bold;">Yes, send me the Box!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    // 1. GESTIONE DEI CAMBI COLORE DI SFONDO (DISSOLVENZA FLUIDA)
+    const themeSections = document.querySelectorAll('section[data-theme], fieldset[data-theme]');
+    const themeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const theme = entry.target.getAttribute('data-theme');
+                document.body.className = '';
+                document.body.classList.add(theme);
+            }
+        });
+    }, { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+    themeSections.forEach(section => themeObserver.observe(section));
+
+    // 2. APPARIZIONE E SCOMPARSA DEGLI ELEMENTI (FANTASMA)
+    const revealElements = document.querySelectorAll(".reveal");
+    const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+            } else {
+                entry.target.classList.remove("active");
+            }
+        });
+    }, { threshold: 0.15, rootMargin: "-10% 0px -15% 0px" });
+
+    revealElements.forEach(element => revealObserver.observe(element));
+
+    // 3. GESTIONE MODALE STATISTICHE + PERSONALIZZAZIONE CREATOR
+    document.addEventListener("DOMContentLoaded", () => {
+        const creatorsData = {
+            "blondeeliving": {
+                firstName: "Deirdre",
+                fullName: "Deirdre Mc Eniff",
+                email: "dmceniff@gmail.com",
+                phone: "00353863663071",
+                address: "38 Crest of the wave, Bundoran, Co. Donegal F94 CH05, Ireland",
+                promoCode: "BLONDEELIVING",
+                sales: "4",
+                revenue: "€ 1.034,30",
+                commissions: "€ 155,15"
+            },
+            "stukoreceptjes": {
+                firstName: "Rechelle",
+                fullName: "Rechelle Van Steijn",
+                email: "rechellevansteijn@gmail.com",
+                phone: "0031623955155",
+                address: "Schipbeekstraat 23, Amsterdam 1078BK, NL",
+                promoCode: "STUKORECEPTJES",
+                sales: "1",
+                revenue: "€ 71,10",
+                commissions: "€ 10,67"
+            },
+            "keukenmeid": {
+                firstName: "Beau",
+                fullName: "Beau Schenk",
+                email: "info@keukenmeid.com",
+                phone: "0031610923421",
+                address: "Oranje Nassaulaan 35, Utrecht 3523VP, NL",
+                promoCode: "KEUKENMEID",
+                sales: "3",
+                revenue: "€ 133,20",
+                commissions: "€ 19,98"
+            }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const rawId = urlParams.get("id");
+        const creatorId = rawId ? rawId.toLowerCase() : null;
+
+        if (creatorId && creatorsData[creatorId]) {
+            const data = creatorsData[creatorId];
+
+            const dynNome = document.getElementById("dyn-nome");
+            if(dynNome) dynNome.textContent = data.firstName;
+
+            const dynCodice = document.getElementById("dyn-codice");
+            if(dynCodice) dynCodice.textContent = data.promoCode;
+
+            const dynSales = document.getElementById("dyn-sales");
+            if(dynSales) dynSales.textContent = data.sales;
+
+            const dynRevenue = document.getElementById("dyn-revenue");
+            if(dynRevenue) dynRevenue.textContent = data.revenue;
+
+            const dynCommissions = document.getElementById("dyn-commissions");
+            if(dynCommissions) dynCommissions.textContent = data.commissions;
+
+            const formCreatorId = document.getElementById("form-creator-id");
+            if(formCreatorId) formCreatorId.value = data.promoCode;
+
+            const formNome = document.getElementById("form-nome");
+            if(formNome) formNome.value = data.fullName;
+
+            const formEmail = document.getElementById("form-email");
+            if(formEmail) formEmail.value = data.email;
+
+            const formPhone = document.getElementById("form-phone");
+            if(formPhone) formPhone.value = data.phone;
+
+            const formAddress = document.getElementById("form-address");
+            if(formAddress) formAddress.value = data.address;
+        }
+
+        const openBtn = document.getElementById("openStatsModal");
+        const closeBtn = document.getElementById("closeStatsModal");
+        const modal = document.getElementById("statsModal");
+
+        if(openBtn && closeBtn && modal) {
+            openBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                modal.classList.add("active");
+            });
+
+            closeBtn.addEventListener("click", () => {
+                modal.classList.remove("active");
+            });
+
+            modal.addEventListener("click", (e) => {
+                if(e.target === modal) {
+                    modal.classList.remove("active");
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
