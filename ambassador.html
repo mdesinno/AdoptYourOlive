@@ -86,7 +86,6 @@
             align-items: center;
             padding: 100px 0;
             position: relative;
-            overflow: hidden;
         }
 
         .eyebrow {
@@ -479,7 +478,7 @@
     <section class="fullscreen-section" data-theme="theme-dark">
         <div class="container text-center">
             <div class="reveal">
-                <img src="immagini/agape-logo.png" alt="A.G.A.P.E. Logo" class="hero-logo reveal">
+                <img src="immagini/agape-logo-tondo.png" alt="A.G.A.P.E. Logo" class="hero-logo reveal">
                 <span class="eyebrow" style="color: #d4af37;">Our Deepest Mission</span>
                 <h2 style="color: var(--white);">The Solidarity Tree</h2>
 
@@ -659,6 +658,24 @@
                 </p>
             </div>
 
+            <!-- Messaggio se ha già confermato in precedenza -->
+<div id="already-confirmed-message" style="display: none; padding: 30px 0;">
+    <h2 style="color: var(--primary-green); margin-bottom: 15px; font-size: 3rem;">👋</h2>
+    <h3 style="color: var(--text-main); margin-bottom: 10px;">You're already confirmed!</h3>
+    <p style="color: var(--text-light); line-height: 1.6; font-size: 1.1rem;">
+        You already sent me your details for this season — all good! If anything's changed (address, phone, whatever), just message me directly on WhatsApp and I'll sort it out myself.
+    </p>
+</div>
+
+<!-- Messaggio in caso di invio fallito -->
+<div id="error-message" style="display: none; padding: 30px 0;">
+    <h2 style="color: #b03030; margin-bottom: 15px; font-size: 3rem;">😩</h2>
+    <h3 style="color: var(--text-main); margin-bottom: 10px;">Ugh, something broke</h3>
+    <p style="color: var(--text-light); line-height: 1.6; font-size: 1.1rem;">
+        Something didn't go through on my end. Could you just send me your confirmation directly on WhatsApp instead? I'll take care of everything from there.
+    </p>
+</div>
+
         </div>
     </div>
 
@@ -789,49 +806,63 @@
         }
 
         // --- GESTIONE MODALE FORM ---
-        const formModal = document.getElementById("formModal");
-        const closeFormBtn = document.getElementById("closeFormModal");
-        const openFormBtns = document.querySelectorAll(".open-form-btn");
+const formModal = document.getElementById("formModal");
+const closeFormBtn = document.getElementById("closeFormModal");
+const openFormBtns = document.querySelectorAll(".open-form-btn");
 
-        openFormBtns.forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                e.preventDefault();
-                formModal.classList.add("active");
-            });
-        });
+const formContainer = document.getElementById("form-container");
+const successMessage = document.getElementById("success-message");
+const alreadyConfirmedMessage = document.getElementById("already-confirmed-message");
+const errorMessage = document.getElementById("error-message");
 
-        closeFormBtn.addEventListener("click", () => formModal.classList.remove("active"));
-        formModal.addEventListener("click", (e) => {
-            if(e.target === formModal) formModal.classList.remove("active");
-        });
+// Mostra un solo blocco alla volta dentro la modale, nasconde gli altri
+function showModalBlock(blockToShow) {
+    [formContainer, successMessage, alreadyConfirmedMessage, errorMessage].forEach(el => {
+        if (el) el.style.display = "none";
+    });
+    if (blockToShow) blockToShow.style.display = "block";
+}
 
-        // --- INVIO FORM A NETLIFY SENZA RICARICARE LA PAGINA ---
-        const vipForm = document.getElementById("vip-form");
-        const formContainer = document.getElementById("form-container");
-        const successMessage = document.getElementById("success-message");
-
-        if(vipForm) {
-            vipForm.addEventListener("submit", function(e) {
-                e.preventDefault(); // Blocca il redirect di Netlify
-                
-                const formData = new FormData(vipForm);
-                
-                // Invia i dati in background
-                fetch("/", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams(formData).toString()
-                })
-                .then(() => {
-                    // Nascondi il form e mostra il messaggio di successo personalizzato
-                    formContainer.style.display = "none";
-                    successMessage.style.display = "block";
-                })
-                .catch((error) => {
-                    alert("Oops! Something went wrong. Please try again or contact me directly.");
-                });
-            });
+openFormBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        // Se ha già confermato in questo browser, mostra il messaggio dedicato
+        if (localStorage.getItem("ayoConfirmed") === "true") {
+            showModalBlock(alreadyConfirmedMessage);
+        } else {
+            showModalBlock(formContainer);
         }
+        formModal.classList.add("active");
+    });
+});
+
+closeFormBtn.addEventListener("click", () => formModal.classList.remove("active"));
+formModal.addEventListener("click", (e) => {
+    if (e.target === formModal) formModal.classList.remove("active");
+});
+
+// --- INVIO FORM A NETLIFY SENZA RICARICARE LA PAGINA ---
+const vipForm = document.getElementById("vip-form");
+
+if (vipForm) {
+    vipForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const formData = new FormData(vipForm);
+
+        fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(() => {
+            localStorage.setItem("ayoConfirmed", "true");
+            showModalBlock(successMessage);
+        })
+        .catch(() => {
+            showModalBlock(errorMessage);
+        });
+    });
+}
     });
 </script>
 
