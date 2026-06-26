@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Private Ambassador Access - Adopt Your Olive</title>
 
+    <!-- Meta tag essenziali per WhatsApp/Social -->
+    <meta property="og:title" content="Private Ambassador Access - Adopt Your Olive">
+    <meta property="og:description" content="A private update for the new harvest season. Discover what's coming.">
+    <!-- ATTENZIONE: Sostituisci il link sotto con l'URL assoluto di un'immagine (es. https://tuosito.com/immagini/Albero-welcome-kit.webp) -->
+    <meta property="og:image" content="https://adoptyourolive.com/immagini/Albero-welcome-kit.webp">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adoptyourolive.com/ambassador.html">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -50,6 +58,13 @@
             background-color: var(--primary-dark);
             color: var(--white);
         }
+
+        .hero-logo {
+    max-width: 140px; /* Misura elegante, non invasiva */
+    height: auto;
+    margin: 0 auto 30px auto; /* Centrato con spazio sotto */
+    display: block;
+}
 
         img { max-width: 100%; display: block; }
         a { text-decoration: none; color: inherit; }
@@ -303,6 +318,7 @@
     <section class="fullscreen-section" data-theme="theme-cream">
         <div class="container text-center">
             <div class="reveal">
+                            <img src="immagini/logo.png" alt="Adopt Your Olive Logo" class="hero-logo reveal">
                 <span class="eyebrow" style="color: var(--primary-green);">Your Tree is Confirmed</span>
                 <h2 style="color: var(--text-main);">A New Artisanal Touch</h2>
 
@@ -318,7 +334,7 @@
                     So here's the deal: tap the button below to confirm you're in, and I'll get your box moving. If I don't hear from you, I'll take it as a sign and won't renew anything — no hard feelings, I'd just rather know.
                 </p>
 
-                <a href="#confirm-form" class="btn-primary" style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Yes, I'm in — confirm my box</a>
+                <a href="#" class="btn-primary open-form-btn" style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Yes, I'm in — confirm my box</a>
 
                 <div>
                     <span class="arrow-down" style="color: var(--primary-green); margin-top: 30px;">↓</span>
@@ -461,6 +477,7 @@
     <section class="fullscreen-section" data-theme="theme-dark">
         <div class="container text-center">
             <div class="reveal">
+                <img src="immagini/agape-logo.png" alt="A.G.A.P.E. Logo" class="hero-logo reveal">
                 <span class="eyebrow" style="color: #d4af37;">Our Deepest Mission</span>
                 <h2 style="color: var(--white);">The Solidarity Tree</h2>
 
@@ -577,41 +594,65 @@
                     </p>
                 </div>
 
-                <div id="confirm-form" style="margin-top: 70px; text-align: center;">
-                    <h3 style="color: var(--text-main);">Confirm Your Shipping Details</h3>
-                    <p style="color: var(--text-light); margin-bottom: 35px;">Please check your pre-filled details and submit the form so we can prepare your complimentary box.</p>
-
-                    <form name="vip-confirm" method="POST" data-netlify="true" style="max-width: 500px; margin: 0 auto; text-align: left; display: flex; flex-direction: column; gap: 20px;">
-                        <input type="hidden" name="form-name" value="vip-confirm" />
-                        <input type="hidden" name="creator-id" id="form-creator-id" value="" />
-
-                        <div>
-                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Full Name</label>
-                            <input type="text" name="name" id="form-nome" value="" placeholder="e.g. Jane Doe" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
-                        </div>
-
-                        <div>
-                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Email</label>
-                            <input type="email" name="email" id="form-email" value="" placeholder="e.g. hello@example.com" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
-                        </div>
-
-                        <div>
-                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Phone Number (for courier)</label>
-                            <input type="text" name="phone" id="form-phone" value="" placeholder="e.g. +39 333 1234567" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px;">
-                        </div>
-
-                        <div>
-                            <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-light);">Full Shipping Address</label>
-                            <textarea name="address" id="form-address" rows="3" placeholder="Street, City, Zip Code, Country" required style="width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 5px; resize: vertical;"></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-primary" style="margin-top: 10px; padding: 20px; text-transform: uppercase; letter-spacing: 1px; width: 100%; font-weight: bold;">Yes, send me the Box!</button>
-                    </form>
-                </div>
+                <div style="margin-top: 50px; text-align: center;">
+    <h3 style="color: var(--text-main); margin-bottom: 15px;">Ready to grab your box?</h3>
+    <a href="#" class="btn-primary open-form-btn" style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold; padding: 20px 40px;">Open the Confirmation Form</a>
+</div>
             </div>
         </div>
     </section>
 </main>
+
+<!-- MODALE FORM CONFERMA -->
+    <div id="formModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeFormModal">&times;</span>
+            
+            <!-- Contenitore del Form -->
+            <div id="form-container">
+                <h3 style="color: var(--text-main); margin-bottom: 10px;">Confirm Shipping Details</h3>
+                <p style="color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem;">Please check your details and submit so we can prepare your box.</p>
+
+                <!-- Aggiunto id="vip-form" per intercettarlo con JS -->
+                <form id="vip-form" name="vip-confirm" method="POST" data-netlify="true" style="text-align: left; display: flex; flex-direction: column; gap: 15px;">
+                    <input type="hidden" name="form-name" value="vip-confirm" />
+                    <input type="hidden" name="creator-id" id="form-creator-id" value="" />
+
+                    <div>
+                        <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-light);">Full Name</label>
+                        <input type="text" name="name" id="form-nome" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 4px;">
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-light);">Email</label>
+                        <input type="email" name="email" id="form-email" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 4px;">
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-light);">Phone (for courier)</label>
+                        <input type="text" name="phone" id="form-phone" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 4px;">
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-light);">Full Shipping Address</label>
+                        <textarea name="address" id="form-address" rows="3" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-top: 4px; resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="margin-top: 10px; width: 100%;">Confirm & Send</button>
+                </form>
+            </div>
+
+            <!-- Messaggio di Successo (Nascosto di default) -->
+            <div id="success-message" style="display: none; padding: 30px 0;">
+                <h2 style="color: var(--primary-green); margin-bottom: 15px; font-size: 3rem;">✓</h2>
+                <h3 style="color: var(--text-main); margin-bottom: 10px;">All set!</h3>
+                <p style="color: var(--text-light); line-height: 1.6; font-size: 1.1rem;">
+                    Thank you! Your details have been confirmed. I will shoot you a quick message on WhatsApp shortly to let you know everything is in order.
+                </p>
+            </div>
+
+        </div>
+    </div>
 
 <script>
     // 1. GESTIONE DEI CAMBI COLORE DI SFONDO (DISSOLVENZA FLUIDA)
@@ -736,6 +777,51 @@
                 if(e.target === modal) {
                     modal.classList.remove("active");
                 }
+            });
+        }
+
+        // --- GESTIONE MODALE FORM ---
+        const formModal = document.getElementById("formModal");
+        const closeFormBtn = document.getElementById("closeFormModal");
+        const openFormBtns = document.querySelectorAll(".open-form-btn");
+
+        openFormBtns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                formModal.classList.add("active");
+            });
+        });
+
+        closeFormBtn.addEventListener("click", () => formModal.classList.remove("active"));
+        formModal.addEventListener("click", (e) => {
+            if(e.target === formModal) formModal.classList.remove("active");
+        });
+
+        // --- INVIO FORM A NETLIFY SENZA RICARICARE LA PAGINA ---
+        const vipForm = document.getElementById("vip-form");
+        const formContainer = document.getElementById("form-container");
+        const successMessage = document.getElementById("success-message");
+
+        if(vipForm) {
+            vipForm.addEventListener("submit", function(e) {
+                e.preventDefault(); // Blocca il redirect di Netlify
+                
+                const formData = new FormData(vipForm);
+                
+                // Invia i dati in background
+                fetch("/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams(formData).toString()
+                })
+                .then(() => {
+                    // Nascondi il form e mostra il messaggio di successo personalizzato
+                    formContainer.style.display = "none";
+                    successMessage.style.display = "block";
+                })
+                .catch((error) => {
+                    alert("Oops! Something went wrong. Please try again or contact me directly.");
+                });
             });
         }
     });
