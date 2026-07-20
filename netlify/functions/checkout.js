@@ -141,8 +141,9 @@ async function getExistingCart(cartId) {
             lang: row.get('Lingua'),
             isGift: row.get('Regalo').startsWith('Si'),
             giftMessage: row.get('Regalo').includes(' - ') ? row.get('Regalo').split(' - ')[1] : '',
+            shipTarget: row.get('Target_Spedizione') || 'me',             // <--- NUOVO
+            shippingChoice: row.get('Scelta_Spedizione') || 'immediate',  // <--- NUOVO
             memberId: row.get('Referral_ID'),
-            // Aggiungi questa riga qui sotto:
             discountCode: row.get('Codice') || ''
         };
     } catch (e) {
@@ -202,8 +203,10 @@ async function logToSheet(params) {
                  : `Olio ${params.labelName}`,
             'Prodotto': params.productName,
             'Regalo': giftString,
+            'Target_Spedizione': params.shipTarget,      // <--- NUOVO
+            'Scelta_Spedizione': params.shippingChoice,  // <--- NUOVO
             'Codice': params.discountCode || '',
-            'Referral_ID': params.memberId || '', // <--- NUOVA RIGA: Salva il Member ID
+            'Referral_ID': params.memberId || '', 
             'Prezzo': params.price,
             'ID_Carrello': params.cartId
         });
@@ -414,14 +417,16 @@ export const handler = async (event, context) => {
                 buyerLastName: data.buyerLastName,
                 email: data.email,
                 lang,
-                certName: data.certName || '', // Evita errori se è un bundle
+                certName: data.certName || '', 
                 labelName: data.labelName || '',
-                productName: orderSummary.join(', '), // INVIA LA STRINGA DEL CARRELLO
+                productName: orderSummary.join(', '), 
                 isGift: data.isGift || false,
                 giftMessage: data.giftMessage || '',
+                shipTarget: data.shipTarget || 'me',             // <--- NUOVO
+                shippingChoice: data.shippingChoice || 'immediate', // <--- NUOVO
                 discountCode: data.discountCode || '',
                 memberId: data.memberId || '', 
-                price: (totalAmount / 100).toFixed(2) // USA IL NUOVO TOTALE
+                price: (totalAmount / 100).toFixed(2) 
             });
         }
 
@@ -465,11 +470,13 @@ export const handler = async (event, context) => {
                 label_name: data.labelName || '',
                 is_gift: data.isGift ? 'YES' : 'NO',
                 gift_message: data.giftMessage || '',
+                ship_target: data.shipTarget || 'me',             // <--- NUOVO
+                shipping_choice: data.shippingChoice || 'immediate', // <--- NUOVO
                 referral_id: data.memberId || '', 
                 discount_code: data.discountCode || '',
                 timestamp: new Date().toISOString(),
                 price_tier: lang,
-                order_summary: orderSummary.join(', ') // <-- IL TUO CRM LEGGE QUESTO CAMPO
+                order_summary: orderSummary.join(', ')
             },
             success_url: `${SITE_URL}${successPath}?session_id={CHECKOUT_SESSION_ID}&amount=${(totalAmount / 100).toFixed(2)}&flow=${isBottega ? 'bottega' : 'adoption'}`,
             cancel_url: isBottega 

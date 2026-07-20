@@ -85,6 +85,14 @@ const fullName = `${nome} ${cognome}`.trim();
         const isGift = session.metadata?.is_gift === 'YES';
         const referralId = session.metadata?.referral_id || ''; 
         
+        // --- NUOVI CAMPI SPEDIZIONE ---
+        const rawShippingChoice = session.metadata?.shipping_choice || 'immediate';
+        const sceltaSpedizione = rawShippingChoice === 'immediate' ? 'Olio Subito' : 'Riscatto in seguito';
+        
+        const rawShipTarget = session.metadata?.ship_target || 'me';
+        const targetSpedizione = rawShipTarget === 'me' ? 'Acquirente' : 'Destinatario Regalo';
+        // ------------------------------ 
+        
         let regaloString = isGift ? 'Si' : 'No';
         if (isGift && session.metadata?.gift_message) {
             regaloString += ` - ${session.metadata.gift_message}`;
@@ -154,6 +162,8 @@ if (session.discounts && session.discounts.length > 0) {
                     Etichetta: etichettaMsg.toLowerCase().startsWith('olio') ? etichettaMsg : `Olio ${etichettaMsg}`,
                     Prodotto: productDesc,
                     Regalo: regaloString,
+                    Target_Spedizione: targetSpedizione,  // <--- NUOVO
+                    Scelta_Spedizione: sceltaSpedizione,  // <--- NUOVO
                     Codice: codiceSconto,
                     Prezzo: (session.amount_total / 100).toFixed(2).replace('.', ','),
                     ID_Carrello: session.metadata?.cart_id || '',
@@ -326,7 +336,13 @@ if (session.discounts && session.discounts.length > 0) {
                         <h3>1. LOGISTICA 📦</h3>
                         <ul><li><strong>PRODOTTO:</strong> ${qtyDescIT}</li><li><strong>REGALO?</strong> ${isGift ? 'SÌ 🎁' : 'NO'}</li></ul>
                         <h3>2. SPEDIZIONE 🚚</h3>
-                        <div style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd;"><strong>${fullShippingAddress}</strong><br><em>Email:</em> ${session.customer_details.email}</div>
+                        <div style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd;">
+                            <strong>A chi spedire:</strong> ${targetSpedizione}<br>
+                            <strong>Quando spedire l'Olio:</strong> <span style="color: #d32f2f; font-weight: bold;">${sceltaSpedizione}</span><br><br>
+                            <strong>Indirizzo inserito:</strong><br>
+                            ${fullShippingAddress}<br>
+                            <em>Email (dell'acquirente):</em> ${session.customer_details.email}
+                        </div>
                         <h3>3. STAMPA 🖨️</h3>
                         <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                             <tr><td bgcolor="#eee">Certificato:</td><td>${certificatoNome}</td></tr>

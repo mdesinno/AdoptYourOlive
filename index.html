@@ -268,8 +268,8 @@
                 <span>🇮🇹 Spedisci in Italia?</span>
             </a>
 
-            <!-- CTA Shop 
-            <a href="/shop.html" class="btn-nav">La Bottega</a>-->
+            <!-- CTA Shop -->
+            <a href="/shop.html" class="btn-nav">La Bottega</a>
         </div>
         
         <div class="mobile-menu-icon">☰</div>
@@ -328,8 +328,8 @@
             <div class="process-step">
                 <div class="step-number">03</div>
                 <div class="step-text">
-                    <h3>Fast Shipping</h3>
-                    <p>No waiting for the next harvest. We ship the current year's reserve immediately via tracked courier.</p>
+                    <h3>Flexible Shipping</h3>
+                    <p>Receive your EVOO immediately or redeem it later. The Adoption Certificate always ships right away!</p>
                 </div>
             </div>
 
@@ -501,7 +501,6 @@
 <li class="slide"><img src="/immagini/Welcome-kit.webp" loading="lazy" width="800" height="600" alt="Welcome kit content"></li>
 <li class="slide"><img src="/immagini/Reserve-kit.webp" loading="lazy" width="800" height="600" alt="Reserve kit content"></li>
 <li class="slide"><img src="/immagini/Family-kit.webp" loading="lazy" width="800" height="600" alt="Family kit content"></li>
-<li class="slide"><img src="/immagini/Foto-bottiglie-certificato.webp" loading="lazy" width="800" height="600" alt="Personalized bottles and certificate"></li>
 <li class="slide"><img src="/immagini/Albero-con-scala.webp" loading="lazy" width="800" height="600" alt="Tree with ladder for harvesting"></li>
 <li class="slide"><img src="/immagini/Albero-hero.webp" loading="lazy" width="800" height="600" alt="Sun through olive branches"></li>
 <li class="slide"><img src="/immagini/Albero-family-kit.webp" loading="lazy" width="800" height="600" alt="Backlit tree"></li>
@@ -625,7 +624,8 @@
                 <div class="accordion-item">
                     <button class="accordion-header">Do I have to wait for the harvest to receive my oil?<span class="icon">+</span></button>
                     <div class="accordion-content">
-                        <p><strong>No, we ship your oil immediately!</strong> We believe the best way to start your adoption experience is to enjoy the EVOO right away. Your kit and your supply of freshly stored oil are shipped together within a few days of your order, so you don't have to wait until autumn.</p>
+                        <p><strong>You have complete freedom to choose!</strong> During checkout, you can opt for <strong>Immediate Shipping</strong> to receive your EVOO right away from our current reserve. Alternatively, you can choose <strong>Delayed Redemption</strong>: we will send your physical Adoption Certificate immediately (which is perfect if it's a gift!), and you can claim your oil supply later at any time through your Club Page.</p>
+                        <p>When you decide to redeem it, you can choose whether to receive the oil from our current available reserve or wait for the freshly pressed EVOO from the new harvest (which always ships in January). <strong>There are absolutely no extra costs</strong> for choosing to redeem your oil at a later date.</p>
                     </div>
                 </div>
 
@@ -784,8 +784,8 @@
                 <h4>Links</h4>
                 <ul>
     <li><a href="/">Adoptions</a></li>
-    <!--<li><a href="/shop.html">La Bottega</a></li>
-    <li><a href="/favors.html">Favors</a></li>-->
+    <li><a href="/shop.html">La Bottega</a></li>
+   <!-- <li><a href="/favors.html">Favors</a></li>-->
     <!--<li><a href="/solidarity.html">Solidarity</a></li>-->
     <li><a href="/faq.html">FAQ</a></li>
 </ul>
@@ -823,107 +823,138 @@
 
 
     <dialog id="adoption-modal" class="modal">
-        <div class="modal-box">
-            <button class="close-modal" onclick="closeModal()">✕</button>
+    <div class="modal-box">
+        <button class="close-modal" onclick="closeModal()">✕</button>
+        
+        <div class="modal-header">
+            <h3>Customize your Adoption</h3>
+            <p id="modal-product-name" class="modal-subtitle">Selected Product</p>
+        </div>
+        
+        <form id="adoption-form">
+    <input type="hidden" id="selected-kit-id" name="kitId" value="">
+    <input type="hidden" name="lang" value="en">
+    <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+        <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+    </div>
+    
+    <!-- 1. NOME E COGNOME -->
+    <div class="form-row">
+        <div class="form-group half-width">
+            <label>First Name:</label>
+            <input type="text" id="buyer-firstname" name="buyerFirstName" placeholder="John" required>
+        </div>
+        <div class="form-group half-width">
+            <label>Last Name:</label>
+            <input type="text" id="buyer-lastname" name="buyerLastName" placeholder="Smith" required>
+        </div>
+    </div>
+
+    <!-- 2. CERTIFICATO -->
+    <div class="form-group">
+        <label>Name on Certificate (Adopter):</label>
+        <input type="text" id="cert-name" name="certName" placeholder="John Smith" required>
+        <small id="cert-hint" style="color:#888;">The full name of the person adopting the tree.</small>
+    </div>
+
+    <!-- 3. ETICHETTA -->
+    <div class="form-group">
+        <label>Name on Bottle Label:</label>
+        <small style="margin-bottom:5px; display:block; color:#666;">The prefix "Olio" is fixed (e.g. Olio Smith).</small>
+        <div class="input-group-prefix">
+            <span class="prefix">Olio</span>
+            <input type="text" id="label-name" name="labelName" placeholder="Smith" maxlength="15" required>
+        </div>
+        <small style="color:#888; font-size: 0.8rem; margin-top: 5px; display: block;">Max 15 characters. We recommend a single surname or short name since it will be handwritten on the bottle.</small>
+    </div>
+
+    <!-- 6. EMAIL -->
+    <div class="form-group">
+        <label>Your Email (for receipt):</label>
+        <input type="email" id="buyer-email" name="email" placeholder="name@email.com" required>
+    </div>
+
+    <!-- 4. REGALO (Spostato qui e fixato l'allineamento) -->
+    <div class="form-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: flex-start; gap: 8px;">
+            <input type="checkbox" id="is-gift" name="isGift" onchange="toggleGiftMessage()" style="width: auto !important; margin: 0 !important; flex-shrink: 0;">
+            <label for="is-gift" style="cursor:pointer; font-weight: normal; margin: 0; color: #333;">
+                🎁 Is this a gift?
+            </label>
+        </div>
+        
+        <div id="gift-message-container" style="display:none; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 15px;">
+            <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; display: block; color: #333;">Where are we shipping the gift?</label>
             
-            <div class="modal-header">
-                <h3>Customize your Adoption</h3>
-                <p id="modal-product-name" class="modal-subtitle">Selected Product</p>
+            <label style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 0.9rem; margin-bottom: 8px; cursor: pointer; font-weight: normal; text-align: left;">
+                <input type="radio" name="shipTarget" value="me" checked onchange="toggleShippingNote()" style="width: auto !important; margin: 0 !important; flex-shrink: 0; display: inline-block;"> 
+                <span style="color: #333; margin: 0;">Ship to me (I will deliver it in person)</span>
+            </label>
+            
+            <label style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; font-weight: normal; text-align: left;">
+                <input type="radio" name="shipTarget" value="them" onchange="toggleShippingNote()" style="width: auto !important; margin: 0 !important; flex-shrink: 0; display: inline-block;"> 
+                <span style="color: #333; margin: 0;">Ship directly to the recipient</span>
+            </label>
+
+            <div id="shipping-note-them" style="display: none; margin-bottom: 15px; font-size: 0.85rem; color: #5c4000; background: #fffdf5; padding: 10px; border-left: 3px solid #ffcc00; border-radius: 3px;">
+                <strong>Important for direct shipping:</strong><br>
+                In the next step (Checkout), please enter the <strong>recipient's delivery address and phone number</strong> (for the courier), but use <strong>your own email</strong> so the receipt comes to you and the surprise is safe!
             </div>
-            
-            <form id="adoption-form">
-                <input type="hidden" id="selected-kit-id" name="kitId" value="">
-                <input type="hidden" name="lang" value="en">
-<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
-    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
-</div>
-                <div class="form-row">
-                    <div class="form-group half-width">
-                        <label>First Name:</label>
-                        <input type="text" id="buyer-firstname" name="buyerFirstName" placeholder="John" required>
-                    </div>
-                    <div class="form-group half-width">
-                        <label>Last Name:</label>
-                        <input type="text" id="buyer-lastname" name="buyerLastName" placeholder="Smith" required>
-                    </div>
-                </div>
 
-                <div class="form-group checkbox-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px;">
-    <div style="display: flex; align-items: center; gap: 8px;">
-        <input type="checkbox" id="is-gift" name="isGift" onchange="toggleGiftMessage()">
-        <label for="is-gift" style="cursor:pointer; font-weight: normal; margin: 0;">
-            🎁 Is this a gift?
-        </label>
+            <label style="font-size: 0.9rem; margin-top: 10px; display: block;">Personal Note for the recipient (Optional):</label>
+            <textarea id="gift-message" name="giftMessage" rows="2" placeholder="Write your wish here... We will print it for you! Don't forget to sign it!" style="width: 100%; box-sizing: border-box;"></textarea>
+        </div>
     </div>
-    
-    <div id="gift-message-container" style="display:none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
-        <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; display: block;">Where are we shipping the gift?</label>
+
+    <!-- 5. SELETTORE SPEDIZIONE OLIO -->
+    <div class="form-group" style="background: #f0f9eb; padding: 15px; border-radius: 5px; border: 1px solid #c3e6cb; margin-bottom: 20px;">
+        <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; display: block; color: #2c5e2e;">When should we ship your Olive Oil?</label>
+        <p style="font-size: 0.8rem; color: #555; margin-bottom: 15px; line-height: 1.4;">
+            <em>Don't worry: your physical Adoption Certificate is <strong>always</strong> prepared and shipped immediately!</em>
+        </p>
         
-        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 8px; cursor: pointer; font-weight: normal;">
-            <input type="radio" name="shipTarget" value="me" checked onchange="toggleShippingNote()"> 
-            Ship to me (I will deliver it in person)
+        <label style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; font-weight: normal; text-align: left;">
+            <input type="radio" name="shippingChoice" value="immediate" checked style="width: auto !important; margin: 4px 0 0 0 !important; flex-shrink: 0;"> 
+            <div style="flex: 1;">
+                <strong style="color: #333; display: block; margin-bottom: 2px;">Ship my oil immediately</strong>
+                <span style="font-size: 0.8rem; color: #666; line-height: 1.4; display: block;">Receive your EVOO supply from our current reserve.</span>
+            </div>
         </label>
         
-        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; font-weight: normal;">
-            <input type="radio" name="shipTarget" value="them" onchange="toggleShippingNote()"> 
-            Ship directly to the recipient
+        <label style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 0; cursor: pointer; font-weight: normal; text-align: left;">
+            <input type="radio" name="shippingChoice" value="delayed" style="width: auto !important; margin: 4px 0 0 0 !important; flex-shrink: 0;"> 
+            <div style="flex: 1;">
+                <strong style="color: #333; display: block; margin-bottom: 2px;">I will redeem my oil later</strong>
+                <span style="font-size: 0.8rem; color: #666; line-height: 1.4; display: block;">Perfect if you prefer to wait for the new harvest (always shipped the following January). Instructions to easily claim your oil at any moment will be included with your Certificate.</span>
+            </div>
         </label>
-
-        <div id="shipping-note-them" style="display: none; margin-bottom: 15px; font-size: 0.85rem; color: #5c4000; background: #fffdf5; padding: 10px; border-left: 3px solid #ffcc00; border-radius: 3px;">
-            <strong>Important for direct shipping:</strong><br>
-            In the next step (Checkout), please enter the <strong>recipient's delivery address and phone number</strong> (for the courier), but use <strong>your own email</strong> so the receipt comes to you and the surprise is safe!
-        </div>
-
-        <label style="font-size: 0.9rem; margin-top: 10px;">Personal Note for the recipient (Optional):</label>
-        <textarea id="gift-message" name="giftMessage" rows="2" placeholder="Write your wish here... We will print it for you! Don't forget to sign it!"></textarea>
     </div>
-</div>
 
-                <div class="form-group">
-                    <label>Name on Certificate (Adopter):</label>
-                    <input type="text" id="cert-name" name="certName" placeholder="John Smith" required>
-                    <small id="cert-hint" style="color:#888;">The full name of the person adopting the tree.</small>
-                </div>
-
-                <div class="form-group">
-    <label>Name on Bottle Label:</label>
-    <small style="margin-bottom:5px; display:block; color:#666;">The prefix "Olio" is fixed (e.g. Olio Smith).</small>
-    
-    <div class="input-group-prefix">
-        <span class="prefix">Olio</span>
-        <input type="text" id="label-name" name="labelName" placeholder="Smith" maxlength="15" required>
-    </div>
-    <small style="color:#888; font-size: 0.8rem; margin-top: 5px; display: block;">Max 15 characters. We recommend a single surname or short name since it will be handwritten on the bottle.</small>
-</div>
-
-                <div class="form-group">
-                    <label>Your Email (for receipt):</label>
-                    <input type="email" id="buyer-email" name="email" placeholder="name@email.com" required>
-                </div>
-
-                <div class="form-group discount-group" style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd; text-align: center;">
-    <a href="javascript:void(0)" id="toggle-discount-btn" style="font-size: 0.85rem; color: var(--text-light); text-decoration: underline;">Do you have a promo code?</a>
-    
-    <div id="discount-container" style="display: none; margin-top: 10px; text-align: left;">
-        <label>Discount Code:</label>
-        <div style="display: flex; gap: 10px;">
-            <input type="text" id="discount-code" name="discountCode" placeholder="PROMO CODE" style="text-transform: uppercase; margin-bottom: 0;">
+    <!-- 7. SCONTO -->
+    <div class="form-group discount-group" style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd; text-align: center;">
+        <a href="javascript:void(0)" id="toggle-discount-btn" style="font-size: 0.85rem; color: #555; text-decoration: underline;">Do you have a promo code?</a>
+        
+        <div id="discount-container" style="display: none; margin-top: 10px; text-align: left;">
+            <label>Discount Code:</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="discount-code" name="discountCode" placeholder="PROMO CODE" style="text-transform: uppercase; margin-bottom: 0;">
+            </div>
+            <small id="discount-message" style="display: none; color: #2c5e2e; margin-top: 5px;">Code applied!</small>
         </div>
-        <small id="discount-message" style="display: none; color: var(--primary-green); margin-top: 5px;">Code applied!</small>
     </div>
-</div>
 
-                <div style="margin-top: 20px; font-size: 0.85rem; color: #555; background: #eef; padding: 10px; border-radius: 5px; text-align: center;">
-                    🌍 <strong>Shipping Zone:</strong> This kit ships to <strong>European Union</strong> countries.
-                    <br>
-                    <a href="/it/" style="text-decoration:underline; color:#333;">Shipping to Italy only? Click here for IT prices.</a>
-                </div>
+    <!-- 8. ZONA SPEDIZIONE E PAGAMENTO -->
+    <div style="margin-top: 20px; font-size: 0.85rem; color: #555; background: #eef; padding: 10px; border-radius: 5px; text-align: center;">
+        🌍 <strong>Shipping Zone:</strong> This kit ships to <strong>European Union</strong> countries.
+        <br>
+        <a href="/it/" style="text-decoration:underline; color:#333;">🇮🇹 Spedisci in Italia? Clicca qui per le tariffe dedicate.</a>
+    </div>
 
-                <button type="submit" class="btn-primary btn-full" style="margin-top: 20px;">Proceed to Secure Payment &rarr;</button>
-                <p class="secure-note">🔒 SSL Encrypted Transaction via Stripe</p>
-            </form>
-        </div>
-    </dialog>
+    <button type="submit" class="btn-primary btn-full" style="margin-top: 20px;">Proceed to Secure Payment &rarr;</button>
+    <p class="secure-note">🔒 SSL Encrypted Transaction via Stripe</p>
+</form>
+    </div>
+</dialog>
 
     <dialog id="corporate-modal" class="modal modal-wide">
     <div class="modal-box modal-split-layout">

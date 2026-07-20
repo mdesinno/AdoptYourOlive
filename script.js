@@ -288,17 +288,18 @@ if (adoptForm) {
         const kitId = document.getElementById('selected-kit-id').value;
 
         // --- CORREZIONE QUI SOTTO ---
-        // Le chiavi (a sinistra) devono essere UGUALI a quelle che la function si aspetta
         const data = {
             kitId: kitId,
-            buyerFirstName: formData.get('buyerFirstName'), // Era: buyerName
-            buyerLastName: formData.get('buyerLastName'),   // Era: buyerSurname
+            buyerFirstName: formData.get('buyerFirstName'), 
+            buyerLastName: formData.get('buyerLastName'),   
             email: formData.get('email'),
             lang: formData.get('lang') || 'en',
             isGift: formData.get('isGift') === 'on',
+            shipTarget: formData.get('shipTarget'),         // <--- NUOVO: Destinatario spedizione
             giftMessage: formData.get('giftMessage'),
             certName: formData.get('certName'),
             labelName: formData.get('labelName'),
+            shippingChoice: formData.get('shippingChoice'), // <--- NUOVO: Scelta invio olio
             discountCode: formData.get('discountCode')
         };
         // ----------------------------
@@ -2073,3 +2074,143 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+/* =========================================
+   RISCATTO OLIO (CLAIM FLOW)
+   ========================================= */
+const checkClaimForm = document.getElementById('check-claim-form');
+const claimModal = document.getElementById('claim-modal');
+const processClaimForm = document.getElementById('process-claim-form');
+
+if (checkClaimForm) {
+    checkClaimForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const btn = document.getElementById('btn-check-claim');
+        const feedback = document.getElementById('claim-feedback');
+        const originalText = btn.textContent;
+        
+        const memberId = document.getElementById('claim-member-id').value.trim();
+        const certName = document.getElementById('claim-cert-name').value.trim();
+        
+        btn.textContent = window.currentLang === 'it' ? "Verifica in corso..." : "Checking...";
+        btn.disabled = true;
+        feedback.style.display = 'none';
+
+        try {
+            // Chiamata alla function Netlify
+            const response = await fetch('/.netlify/functions/check-claim', {
+                method: 'POST',
+                body: JSON.stringify({ memberId, certName, lang: window.currentLang }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.valid) {
+                // Configura e apri la modale
+                document.getElementById('hidden-claim-member-id').value = memberId;
+                
+                // Pre-popola i campi indirizzo con i dati esistenti
+                document.getElementById('claim-ship-name').value = result.data.name || '';
+                document.getElementById('claim-ship-address').value = result.data.address || '';
+                document.getElementById('claim-ship-city').value = result.data.city || '';
+                document.getElementById('claim-ship-zip').value = result.data.zip || '';
+                document.getElementById('claim-ship-country').value = result.data.country || '';
+                document.getElementById('claim-ship-phone').value = result.data.phone || '';
+
+                const timingSelection = document.getElementById('claim-timing-selection');
+                const modalTitle = document.getElementById('claim-modal-title');
+                const modalSubtitle = document.getElementById('claim-modal-subtitle');
+
+                // Logica Adattiva Modale
+                if (result.status === 'DA RISCATTARE') {
+                    timingSelection.style.display = 'block';
+                    modalTitle.textContent = window.currentLang === 'it' ? 'Riscatta il tuo Olio' : 'Redeem Your Oil';
+                    modalSubtitle.textContent = window.currentLang === 'it' ? 'Scegli quando riceverlo e conferma i dati.' : 'Choose your timing and confirm details.';
+                } else if (result.status === 'RISCATTO A GENNAIO') {
+                    // È il flusso "Silenzio-Assenso" per aggiornare l'indirizzo
+                    timingSelection.style.display = 'none';
+                    modalTitle.textContent = window.currentLang === 'it' ? 'Aggiorna Indirizzo' : 'Update Address';
+                    modalSubtitle.textContent = window.currentLang === 'it' ? 'Stiamo preparando il tuo olio per Gennaio. Modifica l\'indirizzo qui sotto se hai traslocato.' : 'We are holding your oil for January. Update your delivery address below if needed.';
+                }
+
+                claimModal.showModal();
+                checkClaimForm.reset();
+            } else {
+                throw new Error(result.error || (window.currentLang === 'it' ? "Dati non trovati. Controlla e riprova." : "Details not found. Please check and try again."));
+            }
+        } catch (error) {
+            feedback.textContent = error.message;
+            feedback.style.display = 'block';
+        } finally {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    });
+}
+
+function closeClaimModal() {
+    if (claimModal) claimModal.close();
+}
+
+// Chiusura cliccando fuori
+if (claimModal) {
+    claimModal.addEventListener('click', (e) => {
+        const dims = claimModal.getBoundingClientRect();
+        if (e.clientX < dims.left || e.clientX > dims.right || e.clientY < dims.top || e.clientY > dims.bottom) {
+            claimModal.close();
+        }
+    });
+}
+
+// Gestione Conferma Finale Modale Riscatto
+if (processClaimForm) {
+    processClaimForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const btn = document.getElementById('btn-submit-claim');
+        const originalText = btn.textContent;
+        btn.textContent = window.currentLang === 'it' ? 'Conferma in corso...' : 'Confirming...';
+        btn.disabled = true;
+
+        const formData = new FormData(processClaimForm);
+        
+        // Se il radio button non c'è (silenzio-assenso gen), usiamo fallback
+        const claimTiming = formData.get('claimTiming') || 'january'; 
+
+        const data = {
+            memberId: formData.get('memberId'),
+            claimTiming: claimTiming,
+            shipName: formData.get('shipName'),
+            shipAddress: formData.get('shipAddress'),
+            shipCity: formData.get('shipCity'),
+            shipZip: formData.get('shipZip'),
+            shipCountry: formData.get('shipCountry'),
+            shipPhone: formData.get('shipPhone'),
+            lang: window.currentLang
+        };
+
+        try {
+            const response = await fetch('/.netlify/functions/process-claim', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const result = await response.json();
+            
+            if (response.ok && result.success) {
+                alert(window.currentLang === 'it' ? 'Riscatto confermato con successo! Riceverai l\'olio nei tempi stabiliti.' : 'Claim confirmed successfully! You will receive your oil as requested.');
+                closeClaimModal();
+            } else {
+                throw new Error(result.error || 'Errore durante la conferma.');
+            }
+        } catch (error) {
+            alert(error.message);
+        } finally {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    });
+}

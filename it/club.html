@@ -81,7 +81,31 @@
 
 <div class="club-container">
 
-    <section id="member-perk" class="club-card dark-mode">
+    <!-- SEZIONE RICERCA RISCATTO OLIO -->
+    <section id="redeem-oil" class="club-card highlight-border" style="border-color: #b58900;">
+        <div class="card-header-row">
+            <div class="card-icon">🫒</div>
+            <h2>Riscatta il tuo Olio</h2>
+        </div>
+        <p>Pronto a ricevere il tuo Olio EVO? Inserisci i tuoi dati qui sotto per verificare lo stato, riscattare la tua fornitura o aggiornare l'indirizzo di spedizione.</p>
+        
+        <form id="check-claim-form" class="club-form">
+            <div class="input-group">
+                <input type="text" id="claim-member-id" placeholder="Il tuo Member ID (es. 123-2026)" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="claim-cert-name" placeholder="Nome sul Certificato" required>
+            </div>
+            
+            <button type="submit" id="btn-check-claim" class="btn-club primary" style="background-color: #b58900;">
+                Verifica Stato
+            </button>
+        </form>
+        
+        <p id="claim-feedback" class="tiny-note" style="display:none; color: #d32f2f; margin-top: 15px; font-size: 0.85rem !important;"></p>
+    </section>
+
+    <!-- <section id="member-perk" class="club-card dark-mode">
         <div class="ribbon">SOLO PER TE</div>
         <div class="card-text">
             <h2>Porta un amico tra gli ulivi</h2>
@@ -95,7 +119,7 @@
         <button onclick="openGiftModal()" class="btn-club light">
             Fai un Regalo
         </button>
-    </section>
+    </section>-->
 
     <section id="guide-recipes" class="club-card">
         <div class="card-icon">📖</div>
@@ -304,8 +328,7 @@
         </div>
     </footer>
 
-
-<div id="giftModal" class="modal-overlay" style="display: none;">
+<!--<div id="giftModal" class="modal-overlay" style="display: none;">
         <div class="modal-content" style="max-width: 550px; text-align: left;">
         <span class="close-modal" onclick="closeGiftModal()">×</span>
         
@@ -387,7 +410,82 @@
             </p>
         </form>
     </div>
-</div>
+</div>-->
+
+<!-- MODALE RISCATTO OLIO -->
+    <dialog id="claim-modal" class="modal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeClaimModal()">✕</button>
+            
+            <div class="modal-header">
+                <h3 id="claim-modal-title">Riscatta il tuo Olio</h3>
+                <p id="claim-modal-subtitle" class="modal-subtitle">Conferma i dettagli di spedizione.</p>
+            </div>
+            
+            <form id="process-claim-form">
+                <input type="hidden" id="hidden-claim-member-id" name="memberId">
+                
+                <!-- BLOCCO SCELTA TEMPORALE (Visibile solo se lo stato è "DA RISCATTARE") -->
+                <div id="claim-timing-selection" class="form-group" style="background: #f0f9eb; padding: 15px; border-radius: 5px; border: 1px solid #c3e6cb; margin-bottom: 20px;">
+                    <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; display: block; color: #2c5e2e;">Quando vuoi riceverlo?</label>
+                    
+                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 12px; cursor: pointer;">
+                        <input type="radio" name="claimTiming" value="immediate" checked style="width: auto; margin-top: 3px;"> 
+                        <div>
+                            <strong style="color: #333;">Spediscilo il prima possibile</strong><br>
+                            <span style="font-size: 0.8rem; color: #666;">Ricevi l'olio EVO dalla nostra riserva attuale disponibile.</span>
+                        </div>
+                    </label>
+                    
+                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 0; cursor: pointer;">
+                        <input type="radio" name="claimTiming" value="january" style="width: auto; margin-top: 3px;"> 
+                        <div>
+                            <strong style="color: #333;">Attendi il nuovo raccolto (Gennaio)</strong><br>
+                            <span style="font-size: 0.8rem; color: #666;">Conserveremo la tua richiesta e spediremo l'olio più fresco a Gennaio.</span>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- BLOCCO INDIRIZZO -->
+                <div class="form-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #eee;">
+                    <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 15px; display: block;">Indirizzo di Spedizione</label>
+                    
+                    <div class="form-group">
+                        <label>Nome e Cognome (per la consegna):</label>
+                        <input type="text" id="claim-ship-name" name="shipName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Indirizzo e Civico:</label>
+                        <input type="text" id="claim-ship-address" name="shipAddress" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label>Città:</label>
+                            <input type="text" id="claim-ship-city" name="shipCity" required>
+                        </div>
+                        <div class="form-group half-width">
+                            <label>CAP:</label>
+                            <input type="text" id="claim-ship-zip" name="shipZip" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stato / Nazione:</label>
+                        <input type="text" id="claim-ship-country" name="shipCountry" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Numero di Telefono (per il Corriere):</label>
+                        <input type="tel" id="claim-ship-phone" name="shipPhone" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit-claim" class="btn-primary btn-full" style="margin-top: 20px;">Conferma Dati &rarr;</button>
+            </form>
+        </div>
+    </dialog>
 
     <dialog id="corporate-modal" class="modal modal-wide">
     <div class="modal-box modal-split-layout">
