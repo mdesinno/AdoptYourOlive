@@ -1306,7 +1306,7 @@ const CATALOG_EN = {
                    <li>1x Sea Asparagus (Salicornia)</li>
                    <li>2x Grilled Artichokes</li>
                    <li>1x Grilled Lampascioni</li>
-                   <li>1x Grilled Borettane Onions</li>
+                   <li>1x Mixed Grilled Vegetables</li>
                    <li>2x Bomba Pugliese (Spicy)</li>
                    <li>1x Lampascioni Cream</li>
                    <li>1x Black Olive Cream</li>
@@ -1357,12 +1357,12 @@ const CATALOG_EN = {
                 </div>` 
             },
             { 
-                img: '/immagini/cipolle-borettane.jpg', 
-                title: 'Grilled Borettane Onions', 
-                text: `Borettane onions grilled on red-hot lava stones and flavored with Mediterranean spices. A real delight for the palate as an appetizer or side dish.
+                img: '/immagini/grigliata-mista.jpg', 
+                title: 'Mixed Grilled Vegetables', 
+                text: `A mix of grilled vegetables flavored with Mediterranean spices and preserved in olive oil. Excellent to enjoy as an appetizer, side dish, or to stuff sandwiches and focaccias.
                 <div style="font-size:0.75rem; text-align:left; background:#f9f9f9; padding:12px; border-radius:8px; margin-top:15px; line-height:1.4;">
-                <strong>Ingredients:</strong> Borettane onions 63%, olive oil 34%, salt, wine vinegar. Citric acid, ascorbic acid.<br>
-                <strong>Values (100g):</strong> 57 Kcal | Fat 3.8g | Carbs 2.2g | Protein 1.8g | Salt 2.2g<br>
+                <strong>Ingredients:</strong> Vegetables in varying proportions (peppers, eggplants, zucchinis, onions, carrots) 63%, olive oil 34%, salt, parsley, wine vinegar. Corrector of acidity: citric acid. Antioxidant: ascorbic acid.<br>
+                <strong>Values (100g):</strong> 57 Kcal | Fat 3.7g | Carbs 4.2g | Protein 0.8g | Salt 1.8g<br>
                 <strong>Weight:</strong> 280g
                 </div>` 
             },
@@ -1640,7 +1640,7 @@ const CATALOG_IT = {
                    <li>1x Salicornia in olio di oliva</li>
                    <li>2x Carciofi alla brace</li>
                    <li>1x Lampascioni alla brace</li>
-                   <li>1x Cipolle borettane alla brace</li>
+                   <li>1x Grigliata mista</li>
                    <li>2x Bomba pugliese (Piccante)</li>
                    <li>1x Crema di lampascioni</li>
                    <li>1x Crema di olive nere</li>
@@ -1691,12 +1691,12 @@ const CATALOG_IT = {
                 </div>` 
             },
             { 
-                img: '/immagini/cipolle-borettane.jpg', 
-                title: 'Cipolle Borettane alla Brace', 
-                text: `Cipolle grigliate su pietre laviche roventi ed insaporite da spezie mediterranee secondo la tradizione pugliese sono una vera delizia per il palato come antipasto o contorno.
+                img: '/immagini/grigliata-mista.jpg', 
+                title: 'Grigliata Mista', 
+                text: `Un mix di verdure grigliate insaporite con spezie mediterranee e conservate in olio di oliva. Ottimo da gustare come antipasto, contorno o per farcire panini e focacce.
                 <div style="font-size:0.75rem; text-align:left; background:#f9f9f9; padding:12px; border-radius:8px; margin-top:15px; line-height:1.4;">
-                <strong>Ingredienti:</strong> Cipolle Borrettane 63%, olio di oliva 34%, sale, aceto di vino. Correttore di acidità: acido citrico. Antiossidante: acido ascorbico.<br>
-                <strong>Valori (100g):</strong> 57 Kcal | Grassi 3.8g | Carb 2.2g | Prot 1.8g | Sale 2.2g<br>
+                <strong>Ingredienti:</strong> Ortaggi in proporzione variabile (peperoni, melanzane, zucchine, cipolle, carote) 63%, olio di oliva 34%, sale, prezzemolo, aceto di vino. Correttore di acidità: acido citrico. Antiossidante: acido ascorbico.<br>
+                <strong>Valori (100g):</strong> 57 Kcal | Grassi 3.7g | Carb 4.2g | Prot 0.8g | Sale 1.8g<br>
                 <strong>Peso:</strong> 280g
                 </div>` 
             },
