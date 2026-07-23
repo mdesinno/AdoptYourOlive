@@ -37,7 +37,7 @@ const INVENTORY = {
 const COUNTRIES_EU_ALL = [
     'IT', 'FR', 'DE', 'ES', 'NL', 'BE', 'AT', 'IE', 'PT', 'LU', 
     'FI', 'DK', 'SE', 'GR', 'BG', 'HR', 'CY', 'CZ', 'EE', 'HU', 
-    'LV', 'LT', 'MT', 'PL', 'RO', 'SK', 'SI'
+    'LV', 'LT', 'MT', 'PL', 'RO', 'SK', 'SI', 'GB', 'CH'
 ];
 
 const COUNTRIES_IT_ONLY = ['IT'];
