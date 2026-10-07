@@ -40,8 +40,6 @@ const COUNTRIES_EXTRA_SHIPPING = ['US', 'CA'];
 // Tutti i paesi serviti direttamente da Stripe
 const ALL_SUPPORTED_ISO = [...COUNTRIES_SHIPPING_INCLUDED, ...COUNTRIES_EXTRA_SHIPPING];
 
-const FREE_EU_SHIPPING_ID = 'shr_1UD4QMGWLKkvVi98iA0alBM3'; 
-
 // Mappatura Nazione -> Codice ISO-2
 const COUNTRY_TO_ISO = {
     "italy": "IT", "italia": "IT", "united states": "US", "stati uniti": "US", "usa": "US", "canada": "CA",
@@ -245,8 +243,18 @@ export const handler = async (event) => {
             totalAmountCents += shippingCostCents;
 
         } else {
-            // UE, Regno Unito e Svizzera: Spedizione gratuita inclusa
-            shippingOptions.push({ shipping_rate: FREE_EU_SHIPPING_ID });
+            // UE, Regno Unito e Svizzera: Spedizione gratuita inclusa (dinamica, no ID)
+            shippingOptions.push({
+                shipping_rate_data: {
+                    type: 'fixed_amount',
+                    fixed_amount: { amount: 0, currency: 'eur' },
+                    display_name: 'Free Tracked Shipping (EU, UK & CH)',
+                    delivery_estimate: {
+                        minimum: { unit: 'business_day', value: 3 },
+                        maximum: { unit: 'business_day', value: 7 }
+                    }
+                }
+            });
         }
 
         const SITE_URL = process.env.SITE_URL || 'https://adoptyourolive.com';
