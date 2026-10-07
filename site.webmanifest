@@ -1,6 +1,8 @@
 {
     "name": "Adopt Your Olive",
     "short_name": "AdoptOlive",
+    "start_url": "/",
+    "scope": "/",
     "icons": [
         {
             "src": "/web-app-manifest-192x192.png",

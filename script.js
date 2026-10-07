@@ -147,7 +147,7 @@ if (adoptionModal) {
 }
 
 /* =========================================
-   2. LOGICA "SMART FORM" (Nome Diviso + Regalo)
+   2. LOGICA "SMART FORM" & AUTOMAZIONE STAGIONALE
    ========================================= */
 const firstNameInput = document.getElementById('buyer-firstname');
 const lastNameInput = document.getElementById('buyer-lastname');
@@ -155,83 +155,114 @@ const lastNameInput = document.getElementById('buyer-lastname');
 const certInput = document.getElementById('cert-name');
 const labelInput = document.getElementById('label-name');
 const giftCheckbox = document.getElementById('is-gift');
-const giftMessageContainer = document.getElementById('gift-message-container'); // <--- NUOVO
+const giftMessageContainer = document.getElementById('gift-message-container'); 
 
-// Flags: Se l'utente tocca un campo, smettiamo di autocompilarlo
+// Flags per la personalizzazione manuale
 let certManuallyChanged = false;
 let labelManuallyChanged = false;
 
 if (firstNameInput && lastNameInput && certInput && labelInput && giftCheckbox) {
     
-    // Funzione unica che aggiorna i campi
+    // Funzione di autocompilazione (Nome/Cognome -> Certificato e Etichetta)
     function updateSmartFields() {
-        // Se è regalo, NON fare nulla (i campi devono restare vuoti o manuali)
-        if (giftCheckbox.checked) return;
-
         const fName = firstNameInput.value.trim();
         const lName = lastNameInput.value.trim();
 
-        // 1. Certificato = Nome + Cognome
         if (!certManuallyChanged) {
             certInput.value = (fName + " " + lName).trim();
         }
-
-        // 2. Etichetta = Solo Cognome
         if (!labelManuallyChanged) {
             labelInput.value = lName;
         }
     }
 
-    // Ascoltiamo entrambi i campi nome/cognome
     firstNameInput.addEventListener('input', updateSmartFields);
     lastNameInput.addEventListener('input', updateSmartFields);
 
-    // LOGICA REGALO (Svuota tutto e Mostra Messaggio)
+    // LOGICA REGALO (Niente più cancellazione a sorpresa dei campi!)
     giftCheckbox.addEventListener('change', (e) => {
         const isGift = e.target.checked;
         const hint = document.getElementById('cert-hint');
         
-        // 1. Mostra/Nascondi la Textarea per il bigliettino
         if (giftMessageContainer) {
             giftMessageContainer.style.display = isGift ? 'block' : 'none';
         }
 
         if (isGift) {
-            // --- MODALITÀ REGALO ATTIVA ---
-            if (!certManuallyChanged) {
-                certInput.value = '';
-                certInput.setAttribute('placeholder', txt.giftRecipientName); // Usa variabile
-            }
-            if (!labelManuallyChanged) {
-                labelInput.value = '';
-                labelInput.setAttribute('placeholder', txt.giftRecipientSurname); // Usa variabile
-            }
-            if(hint) hint.textContent = txt.hintGift; // Usa variabile
-
+            if(hint) hint.textContent = txt.hintGift;
         } else {
-            // --- MODALITÀ REGALO DISATTIVATA ---
-            // Qui c'era il problema: prima rimetteva "John Smith" anche in Italia
-            certInput.setAttribute('placeholder', txt.placeholderName); 
-            labelInput.setAttribute('placeholder', txt.placeholderSurname); 
-            
-            updateSmartFields();
-            
             if(hint) hint.textContent = txt.hintOwner;
-            
             const msgInput = document.getElementById('gift-message');
             if(msgInput) msgInput.value = ''; 
         }
     });
 
-    // Se l'utente modifica manualmente i campi target, disattiviamo l'automazione per quel campo
     certInput.addEventListener('input', () => { certManuallyChanged = true; });
     labelInput.addEventListener('input', () => { labelManuallyChanged = true; });
 }
 
+// --- AUTOMAZIONE STAGIONALE VIA JS (Settembre-Dicembre vs Gennaio-Agosto) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const currentMonth = new Date().getMonth() + 1; // 1 = Gennaio, 9 = Settembre, 12 = Dicembre
+    
+    // Identifichiamo i radio button della scelta temporale olio nel modale
+    const immediateRadio = document.querySelector('input[name="shippingChoice"][value="immediate"]');
+    const delayedRadio = document.querySelector('input[name="shippingChoice"][value="delayed"]');
+    
+    if (immediateRadio && delayedRadio) {
+        // Se siamo tra Settembre (9) e Dicembre (12), suggeriamo attivamente il riscatto a gennaio
+        if (currentMonth >= 9) {
+            delayedRadio.checked = true;
+            // Aggiungiamo un tocco visivo di evidenziazione dinamica via JS
+            const parentLabel = delayedRadio.closest('label');
+            if (parentLabel) {
+                parentLabel.style.background = 'rgba(44, 94, 46, 0.08)';
+                parentLabel.style.border = '1px dashed #2c5e2e';
+                parentLabel.style.padding = '10px';
+                parentLabel.style.borderRadius = '6px';
+            }
+        } else {
+            // Da Gennaio ad Agosto suggeriamo l'invio immediato
+            immediateRadio.checked = true;
+        }
+    }
+});
+
+// =========================================
+    // GESTIONE REGALO E BADGE CONSIGLIATO
+    // =========================================
+    const immediateRadio = document.getElementById('ship-immediate');
+    const delayedRadio = document.getElementById('ship-delayed');
+    const giftContainer = document.getElementById('gift-message-container');
+
+    // 1. Badge RECOMMENDED fisso in base al mese (Settembre-Dicembre)
+    const month = new Date().getMonth() + 1;
+    const badgeHTML = `<span style="background:#2c5e2e; color:#fff; font-size:0.65rem; padding:3px 6px; border-radius:4px; margin-left:10px; text-transform:uppercase; font-weight:bold; vertical-align:middle;">${window.currentLang === 'it' ? 'Consigliato' : 'Recommended'}</span>`;
+    
+    if (immediateRadio && delayedRadio) {
+        if (month >= 9) {
+            const labelTitle = delayedRadio.closest('label')?.querySelector('strong');
+            if(labelTitle && !labelTitle.innerHTML.includes('Recommended') && !labelTitle.innerHTML.includes('Consigliato')) {
+                 labelTitle.innerHTML += badgeHTML;
+            }
+        } else {
+            const labelTitle = immediateRadio.closest('label')?.querySelector('strong');
+            if(labelTitle && !labelTitle.innerHTML.includes('Recommended') && !labelTitle.innerHTML.includes('Consigliato')) {
+                 labelTitle.innerHTML += badgeHTML;
+            }
+        }
+    }
+
+    // 2. Mostra/Nascondi box dedica regalo
+    if (giftCheckbox && giftContainer) {
+        giftCheckbox.addEventListener('change', (e) => {
+            giftContainer.style.display = e.target.checked ? 'block' : 'none';
+        });
+    }
 
     /* =========================================
    3. GESTIONE CODICI SCONTO (URL & INPUT)
-   ========================================= */
+   ========================================= 
 // A. Logica Mostra/Nascondi Campo Sconto
 const toggleDiscountBtn = document.getElementById('toggle-discount-btn');
 const discountContainerDiv = document.getElementById('discount-container');
@@ -266,46 +297,209 @@ if (discountFromUrl && discountInput) {
         discountMsg.style.display = 'block';
         discountMsg.textContent = `${txt.promoApplied} (${cleanCode})`;
     }
+}*/
+
+
+/* =========================================
+   4. INVIO CHECKOUT & LEAD GENERATION (COMPLETO)
+   ========================================= */
+
+// IL DATABASE DELLE NAZIONI COMPLETO (197 Paesi)
+const COUNTRIES_DB = [
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", 
+    "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", 
+    "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", 
+    "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", 
+    "Burkina Faso", "Burundi", "Côte d'Ivoire", "Cabo Verde", "Cambodia", "Cameroon", 
+    "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", 
+    "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia", 
+    "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", 
+    "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", 
+    "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", 
+    "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", 
+    "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Holy See", 
+    "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", 
+    "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", 
+    "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", 
+    "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", 
+    "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", 
+    "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", 
+    "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", 
+    "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", 
+    "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", 
+    "Oman", "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", 
+    "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", 
+    "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", 
+    "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", 
+    "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", 
+    "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", 
+    "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", 
+    "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", 
+    "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", 
+    "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", 
+    "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", 
+    "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+];
+
+const countryInput = document.getElementById('shippingCountry');
+const countryList = document.getElementById('country-list');
+const adoptForm = document.getElementById('adoption-form');
+const btnAdoptionSubmit = document.getElementById('btn-adoption-submit');
+
+// --- LOGICA AUTOCOMPLETAMENTO ---
+if (countryInput && countryList) {
+    function renderCountries(filter = "") {
+        countryList.innerHTML = "";
+        const filtered = COUNTRIES_DB.filter(c => c.toLowerCase().includes(filter.toLowerCase()));
+        
+        if (filtered.length === 0) {
+            countryList.innerHTML = `<li class="no-results">Country not found</li>`;
+            return;
+        }
+
+        filtered.forEach(c => {
+            const li = document.createElement('li');
+            li.textContent = c;
+            li.addEventListener('mousedown', function(e) {
+                e.preventDefault(); 
+                countryInput.value = c;
+                countryList.style.display = 'none';
+            });
+            countryList.appendChild(li);
+        });
+    }
+
+    countryInput.addEventListener('focus', () => {
+        renderCountries(countryInput.value);
+        countryList.style.display = 'block';
+    });
+
+    countryInput.addEventListener('input', (e) => {
+        renderCountries(e.target.value);
+        countryList.style.display = 'block';
+    });
+
+    countryInput.addEventListener('blur', () => {
+        countryList.style.display = 'none';
+        const exactMatch = COUNTRIES_DB.find(c => c.toLowerCase() === countryInput.value.trim().toLowerCase());
+        if (!exactMatch && countryInput.value !== "") {
+            countryInput.value = "";
+            alert(window.currentLang === 'it' ? "Seleziona una nazione valida dall'elenco." : "Please select a valid country from the list.");
+        } else if (exactMatch) {
+            countryInput.value = exactMatch; // Formatta con la maiuscola corretta
+        }
+    });
 }
 
+// --- AUTOCOMPLETAMENTO PER MODALE RINNOVO ---
+const renewCountryInput = document.getElementById('renew-shippingCountry');
+const renewCountryList = document.getElementById('renew-country-list');
 
-    /* =========================================
-   4. INVIO CHECKOUT (STRIPE)
-   ========================================= */
-const adoptForm = document.getElementById('adoption-form');
+if (renewCountryInput && renewCountryList) {
+    function renderRenewCountries(filter = "") {
+        renewCountryList.innerHTML = "";
+        const filtered = COUNTRIES_DB.filter(c => c.toLowerCase().includes(filter.toLowerCase()));
+        
+        if (filtered.length === 0) {
+            renewCountryList.innerHTML = `<li class="no-results" style="padding: 10px; color: #999;">Country not found</li>`;
+            return;
+        }
 
+        filtered.forEach(c => {
+            const li = document.createElement('li');
+            li.textContent = c;
+            li.style.padding = "8px 12px";
+            li.style.cursor = "pointer";
+            li.addEventListener('mousedown', function(e) {
+                e.preventDefault(); 
+                renewCountryInput.value = c;
+                renewCountryList.style.display = 'none';
+            });
+            renewCountryList.appendChild(li);
+        });
+    }
+
+    renewCountryInput.addEventListener('focus', () => {
+        renderRenewCountries(renewCountryInput.value);
+        renewCountryList.style.display = 'block';
+    });
+
+    renewCountryInput.addEventListener('input', (e) => {
+        renderRenewCountries(e.target.value);
+        renewCountryList.style.display = 'block';
+    });
+
+    renewCountryInput.addEventListener('blur', () => {
+        renewCountryList.style.display = 'none';
+        const exactMatch = COUNTRIES_DB.find(c => c.toLowerCase() === renewCountryInput.value.trim().toLowerCase());
+        if (!exactMatch && renewCountryInput.value !== "") {
+            renewCountryInput.value = "";
+            alert(window.currentLang === 'it' ? "Seleziona una nazione valida dall'elenco." : "Please select a valid country from the list.");
+        } else if (exactMatch) {
+            renewCountryInput.value = exactMatch;
+        }
+    });
+}
+
+// --- VALIDAZIONE CAP ---
+function validateZip(country, zip) {
+    const c = country.toLowerCase().trim();
+    const z = zip.trim();
+    
+    if (!z) return false;
+    
+    if (c.includes('united states') || c === 'usa') {
+        return /^\d{5}(-\d{4})?$/.test(z);
+    }
+    if (c.includes('canada')) {
+        return /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(z);
+    }
+    if (c.includes('italy') || c.includes('italia')) {
+        return /^\d{5}$/.test(z);
+    }
+    
+    // Fallback generico per il resto del mondo
+    return z.length >= 2; 
+}
+
+// --- SUBMIT DEL FORM ---
 if (adoptForm) {
     adoptForm.addEventListener('submit', async (e) => {
         e.preventDefault(); 
-
-        const submitBtn = adoptForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
         
-        submitBtn.textContent = txt.paymentLoading;
-        submitBtn.disabled = true;
-
+        const isIt = window.currentLang === 'it';
         const formData = new FormData(adoptForm);
-        const kitId = document.getElementById('selected-kit-id').value;
+        
+        const countryVal = formData.get('shippingCountry') || '';
+        const zipVal = formData.get('zipCode') || '';
 
-        // --- CORREZIONE QUI SOTTO ---
+        if (!validateZip(countryVal, zipVal)) {
+            alert(isIt ? "Il CAP inserito non è valido per la nazione indicata." : "The entered ZIP code is not valid for the selected country.");
+            return;
+        }
+
+        const originalText = btnAdoptionSubmit.textContent;
+        btnAdoptionSubmit.textContent = isIt ? 'Elaborazione in corso...' : 'Processing...';
+        btnAdoptionSubmit.disabled = true;
+
         const data = {
-            kitId: kitId,
+            kitId: formData.get('kitId'),
             buyerFirstName: formData.get('buyerFirstName'), 
             buyerLastName: formData.get('buyerLastName'),   
             email: formData.get('email'),
-            lang: formData.get('lang') || 'en',
+            lang: formData.get('lang') || window.currentLang || 'en',
             isGift: formData.get('isGift') === 'on',
-            shipTarget: formData.get('shipTarget'),         // <--- NUOVO: Destinatario spedizione
+            shippingChoice: formData.get('shippingChoice'),
             giftMessage: formData.get('giftMessage'),
             certName: formData.get('certName'),
             labelName: formData.get('labelName'),
-            shippingChoice: formData.get('shippingChoice'), // <--- NUOVO: Scelta invio olio
-            discountCode: formData.get('discountCode')
+            marketingConsent: formData.get('marketingConsent') === 'yes',
+            shippingCountry: countryVal,
+            zipCode: zipVal
         };
-        // ----------------------------
 
         try {
-            const response = await fetch('/.netlify/functions/checkout', {
+            const response = await fetch('/.netlify/functions/checkout-v2', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }
@@ -314,24 +508,37 @@ if (adoptForm) {
             const result = await response.json();
 
             if (response.ok) {
-                window.location.href = result.url;
-            } else {
-                // Mostra l'errore specifico che arriva dal server
-                throw new Error(result.error || 'Errore nel checkout');
+    if (result.url) {
+        window.location.href = result.url;
+    } 
+    else if (result.message || result.leadSaved) {
+        adoptForm.reset();
+        if (typeof closeModal === 'function') closeModal();
+        
+        // Apre la modale grafica al posto del popup nativo
+        const leadModal = document.getElementById('lead-modal');
+        if (leadModal) {
+            leadModal.showModal();
+        }
+    }
+} else {
+                throw new Error(result.error || 'Errore di connessione al server');
             }
 
         } catch (error) {
             console.error(error);
-            alert("Errore: " + error.message);
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
+            alert((isIt ? "Errore: " : "Error: ") + error.message);
+        } finally {
+            if (btnAdoptionSubmit) {
+                btnAdoptionSubmit.textContent = originalText;
+                btnAdoptionSubmit.disabled = false;
+            }
         }
     });
 }
-
     /* =========================================
    5. GESTIONE MODALE CORPORATE (Logica Completa + Backend)
-   ========================================= */
+   ========================================= 
 const corpModal = document.getElementById('corporate-modal');
 const corpForm = document.getElementById('corporate-form');
 const corpBtn = document.getElementById('corp-btn'); // Assicurati che il bottone nel form abbia id="corp-btn"
@@ -411,7 +618,7 @@ if (corpForm) {
             }
         }
     });
-}
+}*/
 
 
 /* =========================================
@@ -483,7 +690,7 @@ if (corpForm) {
         });
     });
 
-    // Configurazione
+// Configurazione
     const AUTOPLAY_SPEED = 4000; // ms (4 secondi)
 
     // Inizializza tutti gli slider trovati
@@ -491,32 +698,37 @@ if (corpForm) {
 
     sliders.forEach(slider => {
         const track = slider.querySelector('.slider-track');
+        
+        // 🛡️ GUARDIA DI SICUREZZA: Se la traccia non esiste in questo slider, salta questa iterazione
+        if (!track) return; 
+
         const slides = Array.from(track.children);
+        if (slides.length === 0) return; // Se non ci sono slide, esci
+
         const nextBtn = slider.querySelector('.next-btn');
         const prevBtn = slider.querySelector('.prev-btn');
+        const trackContainer = slider.querySelector('.slider-track-container');
+
+        // Se mancano i pulsanti o il container, evita che vada in errore
+        if (!nextBtn || !prevBtn || !trackContainer) return;
         
         let currentIndex = 0;
         let autoPlayInterval;
-        let isTouching = false; // Variabile per sapere se l'utente sta toccando
+        let isTouching = false;
         
-        // Capire quante slide vedo contemporaneamente (1 su mobile, 3 su desktop)
-        // Usiamo Math.round per gestire le approssimazioni del browser
         const getVisibleSlides = () => {
-            return Math.round(slider.querySelector('.slider-track-container').offsetWidth / slides[0].offsetWidth);
+            return Math.round(trackContainer.offsetWidth / slides[0].offsetWidth);
         };
 
         const updateSliderPosition = () => {
             const slideWidth = slides[0].offsetWidth;
             
             if (window.innerWidth <= 900) {
-                // MOBILE: Usiamo lo scroll nativo, così non blocchiamo il dito
-                const container = slider.querySelector('.slider-track-container');
-                container.scrollTo({
+                trackContainer.scrollTo({
                     left: slideWidth * currentIndex,
                     behavior: 'smooth'
                 });
             } else {
-                // DESKTOP: Usiamo transform come prima
                 track.style.transform = 'translateX(-' + (slideWidth * currentIndex) + 'px)';
             }
         };
@@ -526,7 +738,7 @@ if (corpForm) {
             const maxIndex = slides.length - visibleSlides;
 
             if (currentIndex >= maxIndex) {
-                currentIndex = 0; // Torna all'inizio (Loop)
+                currentIndex = 0;
             } else {
                 currentIndex++;
             }
@@ -538,7 +750,7 @@ if (corpForm) {
             const maxIndex = slides.length - visibleSlides;
 
             if (currentIndex <= 0) {
-                currentIndex = maxIndex; // Va alla fine
+                currentIndex = maxIndex;
             } else {
                 currentIndex--;
             }
@@ -558,10 +770,8 @@ if (corpForm) {
 
         // Autoplay Logic
         const startAutoplay = () => {
-            // Se l'utente sta toccando, NON far partire il timer
             if (isTouching) return; 
-            
-            stopAutoplay(); // Pulisce eventuali vecchi timer
+            stopAutoplay();
             autoPlayInterval = setInterval(moveToNextSlide, AUTOPLAY_SPEED);
         };
 
@@ -574,42 +784,31 @@ if (corpForm) {
             startAutoplay();
         };
 
-        // Ferma autoplay se il mouse è sopra (UX friendly)
         slider.addEventListener('mouseenter', stopAutoplay);
         slider.addEventListener('mouseleave', startAutoplay);
 
-        // GESTIONE STANDBY SU MOBILE
-        const container = slider.querySelector('.slider-track-container');
-
-        // 1. Dito appoggiato: Ferma tutto e segna che stai toccando
-        container.addEventListener('touchstart', () => {
+        trackContainer.addEventListener('touchstart', () => {
             isTouching = true;
             stopAutoplay();
         }, { passive: true });
 
-        // 2. Dito alzato: Aspetta un attimo e riavvia l'autoplay
-        container.addEventListener('touchend', () => {
+        trackContainer.addEventListener('touchend', () => {
             isTouching = false;
             startAutoplay();
         }, { passive: true });
 
-        // 3. (Opzionale) Sincronizza l'indice se l'utente ha scrollato a mano
-        container.addEventListener('scroll', () => {
+        trackContainer.addEventListener('scroll', () => {
             if (window.innerWidth <= 900 && isTouching) {
-                // Calcola quale slide stiamo guardando mentre scrolliamo a mano
                 const slideWidth = slides[0].offsetWidth;
-                const scrollPos = container.scrollLeft;
-                // Aggiorna l'indice senza muovere nulla (così al prossimo scatto parte da qui)
+                const scrollPos = trackContainer.scrollLeft;
                 currentIndex = Math.round(scrollPos / slideWidth);
             }
         }, { passive: true });
 
-        // Gestione ridimensionamento finestra (ricalcola posizioni)
         window.addEventListener('resize', () => {
             updateSliderPosition();
         });
 
-        // Avvio iniziale
         startAutoplay();
     });
 
@@ -640,7 +839,7 @@ if (newsletterForm) {
 
         try {
             // CHIAMA LA TUA FUNZIONE
-            const response = await fetch('/.netlify/functions/newsletter', {
+            const response = await fetch('/.netlify/functions/newsletter-v2', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }
@@ -671,18 +870,21 @@ if (newsletterForm) {
 }
 
 /* =========================================
-   CONTACT FORM SUBMISSION (General)
+   CONTACT FORM SUBMISSION (MESSAGES V2)
    ========================================= */
 const contactForm = document.getElementById('contact-form');
 const contactBtn = document.getElementById('contact-btn');
+const contactFeedback = document.getElementById('contact-feedback'); // <--- AGGIUNGI QUESTA RIGA
 
-if (contactForm) {
+if (contactForm && contactBtn) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // 1. UX: Feedback visivo
         const originalText = contactBtn.textContent;
-        contactBtn.textContent = txt.sending;
+        // Utilizziamo l'oggetto txt se disponibile nello scope, altrimenti fallback diretto
+        const sendingTxt = (typeof txt !== 'undefined' && txt.sending) ? txt.sending : (window.currentLang === 'it' ? "Invio in corso..." : "Sending...");
+        contactBtn.textContent = sendingTxt;
         contactBtn.disabled = true;
 
         // 2. Raccolta Dati
@@ -690,28 +892,38 @@ if (contactForm) {
         const data = {
             name: formData.get('name'),
             email: formData.get('email'),
-            lang: formData.get('lang') || 'en',
-            message: formData.get('message')
-            // Non serve inviare 'privacy' perché è implicita col click
+            message: formData.get('message'),
+            fax_number: formData.get('fax_number'), // Honeypot anti-spam
+            lang: formData.get('lang') || window.currentLang || 'en',
+            marketingConsent: formData.get('marketingConsent') === 'yes' // NUOVO: Consenso GDPR
         };
 
         try {
-            // 3. Invio al Backend
-            const response = await fetch('/.netlify/functions/messages', {
+            // 3. Invio al Backend (Punta alla V2)
+            const response = await fetch('/.netlify/functions/messages-v2', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }
             });
 
             if (response.ok) {
-                alert(txt.successMsg);
-                contactForm.reset();
-            } else {
-                throw new Error('Server Error');
-            }
+    contactForm.reset();
+    if (contactFeedback) {
+        contactFeedback.textContent = txt.successMsg;
+        contactFeedback.style.color = '#4CAF50';
+        contactFeedback.style.display = 'block';
+    }
+} else {
+    throw new Error('Server Error');
+}
         } catch (error) {
             console.error('Errore invio messaggi:', error);
-            alert(txt.errorMsg);
+            const errorTxt = (typeof txt !== 'undefined' && txt.errorMsg) ? txt.errorMsg : (window.currentLang === 'it' ? "Errore nell'invio. Scrivici a: info@adoptyourolive.com" : "Error. Please email us at: info@adoptyourolive.com");
+if (contactFeedback) {
+    contactFeedback.textContent = txt.errorMsg;
+    contactFeedback.style.color = '#d32f2f';
+    contactFeedback.style.display = 'block';
+}
         } finally {
             // 4. Ripristino
             contactBtn.textContent = originalText;
@@ -719,6 +931,8 @@ if (contactForm) {
         }
     });
 }
+
+
 });
 
 
@@ -993,24 +1207,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================
-   7. FUNZIONI GLOBALI CHIAMATE DALL'HTML
-   ========================================= */
-window.toggleShippingNote = function() {
-    // Cerchiamo quale radio button è attualmente selezionato
-    const checkedOption = document.querySelector('input[name="shipTarget"]:checked');
-    const noteBox = document.getElementById('shipping-note-them');
-    
-    // Se gli elementi esistono (siamo in una pagina con la modale)
-    if (checkedOption && noteBox) {
-        // Se il valore è 'them' (destinatario), mostra la nota, altrimenti nascondila
-        const isDirect = checkedOption.value === 'them';
-        noteBox.style.display = isDirect ? 'block' : 'none';
-    }
-};
-
-/* =========================================
    8. LOGICA SHOP E VERIFICA VIP ADOPTERS
-   ========================================= */
+   ========================================= 
 
 // Funzione agganciata al bottone "Apply"
 window.verifyMemberId = async function() {
@@ -1027,7 +1225,7 @@ window.verifyMemberId = async function() {
     feedbackText.innerText = (document.documentElement.lang === 'it') ? 'Verifica in corso...' : 'Verifying...';
 
     try {
-        const response = await fetch('/.netlify/functions/check-vip', {
+        const response = await fetch('/.netlify/functions/check-vip-v2', {
             method: 'POST',
             body: JSON.stringify({ memberId: memberId })
         });
@@ -1100,7 +1298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
+});*/
 
 /* =========================================
    14. LA BOTTEGA - CAROSELLO E CARRELLO
@@ -1972,51 +2170,157 @@ document.getElementById('cart-is-gift')?.addEventListener('change', (e) => {
     document.getElementById('cart-gift-message').style.display = e.target.checked ? 'block' : 'none';
 });
 
+/* =========================================
+   ARRAY PAESI PER IL CARRELLO BOTTEGA
+   ========================================= */
+const BOTTEGA_COUNTRIES_DB = [
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+    "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia",
+    "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Canada",
+    "Chile", "China", "Colombia", "Costa Rica", "Croatia", "Cyprus", "Czechia", "Denmark", "Ecuador", "Egypt",
+    "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "India", "Indonesia", "Ireland",
+    "Israel", "Italy", "Japan", "Jordan", "Kazakhstan", "Kenya", "Latvia", "Lebanon", "Lithuania", "Luxembourg",
+    "Malaysia", "Malta", "Mexico", "Monaco", "Netherlands", "New Zealand", "Norway", "Poland", "Portugal", "Romania",
+    "San Marino", "Saudi Arabia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Spain",
+    "Sweden", "Switzerland", "Taiwan", "Thailand", "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom",
+    "United States", "Uruguay", "Vatican City", "Vietnam"
+];
+
+// --- AUTOCOMPLETAMENTO CARRELLO BOTTEGA ---
+document.addEventListener('DOMContentLoaded', () => {
+    const cartCountryInput = document.getElementById('cartShippingCountry');
+    const cartCountryList = document.getElementById('cart-country-list');
+
+    if (cartCountryInput && cartCountryList) {
+        function showCartCountries(query = "") {
+            cartCountryList.innerHTML = "";
+            const matches = BOTTEGA_COUNTRIES_DB.filter(c => c.toLowerCase().includes(query.toLowerCase()));
+            
+            if (matches.length === 0) {
+                cartCountryList.innerHTML = `<li style="padding: 10px; color: #999;">No country found</li>`;
+                cartCountryList.style.display = 'block';
+                return;
+            }
+
+            matches.forEach(countryName => {
+                const li = document.createElement('li');
+                li.textContent = countryName;
+                li.style.padding = "10px 15px";
+                li.style.cursor = "pointer";
+                li.style.borderBottom = "1px solid #eee";
+                li.style.background = "#fff";
+                
+                li.addEventListener('mousedown', (e) => {
+                    e.preventDefault(); 
+                    cartCountryInput.value = countryName;
+                    cartCountryList.style.display = 'none';
+                });
+
+                cartCountryList.appendChild(li);
+            });
+            cartCountryList.style.display = 'block';
+        }
+
+        cartCountryInput.addEventListener('focus', () => showCartCountries(cartCountryInput.value));
+        cartCountryInput.addEventListener('input', (e) => showCartCountries(e.target.value));
+        
+        cartCountryInput.addEventListener('blur', () => {
+            setTimeout(() => {
+                cartCountryList.style.display = 'none';
+            }, 250);
+        });
+    }
+});
+
+/*// --- CHECKOUT BOTTEGA AGGIORNATO CON NAZIONE E CAP ---
 window.proceedToCheckout = async () => {
     if (bottegaCart.length === 0) return;
 
-    const checkoutBtn = document.getElementById('checkout-btn');
-    const originalText = checkoutBtn.textContent;
-    checkoutBtn.textContent = window.currentLang === 'it' ? 'Reindirizzamento a Stripe...' : 'Redirecting to Stripe...';
-    checkoutBtn.disabled = true;
+    const cartCountryInput = document.getElementById('cartShippingCountry');
+    const cartZipInput = document.getElementById('cartZipCode');
+    
+    const countryVal = cartCountryInput ? cartCountryInput.value.trim() : '';
+    const zipVal = cartZipInput ? cartZipInput.value.trim() : '';
+    const isIt = window.currentLang === 'it';
 
-    const isGift = document.getElementById('cart-is-gift').checked;
-    const giftMessage = document.getElementById('cart-gift-message').value;
+    if (!countryVal) {
+        alert(isIt ? "Inserisci o seleziona la nazione di spedizione." : "Please enter or select a destination country.");
+        if (cartCountryInput) cartCountryInput.focus();
+        return;
+    }
+
+    if (!zipVal) {
+        alert(isIt ? "Inserisci il CAP di destinazione." : "Please enter the destination ZIP code.");
+        if (cartZipInput) cartZipInput.focus();
+        return;
+    }
+
+    // Validazione CAP blindata
+    if (typeof validateZip === 'function' && !validateZip(countryVal, zipVal)) {
+        alert(isIt ? "Il CAP inserito non è valido per la nazione indicata." : "The entered ZIP code is not valid for the selected country.");
+        return;
+    }
+
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const originalText = checkoutBtn ? checkoutBtn.textContent : 'Proceed';
+    if (checkoutBtn) {
+        checkoutBtn.textContent = isIt ? 'Elaborazione in corso...' : 'Processing...';
+        checkoutBtn.disabled = true;
+    }
+
+    const isGift = document.getElementById('cart-is-gift')?.checked || false;
+    const giftMessage = document.getElementById('cart-gift-message')?.value || '';
+    const marketingConsent = document.getElementById('cart-marketing-consent')?.checked || false;
     const memberId = localStorage.getItem('ayo_vip_id') || '';
 
-    // FIX CRUCIALE: Inviamo TUTTO l'array del carrello, non solo il primo item
     const payload = {
-        cart: bottegaCart, // <-- Questo ora è un array con tutti i prodotti e le quantità
+        cart: bottegaCart,
         isGift: isGift,
         giftMessage: giftMessage,
         memberId: memberId,
         lang: window.currentLang || 'en',
+        shippingCountry: countryVal,
+        zipCode: zipVal,
         buyerFirstName: '',
         buyerLastName: '',
-        email: ''
+        email: '',
+        marketingConsent: marketingConsent
     };
 
     try {
-        const response = await fetch('/.netlify/functions/checkout', {
+        const response = await fetch('/.netlify/functions/checkout-v2', {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: { 'Content-Type': 'application/json' }
         });
 
         const result = await response.json();
+        
         if (response.ok) {
-            window.location.href = result.url;
+            if (result.url) {
+                window.location.href = result.url;
+            } 
+            else if (result.message) {
+                // Scenario B: Paese fuori whitelist (Lead salvato + email inviata)
+                alert(isIt ? 
+                    "Il paese selezionato non è attualmente servito in automatico.\nVerificheremo la fattibilità logistica e riceverai al più presto un'email con le opzioni disponibili." : 
+                    "The selected country is not currently served automatically.\nWe will check shipping feasibility and you will receive an email ASAP with available options.");
+                closeCart();
+            }
         } else {
             throw new Error(result.error || 'Checkout Error');
         }
     } catch (error) {
         console.error(error);
-        const txtError = window.currentLang === 'it' ? 'Errore durante il checkout: ' : 'Error during checkout: ';
+        const txtError = isIt ? 'Errore durante il checkout: ' : 'Error during checkout: ';
         alert(txtError + error.message);
-        checkoutBtn.textContent = originalText;
-        checkoutBtn.disabled = false;
+    } finally {
+        if (checkoutBtn) {
+            checkoutBtn.textContent = originalText;
+            checkoutBtn.disabled = false;
+        }
     }
-};
+};*/
 
 // Riapre il carrello se l'utente ha annullato il pagamento da Stripe
 document.addEventListener('DOMContentLoaded', () => {
@@ -2074,143 +2378,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
-/* =========================================
-   RISCATTO OLIO (CLAIM FLOW)
-   ========================================= */
-const checkClaimForm = document.getElementById('check-claim-form');
-const claimModal = document.getElementById('claim-modal');
-const processClaimForm = document.getElementById('process-claim-form');
-
-if (checkClaimForm) {
-    checkClaimForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const btn = document.getElementById('btn-check-claim');
-        const feedback = document.getElementById('claim-feedback');
-        const originalText = btn.textContent;
-        
-        const memberId = document.getElementById('claim-member-id').value.trim();
-        const certName = document.getElementById('claim-cert-name').value.trim();
-        
-        btn.textContent = window.currentLang === 'it' ? "Verifica in corso..." : "Checking...";
-        btn.disabled = true;
-        feedback.style.display = 'none';
-
-        try {
-            // Chiamata alla function Netlify
-            const response = await fetch('/.netlify/functions/check-claim', {
-                method: 'POST',
-                body: JSON.stringify({ memberId, certName, lang: window.currentLang }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const result = await response.json();
-
-            if (response.ok && result.valid) {
-                // Configura e apri la modale
-                document.getElementById('hidden-claim-member-id').value = memberId;
-                
-                // Pre-popola i campi indirizzo con i dati esistenti
-                document.getElementById('claim-ship-name').value = result.data.name || '';
-                document.getElementById('claim-ship-address').value = result.data.address || '';
-                document.getElementById('claim-ship-city').value = result.data.city || '';
-                document.getElementById('claim-ship-zip').value = result.data.zip || '';
-                document.getElementById('claim-ship-country').value = result.data.country || '';
-                document.getElementById('claim-ship-phone').value = result.data.phone || '';
-
-                const timingSelection = document.getElementById('claim-timing-selection');
-                const modalTitle = document.getElementById('claim-modal-title');
-                const modalSubtitle = document.getElementById('claim-modal-subtitle');
-
-                // Logica Adattiva Modale
-                if (result.status === 'DA RISCATTARE') {
-                    timingSelection.style.display = 'block';
-                    modalTitle.textContent = window.currentLang === 'it' ? 'Riscatta il tuo Olio' : 'Redeem Your Oil';
-                    modalSubtitle.textContent = window.currentLang === 'it' ? 'Scegli quando riceverlo e conferma i dati.' : 'Choose your timing and confirm details.';
-                } else if (result.status === 'RISCATTO A GENNAIO') {
-                    // È il flusso "Silenzio-Assenso" per aggiornare l'indirizzo
-                    timingSelection.style.display = 'none';
-                    modalTitle.textContent = window.currentLang === 'it' ? 'Aggiorna Indirizzo' : 'Update Address';
-                    modalSubtitle.textContent = window.currentLang === 'it' ? 'Stiamo preparando il tuo olio per Gennaio. Modifica l\'indirizzo qui sotto se hai traslocato.' : 'We are holding your oil for January. Update your delivery address below if needed.';
-                }
-
-                claimModal.showModal();
-                checkClaimForm.reset();
-            } else {
-                throw new Error(result.error || (window.currentLang === 'it' ? "Dati non trovati. Controlla e riprova." : "Details not found. Please check and try again."));
-            }
-        } catch (error) {
-            feedback.textContent = error.message;
-            feedback.style.display = 'block';
-        } finally {
-            btn.textContent = originalText;
-            btn.disabled = false;
-        }
-    });
-}
-
-function closeClaimModal() {
-    if (claimModal) claimModal.close();
-}
-
-// Chiusura cliccando fuori
-if (claimModal) {
-    claimModal.addEventListener('click', (e) => {
-        const dims = claimModal.getBoundingClientRect();
-        if (e.clientX < dims.left || e.clientX > dims.right || e.clientY < dims.top || e.clientY > dims.bottom) {
-            claimModal.close();
-        }
-    });
-}
-
-// Gestione Conferma Finale Modale Riscatto
-if (processClaimForm) {
-    processClaimForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const btn = document.getElementById('btn-submit-claim');
-        const originalText = btn.textContent;
-        btn.textContent = window.currentLang === 'it' ? 'Conferma in corso...' : 'Confirming...';
-        btn.disabled = true;
-
-        const formData = new FormData(processClaimForm);
-        
-        // Se il radio button non c'è (silenzio-assenso gen), usiamo fallback
-        const claimTiming = formData.get('claimTiming') || 'january'; 
-
-        const data = {
-            memberId: formData.get('memberId'),
-            claimTiming: claimTiming,
-            shipName: formData.get('shipName'),
-            shipAddress: formData.get('shipAddress'),
-            shipCity: formData.get('shipCity'),
-            shipZip: formData.get('shipZip'),
-            shipCountry: formData.get('shipCountry'),
-            shipPhone: formData.get('shipPhone'),
-            lang: window.currentLang
-        };
-
-        try {
-            const response = await fetch('/.netlify/functions/process-claim', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const result = await response.json();
-            
-            if (response.ok && result.success) {
-                alert(window.currentLang === 'it' ? 'Riscatto confermato con successo! Riceverai l\'olio nei tempi stabiliti.' : 'Claim confirmed successfully! You will receive your oil as requested.');
-                closeClaimModal();
-            } else {
-                throw new Error(result.error || 'Errore durante la conferma.');
-            }
-        } catch (error) {
-            alert(error.message);
-        } finally {
-            btn.textContent = originalText;
-            btn.disabled = false;
-        }
-    });
-}

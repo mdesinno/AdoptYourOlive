@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Adopt Your Olive | Your Name. Your Oil. Your Story.</title>
-    <meta name="description" content="Adopt a centuries-old olive tree in Puglia, Italy. Receive your personalized Extra Virgin Olive Oil immediately. A perfect gift directly from the farm.">
+    <title>Adopters Club | Manage Adoption, Guides & Redemption | Adopt Your Olive</title>
+<meta name="description" content="Access your reserved Adopters Club area. Claim your olive oil supply, download tasting guides, renew your adoption, and locate your olive tree.">
 
     <link rel="alternate" hreflang="en" href="https://adoptyourolive.com/" />
-    <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/" />
-    <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/" />
+<!-- <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/" /> -->
+     <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/" />
     <link rel="canonical" href="https://adoptyourolive.com/club.html" />
 
     <meta name="google-site-verification" content="Y85AARKVRz6ltP7evzrwVD9khwUHW-t15SLTXBLH_Os" />
@@ -56,9 +56,9 @@
         const comingFromIt = document.referrer.includes('/it/');
 
         // 3. REDIRECT AUTOMATICO: Solo se è italiano, non ha forzato EN e non arriva da /it/
-        if (navigator.language.startsWith('it') && !forceEn && !comingFromIt) {
-            window.location.replace('/it/club.html');
-        }
+        /* if (navigator.language.startsWith('it') && !forceEn && !comingFromIt) {
+    window.location.replace('/it/club.html');
+} */
     })();
 </script>
 </head>
@@ -78,9 +78,9 @@
             <!-- <a href="/solidarity.html">Solidarity</a> -->
             <a href="/faq.html">FAQ</a>
             
-            <a href="/it/club.html" class="shipping-alert">
+            <!--<a href="/it/club.html" class="shipping-alert">
                 <span>🇮🇹 Italiano</span>
-            </a>
+            </a>-->
 
             <!-- CTA Shop -->
             <a href="/shop.html" class="btn-nav">La Bottega</a>
@@ -94,34 +94,25 @@
     <div class="hero-content">
         <span class="eyebrow">Adopters Club</span>
         <h1>Welcome to the Family.</h1>
-        <p>Your certificate is the key. Now unlock the full experience.</p>
+        <p>Your Member ID is the key. Now unlock the full experience.</p>
     </div>
 </header>
 
 <div class="club-container">
 
-    <!-- SEZIONE RICERCA RISCATTO OLIO -->
-    <section id="redeem-oil" class="club-card highlight-border" style="border-color: #b58900;">
+    <!-- SEZIONE RINNOVO -->
+    <section id="renew-adoption" class="club-card highlight-border" style="border-color: #2c5e2e;">
         <div class="card-header-row">
-            <div class="card-icon">🫒</div>
-            <h2>Claim Your Oil</h2>
+            <div class="card-icon">🔄</div>
+            <h2>Renew Your Adoption</h2>
         </div>
-        <p>Ready to receive your Extra Virgin Olive Oil? Enter your details below to check your status, redeem your supply, or update your shipping address.</p>
+        <p>Enter your Member ID to retrieve your tree's details and renew your adoption for another year.</p>
         
-        <form id="check-claim-form" class="club-form">
-            <div class="input-group">
-                <input type="text" id="claim-member-id" placeholder="Your Member ID (e.g. 123-2026)" required>
-            </div>
-            <div class="input-group">
-                <input type="text" id="claim-cert-name" placeholder="Name on Certificate" required>
-            </div>
-            
-            <button type="submit" id="btn-check-claim" class="btn-club primary" style="background-color: #b58900;">
-                Check Status
-            </button>
-        </form>
-        
-        <p id="claim-feedback" class="tiny-note" style="display:none; color: #d32f2f; margin-top: 15px; font-size: 0.85rem !important;"></p>
+        <div class="input-group">
+            <input type="text" id="renew-search-id" placeholder="Your Member ID" required>
+        </div>
+        <button id="btn-fetch-renew" onclick="fetchRenewalData()" class="btn-club primary">Retrieve Details</button>
+        <p id="renew-feedback" class="tiny-note" style="display:none; color: #d32f2f; margin-top: 15px; font-size: 0.85rem !important;"></p>
     </section>
     
     <!-- <section id="member-perk" class="club-card dark-mode">
@@ -153,7 +144,7 @@
     <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
 </div>
             <div class="input-group">
-                <input type="text" name="MEMBER_ID" placeholder="Your Member ID (e.g. 123-2026)" required>
+                <input type="text" name="MEMBER_ID" placeholder="Your Member ID" required>
             </div>
             <div class="input-group">
                 <input type="email" name="EMAIL" placeholder="Your Email" required>
@@ -173,7 +164,7 @@
         <p>Want to see where your oil grows? Enter your code and we'll take you there via satellite.</p>
         
         <div class="input-group">
-            <input type="text" id="treeSearchInput" placeholder="Ex: 123-2026">
+            <input type="text" id="treeSearchInput" placeholder="Your Member ID">
         </div>
 
         <p id="searchFeedback" style="display:none; font-size: 0.8rem; color: #666; margin-bottom: 10px;">Checking coordinates...</p>
@@ -236,68 +227,82 @@
 </section>
 
     <section id="contacts" class="section-padded bg-dark text-white">
-        <div class="container">
-            <div class="contacts-wrapper">
+    <div class="container">
+        <div class="contacts-wrapper">
+            
+            <!-- CONTATTI -->
+            <div class="contact-form-col">
+                <h3>Contact Us</h3>
+                <p class="mb-20">Questions? Custom orders? Write to us.</p>
                 
-                <div class="contact-form-col">
-                    <h3>Contact Us</h3>
-                    <p class="mb-20">Questions? Custom orders? Write to us.</p>
+                <form id="contact-form" class="contact-form">
+                    <input type="hidden" name="lang" value="en">
+                    <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+                        <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+                    </div>
                     
-                    <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required class="input-dark">
+                    </div>
+        
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required class="input-dark">
+                    </div>
+        
+                    <div class="form-group">
+                        <textarea name="message" rows="3" placeholder="How can we help?" required class="input-dark"></textarea>
+                    </div>
+
+                    <!-- NUOVA SPUNTA FACOLTATIVA MARKETING -->
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.85rem; color: #ccc;">
+                            <input type="checkbox" name="marketingConsent" value="yes" style="margin-top: 2px; accent-color: #b58900;">
+                            <span>Keep me updated on exclusive offers and news from the grove. (Optional)</span>
+                        </label>
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4;">
+                        By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                    </p>
+
+                    <button type="submit" id="contact-btn" class="btn-primary">Send Message</button>
+                    <p id="contact-feedback" style="display:none; margin-top: 15px; font-size: 0.9rem;"></p>
+                </form>
+            </div>
+
+            <!-- NEWSLETTER / LEAD MAGNET -->
+            <div class="newsletter-col">
+                <div class="newsletter-box">
+                    <h3>Join the Family</h3>
+                    <!-- AGGIUNTO IL RIFERIMENTO AL CODICE SCONTO -->
+                    <p>Subscribe and instantly receive a <strong>10% discount code</strong> for your first order or adoption!</p>
+                    
+                    <form id="newsletter-form" class="newsletter-form">
                         <input type="hidden" name="lang" value="en">
-<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
-    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
-</div>
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Your Name" required class="input-dark">
+                        <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+                            <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
                         </div>
-    
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Your Email" required class="input-dark">
-                        </div>
-    
-                        <div class="form-group">
-                            <textarea name="message" rows="3" placeholder="How can we help?" required class="input-dark"></textarea>
+                        
+                        <div class="newsletter-input-group">
+                            <input type="email" name="email" placeholder="name@example.com" required class="input-dark">
+                            <button type="submit" class="btn-primary" id="newsletter-btn">Subscribe</button>
                         </div>
 
-                        <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4;">
-                            By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
-                        </p>
-
-                        <button type="submit" id="contact-btn" class="btn-primary">Send Message</button>
+                        <div class="privacy-check">
+                            <input type="checkbox" id="priv-news" name="privacy" required>
+                            <label for="priv-news">
+                                I have read and agree to the <a href="privacy-policy.html" style="text-decoration:underline;">Privacy Policy</a> *
+                            </label>
+                        </div>
+            
+                        <p id="newsletter-feedback" style="display:none; margin-top:10px; font-size:0.9rem;"></p>
                     </form>
                 </div>
-
-                <div class="newsletter-col">
-                    <div class="newsletter-box">
-                        <h3>Join the Family</h3>
-                        <p>Receive updates on the harvest, recipes, and exclusive offers.</p>
-                        
-                        <form id="newsletter-form" class="newsletter-form">
-                            <input type="hidden" name="lang" value="en">
-        <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
-    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
-</div>
-                            <div class="newsletter-input-group">
-                                <input type="email" name="email" placeholder="name@example.com" required class="input-dark">
-                                <button type="submit" class="btn-primary" id="newsletter-btn">Subscribe</button>
-                            </div>
-
-                            <div class="privacy-check">
-                                <input type="checkbox" id="priv-news" name="privacy" required>
-                                <label for="priv-news">
-                                    I have read and agree to the <a href="privacy-policy.html" style="text-decoration:underline;">Privacy Policy</a>
-                                </label>
-                            </div>
-        
-                            <p id="newsletter-feedback" style="display:none; margin-top:10px; font-size:0.9rem;"></p>
-                        </form>
-                    </div>
-                </div>
-                
             </div>
+            
         </div>
-    </section>
+    </div>
+</section>
 
     <footer class="site-footer bg-dark text-white">
         <div class="container footer-content">
@@ -431,82 +436,104 @@
     </div>
 </div>-->
 
-<!-- MODALE RISCATTO OLIO -->
-    <dialog id="claim-modal" class="modal">
+    <!-- MODALE RINNOVO (Pre-popolata) -->
+    <dialog id="renew-modal" class="modal">
         <div class="modal-box">
-            <button class="close-modal" onclick="closeClaimModal()">✕</button>
+            <button class="close-modal" onclick="closeRenewModal()">✕</button>
             
             <div class="modal-header">
-                <h3 id="claim-modal-title">Redeem Your Oil</h3>
-                <p id="claim-modal-subtitle" class="modal-subtitle">Confirm your shipping details.</p>
+                <h3>Renew Your Adoption</h3>
+                <p id="renew-modal-subtitle" class="modal-subtitle">Review your details</p>
             </div>
             
-            <form id="process-claim-form">
-                <input type="hidden" id="hidden-claim-member-id" name="memberId">
+            <form id="renew-form" onsubmit="handleRenewCheckout(event)">
+                <input type="hidden" id="renew-tree-code" name="treeCode" value="">
+                <input type="hidden" id="renew-member-id" name="memberId" value="">
+                <input type="hidden" name="lang" value="en">
+                <input type="hidden" name="isRenewal" value="true">
+                <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+                    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label>Kit to Renew:</label>
+                    <select id="renew-kit-id" name="kitId" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-top: 5px; background: #fff;">
+                        <option value="welcome-kit">🎁 Welcome Kit (1L) - €79</option>
+                        <option value="reserve-kit">❤️ Reserve Kit (2L) - €129</option>
+                        <option value="family-kit">👨‍👩‍👧 Family Kit (5L) - €219</option>
+                    </select>
+                </div>
                 
-                <!-- BLOCCO SCELTA TEMPORALE (Visibile solo se lo stato è "DA RISCATTARE") -->
-                <div id="claim-timing-selection" class="form-group" style="background: #f0f9eb; padding: 15px; border-radius: 5px; border: 1px solid #c3e6cb; margin-bottom: 20px;">
-                    <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; display: block; color: #2c5e2e;">When do you want to receive it?</label>
-                    
-                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 12px; cursor: pointer;">
-                        <input type="radio" name="claimTiming" value="immediate" checked style="width: auto; margin-top: 3px;"> 
-                        <div>
-                            <strong style="color: #333;">Ship it as soon as possible</strong><br>
-                            <span style="font-size: 0.8rem; color: #666;">Receive your EVOO from our current available reserve.</span>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label>First Name:</label>
+                        <input type="text" id="renew-buyer-firstname" name="buyerFirstName" required>
+                    </div>
+                    <div class="form-group half-width">
+                        <label>Last Name:</label>
+                        <input type="text" id="renew-buyer-lastname" name="buyerLastName" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Name on Certificate:</label>
+                    <input type="text" id="renew-cert-name" name="certName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Name on Bottle Label:</label>
+                    <div class="input-group-prefix">
+                        <span class="prefix">Olio</span>
+                        <input type="text" id="renew-label-name" name="labelName" maxlength="15" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Email (for receipt):</label>
+                    <input type="email" id="renew-email" name="email" required>
+                </div>
+
+                <div class="form-group" style="background: #f0f9eb; padding: 15px; border-radius: 5px; border: 1px solid #c3e6cb; margin-bottom: 20px;">
+                    <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; display: block; color: #2c5e2e;">When should we ship your Olive Oil?</label>
+                    <label style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; font-weight: normal; text-align: left;">
+                        <input type="radio" name="shippingChoice" value="immediate" checked style="width: auto !important; margin: 4px 0 0 0 !important; flex-shrink: 0;"> 
+                        <div style="flex: 1;">
+                            <strong style="color: #333; display: block; margin-bottom: 2px;">Ship my oil immediately</strong>
                         </div>
                     </label>
-                    
-                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 0; cursor: pointer;">
-                        <input type="radio" name="claimTiming" value="january" style="width: auto; margin-top: 3px;"> 
-                        <div>
-                            <strong style="color: #333;">Wait for the new harvest (January)</strong><br>
-                            <span style="font-size: 0.8rem; color: #666;">We will hold your request and ship the freshest oil next January.</span>
+                    <label style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 0; cursor: pointer; font-weight: normal; text-align: left;">
+                        <input type="radio" name="shippingChoice" value="delayed" style="width: auto !important; margin: 4px 0 0 0 !important; flex-shrink: 0;"> 
+                        <div style="flex: 1;">
+                            <strong style="color: #333; display: block; margin-bottom: 2px;">I will redeem my oil later (e.g. next harvest)</strong>
                         </div>
                     </label>
                 </div>
 
-                <!-- BLOCCO INDIRIZZO -->
-                <div class="form-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #eee;">
-                    <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 15px; display: block;">Shipping Address</label>
-                    
-                    <div class="form-group">
-                        <label>Full Name (for delivery):</label>
-                        <input type="text" id="claim-ship-name" name="shipName" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Street Address:</label>
-                        <input type="text" id="claim-ship-address" name="shipAddress" required>
-                    </div>
-                    
+                <!-- BLOCCO LOGISTICO RINNOVO -->
+                <div class="form-group" style="padding-top: 15px; border-top: 1px solid #ddd;">
+                    <label style="font-size: 1rem; color: var(--primary-green); margin-bottom: 15px; display: block; text-align: center;">Delivery Information</label>
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label>City:</label>
-                            <input type="text" id="claim-ship-city" name="shipCity" required>
+                            <label>Destination Country:</label>
+                            <div class="searchable-dropdown" style="position: relative;">
+                                <input type="text" id="renew-shippingCountry" name="shippingCountry" placeholder="Start typing..." autocomplete="off" required>
+                                <ul id="renew-country-list" class="dropdown-options" style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background: #fff; border: 1px solid #ddd; border-top: none; border-radius: 0 0 6px 6px; z-index: 1000; margin: 0; padding: 0; list-style: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></ul>
+                            </div>
                         </div>
                         <div class="form-group half-width">
-                            <label>Postal Code:</label>
-                            <input type="text" id="claim-ship-zip" name="shipZip" required>
+                            <label>Zip / Postal Code:</label>
+                            <input type="text" id="renew-zipCode" name="zipCode" placeholder="Enter Zip Code" required>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Country:</label>
-                        <input type="text" id="claim-ship-country" name="shipCountry" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Phone Number (for Courier):</label>
-                        <input type="tel" id="claim-ship-phone" name="shipPhone" required>
                     </div>
                 </div>
 
-                <button type="submit" id="btn-submit-claim" class="btn-primary btn-full" style="margin-top: 20px;">Confirm Details &rarr;</button>
+                <button type="submit" class="btn-primary btn-full" style="margin-top: 20px;">Proceed to Secure Payment &rarr;</button>
+                <p class="secure-note">🔒 SSL Encrypted Transaction via Stripe</p>
             </form>
         </div>
     </dialog>
 
-    <dialog id="corporate-modal" class="modal modal-wide">
+    <!--<dialog id="corporate-modal" class="modal modal-wide">
     <div class="modal-box modal-split-layout">
         
         <div class="modal-visual">
@@ -566,10 +593,11 @@
                 </p>
 
                 <button type="submit" id="corp-btn" class="btn-primary btn-full">Request Quote</button>
+                <p id="corp-feedback" style="display:none; margin-top: 15px; font-size: 0.9rem; text-align: center;"></p>
             </form>
         </div>
     </div>
-</dialog>
+</dialog>-->
 
     <div id="cookie-banner" class="cookie-banner" style="display: none;">
         <div class="cookie-content">
@@ -630,8 +658,43 @@
         </div>
     </dialog>
 
+    <!-- MODALE SCENARIO B: LEAD INTERNAZIONALE -->
+<dialog id="lead-modal" class="modal">
+    <div class="modal-box" style="text-align: center; max-width: 480px; padding: 35px 25px;">
+        <div style="font-size: 3rem; margin-bottom: 15px;">🌍</div>
+        <h3 style="color: #2c5e2e; margin-bottom: 10px;">Request Received!</h3>
+        <p style="font-size: 0.95rem; color: #555; line-height: 1.6; margin-bottom: 25px;">
+            Thank you! Your destination is currently outside our automated delivery network. We have saved your request and will check custom shipping feasibility. We'll email you shortly with available options.
+        </p>
+        <button type="button" class="btn-primary btn-full" onclick="document.getElementById('lead-modal').close()">Got it</button>
+    </div>
+</dialog>
+
 
     <script>
+        // ABILITA IL TASTO INVIO PER LA RICERCA RINNOVO
+document.addEventListener('DOMContentLoaded', () => {
+    const renewInput = document.getElementById('renew-search-id');
+    if (renewInput) {
+        renewInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Evita comportamenti strani
+                window.fetchRenewalData(); // Fa partire la ricerca
+            }
+        });
+    }
+});
+
+// 2. Ascolta il click sul bottone (per sicurezza)
+const renewBtn = document.getElementById('btn-fetch-renew');
+
+    if (renewBtn) {
+        renewBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.fetchRenewalData();
+        });
+    }
+
     // ==========================================
     // 1. GESTIONE INVIO GUIDE (Chiama la nuova Netlify Function)
     // ==========================================
@@ -653,15 +716,15 @@
         btn.disabled = true;
 
         try {
-            const res = await fetch('/.netlify/functions/send-guide', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    memberId: memberId, 
-                    email: email,
-                    lang: currentLang 
-                })
-            });
+            const res = await fetch('/.netlify/functions/send-guide-v2', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+        memberId: memberId, 
+        email: email,
+        lang: typeof currentLang !== 'undefined' ? currentLang : 'en' 
+    })
+});
             
             const result = await res.json();
 
@@ -829,7 +892,7 @@ if (searchInput) {
         };
 
         try {
-            const response = await fetch('/.netlify/functions/checkout', {
+            const response = await fetch('/.netlify/functions/checkout-v2', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }
@@ -851,6 +914,135 @@ if (searchInput) {
             btn.disabled = false;
         }
     }
+
+    // SCRIPT MODALE RINNOVO - COMPLETO E BLINDATO
+function closeRenewModal() { 
+    const modal = document.getElementById('renew-modal');
+    if (modal) modal.close(); 
+}
+
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('renew-modal');
+    if (modal && e.target === modal) {
+        modal.close();
+    }
+});
+
+// Funzione principale di recupero dati
+window.fetchRenewalData = async function() {
+    const inputField = document.getElementById('renew-search-id');
+    const feedback = document.getElementById('renew-feedback');
+    const btn = document.getElementById('btn-fetch-renew');
+
+    if (!inputField) return;
+    const memberId = inputField.value.trim();
+
+    if (!memberId) {
+        feedback.innerText = "Please enter a valid Member ID.";
+        feedback.style.display = 'block';
+        return;
+    }
+
+    btn.innerText = "Searching...";
+    btn.disabled = true;
+    feedback.style.display = 'none';
+
+    try {
+        const res = await fetch('/.netlify/functions/get-renewal-data', {
+            method: 'POST',
+            body: JSON.stringify({ memberId })
+        });
+        
+        const data = await res.json();
+
+        if (res.ok) {
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val || '';
+            };
+
+            setVal('renew-member-id', memberId);
+            setVal('renew-tree-code', data.treeCode);
+            setVal('renew-buyer-firstname', data.buyerFirstName);
+            setVal('renew-buyer-lastname', data.buyerLastName);
+            setVal('renew-email', data.email);
+            setVal('renew-cert-name', data.certName);
+            setVal('renew-label-name', data.labelName);
+            setVal('renew-shippingCountry', data.country || data.shippingCountry || '');
+            setVal('renew-zipCode', data.zip || data.zipCode || '');
+            if (data.kitId) setVal('renew-kit-id', data.kitId);
+
+            const subtitle = document.getElementById('renew-modal-subtitle');
+            if (subtitle) subtitle.innerText = `Tree: ${data.treeCode || 'Sconosciuto'}`;
+            
+            const modal = document.getElementById('renew-modal');
+            if (modal) {
+                modal.removeAttribute('style'); 
+                modal.showModal();
+            } else {
+                throw new Error("Impossibile trovare la modale 'renew-modal'.");
+            }
+        } else {
+            throw new Error(data.error || "Tree not found.");
+        }
+    } catch (err) {
+        console.error("❌ ERRORE JS RINNOVO:", err);
+        feedback.innerText = "Errore: " + err.message;
+        feedback.style.display = 'block';
+    } finally {
+        btn.innerText = "Retrieve Details";
+        btn.disabled = false;
+    }
+};
+
+// Gestione invio a Stripe per il rinnovo
+async function handleRenewCheckout(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.innerText;
+    btn.innerText = "Redirecting to Stripe...";
+    btn.disabled = true;
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    data.isRenewal = data.isRenewal === 'true';
+
+    try {
+        const response = await fetch('/.netlify/functions/checkout-v2', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const result = await response.json();
+
+        if (response.ok) {
+            window.location.href = result.url;
+        } else {
+            throw new Error(result.error);
+        }
+    } catch (error) {
+        alert("Error: " + error.message);
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
+}
+
+// AUTO-FILL FROM URL (?memberId=...)
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlMemberId = urlParams.get('memberId');
+
+    if (urlMemberId) {
+        const searchInputEl = document.getElementById('renew-search-id');
+        if (searchInputEl) {
+            searchInputEl.value = urlMemberId;
+            setTimeout(() => {
+                window.fetchRenewalData();
+            }, 500);
+        }
+    }
+});
 </script>
 
     </body>

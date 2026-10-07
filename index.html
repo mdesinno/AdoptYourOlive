@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Adopt Your Olive | Your Name. Your Oil. Your Story.</title>
-    <meta name="description" content="Adopt a centuries-old olive tree in Puglia, Italy. Receive your personalized Extra Virgin Olive Oil immediately. A perfect gift directly from the farm.">
+    <meta name="description" content="Adopt a centuries-old olive tree in Puglia, Italy. Receive your personalized Extra Virgin Olive Oil immediately or redeem it later. A perfect gift directly from the farm.">
 
 
     <link rel="preload" as="image" href="/immagini/albero-hero-mobile.webp" media="(max-width: 768px)" fetchpriority="high">
 <link rel="preload" as="image" href="/immagini/albero-hero.webp" media="(min-width: 769px)" fetchpriority="high">
 
     <link rel="alternate" hreflang="en" href="https://adoptyourolive.com/" />
-    <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/" />
-    <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/" />
+<!-- <link rel="alternate" hreflang="it" href="https://adoptyourolive.com/it/" /> -->
+     <link rel="alternate" hreflang="x-default" href="https://adoptyourolive.com/" />
     <link rel="canonical" href="https://adoptyourolive.com/" />
 
     <meta name="google-site-verification" content="Y85AARKVRz6ltP7evzrwVD9khwUHW-t15SLTXBLH_Os" />
@@ -33,6 +33,7 @@
 
     <link rel="stylesheet" href="/style.css?v=2.0">
     <script src="/script.js?v=2.0" defer></script>
+    <script src="https://js.stripe.com/v3/"></script>
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://adoptyourolive.com/">
@@ -264,9 +265,9 @@
             <!-- <a href="/solidarity.html">Solidarity</a> -->
             <a href="/faq.html">FAQ</a>
             
-            <a href="/it/" class="shipping-alert">
-                <span>🇮🇹 Spedisci in Italia?</span>
-            </a>
+            <!-- <a href="/it/" class="shipping-alert">
+    <span>🇮🇹 Spedisci in Italia?</span>
+</a> -->
 
             <!-- CTA Shop -->
             <a href="/shop.html" class="btn-nav">La Bottega</a>
@@ -290,7 +291,7 @@
             <span class="eyebrow">Family Reserve • Since 3 Generations</span>
             <h1>Your Name.<br>Our Tradition.</h1>
             <p class="hero-sub">
-                Adopt a centuries-old olive tree in Puglia. Receive your <strong>personalized Extra Virgin Olive Oil</strong> immediately. 
+                Adopt a centuries-old olive tree in Puglia. Receive your <strong>personalized Extra Virgin Olive Oil</strong> immediately or redeem it later. 
                 A timeless bond, ready to be tasted.<br>The most meaningful gift from Italy.
             </p>
             <div class="hero-buttons">
@@ -298,7 +299,7 @@
             </div>
         </div>
 
-        <div class="hero-trust-bar">
+    <div class="hero-trust-bar">
         <div class="trust-item"><span>🏷️</span> Personalized Label</div>
         <div class="trust-item"><span>🚀</span> Ships in 5 Days</div>
         <div class="trust-item"><span>🇮🇹</span> 100% Pugliese</div>
@@ -313,23 +314,23 @@
                 <div class="step-number">01</div>
                 <div class="step-text">
                     <h3>Choose & Name</h3>
-                    <p>Select your kit. Tell us the name you want handwritten on the label and certificate. Make it yours.</p>
+                    <p>Select your adoption package. Tell us the name you want handwritten on the custom label and official certificate.</p>
                 </div>
             </div>
 
             <div class="process-step">
                 <div class="step-number">02</div>
                 <div class="step-text">
-                    <h3>We Craft & Seal</h3>
-                    <p>We bottle the oil, apply the custom label, and seal the box by hand. A truly sartorial process.</p>
+                    <h3>We Craft & Pack</h3>
+                    <p>We bottle the oil from our estate, handwrite your personalized details, and prepare your package with care.</p>
                 </div>
             </div>
 
             <div class="process-step">
                 <div class="step-number">03</div>
                 <div class="step-text">
-                    <h3>Flexible Shipping</h3>
-                    <p>Receive your EVOO immediately or redeem it later. The Adoption Certificate always ships right away!</p>
+                    <h3>Flexible Delivery</h3>
+<p>Ship your complete box right away, or pre-order to receive an instant digital certificate now and the freshest oil from the new harvest directly in January.</p>
                 </div>
             </div>
 
@@ -363,7 +364,7 @@
                         <ul class="kit-list">
                             <li>📜 <strong>Handwritten Adoption Certificate</strong></li>
                             <li>📸 <strong>Photo of your Tree</strong></li>
-                            <li>🫒 <strong>1 Liter Premium EVO Oil</strong></li>
+                            <li>🫒 <strong>1 Liter Premium EVO Oil (2x 500ml bottles)</strong></li>
                             <li>🏷️ <strong>Handwritten Custom Label</strong></li>
                         </ul>
                     </div>
@@ -400,7 +401,7 @@
                         <ul class="kit-list">
                             <li>📜 <strong>Handwritten Adoption Certificate</strong></li>
                             <li>📸 <strong>Photo of your Tree</strong></li>
-                            <li>🫒 <strong>2 Liters Premium EVO Oil</strong></li>
+                            <li>🫒 <strong>2 Liters Premium EVO Oil (4x 500ml bottles)</strong></li>
                             <li>🏷️ <strong>Handwritten Custom Label</strong></li>
                         </ul>
                     </div>
@@ -438,7 +439,7 @@
                         <ul class="kit-list">
                             <li>📜 <strong>Handwritten Adoption Certificate</strong></li>
                             <li>📸 <strong>Photo of your Tree</strong></li>
-                            <li>🫒 <strong>5 Liters Premium EVO Oil</strong></li>
+                            <li>🫒 <strong>5 Liters Premium EVO Oil (10x 500ml bottles)</strong></li>
                             <li>🏷️ <strong>Handwritten Custom Label</strong></li>
                         </ul>
                     </div>
@@ -462,19 +463,14 @@
         <div class="trust-badges" style="display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap; text-align: center;">
     <div class="badge" style="display: flex; align-items: center; gap: 10px; color: var(--text-light); font-size: 0.9rem;">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-green)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
-        <span>Safe & Tracked EU Delivery</span>
+        <span>Safe & Tracked Delivery</span>
     </div>
     <div class="badge" style="display: flex; align-items: center; gap: 10px; color: var(--text-light); font-size: 0.9rem;">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-green)" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
         <span>Anti-Breakage Premium Packaging</span>
     </div>
 </div>
-        
-        <div class="text-center" style="margin-top: 40px;">
-            <a href="/it/" class="shipping-alert" style="display: inline-block;">
-                <span>🇮🇹 Spedisci in Italia? Clicca qui per le tariffe dedicate.</span>
-            </a>
-        </div>
+
     </div>
 </section>
 
@@ -624,22 +620,26 @@
                 <div class="accordion-item">
                     <button class="accordion-header">Do I have to wait for the harvest to receive my oil?<span class="icon">+</span></button>
                     <div class="accordion-content">
-                        <p><strong>You have complete freedom to choose!</strong> During checkout, you can opt for <strong>Immediate Shipping</strong> to receive your EVOO right away from our current reserve. Alternatively, you can choose <strong>Delayed Redemption</strong>: we will send your physical Adoption Certificate immediately (which is perfect if it's a gift!), and you can claim your oil supply later at any time through your Club Page.</p>
-                        <p>When you decide to redeem it, you can choose whether to receive the oil from our current available reserve or wait for the freshly pressed EVOO from the new harvest (which always ships in January). <strong>There are absolutely no extra costs</strong> for choosing to redeem your oil at a later date.</p>
+                        <p><strong>You have complete freedom to choose!</strong> During checkout, you can select <strong>Immediate Shipping</strong> to have your complete kit (EVOO supply + custom label + physical certificate) dispatched right away from our current family reserve.</p>
+                        <p>Alternatively, choose <strong>Pre-order for New Harvest</strong>: you will instantly receive an official Digital Reservation Certificate via email (perfect for gifts!), and your complete physical box with the freshest olive oil will ship directly to your address in January. You will receive an address confirmation reminder before dispatch.</p>
+                        <p><strong>Geographic Note:</strong> Pre-orders include tracked delivery to the country selected at checkout (EU, UK, Switzerland, USA, or Canada).</p>
                     </div>
                 </div>
 
                 <div class="accordion-item">
                     <button class="accordion-header">Is shipping included in the price?<span class="icon">+</span></button>
                     <div class="accordion-content">
-                        <p>Yes, <strong>shipping is always included</strong> for all orders delivered within the European Union. There are no hidden costs or extra checkout fees.</p>
+                        <p><strong>Tracked shipping is 100% included for all destinations within the European Union.</strong> For non-EU countries, shipping rates are calculated at checkout based on destination. Please note that any import duties, customs clearance fees, or local taxes imposed by non-EU destination authorities are beyond our control and are strictly the responsibility of the recipient.</p>
+                        <p>Our direct shipping network currently covers the <strong>European Union, UK, Switzerland, USA, and Canada</strong>. For deliveries to other destinations, shipment feasibility and rates must be verified with our team prior to dispatch.</p>
                     </div>
                 </div>
 
                 <div class="accordion-item">
                     <button class="accordion-header">Can I gift an olive tree adoption to someone else?<span class="icon">+</span></button>
                     <div class="accordion-content">
-                        <p>Yes, an adoption is a <strong>perfect sustainable gift</strong>. Just check the "Is this a gift?" box during checkout. You can add the recipient's name and a personal message. You can choose to have it shipped directly to their address (as a surprise) or to your address so you can hand-deliver it personally. No pricing documents are ever included inside the box. <em>Please note: for shipments outside the EU, customs regulations require us to attach a commercial invoice outside the box, which the recipient will see.</em></p>
+                        <p>Yes, an adoption makes an unforgettable, authentic gift. Simply tick the <em>"Is this a gift?"</em> box during checkout. You can customize the certificate and bottle labels with their name and include a personal dedication note.</p>
+                        <p>You can choose immediate shipping (to your address or directly to theirs). Alternatively, choose <strong>Delayed Redemption</strong> to hand them the official Digital Reservation Certificate right away. The recipient will simply visit the Club page on our website, enter the Order Number, and enter their preferred delivery address and delivery timing at their convenience.</p>
+                        <p>No pricing details are ever included inside the box for EU shipments. For non-EU deliveries, international customs laws require us to attach a commercial invoice on the outside of the parcel for border inspection.</p>
                     </div>
                 </div>
 
@@ -656,7 +656,7 @@
         <div class="container">
             <h2>Ready to join the family?</h2>
             <p class="subtitle" style="max-width: 600px; margin: 0 auto 30px;">
-                Adopt your tree today and receive the finest Extra Virgin Olive Oil immediately.
+                Adopt your tree today and receive the finest Extra Virgin Olive Oil immediately or redeem it later.
             </p>
             <a href="#adoption-kits" class="btn-primary btn-large">Adopt Your Olive Now</a>
         </div>
@@ -709,68 +709,82 @@
 </section>
 
     <section id="contacts" class="section-padded bg-dark text-white">
-        <div class="container">
-            <div class="contacts-wrapper">
+    <div class="container">
+        <div class="contacts-wrapper">
+            
+            <!-- CONTATTI -->
+            <div class="contact-form-col">
+                <h3>Contact Us</h3>
+                <p class="mb-20">Questions? Custom orders? Write to us.</p>
                 
-                <div class="contact-form-col">
-                    <h3>Contact Us</h3>
-                    <p class="mb-20">Questions? Custom orders? Write to us.</p>
+                <form id="contact-form" class="contact-form">
+                    <input type="hidden" name="lang" value="en">
+                    <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+                        <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+                    </div>
                     
-                    <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required class="input-dark">
+                    </div>
+        
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required class="input-dark">
+                    </div>
+        
+                    <div class="form-group">
+                        <textarea name="message" rows="3" placeholder="How can we help?" required class="input-dark"></textarea>
+                    </div>
+
+                    <!-- NUOVA SPUNTA FACOLTATIVA MARKETING -->
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.85rem; color: #ccc;">
+                            <input type="checkbox" name="marketingConsent" value="yes" style="margin-top: 2px; accent-color: #b58900;">
+                            <span>Keep me updated on exclusive offers and news from the grove. (Optional)</span>
+                        </label>
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4;">
+                        By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
+                    </p>
+
+                    <button type="submit" id="contact-btn" class="btn-primary">Send Message</button>
+                    <p id="contact-feedback" style="display:none; margin-top: 15px; font-size: 0.9rem;"></p>
+                </form>
+            </div>
+
+            <!-- NEWSLETTER / LEAD MAGNET -->
+            <div class="newsletter-col">
+                <div class="newsletter-box">
+                    <h3>Join the Family</h3>
+                    <!-- AGGIUNTO IL RIFERIMENTO AL CODICE SCONTO -->
+                    <p>Subscribe and instantly receive a <strong>10% discount code</strong> for your first adoption!</p>
+                    
+                    <form id="newsletter-form" class="newsletter-form">
                         <input type="hidden" name="lang" value="en">
-<div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
-    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
-</div>
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Your Name" required class="input-dark">
+                        <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+                            <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
                         </div>
-    
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Your Email" required class="input-dark">
-                        </div>
-    
-                        <div class="form-group">
-                            <textarea name="message" rows="3" placeholder="How can we help?" required class="input-dark"></textarea>
+                        
+                        <div class="newsletter-input-group">
+                            <input type="email" name="email" placeholder="name@example.com" required class="input-dark">
+                            <button type="submit" class="btn-primary" id="newsletter-btn">Subscribe</button>
                         </div>
 
-                        <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px; line-height: 1.4;">
-                            By clicking below, you agree to our <a href="privacy-policy.html" style="text-decoration: underline; color: #888;">Privacy Policy</a>.
-                        </p>
-
-                        <button type="submit" id="contact-btn" class="btn-primary">Send Message</button>
+                        <div class="privacy-check">
+                            <input type="checkbox" id="priv-news" name="privacy" required>
+                            <label for="priv-news">
+                                I have read and agree to the <a href="privacy-policy.html" style="text-decoration:underline;">Privacy Policy</a> *
+                            </label>
+                        </div>
+            
+                        <p id="newsletter-feedback" style="display:none; margin-top:10px; font-size:0.9rem;"></p>
                     </form>
                 </div>
-
-                <div class="newsletter-col">
-                    <div class="newsletter-box">
-                        <h3>Join the Family</h3>
-                        <p>Receive updates on the harvest, recipes, and exclusive offers.</p>
-                        
-                        <form id="newsletter-form" class="newsletter-form">
-                            <input type="hidden" name="lang" value="en">
-        <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
-    <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
-</div>
-                            <div class="newsletter-input-group">
-                                <input type="email" name="email" placeholder="name@example.com" required class="input-dark">
-                                <button type="submit" class="btn-primary" id="newsletter-btn">Subscribe</button>
-                            </div>
-
-                            <div class="privacy-check">
-                                <input type="checkbox" id="priv-news" name="privacy" required>
-                                <label for="priv-news">
-                                    I have read and agree to the <a href="privacy-policy.html" style="text-decoration:underline;">Privacy Policy</a>
-                                </label>
-                            </div>
-        
-                            <p id="newsletter-feedback" style="display:none; margin-top:10px; font-size:0.9rem;"></p>
-                        </form>
-                    </div>
-                </div>
-                
             </div>
+            
         </div>
-    </section>
+    </div>
+</section>
 
     <footer class="site-footer bg-dark text-white">
         <div class="container footer-content">
@@ -832,131 +846,124 @@
         </div>
         
         <form id="adoption-form">
-    <input type="hidden" id="selected-kit-id" name="kitId" value="">
-    <input type="hidden" name="lang" value="en">
-    <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
-        <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
-    </div>
+            <input type="hidden" id="selected-kit-id" name="kitId" value="">
+            <input type="hidden" name="lang" value="en">
+            <div style="display:none !important; visibility:hidden !important;" aria-hidden="true">
+                <input type="text" name="fax_number" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half-width">
+                    <label>First Name:</label>
+                    <input type="text" id="buyer-firstname" name="buyerFirstName" placeholder="John" required>
+                </div>
+                <div class="form-group half-width">
+                    <label>Last Name:</label>
+                    <input type="text" id="buyer-lastname" name="buyerLastName" placeholder="Smith" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Name on Certificate (Adopter):</label>
+                <input type="text" id="cert-name" name="certName" placeholder="John Smith" required>
+                <small id="cert-hint" style="color:#888;">The full name of the person adopting the tree.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Name on Bottle Label:</label>
+                <small style="margin-bottom:5px; display:block; color:#666;">The prefix "Olio" is fixed (e.g. Olio Smith).</small>
+                <div class="input-group-prefix">
+                    <span class="prefix">Olio</span>
+                    <input type="text" id="label-name" name="labelName" placeholder="Smith" maxlength="15" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Your Email (for receipt / contact):</label>
+                <input type="email" id="buyer-email" name="email" placeholder="name@email.com" required>
+            </div>
+
+            <div class="form-group" style="background: #f0f9eb; padding: 15px; border-radius: 5px; border: 1px solid #c3e6cb; margin-bottom: 20px;">
+    <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; display: block; color: #2c5e2e;">When should we ship your package?</label>
     
-    <!-- 1. NOME E COGNOME -->
-    <div class="form-row">
-        <div class="form-group half-width">
-            <label>First Name:</label>
-            <input type="text" id="buyer-firstname" name="buyerFirstName" placeholder="John" required>
+    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer;">
+        <input type="radio" name="shippingChoice" value="immediate" id="ship-immediate" required style="width: auto !important; margin: 4px 0 0 0 !important;"> 
+        <div style="flex: 1;">
+            <strong style="color: #333; display: block; margin-bottom: 2px;">Ship my package immediately</strong>
+            <span style="font-size: 0.8rem; color: #666; line-height: 1.4; display: block;">Receive your complete kit and EVOO supply right away from our current reserve.</span>
         </div>
-        <div class="form-group half-width">
-            <label>Last Name:</label>
-            <input type="text" id="buyer-lastname" name="buyerLastName" placeholder="Smith" required>
+    </label>
+    
+    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 0; cursor: pointer;">
+        <input type="radio" name="shippingChoice" value="delayed" id="ship-delayed" style="width: auto !important; margin: 4px 0 0 0 !important;"> 
+        <div style="flex: 1;">
+            <strong style="color: #333; display: block; margin-bottom: 2px;">Pre-order for New Harvest (January Dispatch)</strong>
+            <span style="font-size: 0.8rem; color: #666; line-height: 1.4; display: block;">Receive your digital Reservation Certificate via email now (perfect for gifts!). Your complete physical box with the freshest olive oil will ship directly in January. You will receive an address confirmation reminder before dispatch.</span>
         </div>
-    </div>
+    </label>
+</div>
 
-    <!-- 2. CERTIFICATO -->
-    <div class="form-group">
-        <label>Name on Certificate (Adopter):</label>
-        <input type="text" id="cert-name" name="certName" placeholder="John Smith" required>
-        <small id="cert-hint" style="color:#888;">The full name of the person adopting the tree.</small>
-    </div>
-
-    <!-- 3. ETICHETTA -->
-    <div class="form-group">
-        <label>Name on Bottle Label:</label>
-        <small style="margin-bottom:5px; display:block; color:#666;">The prefix "Olio" is fixed (e.g. Olio Smith).</small>
-        <div class="input-group-prefix">
-            <span class="prefix">Olio</span>
-            <input type="text" id="label-name" name="labelName" placeholder="Smith" maxlength="15" required>
-        </div>
-        <small style="color:#888; font-size: 0.8rem; margin-top: 5px; display: block;">Max 15 characters. We recommend a single surname or short name since it will be handwritten on the bottle.</small>
-    </div>
-
-    <!-- 6. EMAIL -->
-    <div class="form-group">
-        <label>Your Email (for receipt):</label>
-        <input type="email" id="buyer-email" name="email" placeholder="name@email.com" required>
-    </div>
-
-    <!-- 4. REGALO (Spostato qui e fixato l'allineamento) -->
-    <div class="form-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 20px;">
-        <div style="display: flex; align-items: center; justify-content: flex-start; gap: 8px;">
-            <input type="checkbox" id="is-gift" name="isGift" onchange="toggleGiftMessage()" style="width: auto !important; margin: 0 !important; flex-shrink: 0;">
-            <label for="is-gift" style="cursor:pointer; font-weight: normal; margin: 0; color: #333;">
-                🎁 Is this a gift?
-            </label>
-        </div>
-        
-        <div id="gift-message-container" style="display:none; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 15px;">
-            <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; display: block; color: #333;">Where are we shipping the gift?</label>
-            
-            <label style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 0.9rem; margin-bottom: 8px; cursor: pointer; font-weight: normal; text-align: left;">
-                <input type="radio" name="shipTarget" value="me" checked onchange="toggleShippingNote()" style="width: auto !important; margin: 0 !important; flex-shrink: 0; display: inline-block;"> 
-                <span style="color: #333; margin: 0;">Ship to me (I will deliver it in person)</span>
-            </label>
-            
-            <label style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; font-weight: normal; text-align: left;">
-                <input type="radio" name="shipTarget" value="them" onchange="toggleShippingNote()" style="width: auto !important; margin: 0 !important; flex-shrink: 0; display: inline-block;"> 
-                <span style="color: #333; margin: 0;">Ship directly to the recipient</span>
-            </label>
-
-            <div id="shipping-note-them" style="display: none; margin-bottom: 15px; font-size: 0.85rem; color: #5c4000; background: #fffdf5; padding: 10px; border-left: 3px solid #ffcc00; border-radius: 3px;">
-                <strong>Important for direct shipping:</strong><br>
-                In the next step (Checkout), please enter the <strong>recipient's delivery address and phone number</strong> (for the courier), but use <strong>your own email</strong> so the receipt comes to you and the surprise is safe!
+            <div class="form-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="is-gift" name="isGift" style="width: auto !important; margin: 0 !important;">
+                    <label for="is-gift" style="cursor:pointer; font-weight: normal; margin: 0; color: #333;">🎁 Is this a gift?</label>
+                </div>
+                
+                <div id="gift-message-container" style="display:none; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 15px;">
+    <div style="background: #fff8e1; border: 1px solid #ffe082; padding: 12px 15px; border-radius: 8px; font-size: 0.85rem; color: #5d4037; margin: 15px 0; line-height: 1.5;">
+    ℹ️ <strong>Customs Notice for Gifts:</strong> For deliveries outside the EU, customs regulations require a commercial invoice with declared value attached to the outside of the parcel. Any import duties are the responsibility of the recipient upon delivery. 
+    <a href="https://wa.me/390882606222" target="_blank" rel="noopener noreferrer" style="color: #2c5e2e; font-weight: bold; text-decoration: underline; margin-left: 4px;">
+       Contact us for custom options &rarr;
+    </a>
+</div>
+    <label style="font-size: 0.9rem; margin-top: 5px; display: block;">Personal Note for the recipient (Optional):</label>
+    <textarea id="gift-message" name="giftMessage" rows="2" placeholder="Write your dedication here..." style="width: 100%; box-sizing: border-box;"></textarea>
+</div>
             </div>
 
-            <label style="font-size: 0.9rem; margin-top: 10px; display: block;">Personal Note for the recipient (Optional):</label>
-            <textarea id="gift-message" name="giftMessage" rows="2" placeholder="Write your wish here... We will print it for you! Don't forget to sign it!" style="width: 100%; box-sizing: border-box;"></textarea>
-        </div>
+            <!-- NUOVO BLOCCO LOGISTICO (Autocompletamento + CAP) -->
+            <div class="form-group" style="padding-top: 15px; border-top: 1px solid #ddd;">
+                <label style="font-size: 1rem; color: var(--primary-green); margin-bottom: 15px; display: block; text-align: center;">Delivery Information</label>
+                <div class="form-row">
+                    <div class="form-group half-width">
+    <label>Destination Country:</label>
+    <div class="searchable-dropdown" style="position: relative;">
+        <!-- Input testuale classico -->
+        <input type="text" id="shippingCountry" name="shippingCountry" placeholder="Start typing..." autocomplete="off" required>
+        <!-- Lista che si popolerà e apparirà dinamicamente -->
+        <ul id="country-list" class="dropdown-options" style="display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background: #fff; border: 1px solid #ddd; border-top: none; border-radius: 0 0 6px 6px; z-index: 1000; margin: 0; padding: 0; list-style: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></ul>
     </div>
-
-    <!-- 5. SELETTORE SPEDIZIONE OLIO -->
-    <div class="form-group" style="background: #f0f9eb; padding: 15px; border-radius: 5px; border: 1px solid #c3e6cb; margin-bottom: 20px;">
-        <label style="font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; display: block; color: #2c5e2e;">When should we ship your Olive Oil?</label>
-        <p style="font-size: 0.8rem; color: #555; margin-bottom: 15px; line-height: 1.4;">
-            <em>Don't worry: your physical Adoption Certificate is <strong>always</strong> prepared and shipped immediately!</em>
-        </p>
-        
-        <label style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; font-weight: normal; text-align: left;">
-            <input type="radio" name="shippingChoice" value="immediate" checked style="width: auto !important; margin: 4px 0 0 0 !important; flex-shrink: 0;"> 
-            <div style="flex: 1;">
-                <strong style="color: #333; display: block; margin-bottom: 2px;">Ship my oil immediately</strong>
-                <span style="font-size: 0.8rem; color: #666; line-height: 1.4; display: block;">Receive your EVOO supply from our current reserve.</span>
+</div>
+                    <div class="form-group half-width">
+                        <label>Zip / Postal Code:</label>
+                        <input type="text" id="zipCode" name="zipCode" placeholder="Enter Zip Code" required>
+                    </div>
+                </div>
             </div>
-        </label>
-        
-        <label style="display: flex; align-items: flex-start; justify-content: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 0; cursor: pointer; font-weight: normal; text-align: left;">
-            <input type="radio" name="shippingChoice" value="delayed" style="width: auto !important; margin: 4px 0 0 0 !important; flex-shrink: 0;"> 
-            <div style="flex: 1;">
-                <strong style="color: #333; display: block; margin-bottom: 2px;">I will redeem my oil later</strong>
-                <span style="font-size: 0.8rem; color: #666; line-height: 1.4; display: block;">Perfect if you prefer to wait for the new harvest (always shipped the following January). Instructions to easily claim your oil at any moment will be included with your Certificate.</span>
+
+            <!-- RIMOSSO: Lo sconto viene inserito direttamente nel checkout Stripe -->
+<!-- <div class="form-group discount-group" style="text-align: center; margin-bottom: 20px;">
+    <a href="javascript:void(0)" id="toggle-discount-btn" ...>Do you have a promo code?</a>
+    <div id="discount-container" style="display: none; ...">
+        <input type="text" id="discount-code" name="discountCode" ...>
+    </div>
+</div> -->
+
+            <div class="form-group" style="margin-top: 15px; margin-bottom: 20px;">
+                <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.85rem; color: #555;">
+                    <input type="checkbox" name="marketingConsent" value="yes" style="margin-top: 2px; accent-color: #b58900; width: 16px; height: 16px;">
+                    <span>Keep me updated on the new harvest, exclusive offers, and news from the grove. (Optional)</span>
+                </label>
             </div>
-        </label>
-    </div>
 
-    <!-- 7. SCONTO -->
-    <div class="form-group discount-group" style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd; text-align: center;">
-        <a href="javascript:void(0)" id="toggle-discount-btn" style="font-size: 0.85rem; color: #555; text-decoration: underline;">Do you have a promo code?</a>
-        
-        <div id="discount-container" style="display: none; margin-top: 10px; text-align: left;">
-            <label>Discount Code:</label>
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="discount-code" name="discountCode" placeholder="PROMO CODE" style="text-transform: uppercase; margin-bottom: 0;">
-            </div>
-            <small id="discount-message" style="display: none; color: #2c5e2e; margin-top: 5px;">Code applied!</small>
-        </div>
-    </div>
-
-    <!-- 8. ZONA SPEDIZIONE E PAGAMENTO -->
-    <div style="margin-top: 20px; font-size: 0.85rem; color: #555; background: #eef; padding: 10px; border-radius: 5px; text-align: center;">
-        🌍 <strong>Shipping Zone:</strong> This kit ships to <strong>European Union</strong> countries.
-        <br>
-        <a href="/it/" style="text-decoration:underline; color:#333;">🇮🇹 Spedisci in Italia? Clicca qui per le tariffe dedicate.</a>
-    </div>
-
-    <button type="submit" class="btn-primary btn-full" style="margin-top: 20px;">Proceed to Secure Payment &rarr;</button>
-    <p class="secure-note">🔒 SSL Encrypted Transaction via Stripe</p>
-</form>
+            <!-- IL BOTTONE DINAMICO -->
+            <button type="submit" id="btn-adoption-submit" class="btn-primary btn-full">Proceed to Secure Payment &rarr;</button>
+            <p id="secure-note-text" class="secure-note">🔒 SSL Encrypted Transaction via Stripe</p>
+        </form>
     </div>
 </dialog>
 
-    <dialog id="corporate-modal" class="modal modal-wide">
+    <!--<dialog id="corporate-modal" class="modal modal-wide">
     <div class="modal-box modal-split-layout">
         
         <div class="modal-visual">
@@ -1016,10 +1023,11 @@
                 </p>
 
                 <button type="submit" id="corp-btn" class="btn-primary btn-full">Request Quote</button>
+                <p id="corp-feedback" style="display:none; margin-top: 15px; font-size: 0.9rem; text-align: center;"></p>
             </form>
         </div>
     </div>
-</dialog>
+</dialog>-->
 
     <div id="cookie-banner" class="cookie-banner" style="display: none;">
         <div class="cookie-content">
@@ -1079,6 +1087,18 @@
             </form>
         </div>
     </dialog>
+
+    <!-- MODALE SCENARIO B: LEAD INTERNAZIONALE -->
+<dialog id="lead-modal" class="modal">
+    <div class="modal-box" style="text-align: center; max-width: 480px; padding: 35px 25px;">
+        <div style="font-size: 3rem; margin-bottom: 15px;">🌍</div>
+        <h3 style="color: #2c5e2e; margin-bottom: 10px;">Request Received!</h3>
+        <p style="font-size: 0.95rem; color: #555; line-height: 1.6; margin-bottom: 25px;">
+            Thank you! Your destination is currently outside our automated delivery network. We have saved your request and will check custom shipping feasibility. We'll email you shortly with available options.
+        </p>
+        <button type="button" class="btn-primary btn-full" onclick="document.getElementById('lead-modal').close()">Got it</button>
+    </div>
+</dialog>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -1090,7 +1110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             // 2. Chiama la tua funzione Netlify passandogli solo l'ID
-            const response = await fetch('/.netlify/functions/checkout', {
+            const response = await fetch('/.netlify/functions/checkout-v2', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ cartId: recoverId })

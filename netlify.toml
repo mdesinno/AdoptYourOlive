@@ -10,11 +10,20 @@
   included_files = ["netlify/functions/assets/**"]
 
 
+
+# --- REDIRECT VECCHIE PAGINE ITALIANE (301 SEO) ---
+[[redirects]]
+  from = "/it/*"
+  to = "/:splat"
+  status = 301
+  force = true
+  
 # --- GESTIONE ERRORI ---
 [[redirects]]
   from = "/*"
   to = "/404.html"
   status = 404
+  force = false
 
 # --- SICUREZZA & PERFORMANCE ---
 [[headers]]
@@ -42,6 +51,6 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/.netlify/functions/stripe-webhook"
+  for = "/.netlify/functions/stripe-webhook-v2"
   [headers.values]
     Content-Type = "application/json"

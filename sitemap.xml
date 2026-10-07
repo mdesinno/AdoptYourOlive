@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- 1. Homepage & Adozioni -->
+  <url>
+    <loc>https://adoptyourolive.com/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 2. La Bottega (Shop Prodotti Tipici) -->
+  <url>
+    <loc>https://adoptyourolive.com/shop.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 3. FAQ Hub -->
+  <url>
+    <loc>https://adoptyourolive.com/faq.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 4. Spedizioni e Resi -->
+  <url>
+    <loc>https://adoptyourolive.com/shipping-returns.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- 5. Pagine Legali -->
+  <url>
+    <loc>https://adoptyourolive.com/terms-of-service.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://adoptyourolive.com/privacy-policy.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://adoptyourolive.com/cookie-policy.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- 6. Area Riservata Adopters (Bassa priorità SEO) -->
+  <url>
+    <loc>https://adoptyourolive.com/club.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+</urlset>

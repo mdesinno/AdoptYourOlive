@@ -11,3 +11,8 @@ npm-debug.log*
 # DATI SENSIBILI (Fondamentale!)
 .env
 credentials.json
+
+# Lockfile non utilizzati
+deno.lock
+stripe.exe
+.temp/

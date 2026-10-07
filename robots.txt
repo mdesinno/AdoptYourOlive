@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /success.html
+Disallow: /unsubscribe.html
+Disallow: /.netlify/
 
 Sitemap: https://adoptyourolive.com/sitemap.xml

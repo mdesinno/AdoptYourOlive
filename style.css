@@ -2020,60 +2020,47 @@ input:checked + .slider:before { transform: translateX(24px); }
 }
 
 /* =========================================
-   12. SLIDE-OUT CART (CARRELLO LATERALE)
+   12. SLIDE-OUT CART (SCORREVOLE E PULITO)
    ========================================= */
 .slideout-cart {
     position: fixed;
     top: 0;
-    right: -100%; /* Nascosto fuori dallo schermo */
+    right: -100%;
     width: 400px;
     max-width: 100%;
     height: 100vh;
     background: #fff;
     box-shadow: -5px 0 30px rgba(0,0,0,0.1);
-    z-index: 3000; /* Sopra tutto */
+    z-index: 3000;
     transition: right 0.4s ease-in-out;
     display: flex;
     flex-direction: column;
+    overflow-y: auto; /* TUTTO il carrello (prodotti + footer) scorre insieme */
 }
 
 .slideout-cart.open {
-    right: 0; /* Entra nello schermo */
+    right: 0;
 }
 
-/* Overlay scuro dietro il carrello */
-.cart-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 2999; /* Subito sotto il carrello */
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-.cart-overlay.show {
-    display: block;
-    opacity: 1;
-}
-
-/* Struttura interna del Carrello */
 .cart-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
     border-bottom: 1px solid #eee;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 .cart-header h3 { margin: 0; font-size: 1.5rem; }
 .close-cart { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
 
+/* Contenitore prodotti fluido */
 .cart-items-container {
-    flex: 1;
-    overflow-y: auto;
     padding: 20px;
 }
 
-/* Stile del singolo prodotto nel carrello */
 .cart-item {
     display: flex;
     gap: 15px;
@@ -2096,7 +2083,6 @@ input:checked + .slider:before { transform: translateX(24px); }
 .cart-item-title { font-weight: 600; margin-bottom: 5px; color: #333; }
 .cart-item-price { color: var(--primary-green); font-weight: bold; }
 
-/* Controlli Quantità */
 .qty-controls {
     display: flex;
     align-items: center;
@@ -2117,11 +2103,12 @@ input:checked + .slider:before { transform: translateX(24px); }
     font-size: 0.8rem; cursor: pointer; text-decoration: underline;
 }
 
-/* Footer Carrello */
+/* Footer che scorre naturalmente alla fine */
 .cart-footer {
     padding: 20px;
     border-top: 1px solid #eee;
-    background: #fdf6e3; /* Leggero giallino */
+    background: #fdf6e3;
+    margin-top: auto; 
 }
 .cart-total-row {
     display: flex;
@@ -2136,6 +2123,28 @@ input:checked + .slider:before { transform: translateX(24px); }
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+/* Tendina nazioni pulita */
+.slideout-cart .searchable-dropdown {
+    position: relative;
+}
+.slideout-cart .dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0 0 6px 6px;
+    z-index: 9999;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 /* =========================================
@@ -2353,4 +2362,36 @@ input:checked + .slider:before { transform: translateX(24px); }
         position: relative;
         top: 0;
     }
+}
+
+/* =========================================
+   CUSTOM SEARCHABLE DROPDOWN
+   ========================================= */
+.dropdown-options li {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.dropdown-options li:last-child {
+    border-bottom: none;
+}
+
+.dropdown-options li:hover {
+    background-color: #f0f9eb; /* Il tuo verdino chiaro */
+    color: var(--primary-green);
+    font-weight: 500;
+}
+
+.dropdown-options li.no-results {
+    color: #999;
+    cursor: default;
+    background-color: #fff;
+}
+.dropdown-options li.no-results:hover {
+    color: #999;
+    font-weight: normal;
 }
