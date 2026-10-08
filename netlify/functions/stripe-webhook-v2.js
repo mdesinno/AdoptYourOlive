@@ -32,33 +32,93 @@ async function getDoc() {
     return doc;
 }
 
-// Generatore Sequenziale ultra-rapido: ORD-YYYYMMDD-XXXX (legge solo l'ultima riga)
-async function generateFastOrderId(sheet) {
-    const d = new Date();
-    const yyyy = String(d.getFullYear());
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    const todayPrefix = `ORD-${yyyy}${mm}${dd}-`;
+// =========================================================
+// HELPER
+// =========================================================
 
-    let nextNum = 1;
-    const rowCount = sheet.rowCount;
-
-    if (rowCount > 1) {
-        const lastRows = await sheet.getRows({ offset: rowCount - 2, limit: 1 });
-        if (lastRows.length > 0) {
-            const lastId = (lastRows[0].get('ID Ordine') || '').trim();
-            if (lastId.startsWith(todayPrefix) && !lastId.includes('.')) {
-                const currentSeq = parseInt(lastId.replace(todayPrefix, ''), 10);
-                if (!isNaN(currentSeq)) {
-                    nextNum = currentSeq + 1;
-                }
-            }
-        }
+const formatMoney = (amount, cur) => {
+    try {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur }).format(Number(amount));
+    } catch (e) {
+        return `${amount} ${cur}`;
     }
+};
 
-    return `${todayPrefix}${String(nextNum).padStart(4, '0')}`;
+// Indice 0-based -> lettera di colonna (0 = A, 26 = AA)
+const colLetter = (i) => {
+    let s = '';
+    let n = i + 1;
+    while (n > 0) {
+        const m = (n - 1) % 26;
+        s = String.fromCharCode(65 + m) + s;
+        n = Math.floor((n - 1) / 26);
+    }
+    return s;
+};
+
+// Legge UNA colonna (identificata dall'intestazione) in una sola chiamata leggera.
+// Richiede che sheet.loadHeaderRow() sia già stato chiamato.
+// L'elemento i dell'array corrisponde alla i-esima riga di DATI (0 = prima riga sotto l'intestazione).
+async function readColumn(sheet, headerName) {
+    const idx = sheet.headerValues.indexOf(headerName);
+    if (idx < 0) throw new Error(`Colonna '${headerName}' non trovata nella tab '${sheet.title}'.`);
+    const L = colLetter(idx);
+    const vals = (await sheet.getCellsInRange(`${L}2:${L}`)) || [];
+    return vals.map(r => String((r && r[0]) || '').trim());
 }
 
+// Sequenziale ORD-YYYYMMDD-XXXX: massimo di oggi (ora di Roma) + 1.
+// Se la lettura fallisce l'errore sale: meglio un retry di Stripe che un numero duplicato.
+function nextOrderId(idColumn) {
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Rome' }).replace(/-/g, '');
+    const todayPrefix = `ORD-${today}-`;
+    let maxSeq = 0;
+    for (const id of idColumn) {
+        if (id.startsWith(todayPrefix)) {
+            const n = parseInt(id.slice(todayPrefix.length), 10); // "0003.1" -> 3
+            if (!isNaN(n) && n > maxSeq) maxSeq = n;
+        }
+    }
+    return `${todayPrefix}${String(maxSeq + 1).padStart(4, '0')}`;
+}
+
+// Valuta e importo visti dal cliente (Adaptive Pricing).
+// session.currency / amount_total restano nella valuta di listino (EUR).
+function getPresentment(session) {
+    const pd = session.presentment_details;
+    const hasPd = pd && pd.presentment_currency && pd.presentment_amount;
+    return {
+        currency: (hasPd ? pd.presentment_currency : (session.currency || 'eur')).toUpperCase(),
+        amount: ((hasPd ? pd.presentment_amount : (session.amount_total || 0)) / 100).toFixed(2)
+    };
+}
+
+// Commissioni (IVA 22% per tutti tranne PayPal) e importo EUR di riserva dal PaymentIntent.
+// Non lancia mai errori: in caso di problemi restituisce un oggetto vuoto.
+async function getFeeInfo(session) {
+    try {
+        if (!session.payment_intent) return {};
+        const pi = await stripe.paymentIntents.retrieve(session.payment_intent, {
+            expand: ['latest_charge.balance_transaction']
+        });
+        const out = { piEur: pi.currency === 'eur' ? (pi.amount / 100).toFixed(2) : '' };
+        const charge = pi.latest_charge;
+        const bt = charge && typeof charge === 'object' ? charge.balance_transaction : null;
+        if (bt && typeof bt === 'object' && bt.currency === 'eur') {
+            const fee = bt.fee / 100;
+            const isPaypal = charge.payment_method_details?.type === 'paypal';
+            out.commissioni = (isPaypal ? fee : fee * 1.22).toFixed(2);
+        }
+        return out;
+    } catch (e) {
+        console.error('⚠️ Commissioni non calcolate:', e.message);
+        return {};
+    }
+}
+
+// =========================================================
+// HANDLER
+// =========================================================
 export const handler = async (event) => {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
@@ -86,24 +146,28 @@ export const handler = async (event) => {
             const doc = await getDoc();
             const sheetCarrelli = doc.sheetsByTitle['Carrelli'];
             if (sheetCarrelli) {
-                const rows = await sheetCarrelli.getRows();
+                await sheetCarrelli.loadHeaderRow();
                 const cartIdMeta = session.metadata?.cart_id;
-                
-                const row = rows.find(r => 
-                    r.get('ID Sessione Stripe') === session.id || 
-                    (cartIdMeta && r.get('ID Carrello') === cartIdMeta)
-                );
 
-                if (row) {
-                    const detectedCurrency = session.currency ? session.currency.toUpperCase() : 'EUR';
-                    row.set('Valuta', detectedCurrency);
+                // Cerca prima per ID sessione, poi per ID carrello. Legge solo due colonne.
+                const [sessCol, cartCol] = await Promise.all([
+                    readColumn(sheetCarrelli, 'ID Sessione Stripe'),
+                    readColumn(sheetCarrelli, 'ID Carrello')
+                ]);
+                let idx = sessCol.lastIndexOf(session.id);
+                if (idx < 0 && cartIdMeta) idx = cartCol.lastIndexOf(cartIdMeta);
 
-                    if (session.amount_total) {
-                        row.set('Prezzo in Valuta', (session.amount_total / 100).toFixed(2));
+                if (idx >= 0) {
+                    const [row] = await sheetCarrelli.getRows({ offset: idx, limit: 1 });
+                    if (row) {
+                        const p = getPresentment(session);
+                        row.set('Valuta', p.currency);
+                        row.set('Prezzo in Valuta', p.amount);
+                        await row.save();
+                        console.log(`✅ Carrello aggiornato: Valuta=${p.currency}, Prezzo=${p.amount}`);
                     }
-
-                    await row.save();
-                    console.log(`✅ Carrello aggiornato con Valuta: ${detectedCurrency} e Prezzo.`);
+                } else {
+                    console.log(`ℹ️ Carrello non trovato per sessione ${session.id}`);
                 }
             }
         } catch (e) {
@@ -114,13 +178,31 @@ export const handler = async (event) => {
     }
 
     // =========================================================
-    // 2. PAGAMENTO COMPLETATO: ELIMINA CARRELLO E CREA ORDINE
+    // 2. PAGAMENTO COMPLETATO: CREA ORDINE
     // =========================================================
     if (stripeEvent.type === 'checkout.session.completed') {
         const session = stripeEvent.data.object;
         console.log(`💰 Pagamento completato: ${session.id}`);
 
         const doc = await getDoc();
+        const sheetOrdini = doc.sheetsByTitle['Ordini'];
+        if (!sheetOrdini) throw new Error("Tab 'Ordini' non trovata nel foglio.");
+        await sheetOrdini.loadHeaderRow();
+
+        // Letture in parallelo (foglio + Stripe) per stare lontani dal timeout
+        const [idColumn, sessionColumn, feeInfo] = await Promise.all([
+            readColumn(sheetOrdini, 'ID Ordine'),
+            readColumn(sheetOrdini, 'ID Sessione Stripe'),
+            getFeeInfo(session)
+        ]);
+
+        // Idempotenza: se Stripe ritenta l'evento, non creare un secondo ordine
+        if (sessionColumn.includes(session.id)) {
+            console.log(`⚠️ Webhook duplicato ignorato per sessione ${session.id}`);
+            return { statusCode: 200, body: JSON.stringify({ received: true, duplicate: true }) };
+        }
+
+        const newOrderId = nextOrderId(idColumn);
 
         // 2. ESTRAZIONE DATI E NORMALIZZAZIONE
         const customerData = session.customer_details || {};
@@ -145,7 +227,7 @@ export const handler = async (event) => {
         const etichettaMsg = session.metadata?.label_name || '';
         const isGift = session.metadata?.is_gift === 'YES';
         const gdprConsent = session.metadata?.marketing_consent === 'YES' ? 'ISCRITTO' : 'SOLO LOGISTICA';
-        
+
         const rawShippingChoice = session.metadata?.shipping_choice || 'immediate';
         const isDelayed = rawShippingChoice === 'delayed';
         const sceltaSpedizione = isDelayed ? 'Pre-ordine (Gennaio)' : 'Olio Subito';
@@ -175,14 +257,14 @@ export const handler = async (event) => {
             }
         }
 
-        // 4. SCRITTURA RIGA NELLA TAB ORDINI (Nuova Struttura)
-        const sheetOrdini = doc.sheetsByTitle['Ordini'];
-        if (!sheetOrdini) throw new Error("Tab 'Ordini' non trovata nel foglio.");
+        // 4. VALUTA, PREZZO IN VALUTA, IMPORTO € E COMMISSIONI
+        const { currency, amount: totalPaid } = getPresentment(session);
+        const importoEuro = session.currency === 'eur'
+            ? ((session.amount_total || 0) / 100).toFixed(2)
+            : (feeInfo.piEur || '');
+        const commissioni = feeInfo.commissioni || '';
 
-        const newOrderId = await generateFastOrderId(sheetOrdini);
-        const currency = session.currency ? session.currency.toUpperCase() : 'EUR';
-        const totalPaid = (session.amount_total / 100).toFixed(2);
-
+        // 5. SCRITTURA RIGA NELLA TAB ORDINI
         await sheetOrdini.addRow({
             'ID Ordine': newOrderId,
             'Data Ricezione': new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Rome' }),
@@ -204,14 +286,14 @@ export const handler = async (event) => {
             'Regalo e Messaggio': regaloString,
             'Member ID': '',
             'Albero': '',
-'Stato Ordine': '',
+            'Stato Ordine': '',
             'Data Spedizione': '',
             'Tracking Nr': '',
             'Valuta': currency,
             'Prezzo in Valuta': totalPaid,
             'Codice Sconto': codiceSconto,
-            'Importo €': '',
-            'Commissioni': '',
+            'Importo €': importoEuro,
+            'Commissioni': commissioni,
             'Spese di spedizione': '',
             'Costo Prodotto': '',
             'Bonus / Extra': '',
@@ -222,9 +304,9 @@ export const handler = async (event) => {
             'Note': ''
         });
 
-        console.log(`✅ Ordine ${newOrderId} inserito correttamente.`);
+        console.log(`✅ Ordine ${newOrderId} inserito: ${currency} ${totalPaid} | € ${importoEuro} | commissioni ${commissioni}`);
 
-        // 5. EMAIL AL CLIENTE (Con allegato se Delayed)
+        // 6. EMAIL AL CLIENTE (Con allegato se Delayed)
         let customerAttachments = [];
         if (isDelayed) {
             const certPath = path.resolve(process.cwd(), 'netlify/functions/assets/reservation-certificate.pdf');
@@ -236,8 +318,9 @@ export const handler = async (event) => {
             }
         }
 
-        const currencySymbol = session.currency === 'usd' ? '$' : session.currency === 'gbp' ? '£' : '€';
-        
+        const paid = formatMoney(totalPaid, currency);
+        const adminEuro = (importoEuro && currency !== 'EUR') ? ` (€${importoEuro})` : '';
+
         const delayedInstructions = isDelayed ? `
           <div style="background: #fdf6e3; padding: 18px; border: 1px dashed #b58900; border-radius: 8px; margin: 20px 0;">
               <p style="margin:0 0 8px 0; color:#b58900; font-weight:bold; font-size:15px;">📦 Pre-order Confirmed for January Harvest:</p>
@@ -259,7 +342,7 @@ export const handler = async (event) => {
 
                 <div style="background:#f9f9f9; padding:15px; border-radius:8px; margin: 20px 0; border:1px solid #eee;">
                     <p style="margin:0;"><strong>📦 Selected Kit:</strong> ${productDesc}</p>
-                    <p style="margin:5px 0 0 0;"><strong>💳 Total Paid:</strong> ${currencySymbol} ${totalPaid}</p>
+                    <p style="margin:5px 0 0 0;"><strong>💳 Total Paid:</strong> ${paid}</p>
                     <p style="margin:5px 0 0 0;"><strong>📜 Certificate Name:</strong> ${certificatoNome}</p>
                     <p style="margin:5px 0 0 0;"><strong>🏷️ Bottle Label:</strong> Olio ${etichettaMsg}</p>
                 </div>
@@ -286,28 +369,23 @@ export const handler = async (event) => {
                 <p style="font-size:12px; color:#999; text-align: center;">Adopt Your Olive - San Severo, Puglia, Italy</p>
             </div>`;
 
-        try {
-            await resend.emails.send({
+        // 7. INVIO EMAIL (cliente + admin in parallelo; un errore non blocca l'altra)
+        const emailResults = await Promise.allSettled([
+            resend.emails.send({
                 from: `Adopt Your Olive <${process.env.EMAIL_MITTENTE}>`,
                 to: session.customer_details.email,
                 subject: `Welcome to the Family! 🌿 Order ${newOrderId}`,
                 attachments: customerAttachments,
                 html: appendUnsubscribeFooter(customerHtml, session.customer_details.email),
-            });
-        } catch (e) {
-            console.error("⚠️ Errore invio email cliente:", e.message);
-        }
-
-        // 6. NOTIFICA COMPATTA ALL'ADMIN
-        try {
-            await resend.emails.send({
+            }),
+            resend.emails.send({
                 from: `Adopt Your Olive <${process.env.EMAIL_MITTENTE}>`,
                 to: process.env.EMAIL_ADMIN,
-                subject: `💰 [NUOVO ORDINE ${newOrderId}] ${fullName} - ${currencySymbol}${totalPaid}`,
+                subject: `💰 [NUOVO ORDINE ${newOrderId}] ${fullName} - ${paid}`,
                 html: `
                     <div style="font-family: monospace; color: #333; max-width: 600px;">
                         <h2 style="background: #e6fffa; padding: 10px; border: 1px solid #2c5e2e; color: #2c5e2e;">
-                            ✅ Ordine Ricevuto: ${currencySymbol}${totalPaid}
+                            ✅ Ordine Ricevuto: ${paid}${adminEuro}
                         </h2>
                         <p><strong>ID Ordine:</strong> ${newOrderId}</p>
                         <p><strong>Prodotto:</strong> ${productDesc}</p>
@@ -318,10 +396,11 @@ export const handler = async (event) => {
                         <p><strong>Destinazione:</strong> ${unifiedStreet}, ${address.postal_code} ${address.city} (${address.country})</p>
                         ${session.metadata?.gift_message ? `<p><strong>Messaggio Regalo:</strong> "${session.metadata.gift_message}"</p>` : ''}
                     </div>`
-            });
-        } catch (e) {
-            console.error("⚠️ Errore notifica admin:", e.message);
-        }
+            })
+        ]);
+
+        if (emailResults[0].status === 'rejected') console.error("⚠️ Errore invio email cliente:", emailResults[0].reason?.message);
+        if (emailResults[1].status === 'rejected') console.error("⚠️ Errore notifica admin:", emailResults[1].reason?.message);
     }
 
     return { statusCode: 200, body: JSON.stringify({ received: true }) };
