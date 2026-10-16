@@ -225,25 +225,25 @@ export const handler = async (event) => {
         let shippingOptions = [];
         let totalAmountCents = product.price;
 
-        // USA e Canada: Spedizione forfettaria immediata (70€, 90€, 120€)
+        // USA e Canada: Spedizione forfettaria gestita come Shipping Option (protetta dagli sconti)
         if (COUNTRIES_EXTRA_SHIPPING.includes(destinationIso)) {
             const shippingCostCents = FIXED_SHIPPING_EXTRA_EU[destinationIso][data.kitId];
 
-            lineItems.push({
-                price_data: {
-                    currency: 'eur',
-                    product_data: {
-                        name: 'International Tracked Shipping (DAP)',
-                        description: `Tracked delivery to ${destinationIso}`
-                    },
-                    unit_amount: shippingCostCents
-                },
-                quantity: 1
+            shippingOptions.push({
+                shipping_rate_data: {
+                    type: 'fixed_amount',
+                    fixed_amount: { amount: shippingCostCents, currency: 'eur' },
+                    display_name: 'International Tracked Shipping (DAP)',
+                    delivery_estimate: {
+                        minimum: { unit: 'business_day', value: 3 },
+                        maximum: { unit: 'business_day', value: 7 }
+                    }
+                }
             });
             totalAmountCents += shippingCostCents;
 
         } else {
-            // UE, Regno Unito e Svizzera: Spedizione gratuita inclusa (dinamica, no ID)
+            // UE, Regno Unito e Svizzera: Spedizione gratuita inclusa
             shippingOptions.push({
                 shipping_rate_data: {
                     type: 'fixed_amount',
