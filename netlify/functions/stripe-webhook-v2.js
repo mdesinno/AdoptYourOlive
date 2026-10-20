@@ -381,7 +381,7 @@ export const handler = async (event) => {
             resend.emails.send({
                 from: `Adopt Your Olive <${process.env.EMAIL_MITTENTE}>`,
                 to: process.env.EMAIL_ADMIN,
-                subject: `💰 [NUOVO ORDINE ${productDesc} Dest. ${address.country}] ${sceltaSpedizione} ${isGift} - ${adminEuro}${paid}`,
+                subject: `💰 [NUOVO ORDINE ${fullName} ${productDesc} Dest. ${address.country}] ${sceltaSpedizione} ${isGift} - ${adminEuro}${paid}`,
                 html: `
                     <div style="font-family: monospace; color: #333; max-width: 600px;">
                         <h2 style="background: #e6fffa; padding: 10px; border: 1px solid #2c5e2e; color: #2c5e2e;">
