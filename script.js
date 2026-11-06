@@ -201,65 +201,168 @@ if (firstNameInput && lastNameInput && certInput && labelInput && giftCheckbox) 
     labelInput.addEventListener('input', () => { labelManuallyChanged = true; });
 }
 
-// --- AUTOMAZIONE STAGIONALE VIA JS (Settembre-Dicembre vs Gennaio-Agosto) ---
-document.addEventListener('DOMContentLoaded', () => {
-    const currentMonth = new Date().getMonth() + 1; // 1 = Gennaio, 9 = Settembre, 12 = Dicembre
-    
-    // Identifichiamo i radio button della scelta temporale olio nel modale
-    const immediateRadio = document.querySelector('input[name="shippingChoice"][value="immediate"]');
-    const delayedRadio = document.querySelector('input[name="shippingChoice"][value="delayed"]');
-    
-    if (immediateRadio && delayedRadio) {
-        // Se siamo tra Settembre (9) e Dicembre (12), suggeriamo attivamente il riscatto a gennaio
-        if (currentMonth >= 9) {
-            delayedRadio.checked = true;
-            // Aggiungiamo un tocco visivo di evidenziazione dinamica via JS
-            const parentLabel = delayedRadio.closest('label');
-            if (parentLabel) {
-                parentLabel.style.background = 'rgba(44, 94, 46, 0.08)';
-                parentLabel.style.border = '1px dashed #2c5e2e';
-                parentLabel.style.padding = '10px';
-                parentLabel.style.borderRadius = '6px';
-            }
-        } else {
-            // Da Gennaio ad Agosto suggeriamo l'invio immediato
-            immediateRadio.checked = true;
-        }
-    }
-});
+/* =========================================
+   AUTOMAZIONE STAGIONALE & AVVISI DINAMICI (SINGLE SOURCE)
+   ========================================= */
+(() => {
+    // 1. Rilevamento Data Corrente
+    const today = new Date();
+    const month = today.getMonth() + 1; // 1 = Gennaio, 11 = Novembre, 12 = Dicembre
+    const day = today.getDate();
 
-// =========================================
-    // GESTIONE REGALO E BADGE CONSIGLIATO
-    // =========================================
-    const immediateRadio = document.getElementById('ship-immediate');
-    const delayedRadio = document.getElementById('ship-delayed');
+    // 2. Selezione Sicura degli Elementi (HTML Modal)
+    const immediateRadio = document.getElementById('ship-immediate') || document.querySelector('input[name="shippingChoice"][value="immediate"]');
+    const delayedRadio = document.getElementById('ship-delayed') || document.querySelector('input[name="shippingChoice"][value="delayed"]');
+    const giftCheckbox = document.getElementById('is-gift');
     const giftContainer = document.getElementById('gift-message-container');
 
-    // 1. Badge RECOMMENDED fisso in base al mese (Settembre-Dicembre)
-    const month = new Date().getMonth() + 1;
-    const badgeHTML = `<span style="background:#2c5e2e; color:#fff; font-size:0.65rem; padding:3px 6px; border-radius:4px; margin-left:10px; text-transform:uppercase; font-weight:bold; vertical-align:middle;">${window.currentLang === 'it' ? 'Consigliato' : 'Recommended'}</span>`;
-    
-    if (immediateRadio && delayedRadio) {
-        if (month >= 9) {
-            const labelTitle = delayedRadio.closest('label')?.querySelector('strong');
-            if(labelTitle && !labelTitle.innerHTML.includes('Recommended') && !labelTitle.innerHTML.includes('Consigliato')) {
-                 labelTitle.innerHTML += badgeHTML;
-            }
-        } else {
-            const labelTitle = immediateRadio.closest('label')?.querySelector('strong');
-            if(labelTitle && !labelTitle.innerHTML.includes('Recommended') && !labelTitle.innerHTML.includes('Consigliato')) {
-                 labelTitle.innerHTML += badgeHTML;
-            }
+    if (!immediateRadio || !delayedRadio) {
+        console.warn("AYO Debug: Radio button di spedizione non trovati nella pagina.");
+        return;
+    }
+
+    const immediateLabel = immediateRadio.closest('label');
+    const delayedLabel = delayedRadio.closest('label');
+    const immediateTitle = immediateLabel?.querySelector('strong');
+    const delayedTitle = delayedLabel?.querySelector('strong');
+
+    // Rilevamento Lingua
+    const isIt = (window.currentLang === 'it') || (document.documentElement.lang === 'it');
+
+    // Contenitore unico per gli avvisi: sta SOPRA le due opzioni
+const optionsBox = immediateLabel ? immediateLabel.parentElement : null;
+let noticeBox = document.getElementById('seasonal-notices');
+if (!noticeBox && optionsBox) {
+    noticeBox = document.createElement('div');
+    noticeBox.id = 'seasonal-notices';
+    noticeBox.style.cssText = 'display: block; width: 100%; margin: 0 0 12px 0;';
+    optionsBox.insertBefore(noticeBox, immediateLabel);
+}
+if (noticeBox) noticeBox.innerHTML = '';
+
+function setNotice(targetElement, htmlText, isWarning = false) {
+    if (!targetElement || !noticeBox) return;
+    const noticeDiv = document.createElement('div');
+    noticeDiv.className = 'seasonal-notice';
+    noticeDiv.style.cssText = `font-size: 0.85rem; margin: 0 0 8px 0; padding: 10px 12px; border-radius: 6px; line-height: 1.45; display: block; width: 100%; box-sizing: border-box; ${
+        isWarning
+            ? 'background: #fff3cd; color: #856404; border: 1px solid #ffeeba;'
+            : 'background: #e8f5e9; color: #2c5e2e; border: 1px solid #c8e6c9;'
+    }`;
+    noticeDiv.innerHTML = htmlText;
+    noticeBox.appendChild(noticeDiv);
+}
+    // Helper per inserire il badge "Consigliato" / "Recommended"
+    function setRecommendedBadge(titleEl) {
+        if (!titleEl) return;
+        const badgeText = isIt ? 'Consigliato' : 'Recommended';
+        if (!titleEl.innerHTML.includes(badgeText)) {
+            titleEl.innerHTML += `<span style="background:#2c5e2e; color:#fff; font-size:0.65rem; padding:2px 6px; border-radius:4px; margin-left:8px; text-transform:uppercase; font-weight:bold; vertical-align:middle;">${badgeText}</span>`;
         }
     }
 
-    // 2. Mostra/Nascondi box dedica regalo
+    // --- REGOLE DELLE 6 FINESTRE TEMPORALI ---
+
+    // FINESTRA 1: 24 Dicembre - 31 Maggio (Spedizione Differita Disattivata)
+    if ((month === 12 && day >= 24) || (month >= 1 && month <= 5)) {
+        delayedRadio.disabled = true;
+        immediateRadio.checked = true;
+        
+        if (delayedLabel) {
+            delayedLabel.style.opacity = '0.55';
+            delayedLabel.style.cursor = 'not-allowed';
+            setNotice(
+                delayedLabel, 
+                isIt 
+                    ? "ℹ️ <strong>Olio Nuovo Disponibile:</strong> Il nostro olio proviene dall'ultima fresca raccolta. Non occorre attendere la nuova campagna!" 
+                    : "ℹ️ <strong>Fresh Harvest Available:</strong> Our oil comes from the latest fresh harvest. No need to wait for next year's campaign!",
+                false
+            );
+        }
+    }
+
+    // FINESTRA 2: 1 Giugno - 31 Agosto (Standard, tutto attivo senza avvisi)
+    else if (month >= 6 && month <= 8) {
+        immediateRadio.checked = true;
+    }
+
+    // FINESTRA 3: 1 Settembre - 31 Ottobre (Differita Consigliata)
+    else if (month === 9 || month === 10) {
+        delayedRadio.checked = true;
+        setRecommendedBadge(delayedTitle);
+        if (delayedLabel) {
+            delayedLabel.style.background = 'rgba(44, 94, 46, 0.08)';
+            delayedLabel.style.border = '1px dashed #2c5e2e';
+            delayedLabel.style.padding = '10px';
+            delayedLabel.style.borderRadius = '6px';
+        }
+    }
+
+    // FINESTRA 4: 1 Novembre - 22 Novembre (Garanzia Natale attiva)
+    else if (month === 11 && day <= 22) {
+        immediateRadio.checked = true;
+        if (immediateLabel) {
+            setNotice(
+                immediateLabel, 
+                isIt
+    ? "🎄 <strong>Consegna entro Natale:</strong> ordinando entro il 22 novembre per USA e Canada, o entro il 29 novembre per UE, GB e CH, prevediamo l'arrivo prima di Natale. Spediamo subito, ma i tempi effettivi dipendono da corriere e dogana."
+    : "🎄 <strong>Delivery before Christmas:</strong> order by Nov 22 for USA & Canada, or by Nov 29 for EU, UK and CH, and we expect delivery before Christmas. We ship right away, but final delivery times depend on the carrier and customs.",
+                false
+            );
+        }
+    }
+
+    // FINESTRA 5: 23 Novembre - 29 Novembre (USA/CA non più garantiti, UE/GB/CH sì)
+    else if (month === 11 && day >= 23 && day <= 29) {
+        immediateRadio.checked = true;
+        if (immediateLabel) {
+            setNotice(
+                immediateLabel, 
+                isIt
+    ? "⚠️ <strong>Nota consegne natalizie:</strong> per USA e Canada non possiamo più assicurare l'arrivo entro Natale. Per UE, GB e CH, ordinando entro il 29 novembre, prevediamo ancora la consegna prima di Natale (i tempi dipendono dal corriere)."
+    : "⚠️ <strong>Christmas delivery update:</strong> for USA & Canada we can no longer ensure arrival before Christmas. For EU, UK and CH, orders placed by Nov 29 are still expected to arrive before Christmas (timing depends on the carrier).",
+                true
+            );
+        }
+    }
+
+    // FINESTRA 6: 30 Novembre - 23 Dicembre (Natale non garantito, Differita Consigliata per Regali)
+    else if ((month === 11 && day >= 30) || (month === 12 && day <= 23)) {
+        delayedRadio.checked = true;
+        setRecommendedBadge(delayedTitle);
+
+        if (immediateLabel) {
+            setNotice(
+                immediateLabel, 
+                isIt 
+                    ? "⚠️ <strong>Spedizione Immediata:</strong> La consegna prima di Natale non è più garantita." 
+                    : "⚠️ <strong>Immediate Shipping:</strong> Delivery before Christmas is no longer guaranteed.",
+                true
+            );
+        }
+
+        if (delayedLabel) {
+            delayedLabel.style.background = 'rgba(44, 94, 46, 0.08)';
+            delayedLabel.style.border = '1px dashed #2c5e2e';
+            delayedLabel.style.padding = '10px';
+            delayedLabel.style.borderRadius = '6px';
+            setNotice(
+                delayedLabel, 
+              isIt
+    ? "🎁 <strong>Consigliato per i regali:</strong> seleziona la <strong>spedizione differita</strong> per ricevere subito via email il Certificato Digitale con l'anteprima dell'adozione, da regalare a Natale. Il pacco con l'olio della nuova raccolta partirà a gennaio."
+    : "🎁 <strong>Recommended for gifts:</strong> select <strong>delayed shipping</strong> to instantly receive by email the Digital Certificate with the adoption preview, ready to gift on Christmas. The box with the new-harvest oil will ship in January.",
+                false
+            );
+        }
+    }
+
+    // 3. Gestione Dedica Regalo (Checkbox)
     if (giftCheckbox && giftContainer) {
         giftCheckbox.addEventListener('change', (e) => {
             giftContainer.style.display = e.target.checked ? 'block' : 'none';
         });
     }
-
+})();
     /* =========================================
    3. GESTIONE CODICI SCONTO (URL & INPUT)
    ========================================= 
